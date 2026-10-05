@@ -4,7 +4,7 @@
 
 **Product:** a multi-tenant wedding planner. Couples, planners and family collaborate in real time.
 **URL:** `https://theromans.thedevopsguy.ro`
-**Stack:** Vite + React SPA · TanStack Router/Query · Supabase free (EU) · Cloudflare Pages · Resend · Sentry
+**Stack:** Vite + React SPA · TanStack Router/Query · Supabase free (EU) · Cloudflare Pages · Resend · Grafana Cloud (Faro)
 **Budget:** $0/month infrastructure (cap $5)
 
 ---
@@ -45,7 +45,7 @@ If your real weekly hours differ, rescale: the order of the tasks stays the same
 
 | Sprint | Dates | Phase | Sprint goal | Load |
 |---|---|---|---|---|
-| S1 | 05 Oct – 16 Oct 2026 | 0 Foundations | The current app runs on `theromans.thedevopsguy.ro` with routes, lint, Sentry and the Supabase projects ready | 22.5 / 24 |
+| S1 | 05 Oct – 16 Oct 2026 | 0 Foundations | The current app runs on `theromans.thedevopsguy.ro` with routes, lint, Grafana Faro and the Supabase projects ready | 22.5 / 24 |
 | S2 | 19 Oct – 30 Oct | 1a Auth & tenancy | Users sign in, and the core schema is protected by RLS that tests prove | 24.5 / 24 |
 | S3 | 02 Nov – 13 Nov | 1b Server data | Tasks and Calculator read and write Supabase; localStorage is gone | 24 / 24 |
 | S4 | 16 Nov – 27 Nov | 1c Collaboration | Two partners edit the same wedding live | 23 / 24 |
@@ -64,7 +64,7 @@ If your real weekly hours differ, rescale: the order of the tasks stays the same
 
 ## S1 · Foundations · 05 Oct – 16 Oct 2026
 
-**Goal:** the current app is unchanged for users but served from `theromans.thedevopsguy.ro` with real routes, lint and Sentry, and the Supabase projects plus CI skeleton are ready.
+**Goal:** the current app is unchanged for users but served from `theromans.thedevopsguy.ro` with real routes, lint and Grafana Faro, and the Supabase projects plus CI skeleton are ready.
 
 | ID | P | Task | Est | Deps | Done when | Status |
 |---|---|---|---|---|---|---|
@@ -76,7 +76,7 @@ If your real weekly hours differ, rescale: the order of the tasks stays the same
 | NS-006 | P1 | Add Biome (lint + format) and `npm run lint`; fix findings; add a CI step | 2 | – | CI fails on a lint error | ✅ |
 | NS-007 | P0 | Install TanStack Router; replace the hash tabs with `/`, `/start`, `/calculator`, `/settings` (same screens) | 3 | NS-004 | Each tab has a URL; back/forward work; tests pass | ✅ |
 | NS-008 | P1 | i18n split: `text.ts` → `src/i18n/ro.ts` + a `Messages` type + a `useT()` hook; templates move to `src/content/ro/` | 3 | – | There's no import of `text.ts`; typecheck catches a missing key | ⬜ |
-| NS-009 | P1 | Sentry: create the project; `@sentry/react` init with DSN from env; upload source maps in CI; `sendDefaultPii: false` | 2 | NS-002 | A test error appears in Sentry with a readable stack | ⬜ |
+| NS-009 | P1 | Observability: Grafana Cloud Frontend Observability (Faro) instead of Sentry. Create the Faro app; `@grafana/faro-web-sdk` init with the collector URL from env; upload source maps from the Pages build; no user identity sent | 2 | NS-002 | A test error appears in Grafana with a readable stack. *Code done; needs `VITE_FARO_URL` and the source map secrets in Pages* | 🟨 |
 | NS-010 | P2 | UptimeRobot HTTP monitor on `theromans.thedevopsguy.ro` with email alert | 0.5 | NS-003 | The monitor is green | ⬜ |
 | NS-011 | P0 | Create Supabase projects `nunta-prod` and `nunta-staging` in **eu-central-1**; save their keys in GitHub Environments `production` / `staging` | 1 | – | Both projects are active; secrets are set | ⬜ |
 | NS-012 | P0 | `supabase init`, local Docker stack, `npm run db:start` / `db:reset` scripts, README dev section | 2 | NS-011 | `db:reset` runs clean locally | ⬜ |
