@@ -2,12 +2,13 @@ import { useState } from 'react';
 import { ImportButton } from '../components/ImportButton';
 import { Banner, Button, Field, FieldGroup, NumberInput, TextInput } from '../components/ui';
 import { isValidISODate } from '../domain/dates';
+import { useT } from '../i18n';
 import { downloadText } from '../lib/download';
 import type { BackupError } from '../storage/storage';
 import { useStore } from '../store';
-import { t } from '../text';
 
 export function Onboarding() {
+  const t = useT();
   const start = useStore((s) => s.start);
   const corruptRaw = useStore((s) => s.corruptRaw);
   const [date, setDate] = useState('');

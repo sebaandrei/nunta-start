@@ -9,8 +9,8 @@ import {
   useState,
 } from 'react';
 import type { Status } from '../domain/schema';
+import { useT } from '../i18n';
 import { decimalDisplay, decimalText, parseDecimal } from '../lib/format';
-import { t } from '../text';
 
 export function cx(...classes: (string | false | null | undefined)[]): string {
   return classes.filter(Boolean).join(' ');
@@ -247,6 +247,7 @@ const STATUS_STYLES: Record<Status, string> = {
 };
 
 export function StatusPill({ status, onClick }: { status: Status; onClick: () => void }) {
+  const t = useT();
   return (
     <button
       type="button"

@@ -5,14 +5,15 @@ import { Banner, Button, Card, cx } from '../components/ui';
 import { hasPrices, selectedGuests, summarizePayments, summarizeScenario } from '../domain/budget';
 import { parseISODate } from '../domain/dates';
 import { isRecover, nextTasks, openInCurrentStage, progress } from '../domain/tasks';
+import { useT } from '../i18n';
 import { downloadBackup } from '../lib/backup';
 import { formatMoney, formatSignedMoney } from '../lib/format';
 import { useToday } from '../lib/useToday';
 import { daysSinceBackup, needsBackupReminder } from '../storage/storage';
 import { useAppData, useStore } from '../store';
-import { t } from '../text';
 
 export function Home() {
+  const t = useT();
   const data = useAppData();
   const markExported = useStore((s) => s.markExported);
   const today = useToday();

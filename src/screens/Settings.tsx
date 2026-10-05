@@ -4,12 +4,13 @@ import { ImportButton } from '../components/ImportButton';
 import { Button, Card, Field, FieldGroup, NumberInput, Segmented, TextInput } from '../components/ui';
 import { isValidISODate } from '../domain/dates';
 import { CURRENCIES } from '../domain/schema';
+import { useT } from '../i18n';
 import { downloadBackup } from '../lib/backup';
 import { daysSinceBackup } from '../storage/storage';
 import { useAppData, useStore } from '../store';
-import { t } from '../text';
 
 export function Settings() {
+  const t = useT();
   const data = useAppData();
   const updateSettings = useStore((s) => s.updateSettings);
   const markExported = useStore((s) => s.markExported);

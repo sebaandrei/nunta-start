@@ -4,14 +4,15 @@ import { Button, cx, Segmented } from '../components/ui';
 import { parseISODate } from '../domain/dates';
 import type { Task } from '../domain/schema';
 import { filterByOwner, groupByCategory, groupByStage, type OwnerFilter, progress } from '../domain/tasks';
+import { useT } from '../i18n';
 import { formatDate } from '../lib/format';
 import { useToday } from '../lib/useToday';
 import { useAppData, useStore } from '../store';
-import { t } from '../text';
 
 type View = 'stages' | 'categories';
 
 export function Start() {
+  const t = useT();
   const data = useAppData();
   const addTask = useStore((s) => s.addTask);
   const today = useToday();
@@ -109,6 +110,7 @@ function StageList({
   openId: string | null;
   row: (task: Task, recover?: boolean) => ReactNode;
 }) {
+  const t = useT();
   const view = groupByStage(tasks, wedding, today);
   const contains = (list: Task[]) => list.some((task) => task.id === openId);
 
@@ -188,5 +190,6 @@ function Group({
 }
 
 function Empty() {
+  const t = useT();
   return <li className="px-4 py-3 text-sm text-muted">{t.tasks.empty}</li>;
 }

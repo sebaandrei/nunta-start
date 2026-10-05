@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { categorySchema, currencySchema } from '../domain/schema';
-import budgetJson from './budget.ro.json';
-import tasksJson from './tasks.ro.json';
+import budgetJson from './ro/budget.json';
+import tasksJson from './ro/tasks.json';
 
 export const templateTaskSchema = z.object({
   id: z.string().regex(/^[a-z0-9-]+$/),
