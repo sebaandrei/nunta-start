@@ -69,8 +69,8 @@ If your real weekly hours differ, rescale: the order of the tasks stays the same
 | ID | P | Task | Est | Deps | Done when | Status |
 |---|---|---|---|---|---|---|
 | NS-001 | P0 | Repo home: fork `sebaandrei/nunta-start` (done; `upstream` = `cristian-preda`). Update `package.json` `repository`/`homepage` and the README links | 1 | – | All links point to `sebaandrei/nunta-start` and `theromans.thedevopsguy.ro` | ✅ |
-| NS-002 | P0 | Create a Cloudflare Pages project linked to the repo (Node 22, `npm run build`, output `dist`) | 1 | NS-001 | A PR gets a preview URL | ⬜ |
-| NS-003 | P0 | DNS (DigitalOcean): `CNAME theromans → <project>.pages.dev.`; add the custom domain in the Pages project (not a Worker: Workers custom domains need Cloudflare DNS) | 1 | NS-002 | `https://theromans.thedevopsguy.ro` serves the app with valid TLS | ⬜ |
+| NS-002 | P0 | Create a Cloudflare Pages project linked to the repo (Node 22, `npm run build`, output `dist`) | 1 | NS-001 | A PR gets a preview URL | ✅ |
+| NS-003 | P0 | DNS (DigitalOcean): `CNAME theromans → <project>.pages.dev.`; add the custom domain in the Pages project (not a Worker: Workers custom domains need Cloudflare DNS) | 1 | NS-002 | `https://theromans.thedevopsguy.ro` serves the app with valid TLS | ✅ |
 | NS-004 | P0 | Add `public/_headers` (CSP, HSTS, nosniff, Referrer-Policy, Permissions-Policy, asset caching). No `_redirects`: Pages serves `index.html` for unknown paths when there's no `404.html` | 2 | NS-002 | Deep-link reload works; securityheaders.com grade A. *Code done; verify once NS-003 is live* | 🟨 |
 | NS-005 | P0 | Remove the GitHub Pages deploy; set Vite `base` to `/`; CI also runs on `main`; Node pinned in `.node-version` | 1 | NS-003 | `deploy.yml` is removed or replaced; no Pages environment remains | ✅ |
 | NS-006 | P1 | Add Biome (lint + format) and `npm run lint`; fix findings; add a CI step | 2 | – | CI fails on a lint error | ✅ |
