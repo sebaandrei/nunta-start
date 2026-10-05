@@ -1,0 +1,1 @@
+-- Date de test pentru dezvoltarea locală (rulează la `npm run db:reset`).
