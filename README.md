@@ -2,7 +2,7 @@
 
 Un plan de pornire pentru nuntă, gratuit și open source.
 
-**Deschide aplicația: [nunta.thedevopsguy.ro](https://nunta.thedevopsguy.ro)**
+**Deschide aplicația: [theromans.thedevopsguy.ro](https://theromans.thedevopsguy.ro)**
 
 Pornit ca fork al [cristian-preda/nunta-start](https://github.com/cristian-preda/nunta-start). Planul de evoluție spre o aplicație cu conturi și colaborare în timp real e în [UPDATE_PLAN.md](UPDATE_PLAN.md).
 
@@ -51,7 +51,7 @@ Designul complet e în [`docs/superpowers/specs/2026-10-05-nunta-start-design.md
 
 ## Publicare
 
-Aplicația e publicată pe Cloudflare Pages, la [nunta.thedevopsguy.ro](https://nunta.thedevopsguy.ro). Cloudflare face build la fiecare push: `main` merge în producție, iar fiecare pull request primește un URL de preview. GitHub Actions rulează testele și build-ul pe pull request și pe `main`.
+Aplicația e publicată pe Cloudflare Pages, la [theromans.thedevopsguy.ro](https://theromans.thedevopsguy.ro). Cloudflare face build la fiecare push: `main` merge în producție, iar fiecare pull request primește un URL de preview. GitHub Actions rulează testele și build-ul pe pull request și pe `main`.
 
 Setări în Cloudflare Pages: build command `npm run build`, output `dist`, Node din `.node-version`. Headerele de securitate sunt în `public/_headers`.
 

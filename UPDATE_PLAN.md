@@ -3,7 +3,7 @@
 > This is the trackable task breakdown of [the production roadmap](docs/plans/2026-10-05-production-roadmap.md). The roadmap explains the **why** and the architecture; this file holds the **what** and the **when**.
 
 **Product:** a multi-tenant wedding planner. Couples, planners and family collaborate in real time.
-**URL:** `https://nunta.thedevopsguy.ro`
+**URL:** `https://theromans.thedevopsguy.ro`
 **Stack:** Vite + React SPA · TanStack Router/Query · Supabase free (EU) · Cloudflare Pages · Resend · Sentry
 **Budget:** $0/month infrastructure (cap $5)
 
@@ -45,7 +45,7 @@ If your real weekly hours differ, rescale: the order of the tasks stays the same
 
 | Sprint | Dates | Phase | Sprint goal | Load |
 |---|---|---|---|---|
-| S1 | 05 Oct – 16 Oct 2026 | 0 Foundations | The current app runs on `nunta.thedevopsguy.ro` with routes, lint, Sentry and the Supabase projects ready | 22.5 / 24 |
+| S1 | 05 Oct – 16 Oct 2026 | 0 Foundations | The current app runs on `theromans.thedevopsguy.ro` with routes, lint, Sentry and the Supabase projects ready | 22.5 / 24 |
 | S2 | 19 Oct – 30 Oct | 1a Auth & tenancy | Users sign in, and the core schema is protected by RLS that tests prove | 24.5 / 24 |
 | S3 | 02 Nov – 13 Nov | 1b Server data | Tasks and Calculator read and write Supabase; localStorage is gone | 24 / 24 |
 | S4 | 16 Nov – 27 Nov | 1c Collaboration | Two partners edit the same wedding live | 23 / 24 |
@@ -64,20 +64,20 @@ If your real weekly hours differ, rescale: the order of the tasks stays the same
 
 ## S1 · Foundations · 05 Oct – 16 Oct 2026
 
-**Goal:** the current app is unchanged for users but served from `nunta.thedevopsguy.ro` with real routes, lint and Sentry, and the Supabase projects plus CI skeleton are ready.
+**Goal:** the current app is unchanged for users but served from `theromans.thedevopsguy.ro` with real routes, lint and Sentry, and the Supabase projects plus CI skeleton are ready.
 
 | ID | P | Task | Est | Deps | Done when | Status |
 |---|---|---|---|---|---|---|
-| NS-001 | P0 | Repo home: fork `sebaandrei/nunta-start` (done; `upstream` = `cristian-preda`). Update `package.json` `repository`/`homepage` and the README links | 1 | – | All links point to `sebaandrei/nunta-start` and `nunta.thedevopsguy.ro` | ✅ |
+| NS-001 | P0 | Repo home: fork `sebaandrei/nunta-start` (done; `upstream` = `cristian-preda`). Update `package.json` `repository`/`homepage` and the README links | 1 | – | All links point to `sebaandrei/nunta-start` and `theromans.thedevopsguy.ro` | ✅ |
 | NS-002 | P0 | Create a Cloudflare Pages project linked to the repo (Node 22, `npm run build`, output `dist`) | 1 | NS-001 | A PR gets a preview URL | ⬜ |
-| NS-003 | P0 | DNS: `CNAME nunta → <project>.pages.dev` at the `thedevopsguy.ro` registrar; add the custom domain in Pages | 1 | NS-002 | `https://nunta.thedevopsguy.ro` serves the app with valid TLS | ⬜ |
+| NS-003 | P0 | DNS (DigitalOcean): `CNAME theromans → <project>.pages.dev.`; add the custom domain in the Pages project (not a Worker: Workers custom domains need Cloudflare DNS) | 1 | NS-002 | `https://theromans.thedevopsguy.ro` serves the app with valid TLS | ⬜ |
 | NS-004 | P0 | Add `public/_headers` (CSP, HSTS, nosniff, Referrer-Policy, Permissions-Policy, asset caching). No `_redirects`: Pages serves `index.html` for unknown paths when there's no `404.html` | 2 | NS-002 | Deep-link reload works; securityheaders.com grade A. *Code done; verify once NS-003 is live* | 🟨 |
 | NS-005 | P0 | Remove the GitHub Pages deploy; set Vite `base` to `/`; CI also runs on `main`; Node pinned in `.node-version` | 1 | NS-003 | `deploy.yml` is removed or replaced; no Pages environment remains | ✅ |
 | NS-006 | P1 | Add Biome (lint + format) and `npm run lint`; fix findings; add a CI step | 2 | – | CI fails on a lint error | ✅ |
 | NS-007 | P0 | Install TanStack Router; replace the hash tabs with `/`, `/start`, `/calculator`, `/settings` (same screens) | 3 | NS-004 | Each tab has a URL; back/forward work; tests pass | ⬜ |
 | NS-008 | P1 | i18n split: `text.ts` → `src/i18n/ro.ts` + a `Messages` type + a `useT()` hook; templates move to `src/content/ro/` | 3 | – | There's no import of `text.ts`; typecheck catches a missing key | ⬜ |
 | NS-009 | P1 | Sentry: create the project; `@sentry/react` init with DSN from env; upload source maps in CI; `sendDefaultPii: false` | 2 | NS-002 | A test error appears in Sentry with a readable stack | ⬜ |
-| NS-010 | P2 | UptimeRobot HTTP monitor on `nunta.thedevopsguy.ro` with email alert | 0.5 | NS-003 | The monitor is green | ⬜ |
+| NS-010 | P2 | UptimeRobot HTTP monitor on `theromans.thedevopsguy.ro` with email alert | 0.5 | NS-003 | The monitor is green | ⬜ |
 | NS-011 | P0 | Create Supabase projects `nunta-prod` and `nunta-staging` in **eu-central-1**; save their keys in GitHub Environments `production` / `staging` | 1 | – | Both projects are active; secrets are set | ⬜ |
 | NS-012 | P0 | `supabase init`, local Docker stack, `npm run db:start` / `db:reset` scripts, README dev section | 2 | NS-011 | `db:reset` runs clean locally | ⬜ |
 | NS-013 | P0 | CI skeleton: lint → typecheck → vitest → `supabase start` → `db reset` → `supabase test db` (placeholder) → build | 3 | NS-006, NS-012 | A PR shows all jobs green | ⬜ |
@@ -153,7 +153,7 @@ If your real weekly hours differ, rescale: the order of the tasks stays the same
 | NS-064 | P0 | Deploy pipeline: `main` → staging migrations run automatically; prod migrations + the Pages prod deploy wait for the `production` environment approval | 3 | NS-013 | One approved release updates prod | ⬜ |
 | NS-065 | P1 | Restore drill #1: restore the latest R2 dump into staging and run E2E; write `docs/runbooks/restore.md` | 2 | NS-014 | The runbook is followed end-to-end successfully | ⬜ |
 | NS-066 | P1 | Mobile pass at 360px for Tasks, Calculator and Settings; `@axe-core/playwright` in E2E | 2 | NS-058 | No serious or critical axe violations | ⬜ |
-| NS-067 | P0 | 🚀 Release v1.0: tag, CHANGELOG, prod migration, smoke test on `nunta.thedevopsguy.ro` | 1 | all S5 P0 | Two real users plan together on prod | ⬜ |
+| NS-067 | P0 | 🚀 Release v1.0: tag, CHANGELOG, prod migration, smoke test on `theromans.thedevopsguy.ro` | 1 | all S5 P0 | Two real users plan together on prod | ⬜ |
 
 ---
 
@@ -263,7 +263,7 @@ If your real weekly hours differ, rescale: the order of the tasks stays the same
 | NS-145 | P0 | Supabase security and performance advisors show zero warnings | 2 | – | The advisors are clean on prod | ⬜ |
 | NS-146 | P0 | Prerendered landing page at `/` (features, screenshots, donation link); the app moves to `/w` | 4 | – | Lighthouse ≥ 95 on the landing page | ⬜ |
 | NS-147 | P1 | Rewrite the README and CONTRIBUTING for the new architecture | 2 | – | A new contributor runs the stack locally from the README | ⬜ |
-| NS-148 | P0 | 🚀 Release v2.0: tag, CHANGELOG, announcement | 1 | all S12 P0 | Live on `nunta.thedevopsguy.ro` | ⬜ |
+| NS-148 | P0 | 🚀 Release v2.0: tag, CHANGELOG, announcement | 1 | all S12 P0 | Live on `theromans.thedevopsguy.ro` | ⬜ |
 
 ---
 
@@ -286,7 +286,7 @@ If your real weekly hours differ, rescale: the order of the tasks stays the same
 | Date | Event |
 |---|---|
 | Mon 05 Oct 2026 | S1 starts |
-| Fri 16 Oct 2026 | Foundations done; app on `nunta.thedevopsguy.ro` |
+| Fri 16 Oct 2026 | Foundations done; app on `theromans.thedevopsguy.ro` |
 | Fri 11 Dec 2026 | 🚀 v1.0 MVP (accounts + live collaboration on Tasks and Budget) |
 | Fri 08 Jan 2027 | RSVP live |
 | Fri 05 Feb 2027 | Seating live |

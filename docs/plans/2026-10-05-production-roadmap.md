@@ -9,7 +9,7 @@ Status: draft, built from the architecture interview. Supersedes the "no account
 |---|---|
 | Product | Public multi-tenant SaaS, always free, donations only (GitHub Sponsors / Buy Me a Coffee) |
 | Budget | **$0/month** for infra (hard cap $5). Domain already owned: `thedevopsguy.ro` |
-| URL | `https://nunta.thedevopsguy.ro` (Cloudflare Pages custom domain); email from `mail.thedevopsguy.ro` |
+| URL | `https://theromans.thedevopsguy.ro` (Cloudflare Pages custom domain); email from `mail.thedevopsguy.ro` |
 | Tenancy | One **wedding** = one workspace. A user can belong to several weddings (planners) |
 | Roles | Couple (2), planner, family/godparents, guests (RSVP via link, no account) |
 | Collaboration | Real-time while online. No offline mode |
@@ -242,7 +242,7 @@ These are part-time solo + AI estimates. Each phase ends deployable to prod.
 ## 12. Open questions
 
 1. ~~**Repo ownership**~~ Resolved: fork `sebaandrei/nunta-start`, with `upstream` = `cristian-preda/nunta-start`.
-2. ~~**Domain**~~ Resolved: `nunta.thedevopsguy.ro`.
+2. ~~**Domain**~~ Resolved: `theromans.thedevopsguy.ro`.
 3. **Legal review:** who reads the Romanian privacy policy before launch?
 4. **Planner experience:** is the wedding picker enough, or do planners need a cross-wedding dashboard (upcoming tasks and payments across all clients)? It's not planned, so it would come after Phase 6.
 
