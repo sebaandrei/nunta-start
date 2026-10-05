@@ -22,11 +22,12 @@ import {
   summarizeScenario,
 } from '../domain/budget';
 import { type BudgetLine, CURRENCIES, type Currency, type Money } from '../domain/schema';
+import { useT } from '../i18n';
 import { currencySymbol, formatMoney, formatSignedMoney } from '../lib/format';
 import { useAppData, useStore } from '../store';
-import { t } from '../text';
 
 export function Calculator() {
+  const t = useT();
   const data = useAppData();
   const { budget, settings } = data;
   const updateBudget = useStore((s) => s.updateBudget);
@@ -195,6 +196,7 @@ function MoneyField({ label, value, onChange }: { label: string; value: Money; o
 const CURRENCY_OPTIONS = CURRENCIES.map((c) => ({ value: c, label: currencySymbol(c) }));
 
 function CurrencySwitch({ value, onChange }: { value: Currency; onChange: (c: Currency) => void }) {
+  const t = useT();
   return (
     <Segmented
       label={t.calc.currency}
@@ -219,6 +221,7 @@ function ScenarioCard({
   giftMissing: boolean;
   onSelect: () => void;
 }) {
+  const t = useT();
   const money = (v: number) => formatMoney(v, currency);
   return (
     <button
@@ -262,6 +265,7 @@ interface LinesProps {
 }
 
 function useLineActions() {
+  const t = useT();
   const updateLine = useStore((s) => s.updateLine);
   const removeLine = useStore((s) => s.removeLine);
   return {
@@ -284,6 +288,7 @@ interface LineFieldProps {
 }
 
 function NameInputs({ line, variant }: LineFieldProps) {
+  const t = useT();
   const { update } = useLineActions();
   const [noteOpen, setNoteOpen] = useState(false);
   const noteRef = useRef<HTMLInputElement>(null);
@@ -331,6 +336,7 @@ function NameInputs({ line, variant }: LineFieldProps) {
 
 /** Prețul; la liniile pe invitat scrie „/ invitat" lângă el. */
 function PriceInputs({ line, variant }: LineFieldProps) {
+  const t = useT();
   const { update } = useLineActions();
   return (
     <div className="flex items-center gap-1.5">
@@ -351,13 +357,9 @@ function PriceInputs({ line, variant }: LineFieldProps) {
   );
 }
 
-const TYPE_OPTIONS: { value: BudgetLine['quantity']['kind']; label: string }[] = [
-  { value: 'fixed', label: t.calc.typeFixed },
-  { value: 'perGuest', label: t.calc.typePerGuest },
-];
-
 /** Fix (cu câte bucăți, implicit 1) sau Pe invitat. */
 function TypeInputs({ line, variant }: LineFieldProps) {
+  const t = useT();
   const { update } = useLineActions();
   return (
     <div className="flex items-center gap-1.5">
@@ -369,7 +371,10 @@ function TypeInputs({ line, variant }: LineFieldProps) {
           if (kind === line.quantity.kind) return;
           update(line, { quantity: kind === 'perGuest' ? { kind: 'perGuest' } : { kind: 'fixed', count: 1 } });
         }}
-        options={TYPE_OPTIONS}
+        options={[
+          { value: 'fixed', label: t.calc.typeFixed },
+          { value: 'perGuest', label: t.calc.typePerGuest },
+        ]}
       />
       {line.quantity.kind === 'fixed' && (
         <>
@@ -390,6 +395,7 @@ function TypeInputs({ line, variant }: LineFieldProps) {
 }
 
 function PaidInput({ line, variant }: LineFieldProps) {
+  const t = useT();
   const { update } = useLineActions();
   return (
     <div className="flex items-center gap-1.5">
@@ -408,6 +414,7 @@ function PaidInput({ line, variant }: LineFieldProps) {
 }
 
 function RemoveLineButton({ line, className }: { line: BudgetLine; className?: string }) {
+  const t = useT();
   const { remove } = useLineActions();
   return (
     <button
@@ -423,6 +430,7 @@ function RemoveLineButton({ line, className }: { line: BudgetLine; className?: s
 }
 
 function LinesTable({ lines, guests, rates, totals }: LinesProps) {
+  const t = useT();
   const cur = rates.currency;
   return (
     <Card className="hidden overflow-x-auto md:block">
@@ -483,6 +491,7 @@ function LinesTable({ lines, guests, rates, totals }: LinesProps) {
 }
 
 function LinesCards({ lines, guests, rates, totals }: LinesProps) {
+  const t = useT();
   const cur = rates.currency;
   return (
     <div className="space-y-3 md:hidden">

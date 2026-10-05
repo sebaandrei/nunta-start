@@ -1,9 +1,9 @@
 import { addDays, toISODate } from '../domain/dates';
 import { CATEGORY_IDS, OWNERS, STATUSES, type Task } from '../domain/schema';
 import { dueDate, isOverdue } from '../domain/tasks';
+import { useT } from '../i18n';
 import { formatShortDate } from '../lib/format';
 import { useStore } from '../store';
-import { t } from '../text';
 import { Button, cx, Field, Select, StatusPill, Tag, TextArea, TextInput } from './ui';
 
 export function TaskRow({
@@ -23,6 +23,7 @@ export function TaskRow({
   expanded: boolean;
   onToggle: () => void;
 }) {
+  const t = useT();
   const cycleStatus = useStore((s) => s.cycleTaskStatus);
   const due = dueDate(task, wedding);
   const overdue = !recover && isOverdue(task, wedding, today);
@@ -71,6 +72,7 @@ function TaskEditor({
   names: readonly [string, string];
   onClose: () => void;
 }) {
+  const t = useT();
   const updateTask = useStore((s) => s.updateTask);
   const removeTask = useStore((s) => s.removeTask);
   const update = (patch: Partial<Task>) => updateTask(task.id, patch);
