@@ -1,17 +1,7 @@
 import { addDays, addMonths, daysBetween, parseISODate } from './dates';
 import { CATEGORY_IDS, type Category, type Owner, type Status, type Task } from './schema';
 
-export const STAGE_IDS = [
-  'm12plus',
-  'm9_12',
-  'm6_9',
-  'm3_6',
-  'm1_3',
-  'lastMonth',
-  'lastWeek',
-  'day',
-  'after',
-] as const;
+export const STAGE_IDS = ['m12plus', 'm9_12', 'm6_9', 'm3_6', 'm1_3', 'lastMonth', 'lastWeek', 'day', 'after'] as const;
 export type StageId = (typeof STAGE_IDS)[number];
 
 /** Ultima zi a fiecărei etape; „După nuntă" nu are capăt. */

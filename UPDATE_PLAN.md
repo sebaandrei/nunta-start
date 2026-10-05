@@ -73,7 +73,7 @@ If your real weekly hours differ, rescale: the order of the tasks stays the same
 | NS-003 | P0 | DNS: `CNAME nunta → <project>.pages.dev` at the `thedevopsguy.ro` registrar; add the custom domain in Pages | 1 | NS-002 | `https://nunta.thedevopsguy.ro` serves the app with valid TLS | ⬜ |
 | NS-004 | P0 | Add `public/_headers` (CSP, HSTS, nosniff, Referrer-Policy, Permissions-Policy, asset caching). No `_redirects`: Pages serves `index.html` for unknown paths when there's no `404.html` | 2 | NS-002 | Deep-link reload works; securityheaders.com grade A. *Code done; verify once NS-003 is live* | 🟨 |
 | NS-005 | P0 | Remove the GitHub Pages deploy; set Vite `base` to `/`; CI also runs on `main`; Node pinned in `.node-version` | 1 | NS-003 | `deploy.yml` is removed or replaced; no Pages environment remains | ✅ |
-| NS-006 | P1 | Add Biome (lint + format) and `npm run lint`; fix findings; add a CI step | 2 | – | CI fails on a lint error | ⬜ |
+| NS-006 | P1 | Add Biome (lint + format) and `npm run lint`; fix findings; add a CI step | 2 | – | CI fails on a lint error | ✅ |
 | NS-007 | P0 | Install TanStack Router; replace the hash tabs with `/`, `/start`, `/calculator`, `/settings` (same screens) | 3 | NS-004 | Each tab has a URL; back/forward work; tests pass | ⬜ |
 | NS-008 | P1 | i18n split: `text.ts` → `src/i18n/ro.ts` + a `Messages` type + a `useT()` hook; templates move to `src/content/ro/` | 3 | – | There's no import of `text.ts`; typecheck catches a missing key | ⬜ |
 | NS-009 | P1 | Sentry: create the project; `@sentry/react` init with DSN from env; upload source maps in CI; `sendDefaultPii: false` | 2 | NS-002 | A test error appears in Sentry with a readable stack | ⬜ |

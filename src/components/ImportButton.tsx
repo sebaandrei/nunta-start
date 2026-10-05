@@ -1,5 +1,5 @@
-import { useRef, type ReactNode } from 'react';
-import { parseBackup, type BackupError } from '../storage/storage';
+import { type ReactNode, useRef } from 'react';
+import { type BackupError, parseBackup } from '../storage/storage';
 import { useStore } from '../store';
 import { Button } from './ui';
 

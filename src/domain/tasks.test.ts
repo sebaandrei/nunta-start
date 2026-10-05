@@ -108,12 +108,9 @@ describe('groupByStage', () => {
   const view = groupByStage(tasks, wedding, today);
 
   it('pune fiecare task exact o dată', () => {
-    const ids = [
-      ...view.recover,
-      ...view.finished,
-      ...view.noDate,
-      ...view.stages.flatMap((s) => s.tasks),
-    ].map((x) => x.id);
+    const ids = [...view.recover, ...view.finished, ...view.noDate, ...view.stages.flatMap((s) => s.tasks)].map(
+      (x) => x.id,
+    );
     expect(ids.sort()).toEqual(tasks.map((x) => x.id).sort());
   });
 

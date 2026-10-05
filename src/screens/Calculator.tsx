@@ -5,23 +5,23 @@ import {
   cx,
   Field,
   FieldGroup,
+  type InputVariant,
   NumberInput,
   Segmented,
   TextInput,
-  type InputVariant,
 } from '../components/ui';
 import {
   convert,
   hasAmounts,
   lineRemaining,
   lineTotal,
+  type Rates,
+  type ScenarioSummary,
   selectedGuests,
   summarizePayments,
   summarizeScenario,
-  type Rates,
-  type ScenarioSummary,
 } from '../domain/budget';
-import { CURRENCIES, type BudgetLine, type Currency, type Money } from '../domain/schema';
+import { type BudgetLine, CURRENCIES, type Currency, type Money } from '../domain/schema';
 import { currencySymbol, formatMoney, formatSignedMoney } from '../lib/format';
 import { useAppData, useStore } from '../store';
 import { t } from '../text';
@@ -50,6 +50,7 @@ export function Calculator() {
         <FieldGroup label={t.calc.scenarios}>
           <div className="flex flex-wrap items-center gap-1.5">
             {budget.scenarios.map((g, i) => (
+              // biome-ignore lint/suspicious/noArrayIndexKey: scenarios are plain numbers without ids until NS-029.
               <div key={i} className="flex items-center">
                 <NumberInput
                   integer
@@ -73,13 +74,23 @@ export function Calculator() {
               </div>
             ))}
             {budget.scenarios.length < 4 && (
-              <Button variant="ghost" className="px-2.5" title={t.calc.addScenario} aria-label={t.calc.addScenario} onClick={addScenario}>
+              <Button
+                variant="ghost"
+                className="px-2.5"
+                title={t.calc.addScenario}
+                aria-label={t.calc.addScenario}
+                onClick={addScenario}
+              >
                 +
               </Button>
             )}
           </div>
         </FieldGroup>
-        <MoneyField label={t.calc.gift} value={budget.giftPerGuest} onChange={(m) => updateBudget({ giftPerGuest: m })} />
+        <MoneyField
+          label={t.calc.gift}
+          value={budget.giftPerGuest}
+          onChange={(m) => updateBudget({ giftPerGuest: m })}
+        />
         <MoneyField label={t.calc.family} value={budget.familyGift} onChange={(m) => updateBudget({ familyGift: m })} />
         <FieldGroup label={t.calc.rate}>
           <div className="flex items-center gap-1.5 text-sm text-muted">
@@ -118,6 +129,7 @@ export function Calculator() {
       <div className="grid gap-3 sm:grid-cols-[repeat(auto-fit,minmax(190px,1fr))]">
         {summaries.map((s, i) => (
           <ScenarioCard
+            // biome-ignore lint/suspicious/noArrayIndexKey: scenarios are plain numbers without ids until NS-029.
             key={i}
             summary={s}
             currency={rates.currency}
@@ -184,7 +196,13 @@ const CURRENCY_OPTIONS = CURRENCIES.map((c) => ({ value: c, label: currencySymbo
 
 function CurrencySwitch({ value, onChange }: { value: Currency; onChange: (c: Currency) => void }) {
   return (
-    <Segmented label={t.calc.currency} className="shrink-0" value={value} onChange={onChange} options={CURRENCY_OPTIONS} />
+    <Segmented
+      label={t.calc.currency}
+      className="shrink-0"
+      value={value}
+      onChange={onChange}
+      options={CURRENCY_OPTIONS}
+    />
   );
 }
 
@@ -219,7 +237,9 @@ function ScenarioCard({
       {giftMissing ? (
         <p className="my-1 text-2xl font-semibold tabular-nums">{money(summary.total)}</p>
       ) : (
-        <p className={cx('my-1 text-2xl font-semibold tabular-nums', summary.balance >= 0 ? 'text-plus' : 'text-minus')}>
+        <p
+          className={cx('my-1 text-2xl font-semibold tabular-nums', summary.balance >= 0 ? 'text-plus' : 'text-minus')}
+        >
           {formatSignedMoney(summary.balance, currency)}
         </p>
       )}
@@ -491,7 +511,8 @@ function LinesCards({ lines, guests, rates, totals }: LinesProps) {
                 <span className="font-semibold text-ink">{inDisplay(lineTotal(line, guests), line, rates)}</span>
               </p>
               <p>
-                {t.calc.colRest}: <span className="text-ink">{inDisplay(lineRemaining(line, guests), line, rates)}</span>
+                {t.calc.colRest}:{' '}
+                <span className="text-ink">{inDisplay(lineRemaining(line, guests), line, rates)}</span>
               </p>
             </div>
           </div>

@@ -1,9 +1,9 @@
-import { useState, type ReactNode } from 'react';
+import { type ReactNode, useState } from 'react';
 import { TaskRow } from '../components/TaskRow';
 import { Button, cx, Segmented } from '../components/ui';
 import { parseISODate } from '../domain/dates';
 import type { Task } from '../domain/schema';
-import { filterByOwner, groupByCategory, groupByStage, progress, type OwnerFilter } from '../domain/tasks';
+import { filterByOwner, groupByCategory, groupByStage, type OwnerFilter, progress } from '../domain/tasks';
 import { formatDate } from '../lib/format';
 import { useToday } from '../lib/useToday';
 import { useAppData, useStore } from '../store';
@@ -82,7 +82,12 @@ export function Start() {
         <StageList tasks={tasks} wedding={wedding} today={today} openId={openId} row={row} />
       ) : (
         groupByCategory(tasks, wedding).map((group) => (
-          <Group key={group.category} title={t.categories[group.category]} hint={t.tasks.count(group.tasks.length)} open>
+          <Group
+            key={group.category}
+            title={t.categories[group.category]}
+            hint={t.tasks.count(group.tasks.length)}
+            open
+          >
             {group.tasks.map((task) => row(task))}
           </Group>
         ))

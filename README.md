@@ -30,10 +30,12 @@ Aveți nevoie de Node 22 sau mai nou.
 npm install
 npm run dev      # http://localhost:5173
 npm test         # teste Vitest
+npm run lint     # Biome: lint + format (verificare)
+npm run format   # Biome: aplică formatarea și ordinea importurilor
 npm run build    # build în dist/
 ```
 
-Stack: Vite, React, TypeScript, Zustand, Zod, Tailwind CSS v4, Vitest.
+Stack: Vite, React, TypeScript, Zustand, Zod, Tailwind CSS v4, Vitest, Biome.
 
 ```
 src/

@@ -64,7 +64,9 @@ export const useStore = create<StoreState>()((set, get) => {
 
     markExported: () =>
       set((state) =>
-        state.data ? { data: { ...state.data, meta: { ...state.data.meta, lastExportedAt: new Date().toISOString() } } } : state,
+        state.data
+          ? { data: { ...state.data, meta: { ...state.data.meta, lastExportedAt: new Date().toISOString() } } }
+          : state,
       ),
 
     updateSettings: (patch) => change((d) => ({ ...d, settings: { ...d.settings, ...patch } })),

@@ -1,7 +1,7 @@
-import type { BackupError } from './storage/storage';
 import type { Category, Owner, Status } from './domain/schema';
 import type { StageId } from './domain/tasks';
 import { countLabel } from './lib/format';
+import type { BackupError } from './storage/storage';
 
 /** Toate textele interfeței, într-un singur loc. */
 export const t = {
@@ -156,7 +156,8 @@ export const t = {
     giftMissing: 'Puneți darul mediu de persoană ca să vedeți bilanțul.',
     typesExplain: {
       fixed: 'Fix',
-      fixedText: 'același cost oricâți invitați vin (formație, rochie). Dacă e mai mult de unul, puneți câte (ex. 8 meniuri de copil).',
+      fixedText:
+        'același cost oricâți invitați vin (formație, rochie). Dacă e mai mult de unul, puneți câte (ex. 8 meniuri de copil).',
       perGuest: 'Pe invitat',
       perGuestText: 'prețul se înmulțește cu numărul de invitați din scenariu (meniu, băuturi).',
     },

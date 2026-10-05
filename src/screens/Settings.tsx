@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from 'react';
+import { type ReactNode, useState } from 'react';
 import { ImportButton } from '../components/ImportButton';
 import { Button, Card, Field, FieldGroup, NumberInput, Segmented, TextInput } from '../components/ui';
 import { isValidISODate } from '../domain/dates';
@@ -30,6 +30,7 @@ export function Settings() {
           <div className="grid grid-cols-2 gap-1.5">
             {settings.names.map((name, i) => (
               <TextInput
+                // biome-ignore lint/suspicious/noArrayIndexKey: names is a fixed pair; the index is its identity.
                 key={i}
                 aria-label={`${t.settings.names} ${i + 1}`}
                 value={name}

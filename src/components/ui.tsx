@@ -1,12 +1,12 @@
 import {
-  useEffect,
-  useId,
-  useState,
   type ButtonHTMLAttributes,
   type InputHTMLAttributes,
   type ReactNode,
   type SelectHTMLAttributes,
   type TextareaHTMLAttributes,
+  useEffect,
+  useId,
+  useState,
 } from 'react';
 import type { Status } from '../domain/schema';
 import { decimalDisplay, decimalText, parseDecimal } from '../lib/format';
@@ -137,6 +137,7 @@ export function Field({
   children: ReactNode;
 }) {
   return (
+    // biome-ignore lint/a11y/noLabelWithoutControl: the input is passed as children, so the label wraps it.
     <label className={cx('block', className)}>
       <span className="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-muted">{label}</span>
       {children}
@@ -159,6 +160,7 @@ export function FieldGroup({
 }) {
   const id = useId();
   return (
+    // biome-ignore lint/a11y/useSemanticElements: valid ARIA group; fieldset styling revisited in NS-140.
     <div role="group" aria-labelledby={id} className={cx('block', className)}>
       <span id={id} className="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-muted">
         {label}
@@ -191,6 +193,7 @@ export function Segmented<T extends string | number>({
       {options.map((option) => {
         const active = option.value === value;
         return (
+          // biome-ignore lint/a11y/useSemanticElements: WAI-ARIA radio pattern on buttons; revisited in NS-140.
           <button
             key={String(option.value)}
             type="button"
@@ -261,6 +264,8 @@ export function StatusPill({ status, onClick }: { status: Status; onClick: () =>
 
 export function Tag({ children }: { children: ReactNode }) {
   return (
-    <span className="whitespace-nowrap rounded-md bg-sunken px-1.5 py-0.5 text-[11px] font-medium text-muted">{children}</span>
+    <span className="whitespace-nowrap rounded-md bg-sunken px-1.5 py-0.5 text-[11px] font-medium text-muted">
+      {children}
+    </span>
   );
 }

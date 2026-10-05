@@ -1,21 +1,25 @@
 import { describe, expect, it } from 'vitest';
 import { createInitialData } from '../domain/initial';
-import { appDataSchema, type AppData } from '../domain/schema';
+import { type AppData, appDataSchema } from '../domain/schema';
 import {
   backupFileName,
   loadData,
   needsBackupReminder,
   parseBackup,
+  STORAGE_KEY,
   saveData,
   serializeBackup,
-  STORAGE_KEY,
 } from './storage';
 
 const now = new Date('2026-10-05T10:00:00Z');
 
 function sample(): AppData {
   let n = 0;
-  return createInitialData({ weddingDate: '2027-09-12', names: ['Ștefania', 'Mihai'], guests: 260 }, now, () => `id${n++}`);
+  return createInitialData(
+    { weddingDate: '2027-09-12', names: ['Ștefania', 'Mihai'], guests: 260 },
+    now,
+    () => `id${n++}`,
+  );
 }
 
 function memoryStorage(initial: Record<string, string> = {}): Storage {
@@ -81,7 +85,12 @@ describe('localStorage', () => {
     expect(saveData(storage, null)).toBe(true);
     expect(storage.getItem(STORAGE_KEY)).toBeNull();
 
-    const full = { ...memoryStorage(), setItem: () => { throw new Error('QuotaExceededError'); } } as Storage;
+    const full = {
+      ...memoryStorage(),
+      setItem: () => {
+        throw new Error('QuotaExceededError');
+      },
+    } as Storage;
     expect(saveData(full, sample())).toBe(false);
     expect(saveData(null, sample())).toBe(false);
   });
@@ -91,7 +100,9 @@ describe('reminderul de copie', () => {
   const day = (d: number) => new Date(now.getTime() + d * 86_400_000).toISOString();
 
   it('nu apare dacă nimic nu s-a schimbat', () => {
-    expect(needsBackupReminder({ createdAt: day(0), lastChangedAt: day(0), lastExportedAt: null }, new Date(day(30)))).toBe(false);
+    expect(
+      needsBackupReminder({ createdAt: day(0), lastChangedAt: day(0), lastExportedAt: null }, new Date(day(30))),
+    ).toBe(false);
   });
 
   it('apare după 14 zile de la creare, cu modificări și fără copie', () => {
@@ -101,8 +112,14 @@ describe('reminderul de copie', () => {
   });
 
   it('se raportează la ultima copie', () => {
-    expect(needsBackupReminder({ createdAt: day(0), lastChangedAt: day(20), lastExportedAt: day(10) }, new Date(day(23)))).toBe(false);
-    expect(needsBackupReminder({ createdAt: day(0), lastChangedAt: day(20), lastExportedAt: day(10) }, new Date(day(24)))).toBe(true);
-    expect(needsBackupReminder({ createdAt: day(0), lastChangedAt: day(5), lastExportedAt: day(10) }, new Date(day(40)))).toBe(false);
+    expect(
+      needsBackupReminder({ createdAt: day(0), lastChangedAt: day(20), lastExportedAt: day(10) }, new Date(day(23))),
+    ).toBe(false);
+    expect(
+      needsBackupReminder({ createdAt: day(0), lastChangedAt: day(20), lastExportedAt: day(10) }, new Date(day(24))),
+    ).toBe(true);
+    expect(
+      needsBackupReminder({ createdAt: day(0), lastChangedAt: day(5), lastExportedAt: day(10) }, new Date(day(40))),
+    ).toBe(false);
   });
 });

@@ -1,5 +1,5 @@
 import { daysBetween, toISODate } from '../domain/dates';
-import { appDataSchema, type AppData, type Meta } from '../domain/schema';
+import { type AppData, appDataSchema, type Meta } from '../domain/schema';
 
 export const STORAGE_KEY = 'nunta-start:v1';
 export const BACKUP_APP = 'nunta-start';
@@ -55,11 +55,7 @@ export function saveData(storage: Storage | null, data: AppData | null): boolean
 }
 
 export function serializeBackup(data: AppData, now: Date): string {
-  return JSON.stringify(
-    { app: BACKUP_APP, version: BACKUP_VERSION, exportedAt: now.toISOString(), data },
-    null,
-    2,
-  );
+  return JSON.stringify({ app: BACKUP_APP, version: BACKUP_VERSION, exportedAt: now.toISOString(), data }, null, 2);
 }
 
 export type BackupError = 'json' | 'app' | 'version' | 'shape';
