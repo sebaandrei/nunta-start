@@ -81,6 +81,7 @@ If your real weekly hours differ, rescale: the order of the tasks stays the same
 | NS-011 | P0 | Create Supabase projects `nunta-prod` and `nunta-staging` in **eu-central-1**; save their keys in GitHub Environments `production` / `staging` | 1 | – | Both projects are active; secrets are set | ⬜ |
 | NS-012 | P0 | `supabase init`, local Docker stack, `npm run db:start` / `db:reset` scripts, README dev section | 2 | NS-011 | `db:reset` runs clean locally | ⬜ |
 | NS-013 | P0 | CI skeleton: lint → typecheck → vitest → `supabase start` → `db reset` → `supabase test db` (placeholder) → build | 3 | NS-006, NS-012 | A PR shows all jobs green | ⬜ |
+| NS-016 | P2 | Dependabot: weekly npm updates (minor/patch grouped) and monthly GitHub Actions updates via `.github/dependabot.yml` | 0.5 | – | Dependabot opens its first PRs; CI runs on them | 🟨 |
 
 ---
 
