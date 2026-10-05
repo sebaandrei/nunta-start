@@ -2,7 +2,9 @@
 
 Un plan de pornire pentru nuntă, gratuit și open source.
 
-**Deschide aplicația: [cristian-preda.github.io/nunta-start](https://cristian-preda.github.io/nunta-start/)**
+**Deschide aplicația: [nunta.thedevopsguy.ro](https://nunta.thedevopsguy.ro)**
+
+Pornit ca fork al [cristian-preda/nunta-start](https://github.com/cristian-preda/nunta-start). Planul de evoluție spre o aplicație cu conturi și colaborare în timp real e în [UPDATE_PLAN.md](UPDATE_PLAN.md).
 
 Are două părți:
 

@@ -4,10 +4,10 @@
   "version": "0.1.0",
   "description": "Plan de pornire pentru nuntă: ce ai de făcut și când, plus cât te costă. Fără cont, datele rămân în browser.",
   "license": "MIT",
-  "homepage": "https://cristian-preda.github.io/nunta-start/",
+  "homepage": "https://nunta.thedevopsguy.ro",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cristian-preda/nunta-start.git"
+    "url": "git+https://github.com/sebaandrei/nunta-start.git"
   },
   "type": "module",
   "scripts": {
