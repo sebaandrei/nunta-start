@@ -1,0 +1,22 @@
+[
+  { "name": "Meniu", "currency": "EUR", "perGuest": true },
+  { "name": "Băuturi", "currency": "EUR", "perGuest": true },
+  { "name": "Tort", "currency": "EUR", "perGuest": true },
+  { "name": "Mărturii", "currency": "RON", "perGuest": true },
+  { "name": "Candy bar", "currency": "RON", "perGuest": false },
+  { "name": "Formație sau DJ", "currency": "EUR", "perGuest": false },
+  { "name": "Foto-video", "currency": "EUR", "perGuest": false },
+  { "name": "Fotocabină", "currency": "RON", "perGuest": false },
+  { "name": "Flori și decor", "currency": "EUR", "perGuest": false },
+  { "name": "Rochie de mireasă", "currency": "RON", "perGuest": false },
+  { "name": "Costum", "currency": "RON", "perGuest": false },
+  { "name": "Pantofi și accesorii", "currency": "RON", "perGuest": false },
+  { "name": "Verighete", "currency": "RON", "perGuest": false },
+  { "name": "Păr și machiaj", "currency": "RON", "perGuest": false },
+  { "name": "Invitații", "currency": "RON", "perGuest": false },
+  { "name": "Meniuri, OPIS, plicuri", "currency": "RON", "perGuest": false },
+  { "name": "Hostess", "currency": "RON", "perGuest": false },
+  { "name": "Cununia civilă", "currency": "RON", "perGuest": false },
+  { "name": "Biserică", "currency": "RON", "perGuest": false },
+  { "name": "Event planner", "currency": "EUR", "perGuest": false }
+]

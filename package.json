@@ -1,0 +1,36 @@
+{
+  "name": "nunta-start",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Plan de pornire pentru nuntă: ce ai de făcut și când, plus cât te costă. Fără cont, datele rămân în browser.",
+  "license": "MIT",
+  "homepage": "https://cristian-preda.github.io/nunta-start/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cristian-preda/nunta-start.git"
+  },
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "zod": "^4.6.5",
+    "zustand": "^5.0.15"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.1",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.2",
+    "vitest": "^5.0.3"
+  }
+}

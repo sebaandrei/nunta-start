@@ -1,0 +1,429 @@
+[
+  {
+    "id": "buget-total",
+    "title": "Stabiliți bugetul total și cine contribuie",
+    "category": "buget",
+    "daysBefore": 420,
+    "details": "Treceți sumele în Calculator. Discutați deschis cu părinții ce acoperă fiecare."
+  },
+  {
+    "id": "lista-mare",
+    "title": "Faceți lista mare de invitați, pe familii",
+    "category": "invitati",
+    "daysBefore": 410,
+    "details": "Lista decide restaurantul și bugetul. Puneți pe toată lumea acum și tăiați după. Notați de partea cui e fiecare familie."
+  },
+  {
+    "id": "date-posibile",
+    "title": "Alegeți 2–3 date posibile",
+    "category": "buget",
+    "daysBefore": 400,
+    "details": "Verificați posturile (în post nu se fac cununii religioase), sărbătorile și datele importante din familie."
+  },
+  {
+    "id": "nasi",
+    "title": "Alegeți nașii",
+    "category": "acte",
+    "daysBefore": 395,
+    "details": "Întrebați-i din timp: data trebuie să le convină și lor."
+  },
+  {
+    "id": "oferte-locatii",
+    "title": "Vizitați locații și cereți oferte",
+    "category": "locatie",
+    "daysBefore": 390,
+    "details": "Cereți meniul complet, ce include prețul (băuturi, tort, decor), taxa de serviciu, ora de final, avansul și termenele de plată."
+  },
+  {
+    "id": "rezervare-locatie",
+    "title": "Rezervați locația și semnați contractul",
+    "category": "locatie",
+    "daysBefore": 375,
+    "details": "De întrebat: scenă proprie sau a formației · câți ospătari și cât costă unul în plus · bar și barman · platouri la sosire · cameră de schimb pentru miri și formație · meniuri pentru copii și staff · când se anunță numărul final de invitați."
+  },
+  {
+    "id": "biserica",
+    "title": "Programați biserica",
+    "category": "acte",
+    "daysBefore": 370,
+    "details": "În sezonul de vară, unele parohii se ocupă cu un an înainte."
+  },
+  {
+    "id": "formatie",
+    "title": "Rezervați formația sau DJ-ul",
+    "category": "muzica",
+    "daysBefore": 330,
+    "details": "Cereți rider-ul tehnic și verificați-l cu locația: scenă, curent, cameră, masă pentru formație."
+  },
+  {
+    "id": "foto-video",
+    "title": "Rezervați foto-video",
+    "category": "foto",
+    "daysBefore": 320,
+    "details": "Întrebați ce include: ședință foto separată, cununia civilă, album, termen de livrare."
+  },
+  {
+    "id": "planner",
+    "title": "Decideți dacă luați un event planner sau un coordonator de zi",
+    "category": "buget",
+    "daysBefore": 310,
+    "details": "Un coordonator doar pentru ziua nunții costă mai puțin și vă scapă de grija furnizorilor în ziua respectivă."
+  },
+  {
+    "id": "save-the-date",
+    "title": "Trimiteți save the date",
+    "category": "invitati",
+    "daysBefore": 290,
+    "details": "Mai ales invitaților din alte orașe sau din străinătate."
+  },
+  {
+    "id": "lista-cazari",
+    "title": "Faceți o listă de cazări aproape de locație",
+    "category": "invitati",
+    "daysBefore": 280,
+    "details": "Nume, preț, distanța până la locație și link. O trimiteți invitaților care vin din alte orașe."
+  },
+  {
+    "id": "rochie",
+    "title": "Alegeți rochia de mireasă",
+    "category": "tinute",
+    "daysBefore": 250,
+    "details": "Întrebați de numărul de probe și de termenul de livrare. Unele rochii se fac în 4–6 luni."
+  },
+  {
+    "id": "flori-decor",
+    "title": "Rezervați florăria și decorul",
+    "category": "decor",
+    "daysBefore": 235,
+    "details": "Buchetul miresei și al nașei, cocarde, aranjamentul de pe masa mirilor, aranjamentele de pe mese, lumânările de cununie."
+  },
+  {
+    "id": "tort-candy-bar",
+    "title": "Rezervați tortul și candy bar-ul",
+    "category": "locatie",
+    "daysBefore": 225,
+    "details": "Modelul tortului, topper, cutiuțe pentru tort, cine aduce și la ce oră se montează."
+  },
+  {
+    "id": "fotocabina",
+    "title": "Alegeți fotocabina sau oglinda magică",
+    "category": "foto",
+    "daysBefore": 210,
+    "details": ""
+  },
+  {
+    "id": "cununie-civila-format",
+    "title": "Decideți ce faceți la cununia civilă",
+    "category": "acte",
+    "daysBefore": 200,
+    "details": "Doar la primărie sau și o petrecere mică? Dacă faceți petrecere, puneți-o separat în Calculator."
+  },
+  {
+    "id": "burlacie",
+    "title": "Stabiliți cine organizează burlăcia și burlăcița",
+    "category": "altele",
+    "daysBefore": 190,
+    "details": ""
+  },
+  {
+    "id": "invitatii",
+    "title": "Comandați invitațiile",
+    "category": "print",
+    "daysBefore": 170,
+    "details": "Numărați pe familii, nu pe persoane. Comandați 5–10 în plus."
+  },
+  {
+    "id": "verighete",
+    "title": "Comandați verighetele",
+    "category": "tinute",
+    "daysBefore": 160,
+    "details": "Gravura poate dura 2–4 săptămâni."
+  },
+  {
+    "id": "costum",
+    "title": "Alegeți costumul mirelui",
+    "category": "tinute",
+    "daysBefore": 150,
+    "details": "Plus pantofi, cămașă, butoni, ceas."
+  },
+  {
+    "id": "par-machiaj",
+    "title": "Alegeți coafura și machiajul și programați proba",
+    "category": "tinute",
+    "daysBefore": 140,
+    "details": "Întrebați dacă vin acasă sau la hotel și cât costă pentru mame și domnișoarele de onoare."
+  },
+  {
+    "id": "momente-formatie",
+    "title": "Stabiliți cu formația dansul mirilor și momentele speciale",
+    "category": "muzica",
+    "daysBefore": 130,
+    "details": "Dansul mirilor, momentul tată–mireasă, tortul, aruncatul buchetului, genurile pe care le vreți și cele pe care nu le vreți."
+  },
+  {
+    "id": "lectii-dans",
+    "title": "Luați lecții de dans (opțional)",
+    "category": "muzica",
+    "daysBefore": 120,
+    "details": ""
+  },
+  {
+    "id": "rsvp",
+    "title": "Pregătiți un formular de confirmare",
+    "category": "invitati",
+    "daysBefore": 110,
+    "details": "Întrebați: vine sau nu, cu cine vine, restricții alimentare (vegetarian, fără porc, fără pește), copii, dacă are nevoie de cazare."
+  },
+  {
+    "id": "luna-de-miere",
+    "title": "Planificați luna de miere",
+    "category": "altele",
+    "daysBefore": 100,
+    "details": "Verificați pașapoartele, asigurarea de călătorie și rezervările."
+  },
+  {
+    "id": "transport",
+    "title": "Organizați transportul invitaților, dacă e nevoie",
+    "category": "invitati",
+    "daysBefore": 95,
+    "details": "Autocar de la biserică la locație sau de la cazare la locație. Stabiliți ora și locul de plecare."
+  },
+  {
+    "id": "trimitere-invitatii",
+    "title": "Trimiteți invitațiile",
+    "category": "invitati",
+    "daysBefore": 80,
+    "details": "Notați cui ați trimis și cine răspunde de fiecare familie."
+  },
+  {
+    "id": "acte-primarie",
+    "title": "Aflați ce acte cere primăria pentru cununia civilă",
+    "category": "acte",
+    "daysBefore": 70,
+    "details": "Lista diferă de la o primărie la alta. Întrebați și de programare și de taxă."
+  },
+  {
+    "id": "marturii",
+    "title": "Comandați mărturiile",
+    "category": "decor",
+    "daysBefore": 65,
+    "details": ""
+  },
+  {
+    "id": "accesorii",
+    "title": "Cumpărați accesoriile",
+    "category": "tinute",
+    "daysBefore": 60,
+    "details": "Pantofi (și o pereche de rezervă, joasă), bijuterii, voal, pernuța pentru verighete, coșulețul cu petale."
+  },
+  {
+    "id": "ghid-invitati",
+    "title": "Faceți un ghid pentru invitați",
+    "category": "invitati",
+    "daysBefore": 50,
+    "details": "Programul zilei, adresele, parcarea, cazările, dress code-ul. Un PDF sau o pagină pe site."
+  },
+  {
+    "id": "sedinta-foto",
+    "title": "Programați ședința foto din ziua nunții",
+    "category": "foto",
+    "daysBefore": 45,
+    "details": "Locul, ora și dacă e nevoie de autorizație (unele parcuri și muzee cer)."
+  },
+  {
+    "id": "board-foto",
+    "title": "Faceți lista de poze pentru fotograf",
+    "category": "foto",
+    "daysBefore": 40,
+    "details": "Pozele pe care le vreți neapărat și grupurile: familia fiecăruia, nașii, prietenii."
+  },
+  {
+    "id": "design-print",
+    "title": "Pregătiți designul pentru meniuri, OPIS, plicuri și numere de masă",
+    "category": "print",
+    "daysBefore": 38,
+    "details": "OPIS-ul și plicurile au nevoie de lista finală de mese. Lăsați-le la final."
+  },
+  {
+    "id": "desfasurator-restaurant",
+    "title": "Cereți desfășurătorul de la restaurant",
+    "category": "locatie",
+    "daysBefore": 35,
+    "details": "Ora la care se servește fiecare fel, pauzele formației, tortul."
+  },
+  {
+    "id": "suna-invitatii",
+    "title": "Sunați invitații care n-au răspuns",
+    "category": "invitati",
+    "daysBefore": 28,
+    "details": "Împărțiți lista: fiecare îi sună pe ai lui."
+  },
+  {
+    "id": "asezare-mese",
+    "title": "Faceți așezarea la mese",
+    "category": "invitati",
+    "daysBefore": 21,
+    "details": "Începeți cu prezidiul și familia. Țineți cuplurile și familiile la aceeași masă. Notați câte scaune are fiecare masă."
+  },
+  {
+    "id": "analize-prenuptiale",
+    "title": "Faceți analizele pentru certificatul prenupțial",
+    "category": "acte",
+    "daysBefore": 20,
+    "details": "Certificatul are valabilitate scurtă (de obicei 14 zile). Programați analizele astfel încât să fie valabil când depuneți dosarul."
+  },
+  {
+    "id": "meniuri-speciale",
+    "title": "Centralizați meniurile speciale pe mese",
+    "category": "locatie",
+    "daysBefore": 18,
+    "details": "Vegetarian, fără porc, fără pește, copii, staff. Restaurantul vrea lista cu numele și masa fiecăruia."
+  },
+  {
+    "id": "dosar-starea-civila",
+    "title": "Depuneți dosarul la starea civilă",
+    "category": "acte",
+    "daysBefore": 14,
+    "details": "Declarația de căsătorie se depune cu cel puțin 10 zile înainte de cununie. Verificați termenul exact la primăria voastră."
+  },
+  {
+    "id": "proba-finala",
+    "title": "Proba finală la rochie și costum",
+    "category": "tinute",
+    "daysBefore": 14,
+    "details": ""
+  },
+  {
+    "id": "program-zi",
+    "title": "Faceți programul zilei, pe ore",
+    "category": "ziua",
+    "daysBefore": 12,
+    "details": "Machiaj, coafură, pregătire, poze, biserică, sosirea la restaurant, intrările, tortul. Trimiteți-l fiecărui furnizor cu ora lui de sosire."
+  },
+  {
+    "id": "print-final",
+    "title": "Printați OPIS-ul, meniurile, plicurile și numerele de masă",
+    "category": "print",
+    "daysBefore": 10,
+    "details": ""
+  },
+  {
+    "id": "plati-ziua-nuntii",
+    "title": "Pregătiți plățile din ziua nunții",
+    "category": "buget",
+    "daysBefore": 10,
+    "details": "Câte un plic pe furnizor, cu suma și numele lui, și o persoană de încredere care le dă."
+  },
+  {
+    "id": "kit-urgenta",
+    "title": "Pregătiți kitul de urgență",
+    "category": "ziua",
+    "daysBefore": 9,
+    "details": "Ace de siguranță, ac și ață, deodorant, pudră, ruj, parfum, agrafe, plasturi, șervețele, pantofi de rezervă."
+  },
+  {
+    "id": "numar-final",
+    "title": "Anunțați restaurantului numărul final de invitați",
+    "category": "locatie",
+    "daysBefore": 7,
+    "details": "Cu lista de mese, meniurile speciale și numărul de scaune de la fiecare masă."
+  },
+  {
+    "id": "confirmare-furnizori",
+    "title": "Confirmați ora de sosire cu fiecare furnizor",
+    "category": "ziua",
+    "daysBefore": 5,
+    "details": "Formație, foto-video, florărie, candy bar, fotocabină, hostess, autocar."
+  },
+  {
+    "id": "lista-hostess",
+    "title": "Pregătiți lista pentru hostess și cutia pentru dar",
+    "category": "ziua",
+    "daysBefore": 4,
+    "details": ""
+  },
+  {
+    "id": "ce-ducem",
+    "title": "Pregătiți ce duceți la locație",
+    "category": "ziua",
+    "daysBefore": 3,
+    "details": "Mărturii, numere de masă, OPIS, pernuța pentru verighete, evantaie, luminițe, panglica pentru aruncatul buchetului, baxuri de apă."
+  },
+  {
+    "id": "ridicare-tinute",
+    "title": "Ridicați rochia și costumul",
+    "category": "tinute",
+    "daysBefore": 3,
+    "details": ""
+  },
+  {
+    "id": "camere-pregatire",
+    "title": "Pregătiți camerele de pregătire și cazările",
+    "category": "ziua",
+    "daysBefore": 2,
+    "details": "Apă în camere, camera de pregătire aranjată și răcorită, ceva de mâncare pentru dimineață."
+  },
+  {
+    "id": "plicuri-plati",
+    "title": "Dați plicurile cu plățile persoanei responsabile",
+    "category": "buget",
+    "daysBefore": 0,
+    "details": ""
+  },
+  {
+    "id": "verighete-nasi",
+    "title": "Dați verighetele nașilor",
+    "category": "acte",
+    "daysBefore": 0,
+    "details": ""
+  },
+  {
+    "id": "bauturi-pregatire",
+    "title": "Verificați băuturile de la pregătire",
+    "category": "ziua",
+    "daysBefore": 0,
+    "details": "Pahare pentru vin și prosecco, frapiere cu gheață, apă și sucuri la doză sau la 0,5 l."
+  },
+  {
+    "id": "dar",
+    "title": "Notați darul fiecăruia",
+    "category": "buget",
+    "daysBefore": -1,
+    "details": "Cât e proaspăt, pe familii. Vă ajută la evenimentele lor."
+  },
+  {
+    "id": "plati-finale",
+    "title": "Faceți plățile finale către furnizori",
+    "category": "buget",
+    "daysBefore": -3,
+    "details": ""
+  },
+  {
+    "id": "returnari",
+    "title": "Returnați ce ați închiriat sau împrumutat",
+    "category": "altele",
+    "daysBefore": -5,
+    "details": ""
+  },
+  {
+    "id": "multumiri",
+    "title": "Mulțumiți invitaților și nașilor",
+    "category": "invitati",
+    "daysBefore": -14,
+    "details": ""
+  },
+  {
+    "id": "schimbare-acte",
+    "title": "Schimbați actele, dacă v-ați schimbat numele",
+    "category": "acte",
+    "daysBefore": -15,
+    "details": "Întâi buletinul, apoi pașaportul, permisul și banca."
+  },
+  {
+    "id": "poze-film",
+    "title": "Primiți pozele și filmul",
+    "category": "foto",
+    "daysBefore": -60,
+    "details": "Verificați termenul din contract."
+  }
+]
