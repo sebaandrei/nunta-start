@@ -1,0 +1,31 @@
+name: Keepalive
+
+on:
+  schedule:
+    - cron: "17 6 */3 * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  ping:
+    name: Ping ${{ matrix.env }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    environment: ${{ matrix.env }}
+    strategy:
+      fail-fast: false
+      matrix:
+        env: [staging, production]
+    steps:
+      - name: Ping Supabase Auth API
+        env:
+          SUPABASE_URL: ${{ vars.SUPABASE_URL }}
+          SUPABASE_PUBLISHABLE_KEY: ${{ vars.SUPABASE_PUBLISHABLE_KEY }}
+        run: |
+          curl --fail --silent --show-error --retry 2 --max-time 30 \
+            --output /dev/null \
+            -H "apikey: $SUPABASE_PUBLISHABLE_KEY" \
+            -H "Authorization: Bearer $SUPABASE_PUBLISHABLE_KEY" \
+            "$SUPABASE_URL/auth/v1/settings"
