@@ -59,6 +59,8 @@ npm run db:reset   # reaplică migrările din supabase/migrations și seed.sql
 npm run db:stop
 ```
 
+Stack-ul local folosește parole implicite și publică porturile pe toate interfețele (comportamentul implicit al CLI-ului Supabase): nu-l porniți pe rețele nesigure fără firewall.
+
 Studio: http://127.0.0.1:54323 · Mailpit (emailurile de autentificare): http://127.0.0.1:54324.
 
 ## Publicare
