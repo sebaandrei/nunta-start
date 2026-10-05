@@ -1,3 +1,4 @@
+import { useNavigate } from '@tanstack/react-router';
 import { type ReactNode, useState } from 'react';
 import { ImportButton } from '../components/ImportButton';
 import { Button, Card, Field, FieldGroup, NumberInput, Segmented, TextInput } from '../components/ui';
@@ -13,6 +14,7 @@ export function Settings() {
   const updateSettings = useStore((s) => s.updateSettings);
   const markExported = useStore((s) => s.markExported);
   const reset = useStore((s) => s.reset);
+  const navigate = useNavigate();
   const [message, setMessage] = useState<{ tone: 'ok' | 'error'; text: string } | null>(null);
   const { settings } = data;
 
@@ -103,7 +105,7 @@ export function Settings() {
             variant="danger"
             onClick={() => {
               if (!window.confirm(t.settings.confirmReset)) return;
-              window.location.hash = '';
+              void navigate({ to: '/' });
               reset();
             }}
           >
