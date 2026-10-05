@@ -44,10 +44,22 @@ src/
   storage/     salvarea în browser și copia descărcabilă
   screens/     ecranele
   components/  piese de interfață comune
-  text.ts      toate textele interfeței
+  i18n/ro.ts   toate textele interfeței
 ```
 
 Designul complet e în [`docs/superpowers/specs/2026-10-05-nunta-start-design.md`](docs/superpowers/specs/2026-10-05-nunta-start-design.md).
+
+### Baza de date locală (Supabase)
+
+Aveți nevoie de Docker (Docker Desktop, OrbStack sau Colima). CLI-ul Supabase vine din `devDependencies`.
+
+```bash
+npm run db:start   # pornește stack-ul local (Postgres, Auth, Studio, Mailpit)
+npm run db:reset   # reaplică migrările din supabase/migrations și seed.sql
+npm run db:stop
+```
+
+Studio: http://127.0.0.1:54323 · Mailpit (emailurile de autentificare): http://127.0.0.1:54324.
 
 ## Publicare
 
