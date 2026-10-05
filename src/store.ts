@@ -4,8 +4,8 @@ import { parseISODate, startOfDay, toISODate } from './domain/dates';
 import { createBudgetLine, createInitialData, createTask, type StartInput } from './domain/initial';
 import type { AppData, Budget, BudgetLine, Settings, Task } from './domain/schema';
 import { defaultDateForNewTask, nextStatus } from './domain/tasks';
+import { ro as t } from './i18n/ro';
 import { getBrowserStorage, loadData, saveData } from './storage/storage';
-import { t } from './text';
 
 export type StorageStatus = 'ok' | 'unavailable';
 

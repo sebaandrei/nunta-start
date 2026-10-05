@@ -1,11 +1,11 @@
 import { Link, Outlet } from '@tanstack/react-router';
 import { Banner } from './components/ui';
 import { daysBetween, parseISODate } from './domain/dates';
+import { useT } from './i18n';
 import { formatDate } from './lib/format';
 import { useToday } from './lib/useToday';
 import { Onboarding } from './screens/Onboarding';
 import { useAppData, useStore } from './store';
-import { t } from './text';
 
 const TABS = [
   { id: 'acasa', to: '/' },
@@ -15,6 +15,7 @@ const TABS = [
 ] as const;
 
 export function App() {
+  const t = useT();
   const hasData = useStore((s) => s.data !== null);
   const storageStatus = useStore((s) => s.storageStatus);
 
@@ -31,6 +32,7 @@ export function App() {
 }
 
 function Shell() {
+  const t = useT();
   const data = useAppData();
   const today = useToday();
   const wedding = parseISODate(data.settings.weddingDate);

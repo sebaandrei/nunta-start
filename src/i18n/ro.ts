@@ -1,10 +1,10 @@
-import type { Category, Owner, Status } from './domain/schema';
-import type { StageId } from './domain/tasks';
-import { countLabel } from './lib/format';
-import type { BackupError } from './storage/storage';
+import type { Category, Owner, Status } from '../domain/schema';
+import type { StageId } from '../domain/tasks';
+import { countLabel } from '../lib/format';
+import type { BackupError } from '../storage/storage';
 
 /** Toate textele interfeței, într-un singur loc. */
-export const t = {
+export const ro = {
   appName: 'Nunta Start',
   tagline: 'Ce aveți de făcut și până când, plus cât vă costă. Fără cont: totul rămâne în browserul vostru.',
   footer: 'Open source · datele rămân doar în acest browser',
