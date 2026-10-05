@@ -71,8 +71,8 @@ If your real weekly hours differ, rescale: the order of the tasks stays the same
 | NS-001 | P0 | Repo home: fork `sebaandrei/nunta-start` (done; `upstream` = `cristian-preda`). Update `package.json` `repository`/`homepage` and the README links | 1 | – | All links point to `sebaandrei/nunta-start` and `nunta.thedevopsguy.ro` | ✅ |
 | NS-002 | P0 | Create a Cloudflare Pages project linked to the repo (Node 22, `npm run build`, output `dist`) | 1 | NS-001 | A PR gets a preview URL | ⬜ |
 | NS-003 | P0 | DNS: `CNAME nunta → <project>.pages.dev` at the `thedevopsguy.ro` registrar; add the custom domain in Pages | 1 | NS-002 | `https://nunta.thedevopsguy.ro` serves the app with valid TLS | ⬜ |
-| NS-004 | P0 | Add `public/_redirects` (SPA fallback) and `public/_headers` (CSP, HSTS, nosniff, Referrer-Policy, Permissions-Policy) | 2 | NS-002 | Deep-link reload works; securityheaders.com grade A | ⬜ |
-| NS-005 | P0 | Remove the GitHub Pages deploy; set Vite `base` to `/` | 1 | NS-003 | `deploy.yml` is removed or replaced; no Pages environment remains | ⬜ |
+| NS-004 | P0 | Add `public/_headers` (CSP, HSTS, nosniff, Referrer-Policy, Permissions-Policy, asset caching). No `_redirects`: Pages serves `index.html` for unknown paths when there's no `404.html` | 2 | NS-002 | Deep-link reload works; securityheaders.com grade A. *Code done; verify once NS-003 is live* | 🟨 |
+| NS-005 | P0 | Remove the GitHub Pages deploy; set Vite `base` to `/`; CI also runs on `main`; Node pinned in `.node-version` | 1 | NS-003 | `deploy.yml` is removed or replaced; no Pages environment remains | ✅ |
 | NS-006 | P1 | Add Biome (lint + format) and `npm run lint`; fix findings; add a CI step | 2 | – | CI fails on a lint error | ⬜ |
 | NS-007 | P0 | Install TanStack Router; replace the hash tabs with `/`, `/start`, `/calculator`, `/settings` (same screens) | 3 | NS-004 | Each tab has a URL; back/forward work; tests pass | ⬜ |
 | NS-008 | P1 | i18n split: `text.ts` → `src/i18n/ro.ts` + a `Messages` type + a `useT()` hook; templates move to `src/content/ro/` | 3 | – | There's no import of `text.ts`; typecheck catches a missing key | ⬜ |

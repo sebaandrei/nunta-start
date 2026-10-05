@@ -5,3 +5,4 @@ dist
 .superpowers
 .vitest
 .claude
+.playwright-mcp

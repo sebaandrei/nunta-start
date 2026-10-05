@@ -3,8 +3,8 @@ import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
-  // Căi relative, ca build-ul să meargă pe GitHub Pages indiferent de numele repo-ului.
-  base: './',
+  // Servit de Cloudflare Pages de la rădăcina domeniului; rutele SPA au nevoie de căi absolute.
+  base: '/',
   plugins: [react(), tailwindcss()],
   test: {
     environment: 'node',

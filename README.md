@@ -49,7 +49,9 @@ Designul complet e în [`docs/superpowers/specs/2026-10-05-nunta-start-design.md
 
 ## Publicare
 
-La fiecare push pe `main`, GitHub Actions rulează testele, face build-ul și publică pe GitHub Pages. În repo trebuie activat o singură dată: **Settings → Pages → Source: GitHub Actions**.
+Aplicația e publicată pe Cloudflare Pages, la [nunta.thedevopsguy.ro](https://nunta.thedevopsguy.ro). Cloudflare face build la fiecare push: `main` merge în producție, iar fiecare pull request primește un URL de preview. GitHub Actions rulează testele și build-ul pe pull request și pe `main`.
+
+Setări în Cloudflare Pages: build command `npm run build`, output `dist`, Node din `.node-version`. Headerele de securitate sunt în `public/_headers`.
 
 ## Contribuții
 
