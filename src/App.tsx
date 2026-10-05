@@ -1,23 +1,18 @@
-import { useEffect, useState } from 'react';
-import { Banner, cx } from './components/ui';
+import { Link, Outlet } from '@tanstack/react-router';
+import { Banner } from './components/ui';
 import { daysBetween, parseISODate } from './domain/dates';
 import { formatDate } from './lib/format';
 import { useToday } from './lib/useToday';
-import { Calculator } from './screens/Calculator';
-import { Home } from './screens/Home';
 import { Onboarding } from './screens/Onboarding';
-import { Settings } from './screens/Settings';
-import { Start } from './screens/Start';
 import { useAppData, useStore } from './store';
 import { t } from './text';
 
-const TABS = ['acasa', 'start', 'calculator', 'setari'] as const;
-type Tab = (typeof TABS)[number];
-
-function readTab(): Tab {
-  const hash = window.location.hash.replace('#', '');
-  return (TABS as readonly string[]).includes(hash) ? (hash as Tab) : 'acasa';
-}
+const TABS = [
+  { id: 'acasa', to: '/' },
+  { id: 'start', to: '/start' },
+  { id: 'calculator', to: '/calculator' },
+  { id: 'setari', to: '/settings' },
+] as const;
 
 export function App() {
   const hasData = useStore((s) => s.data !== null);
@@ -38,17 +33,6 @@ export function App() {
 function Shell() {
   const data = useAppData();
   const today = useToday();
-  const [tab, setTab] = useState<Tab>(readTab);
-
-  useEffect(() => {
-    const onHash = () => {
-      setTab(readTab());
-      window.scrollTo(0, 0);
-    };
-    window.addEventListener('hashchange', onHash);
-    return () => window.removeEventListener('hashchange', onHash);
-  }, []);
-
   const wedding = parseISODate(data.settings.weddingDate);
   const [name1, name2] = data.settings.names;
 
@@ -62,27 +46,22 @@ function Shell() {
           </p>
         </div>
         <nav className="-mx-1 flex gap-1 overflow-x-auto" aria-label={t.appName}>
-          {TABS.map((id) => (
-            <a
+          {TABS.map(({ id, to }) => (
+            <Link
               key={id}
-              href={`#${id}`}
-              aria-current={tab === id ? 'page' : undefined}
-              className={cx(
-                'whitespace-nowrap rounded-lg px-3 py-1.5 text-sm transition-colors',
-                tab === id ? 'bg-sunken font-semibold text-ink' : 'text-muted hover:text-ink',
-              )}
+              to={to}
+              activeOptions={{ exact: true }}
+              className="whitespace-nowrap rounded-lg px-3 py-1.5 text-sm text-muted transition-colors hover:text-ink"
+              activeProps={{ className: 'bg-sunken font-semibold text-ink', 'aria-current': 'page' }}
             >
               {t.tabs[id]}
-            </a>
+            </Link>
           ))}
         </nav>
       </header>
 
       <main className="flex-1 py-6">
-        {tab === 'acasa' && <Home />}
-        {tab === 'start' && <Start />}
-        {tab === 'calculator' && <Calculator />}
-        {tab === 'setari' && <Settings />}
+        <Outlet />
       </main>
 
       <footer className="border-t border-line py-4 text-xs text-faint">

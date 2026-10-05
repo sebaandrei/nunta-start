@@ -1,3 +1,4 @@
+import { Link } from '@tanstack/react-router';
 import { type ReactNode, useState } from 'react';
 import { TaskRow } from '../components/TaskRow';
 import { Banner, Button, Card, cx } from '../components/ui';
@@ -62,9 +63,9 @@ export function Home() {
               <p className="text-2xl font-semibold text-faint">—</p>
               <p className="mt-2 text-xs text-muted">
                 {t.home.needPrices}{' '}
-                <a className="text-accent underline-offset-2 hover:underline" href="#calculator">
+                <Link className="text-accent underline-offset-2 hover:underline" to="/calculator">
                   {t.home.goCalculator}
-                </a>
+                </Link>
               </p>
             </>
           ) : giftMissing ? (
@@ -119,9 +120,9 @@ export function Home() {
           <p className="px-4 py-4 text-sm text-muted">{t.home.allDone}</p>
         )}
         <div className="border-t border-line px-4 py-2.5 text-right">
-          <a className="text-sm text-accent underline-offset-2 hover:underline" href="#start">
+          <Link className="text-sm text-accent underline-offset-2 hover:underline" to="/start">
             {t.home.goStart} →
-          </a>
+          </Link>
         </div>
       </Card>
     </div>
