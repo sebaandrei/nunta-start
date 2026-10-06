@@ -17,7 +17,7 @@ export const legalEn: LegalContent = {
       id: 'de-ce',
       heading: 'Why we use it',
       paragraphs: [
-        'We use the data only to provide the service: to sign you in, store and show your wedding plan, and send the emails it needs (the sign-in link, plan invitations).',
+        'We use the data only to provide the service: to sign you in, store and show your wedding plan, and send the emails it needs (the sign-in code, plan invitations).',
         'We use technical data to fix errors and keep the app fast. We do not sell data and do not use it for advertising.',
       ],
     },
@@ -35,7 +35,7 @@ export const legalEn: LegalContent = {
       paragraphs: [
         'Supabase: database and authentication, in an EU region.',
         'Cloudflare: app hosting, DNS, Turnstile bot protection and encrypted backups in R2.',
-        'Resend: transactional email (the sign-in link, invitations).',
+        'Resend: transactional email (the sign-in code, invitations).',
         'Grafana Cloud: frontend error and performance monitoring. We do not send user identity.',
         'Google: sign-in with your Google account, if you choose that method.',
       ],

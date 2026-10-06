@@ -17,7 +17,7 @@ export const legalRo: LegalContent = {
       id: 'de-ce',
       heading: 'De ce le folosim',
       paragraphs: [
-        'Folosim datele doar ca să furnizăm serviciul: să vă conectăm, să salvăm și să afișăm planul nunții și să vă trimitem emailurile necesare (linkul de conectare, invitații în plan).',
+        'Folosim datele doar ca să furnizăm serviciul: să vă conectăm, să salvăm și să afișăm planul nunții și să vă trimitem emailurile necesare (codul de conectare, invitații în plan).',
         'Folosim datele tehnice pentru a remedia erori și a menține aplicația rapidă. Nu vindem datele și nu le folosim pentru publicitate.',
       ],
     },
@@ -35,7 +35,7 @@ export const legalRo: LegalContent = {
       paragraphs: [
         'Supabase: baza de date și autentificarea, într-o regiune din UE.',
         'Cloudflare: găzduirea aplicației, DNS, protecția anti-boți Turnstile și copii de siguranță criptate în R2.',
-        'Resend: trimiterea emailurilor tranzacționale (linkul de conectare, invitații).',
+        'Resend: trimiterea emailurilor tranzacționale (codul de conectare, invitații).',
         'Grafana Cloud: monitorizarea erorilor și a performanței din aplicație. Nu trimitem identitatea utilizatorului.',
         'Google: conectarea cu contul Google, dacă alegeți această metodă.',
       ],

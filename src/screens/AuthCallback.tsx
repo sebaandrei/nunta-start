@@ -34,7 +34,7 @@ async function complete(): Promise<Outcome> {
 // O singură finalizare per încărcare de pagină (StrictMode rulează efectul de două ori; codul se folosește o dată).
 let attempt: Promise<Outcome> | null = null;
 
-/** Ruta /auth/callback: termină conectarea cu linkul din email și duce omul mai departe. */
+/** Ruta /auth/callback: termină conectarea după autentificarea externă (Google) și duce omul mai departe. */
 export function AuthCallback() {
   const t = useT();
   const router = useRouter();
