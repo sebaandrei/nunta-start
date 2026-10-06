@@ -5,11 +5,20 @@ import {
   decimalDisplay,
   decimalText,
   formatDate,
+  formatLongDate,
   formatMoney,
   formatNumber,
   formatShortDate,
   parseDecimal,
 } from './format';
+
+describe('formatLongDate', () => {
+  it('zi a săptămânii, dată completă, în ambele limbi', () => {
+    const d = new Date(2026, 9, 5);
+    expect(formatLongDate(d, 'ro')).toBe('luni, 5 octombrie 2026');
+    expect(formatLongDate(d, 'en')).toBe('Monday, 5 October 2026');
+  });
+});
 
 describe('formatarea în engleză', () => {
   it('data, numărul și moneda', () => {

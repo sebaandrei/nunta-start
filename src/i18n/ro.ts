@@ -7,17 +7,48 @@ import type { BackupError } from '../storage/storage';
 export const ro = {
   appName: 'Nunta Start',
   tagline: 'Ce aveți de făcut și până când, plus cât vă costă. Fără cont: totul rămâne în browserul vostru.',
-  footer: 'Open source · datele rămân doar în acest browser',
-
-  tabs: { acasa: 'Acasă', start: 'Start', calculator: 'Calculator', setari: 'Setări' },
 
   header: {
     couple: (a: string, b: string) => [a, b].filter((n) => n.trim()).join(' & ') || 'Nunta voastră',
-    countdown: (days: number) => {
-      if (days > 1) return `mai sunt ${countLabel(days, 'zi', 'zile')}`;
-      if (days === 1) return 'nunta e mâine';
-      if (days === 0) return 'azi e nunta';
-      return `nunta a fost acum ${countLabel(-days, 'zi', 'zile')}`;
+  },
+
+  shell: {
+    skip: 'Sari la conținut',
+    mainNav: 'Navigare principală',
+    section: 'Planificare',
+    caption: 'Planul vostru',
+    nav: { home: 'Acasă', tasks: 'Taskuri', budget: 'Calculator buget', settings: 'Setări' },
+    /** Etichetele scurte din bara de jos de pe telefon. */
+    tab: { home: 'Acasă', tasks: 'Taskuri', budget: 'Buget', settings: 'Setări' },
+    badgeLabel: (n: number) => `${countLabel(n, 'task', 'taskuri')} de recuperat`,
+    coupleLabel: 'Spațiul vostru',
+    privacyTitle: 'Planul vostru, în siguranță',
+    privacyBody: 'Salvat în contul vostru, vizibil doar pentru voi și persoanele invitate.',
+    theme: 'Temă',
+    themeLight: 'Luminos',
+    themeDark: 'Întunecat',
+    toLight: 'Treceți la tema luminoasă',
+    toDark: 'Treceți la tema întunecată',
+    language: 'Limbă',
+    toLanguage: (other: string) => `Schimbați limba în ${other}`,
+  },
+
+  greeting: { morning: 'Bună dimineața', afternoon: 'Bună ziua', evening: 'Bună seara' },
+
+  pages: {
+    home: { subtitle: 'Încă puțin și începe povestea voastră. Iată ce urmează.' },
+    tasks: {
+      title: 'Planul de pregătire',
+      subtitle: 'Un pas pe rând. Vedeți ce e important acum și ce urmează.',
+    },
+    budget: {
+      title: 'Bugetul nunții',
+      subtitle: 'O imagine clară a costurilor, înainte să luați următoarea decizie.',
+    },
+    settings: {
+      eyebrow: 'Planificatorul vostru',
+      title: 'Setări',
+      subtitle: 'Personalizați spațiul vostru și păstrați datele în siguranță.',
     },
   },
 
@@ -107,7 +138,7 @@ export const ro = {
     ownerFilter: 'Responsabil',
     viewLabel: 'Vedere',
     all: 'Toți',
-    add: '+ Task',
+    add: 'Adaugă un task',
     doneCount: (done: number, total: number) => `${done} din ${total} gata`,
     recover: 'De recuperat',
     recoverHint: 'din etape care au trecut',
@@ -173,6 +204,7 @@ export const ro = {
     perGuestSuffix: '/ invitat',
     total: 'Total',
     addLine: '+ Linie',
+    addExpense: 'Adaugă o cheltuială',
     clearAmounts: 'Golește sumele',
     clearAmountsHint: 'Șterge prețurile, plățile, darul și suma de la familie. Liniile și scenariile rămân.',
     confirmClearAmounts:
