@@ -1,3 +1,4 @@
+import type { Countdown } from '../domain/home';
 import type { Category, Owner, Status } from '../domain/schema';
 import type { StageId } from '../domain/tasks';
 import { countLabel } from '../lib/format';
@@ -115,21 +116,50 @@ export const ro = {
   },
 
   home: {
-    tasks: 'Taskuri',
+    countdownEyebrow: 'Ziua voastră se apropie',
+    countdownTitle: (c: Countdown) => {
+      if (c.kind === 'future') return `Mai sunt ${countLabel(c.days, 'zi', 'zile')}`;
+      if (c.kind === 'tomorrow') return 'Mâine e ziua voastră';
+      if (c.kind === 'today') return 'Astăzi e ziua voastră';
+      return `Nunta a fost acum ${countLabel(c.days, 'zi', 'zile')}`;
+    },
+    countdownNote: 'Pas cu pas, totul se așază. Aveți grijă să vă bucurați și de pregătiri.',
+    countdownNotePast: 'Sperăm că a fost exact cum v-ați dorit. Mai aveți câteva lucruri de încheiat.',
+    countdownUnit: (days: number): string => (days === 1 ? 'zi' : 'zile'),
+    overview: 'Planul vostru, pe scurt',
+    tasks: 'Pregătiri',
     tasksDone: (done: number, total: number) => `${done} din ${total}`,
     tasksDetail: (recover: number, current: number) => `${recover} de recuperat · ${current} în etapa curentă`,
-    balance: (guests: number) => `Bilanț la ${countLabel(guests, 'invitat', 'invitați')}`,
-    cost: (guests: number) => `Cost la ${countLabel(guests, 'invitat', 'invitați')}`,
-    breakEven: (amount: string) => `Dar de echilibru: ${amount} de persoană`,
+    balance: (guests: number) => `Bilanț estimat · ${countLabel(guests, 'invitat', 'invitați')}`,
+    cost: (guests: number) => `Cost estimat · ${countLabel(guests, 'invitat', 'invitați')}`,
+    breakEven: (amount: string) => `Dar de echilibru: ${amount} / persoană`,
+    paidLine: (paid: string, total: string) => `Plătit: ${paid} din ${total}`,
     needPrices: 'Completați prețurile în Calculator ca să vedeți bilanțul.',
     needGift: 'Puneți darul mediu în Calculator ca să vedeți bilanțul.',
-    payments: 'Plăți',
-    paidOf: (total: string, rest: string) => `din ${total} · rest de plată ${rest}`,
-    next: 'De făcut acum',
-    nextHint: 'primele taskuri nefinalizate, în ordinea termenului',
+    payments: 'Plăți înregistrate',
+    paymentsProgress: 'Plăți făcute din total',
+    remaining: (rest: string) => `Mai aveți de achitat ${rest}`,
+    next: 'Următorii pași',
+    nextHint: 'Lucruri mici, care vă apropie de ziua cea mare.',
+    nextList: 'Taskurile următoare',
+    allDoneTitle: 'Ați terminat tot',
     allDone: 'Ați terminat tot. Felicitări!',
     goCalculator: 'Deschide Calculatorul',
-    goStart: 'Toate taskurile',
+    goStart: 'Vezi toate taskurile',
+    stageEyebrow: 'Etapa curentă',
+    stageTasks: (n: number) => `${countLabel(n, 'task', 'taskuri')} în etapa aceasta`,
+    goStage: 'Deschide planul de pregătire',
+    stageDescriptions: {
+      m12plus: 'Aveți timp din belșug. Alegeți data, stabiliți bugetul și visați liber la ziua voastră.',
+      m9_12: 'E momentul locației și al fotografului. Cele mai căutate se ocupă primele.',
+      m6_9: 'Meniul, muzica și lista de invitați prind contur. Respirați, aveți timp.',
+      m3_6: 'E timpul să puneți la punct furnizorii și detaliile care dau tonul zilei.',
+      m1_3: 'Invitațiile pleacă, ținutele se probează, iar detaliile se confirmă pe rând.',
+      lastMonth: 'Ultimele confirmări și ultimele probe. Totul începe să se așeze.',
+      lastWeek: 'Ultimele detalii și multă liniște. Ați făcut deja cea mai mare parte.',
+      day: 'Ziua cea mare. Lăsați-vă purtați de ea și bucurați-vă.',
+      after: 'S-a încheiat frumos. Rămân mulțumirile și câteva lucruri de pus la punct.',
+    },
   },
 
   tasks: {
