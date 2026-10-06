@@ -1,9 +1,10 @@
 import { ArrowLeft, ArrowRight, Check } from 'lucide-react';
-import { type FormEvent, type ReactNode, useEffect, useId, useRef, useState } from 'react';
+import { type FormEvent, type ReactNode, useEffect, useRef, useState } from 'react';
 import { ImportButton } from '../components/ImportButton';
-import { Banner, Button, Card, cx, Heading, NumberInput, Segmented, TextInput } from '../components/ui';
+import { Banner, Button, Card, cx, Heading, Segmented, TextInput } from '../components/ui';
 import { parseISODate } from '../domain/dates';
 import {
+  fieldIds,
   firstInvalidStep,
   nextStep,
   type OnboardingErrors,
@@ -24,20 +25,29 @@ import { useLocale } from '../lib/locale';
 import type { BackupError } from '../storage/storage';
 import { useStore } from '../store';
 
+const FIELD_IDS = {
+  name1: 'onb-name1',
+  name2: 'onb-name2',
+  date: 'onb-date',
+  guests: 'onb-guests',
+} as const;
+
 /** Etichetă, câmp și eroare legate între ele (aria-invalid, aria-describedby). */
 function FormField({
+  id,
   label,
   hint,
   error,
   children,
 }: {
+  id: string;
   label: string;
   hint?: string;
   error?: string;
   children: (props: { id: string; 'aria-invalid': boolean; 'aria-describedby'?: string }) => ReactNode;
 }) {
-  const id = useId();
-  const describedBy = [error ? `${id}-error` : null, hint ? `${id}-hint` : null].filter(Boolean).join(' ');
+  const ids = fieldIds(id);
+  const describedBy = [error ? ids.error : null, hint ? ids.hint : null].filter(Boolean).join(' ');
   return (
     <div>
       <label htmlFor={id} className="mb-1 block text-xs font-semibold text-ink">
@@ -45,12 +55,12 @@ function FormField({
       </label>
       {children({ id, 'aria-invalid': Boolean(error), 'aria-describedby': describedBy || undefined })}
       {error && (
-        <p id={`${id}-error`} className="mt-1 text-xs text-minus">
+        <p id={ids.error} className="mt-1 text-xs text-minus">
           {error}
         </p>
       )}
       {hint && (
-        <p id={`${id}-hint`} className="mt-1 text-xs text-muted">
+        <p id={ids.hint} className="mt-1 text-xs text-muted">
           {hint}
         </p>
       )}
@@ -107,7 +117,7 @@ export function Onboarding() {
   const start = useStore((s) => s.start);
   const corruptRaw = useStore((s) => s.corruptRaw);
   const [step, setStep] = useState<StepId>('about');
-  const [values, setValues] = useState<OnboardingValues>({ name1: '', name2: '', date: '', city: '', guests: null });
+  const [values, setValues] = useState<OnboardingValues>({ name1: '', name2: '', date: '', city: '', guests: '' });
   const [errors, setErrors] = useState<OnboardingErrors>({});
   const [importError, setImportError] = useState<BackupError | null>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
@@ -144,7 +154,7 @@ export function Onboarding() {
     if (Object.keys(found).length > 0) {
       setErrors(found);
       const first = (['name1', 'name2', 'date', 'guests'] as const).find((f) => found[f]);
-      if (first) document.getElementById(`onb-${first}`)?.focus();
+      if (first) document.getElementById(FIELD_IDS[first])?.focus();
       return;
     }
     go(nextStep(step));
@@ -207,11 +217,10 @@ export function Onboarding() {
             <div className="mt-6 space-y-4">
               {step === 'about' && (
                 <div className="grid gap-4 sm:grid-cols-2">
-                  <FormField label={`${ob.names} 1`} error={err('name1')}>
+                  <FormField id="onb-name1" label={`${ob.names} 1`} error={err('name1')}>
                     {(p) => (
                       <TextInput
                         {...p}
-                        id="onb-name1"
                         autoComplete="off"
                         placeholder={ob.namePlaceholder1}
                         value={values.name1}
@@ -219,11 +228,10 @@ export function Onboarding() {
                       />
                     )}
                   </FormField>
-                  <FormField label={`${ob.names} 2`} error={err('name2')}>
+                  <FormField id="onb-name2" label={`${ob.names} 2`} error={err('name2')}>
                     {(p) => (
                       <TextInput
                         {...p}
-                        id="onb-name2"
                         autoComplete="off"
                         placeholder={ob.namePlaceholder2}
                         value={values.name2}
@@ -236,18 +244,17 @@ export function Onboarding() {
 
               {step === 'wedding' && (
                 <>
-                  <FormField label={ob.date} hint={ob.dateHint} error={err('date')}>
+                  <FormField id="onb-date" label={ob.date} hint={ob.dateHint} error={err('date')}>
                     {(p) => (
                       <TextInput
                         {...p}
-                        id="onb-date"
                         type="date"
                         value={values.date}
                         onChange={(e) => set({ date: e.target.value })}
                       />
                     )}
                   </FormField>
-                  <FormField label={ob.city}>
+                  <FormField id="onb-city" label={ob.city}>
                     {(p) => (
                       <TextInput
                         {...p}
@@ -258,15 +265,14 @@ export function Onboarding() {
                       />
                     )}
                   </FormField>
-                  <FormField label={ob.guestsLabel} hint={ob.guestsShort} error={err('guests')}>
+                  <FormField id="onb-guests" label={ob.guestsLabel} hint={ob.guestsShort} error={err('guests')}>
                     {(p) => (
-                      <NumberInput
+                      <TextInput
                         {...p}
-                        id="onb-guests"
-                        integer
-                        min={1}
+                        inputMode="numeric"
+                        autoComplete="off"
                         value={values.guests}
-                        onChange={(guests) => set({ guests })}
+                        onChange={(e) => set({ guests: e.target.value })}
                         placeholder={ob.guestsPlaceholder}
                       />
                     )}
