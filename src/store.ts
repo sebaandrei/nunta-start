@@ -1,8 +1,9 @@
 import { create } from 'zustand';
 import { clearAmounts } from './domain/budget';
 import { parseISODate, startOfDay, toISODate } from './domain/dates';
+import { addGodparentPair, removeGodparentPair, updateGodparentPair } from './domain/godparents';
 import { createBudgetLine, createInitialData, createTask, type StartInput } from './domain/initial';
-import type { AppData, Budget, BudgetLine, Settings, Task } from './domain/schema';
+import type { AppData, Budget, BudgetLine, GodparentPair, Settings, Task } from './domain/schema';
 import { defaultDateForNewTask, nextStatus } from './domain/tasks';
 import { getMessages } from './i18n';
 import { getBrowserStorage, loadData, saveData } from './storage/storage';
@@ -21,6 +22,10 @@ interface StoreState {
   markExported(): void;
 
   updateSettings(patch: Partial<Settings>): void;
+  setCity(city: string): void;
+  addGodparents(): void;
+  updateGodparents(index: number, patch: Partial<GodparentPair>): void;
+  removeGodparents(index: number): void;
 
   addTask(): string;
   updateTask(id: string, patch: Partial<Task>): void;
@@ -48,6 +53,9 @@ export const useStore = create<StoreState>()((set, get) => {
 
   const changeBudget = (fn: (budget: Budget) => Budget) => change((d) => ({ ...d, budget: fn(d.budget) }));
 
+  const changeGodparents = (fn: (list: GodparentPair[]) => GodparentPair[]) =>
+    change((d) => ({ ...d, settings: { ...d.settings, godparents: fn(d.settings.godparents) } }));
+
   return {
     data: initial.status === 'ok' ? initial.data : null,
     storageStatus: initial.status === 'unavailable' ? 'unavailable' : 'ok',
@@ -70,6 +78,14 @@ export const useStore = create<StoreState>()((set, get) => {
       ),
 
     updateSettings: (patch) => change((d) => ({ ...d, settings: { ...d.settings, ...patch } })),
+
+    setCity: (city) => change((d) => ({ ...d, settings: { ...d.settings, city } })),
+
+    addGodparents: () => changeGodparents(addGodparentPair),
+
+    updateGodparents: (index, patch) => changeGodparents((list) => updateGodparentPair(list, index, patch)),
+
+    removeGodparents: (index) => changeGodparents((list) => removeGodparentPair(list, index)),
 
     addTask: () => {
       const data = get().data;

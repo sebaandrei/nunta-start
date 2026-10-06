@@ -1,4 +1,4 @@
-import { type ReactNode, useRef } from 'react';
+import { type ComponentProps, type ReactNode, useRef } from 'react';
 import { type BackupError, parseBackup } from '../storage/storage';
 import { useStore } from '../store';
 import { Button } from './ui';
@@ -6,11 +6,15 @@ import { Button } from './ui';
 /** Alege un fișier de copie, îl validează și, după confirmare, înlocuiește datele. */
 export function ImportButton({
   children,
+  variant = 'ghost',
+  className,
   confirmMessage,
   onImported,
   onError,
 }: {
   children: ReactNode;
+  variant?: ComponentProps<typeof Button>['variant'];
+  className?: string;
   confirmMessage?: string;
   onImported?: () => void;
   onError: (error: BackupError) => void;
@@ -31,7 +35,7 @@ export function ImportButton({
 
   return (
     <>
-      <Button variant="ghost" onClick={() => input.current?.click()}>
+      <Button variant={variant} className={className} onClick={() => input.current?.click()}>
         {children}
       </Button>
       <input
