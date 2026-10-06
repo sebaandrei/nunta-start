@@ -2,6 +2,7 @@ import { useNavigate } from '@tanstack/react-router';
 import { Plus, Trash2 } from 'lucide-react';
 import { type ReactNode, useId, useState } from 'react';
 import { ImportButton } from '../components/ImportButton';
+import { MembersPanel } from '../components/MembersPanel';
 import { PageHeader } from '../components/PageHeader';
 import {
   Button,
@@ -231,6 +232,8 @@ export function Settings() {
           </div>
         </Card>
       </div>
+
+      <MembersPanel selfName={settings.names[0]} />
 
       <Dialog
         open={confirming}
