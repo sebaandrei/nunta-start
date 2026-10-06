@@ -4,15 +4,70 @@ import {
   canLeave,
   canRemove,
   type Invitation,
+  initialRoleSync,
   initials,
   invitationAge,
   type Member,
   manageableRoles,
   ROLES,
   type Role,
+  settleRoleChange,
+  startRoleChange,
+  statusAfterLeave,
   validateInvite,
   withRole,
 } from './members';
+
+describe('role sync', () => {
+  const list = [
+    { id: 'a', name: 'a', email: 'a@x.ro', role: 'viewer', isSelf: false },
+    { id: 'b', name: 'b', email: 'b@x.ro', role: 'helper', isSelf: false },
+  ] as Member[];
+  const roleOf = (ms: Member[], id: string) => ms.find((x) => x.id === id)?.role;
+
+  it('a failed change returns to the confirmed role', () => {
+    const s = startRoleChange(initialRoleSync, 'a', 'viewer', 1);
+    const r = settleRoleChange(s, withRole(list, 'a', 'helper'), 'a', 1, 'helper', false);
+    expect(roleOf(r.members, 'a')).toBe('viewer');
+    expect(r.sync.inFlight).toEqual({});
+  });
+  it('a failure after a superseded request is ignored; the last failure restores the original', () => {
+    let s = startRoleChange(initialRoleSync, 'a', 'viewer', 1);
+    s = startRoleChange(s, 'a', 'helper', 2);
+    const ms = withRole(withRole(list, 'a', 'helper'), 'a', 'planner');
+    const first = settleRoleChange(s, ms, 'a', 1, 'helper', false);
+    expect(first).toEqual({ sync: s, members: ms });
+    const second = settleRoleChange(first.sync, first.members, 'a', 2, 'planner', false);
+    expect(roleOf(second.members, 'a')).toBe('viewer');
+  });
+  it('a success updates the confirmed role used by a later failure', () => {
+    const s = startRoleChange(initialRoleSync, 'a', 'viewer', 1);
+    const ok = settleRoleChange(s, withRole(list, 'a', 'helper'), 'a', 1, 'helper', true);
+    expect(ok.sync.confirmed.a).toBe('helper');
+    const s2 = startRoleChange(ok.sync, 'a', 'helper', 2);
+    const bad = settleRoleChange(s2, withRole(ok.members, 'a', 'planner'), 'a', 2, 'planner', false);
+    expect(roleOf(bad.members, 'a')).toBe('helper');
+  });
+  it('members are independent', () => {
+    let s = startRoleChange(initialRoleSync, 'a', 'viewer', 1);
+    s = startRoleChange(s, 'b', 'helper', 2);
+    const ms = withRole(withRole(list, 'a', 'planner'), 'b', 'viewer');
+    const r = settleRoleChange(s, ms, 'a', 1, 'planner', false);
+    expect(roleOf(r.members, 'a')).toBe('viewer');
+    expect(roleOf(r.members, 'b')).toBe('viewer');
+    expect(r.sync.inFlight).toEqual({ b: 2 });
+  });
+});
+
+describe('statusAfterLeave', () => {
+  it('a successful leave is terminal, never ready', () => {
+    expect(statusAfterLeave('ready', true)).toBe('left');
+    expect(statusAfterLeave('unavailable', true)).toBe('left');
+  });
+  it('a failed leave keeps the status', () => {
+    expect(statusAfterLeave('ready', false)).toBe('ready');
+  });
+});
 
 const m = (id: string, role: Role, email = `${id}@x.ro`): Member => ({ id, name: id, email, role, isSelf: false });
 const owner = m('owner', 'owner');

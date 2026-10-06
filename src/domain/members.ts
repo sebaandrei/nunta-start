@@ -72,6 +72,53 @@ export function withRole(members: Member[], id: string, role: Role): Member[] {
   return members.map((m) => (m.id === id ? { ...m, role } : m));
 }
 
+/**
+ * Sincronizarea schimbărilor de rol: ultimul rol confirmat de server pentru fiecare membru și
+ * cererea cea mai recentă în curs (un membru fără intrare în `inFlight` nu are nimic în așteptare).
+ */
+export interface RoleSync {
+  confirmed: Record<string, Role>;
+  inFlight: Record<string, number>;
+}
+
+export const initialRoleSync: RoleSync = { confirmed: {}, inFlight: {} };
+
+/** Începe o schimbare: reține rolul confirmat (primul văzut) și marchează cererea ca fiind cea curentă. */
+export function startRoleChange(sync: RoleSync, id: string, currentRole: Role, requestId: number): RoleSync {
+  return {
+    confirmed: { ...sync.confirmed, [id]: sync.confirmed[id] ?? currentRole },
+    inFlight: { ...sync.inFlight, [id]: requestId },
+  };
+}
+
+/**
+ * Încheie o cerere. O cerere depășită (alta mai nouă pentru același membru) se ignoră.
+ * Succes: rolul devine cel confirmat. Eșec: lista revine la ultimul rol confirmat.
+ */
+export function settleRoleChange(
+  sync: RoleSync,
+  members: Member[],
+  id: string,
+  requestId: number,
+  role: Role,
+  ok: boolean,
+): { sync: RoleSync; members: Member[] } {
+  if (sync.inFlight[id] !== requestId) return { sync, members };
+  const { [id]: _done, ...inFlight } = sync.inFlight;
+  if (ok) {
+    return { sync: { confirmed: { ...sync.confirmed, [id]: role }, inFlight }, members: withRole(members, id, role) };
+  }
+  const back = sync.confirmed[id];
+  return { sync: { ...sync, inFlight }, members: back ? withRole(members, id, back) : members };
+}
+
+export type PanelStatus = 'loading' | 'ready' | 'unavailable' | 'error' | 'left';
+
+/** După încercarea de a părăsi spațiul: succesul e terminal (`left`, niciodată `ready`), eșecul nu schimbă starea. */
+export function statusAfterLeave(status: PanelStatus, ok: boolean): PanelStatus {
+  return ok ? 'left' : status;
+}
+
 const DAY_MS = 86_400_000;
 
 /** Zile de la trimitere (0 = azi) și zile rămase până la expirare. */

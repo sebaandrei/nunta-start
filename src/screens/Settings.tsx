@@ -233,7 +233,8 @@ export function Settings() {
         </Card>
       </div>
 
-      <MembersPanel selfName={settings.names[0]} />
+      {/* TODO: după NS-031/NS-041 ducem utilizatorul la selectorul de spații, nu acasă. */}
+      <MembersPanel selfName={settings.names[0]} onLeft={() => void navigate({ to: paths.home })} />
 
       <Dialog
         open={confirming}

@@ -7,6 +7,7 @@ export function MemberRow({
   member,
   actor,
   members,
+  busy,
   onChangeRole,
   onRemove,
   onLeave,
@@ -14,6 +15,8 @@ export function MemberRow({
   member: Member;
   actor: Member;
   members: Member[];
+  /** Un schimb de rol pentru acest membru e în curs: selectul rămâne vizibil, dar blocat. */
+  busy: boolean;
   onChangeRole: (member: Member, role: Role) => void;
   onRemove: (member: Member) => void;
   onLeave: () => void;
@@ -45,6 +48,8 @@ export function MemberRow({
               aria-label={m.roleFor(member.name)}
               className="min-w-0 flex-1 md:w-36 md:flex-none"
               value={member.role}
+              disabled={busy}
+              aria-busy={busy}
               onChange={(e) => onChangeRole(member, e.target.value as Role)}
             >
               {manageableRoles(actor).map((role) => (

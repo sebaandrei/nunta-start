@@ -1,5 +1,16 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { type Invitation, type Member, manageableRoles, type Role, withRole } from '../domain/members';
+import {
+  type Invitation,
+  initialRoleSync,
+  type Member,
+  manageableRoles,
+  type PanelStatus,
+  type Role,
+  settleRoleChange,
+  startRoleChange,
+  statusAfterLeave,
+  withRole,
+} from '../domain/members';
 import { useT } from '../i18n';
 import { type MembersClient, MembersNotConfiguredError, notConfiguredMembersClient } from '../lib/members';
 import { createFakeMembersClient, parseMembersPreview } from '../lib/membersPreview';
@@ -17,21 +28,26 @@ function previewClient(): MembersClient | null {
   return preview ? createFakeMembersClient(preview.selfRole) : null;
 }
 
-type Status = 'loading' | 'ready' | 'unavailable' | 'error';
 type Confirm = { kind: 'remove'; member: Member } | { kind: 'leave' };
 
 export function MembersPanel({
   selfName,
   client: clientProp,
+  onLeft,
 }: {
   /** Numele utilizatorului curent din setările locale, folosit cât timp colaborarea nu e disponibilă. */
   selfName: string;
   client?: MembersClient;
+  /** Apelat după ce utilizatorul a părăsit spațiul, ca părintele să navigheze în altă parte. */
+  onLeft?: () => void;
 }) {
   const t = useT();
   const m = t.members;
   const client = useMemo(() => clientProp ?? previewClient() ?? notConfiguredMembersClient, [clientProp]);
-  const [status, setStatus] = useState<Status>('loading');
+  const [status, setStatus] = useState<PanelStatus>('loading');
+  const [pendingRoles, setPendingRoles] = useState<string[]>([]);
+  const roleSync = useRef(initialRoleSync);
+  const roleRequest = useRef(0);
   const [loaded, setLoaded] = useState<{ members: Member[]; invitations: Invitation[] }>({
     members: [],
     invitations: [],
@@ -44,6 +60,8 @@ export function MembersPanel({
   const load = useCallback(() => {
     const id = ++loadId.current;
     setStatus('loading');
+    roleSync.current = initialRoleSync;
+    setPendingRoles([]);
     Promise.all([client.list(), client.listInvitations()]).then(
       ([members, invitations]) => {
         if (id !== loadId.current) return;
@@ -100,17 +118,27 @@ export function MembersPanel({
     }
   }
 
-  /** Optimist: rolul se schimbă imediat; dacă serverul refuză, revine la cel anterior. */
+  /** Optimist: rolul se schimbă imediat; dacă serverul refuză, revine la ultimul rol confirmat de server. */
   async function changeRole(target: Member, role: Role) {
-    const previous = target.role;
+    const requestId = ++roleRequest.current;
+    roleSync.current = startRoleChange(roleSync.current, target.id, target.role, requestId);
+    setPendingRoles(Object.keys(roleSync.current.inFlight));
     setMembers((list) => withRole(list, target.id, role));
+    let ok = true;
     try {
       await client.changeRole(target.id, role);
-      setAnnouncement(m.announce.roleChanged(target.name, m.roles[role]));
     } catch {
-      setMembers((list) => withRole(list, target.id, previous));
-      showToast(m.errors.changeRole);
+      ok = false;
     }
+    const before = roleSync.current;
+    const settled = settleRoleChange(before, [{ ...target, role }], target.id, requestId, role, ok);
+    if (settled.sync === before) return;
+    roleSync.current = settled.sync;
+    const finalRole = settled.members[0].role;
+    setMembers((list) => withRole(list, target.id, finalRole));
+    setPendingRoles(Object.keys(roleSync.current.inFlight));
+    if (ok) setAnnouncement(m.announce.roleChanged(target.name, m.roles[role]));
+    else showToast(m.errors.changeRole);
   }
 
   async function confirmed(action: Confirm) {
@@ -128,11 +156,28 @@ export function MembersPanel({
     }
     try {
       await client.leave();
-      setAnnouncement(m.announce.left);
-      load();
     } catch {
       showToast(m.errors.leave);
+      return;
     }
+    // Terminal: nu reîncărcăm (fără apartenență, serverul ar întoarce liste goale).
+    loadId.current++;
+    setStatus((s) => statusAfterLeave(s, true));
+    setAnnouncement(m.announce.left);
+    onLeft?.();
+  }
+
+  if (status === 'left') {
+    return (
+      <div className="mt-5">
+        <Card className="p-5 md:p-6">
+          <Heading size="md">{m.announce.left}</Heading>
+        </Card>
+        <p role="status" aria-live="polite" className="sr-only">
+          {announcement}
+        </p>
+      </div>
+    );
   }
 
   const unavailable = status === 'unavailable';
@@ -176,6 +221,7 @@ export function MembersPanel({
                   member={member}
                   actor={actor}
                   members={members}
+                  busy={pendingRoles.includes(member.id)}
                   onChangeRole={changeRole}
                   onRemove={(target) => setConfirm({ kind: 'remove', member: target })}
                   onLeave={() => setConfirm({ kind: 'leave' })}
