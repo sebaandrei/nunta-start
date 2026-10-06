@@ -11,16 +11,16 @@ Are două părți:
 - **Start:** ce aveți de făcut și până când. Sunt 61 de taskuri românești, cu termene calculate din data nunții.
 - **Calculator:** cât vă costă nunta și dacă ieșiți pe zero, în 1–4 scenarii de invitați. Arată și darul de echilibru și ce mai e de plătit.
 
-Nu are cont și nici server. Datele rămân în browserul vostru, iar o copie se poate descărca oricând.
+Accesul e pe invitație: vă conectați cu un cod trimis pe email (sau cu Google), iar planul se salvează în contul vostru, pe server, și îl puteți deschide de pe orice dispozitiv.
 
 Nu e încă o aplicație de wedding planning. Lista de invitați rămâne unde o țineți deja (WeddingWire, Excel). Aici e doar partea care lipsește din ele: ce urmează și cât costă.
 
 ## Cum se folosește
 
-1. Deschideți pagina și scrieți data nunții și prenumele voastre.
+1. Conectați-vă, apoi creați nunta: data și prenumele voastre.
 2. Uitați-vă în **Start**: taskurile sunt grupate pe etape, cu ce aveți de făcut acum sus. Ce era deja de făcut când ați început apare în „De recuperat".
 3. Completați prețurile în **Calculator**. Fiecare linie e fie pe invitat (meniu, băuturi), fie fixă (formație, foto-video).
-4. Din **Setări**, descărcați din când în când o copie. Pe un alt telefon, sau la partener, o încărcați la loc.
+4. Din **Setări** schimbați data, orașul, cursul sau moneda. Modificările se salvează automat.
 
 ## Dezvoltare
 
