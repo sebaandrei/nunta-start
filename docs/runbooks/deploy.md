@@ -26,6 +26,8 @@ dry run-ul și că migrarea a trecut.
 
 ## Rulare manuală
 
+Rulează doar din `main` (job-ul `guard` pică pe orice alt branch, ca o migrație
+nemergeuită să nu ajungă în staging/producție).
 Actions > "Deploy database" > "Run workflow" > `target`: `staging`,
 `production` sau `both` (implicit). `production` singur sare peste staging, dar
 tot cere aprobare. Rulările sunt serializate (`concurrency: deploy-db`).

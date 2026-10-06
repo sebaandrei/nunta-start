@@ -38,7 +38,24 @@ permissions:
   contents: read
 
 jobs:
+  # Only main may deploy: a manual run can be started from any branch in the UI,
+  # and an unmerged migration must never reach staging or production.
+  # Defence in depth: the `production` environment also restricts deployment
+  # branches to main and requires a reviewer.
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require main
+        env:
+          REF: ${{ github.ref }}
+        run: |
+          if [ "$REF" != "refs/heads/main" ]; then
+            echo "::error::Run this workflow from main only (got $REF)."
+            exit 1
+          fi
+
   staging:
+    needs: guard
     # Skipped only for a manual run that targets production alone.
     if: github.event_name == 'push' || inputs.target != 'production'
     runs-on: ubuntu-latest
@@ -49,6 +66,8 @@ jobs:
       SUPABASE_PROJECT_REF: ${{ vars.SUPABASE_PROJECT_REF }}
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: ${{ github.sha }}
       - uses: supabase/setup-cli@45a513f8c64c0bc8e0e3dfe572b5c95be85f6359 # v3.0.1
         with:
           version: 2.119.0 # keep equal to "supabase" in package.json
@@ -77,9 +96,10 @@ jobs:
     # The approval gate waits here (Environment `production`).
     # Runs after staging succeeded, or when staging was skipped on purpose
     # (manual run with target=production). Never runs if staging failed.
-    needs: staging
+    needs: [guard, staging]
     if: >-
       !cancelled()
+      && needs.guard.result == 'success'
       && (needs.staging.result == 'success' || needs.staging.result == 'skipped')
       && (github.event_name == 'push' || inputs.target != 'staging')
     runs-on: ubuntu-latest
@@ -90,6 +110,8 @@ jobs:
       SUPABASE_PROJECT_REF: ${{ vars.SUPABASE_PROJECT_REF }}
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: ${{ github.sha }}
       - uses: supabase/setup-cli@45a513f8c64c0bc8e0e3dfe572b5c95be85f6359 # v3.0.1
         with:
           version: 2.119.0 # keep equal to "supabase" in package.json
