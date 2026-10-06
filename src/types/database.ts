@@ -20,13 +20,13 @@ export type Database = {
                   ]
                 },"budget_lines": {
                   Row: {
-                    "created_at": string,"currency": Database["public"]['Enums']["currency"],"id": string,"name": string,"note": string,"position": number,"qty_count": number | null,"qty_kind": string,"unit_price": number | null,"updated_at": string,"updated_by": string | null,"vendor_id": string | null,"wedding_id": string
+                    "created_at": string,"currency": Database["public"]['Enums']["currency"],"id": string,"name": string,"note": string,"paid": number | null,"position": number,"qty_count": number | null,"qty_kind": string,"unit_price": number | null,"updated_at": string,"updated_by": string | null,"vendor_id": string | null,"wedding_id": string
                   }
                   Insert: {
-                    "created_at"?: string,"currency"?: Database["public"]['Enums']["currency"],"id"?: string,"name": string,"note"?: string,"position"?: number,"qty_count"?: number | null,"qty_kind"?: string,"unit_price"?: number | null,"updated_at"?: string,"updated_by"?: string | null,"vendor_id"?: string | null,"wedding_id": string
+                    "created_at"?: string,"currency"?: Database["public"]['Enums']["currency"],"id"?: string,"name": string,"note"?: string,"paid"?: number | null,"position"?: number,"qty_count"?: number | null,"qty_kind"?: string,"unit_price"?: number | null,"updated_at"?: string,"updated_by"?: string | null,"vendor_id"?: string | null,"wedding_id": string
                   }
                   Update: {
-                    "created_at"?: string,"currency"?: Database["public"]['Enums']["currency"],"id"?: string,"name"?: string,"note"?: string,"position"?: number,"qty_count"?: number | null,"qty_kind"?: string,"unit_price"?: number | null,"updated_at"?: string,"updated_by"?: string | null,"vendor_id"?: string | null,"wedding_id"?: string
+                    "created_at"?: string,"currency"?: Database["public"]['Enums']["currency"],"id"?: string,"name"?: string,"note"?: string,"paid"?: number | null,"position"?: number,"qty_count"?: number | null,"qty_kind"?: string,"unit_price"?: number | null,"updated_at"?: string,"updated_by"?: string | null,"vendor_id"?: string | null,"wedding_id"?: string
                   }
                   Relationships: [
                     {
@@ -151,7 +151,10 @@ isOneToOne: false
             [_ in never]: never
           }
           Functions: {
-            "create_wedding":
+            "clear_budget_amounts":
+{ Args: { "p_wedding_id": string }; Returns: undefined
+                           },
+"create_wedding":
 { Args: { "budget_template": Json,"input": Json,"tasks_template": Json }; Returns: string
                            }
           }

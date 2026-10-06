@@ -6,20 +6,25 @@ import {
   type BudgetScenarioRow,
   type BudgetSettingsRow,
   budgetFromRows,
+  budgetSettingsPatchToUpdate,
+  changedColumns,
   changedPatch,
   coupleLabel,
   createWeddingArgs,
   godparentsFromJson,
   guestScenarios,
   lineFromRow,
+  lineRowFromLine,
   lineToInsert,
   lineToUpdate,
   moneyColumn,
   nextPosition,
+  nextScenarioGuests,
   num,
   positionBetween,
   type ServerTask,
   scenarioIds,
+  selectionAfterRemoval,
   settingsFromWedding,
   type TaskRow,
   taskFromRow,
@@ -195,6 +200,7 @@ const lineRow = (over: Partial<BudgetLineRow> = {}): BudgetLineRow => ({
   qty_kind: 'per_guest',
   qty_count: null,
   note: 'x',
+  paid: null,
   vendor_id: null,
   position: 0,
   created_at: '2026-01-01T00:00:00Z',
@@ -210,14 +216,24 @@ describe('budget lines', () => {
     expect(lineFromRow(lineRow({ qty_kind: 'fixed', qty_count: null })).quantity).toEqual({ kind: 'fixed', count: 0 });
   });
 
-  it('reads paid as null (no column yet) and a null price', () => {
+  it('reads paid (number, numeric string or null) and a null price', () => {
     const l = lineFromRow(lineRow({ unit_price: null }));
     expect(l.paid).toBeNull();
     expect(l.unitPrice).toBeNull();
+    expect(lineFromRow(lineRow({ paid: 250.5 })).paid).toBe(250.5);
+    expect(lineFromRow(lineRow({ paid: '99.10' as unknown as number })).paid).toBe(99.1);
+  });
+
+  it('writes paid rounded to 2 decimals, null clears it', () => {
+    expect(lineToUpdate({ paid: 10.456 })).toEqual({ paid: 10.46 });
+    expect(lineToUpdate({ paid: null })).toEqual({ paid: null });
   });
 
   it('round-trips through insert', () => {
-    for (const row of [lineRow(), lineRow({ qty_kind: 'fixed', qty_count: 2, unit_price: null, currency: 'RON' })]) {
+    for (const row of [
+      lineRow(),
+      lineRow({ qty_kind: 'fixed', qty_count: 2, unit_price: null, currency: 'RON', paid: 30.25 }),
+    ]) {
       const line = lineFromRow(row);
       expect(lineFromRow({ ...row, ...lineToInsert('w1', line, 0) } as BudgetLineRow)).toEqual(line);
     }
@@ -328,5 +344,61 @@ describe('createWeddingArgs', () => {
   it('labels a couple, dropping empty names', () => {
     expect(coupleLabel(' A ', ' B ')).toBe('A & B');
     expect(coupleLabel('A', ' ')).toBe('A');
+  });
+});
+
+describe('budget write helpers', () => {
+  const scenarios = [scenario('s1', 100, 0), scenario('s2', 150, 10), scenario('s3', 200, 20)];
+
+  it('builds a settings update from gifts and selection', () => {
+    expect(budgetSettingsPatchToUpdate({ giftPerGuest: { amount: 99.999, currency: 'EUR' } })).toEqual({
+      gift_per_guest: 100,
+      gift_per_guest_currency: 'EUR',
+    });
+    expect(budgetSettingsPatchToUpdate({ familyGift: { amount: null, currency: 'RON' } })).toEqual({
+      family_gift: null,
+      family_gift_currency: 'RON',
+    });
+    expect(budgetSettingsPatchToUpdate({ selectedScenarioId: 's2' })).toEqual({ selected_scenario_id: 's2' });
+    expect(budgetSettingsPatchToUpdate({})).toEqual({});
+  });
+
+  it('keeps only the columns that differ from the row', () => {
+    const row = settingsRow();
+    expect(changedColumns(row, { gift_per_guest: 100, gift_per_guest_currency: 'EUR' })).toEqual({
+      gift_per_guest_currency: 'EUR',
+    });
+    expect(changedColumns(row, { gift_per_guest: 100 })).toEqual({});
+    expect(changedColumns(row, { family_gift: null })).toEqual({});
+  });
+
+  it('proposes 20% more guests than the last scenario, in tens', () => {
+    expect(nextScenarioGuests(scenarios)).toBe(240);
+    expect(nextScenarioGuests([scenario('a', 3, 0)])).toBe(1);
+    expect(nextScenarioGuests([])).toBe(240);
+  });
+
+  it('moves an explicit selection to the first remaining scenario when its scenario is removed', () => {
+    const selected = (id: string | null) => settingsRow({ selected_scenario_id: id });
+    expect(selectionAfterRemoval(selected('s2'), scenarios, 's2')).toBe('s1');
+    expect(selectionAfterRemoval(selected('s1'), scenarios, 's1')).toBe('s2');
+    expect(selectionAfterRemoval(selected('s1'), scenarios, 's3')).toBeUndefined();
+    expect(selectionAfterRemoval(selected(null), scenarios, 's1')).toBeUndefined();
+    expect(selectionAfterRemoval(null, scenarios, 's1')).toBeUndefined();
+  });
+
+  it('builds the row an inserted line will have', () => {
+    const line = {
+      id: 'l9',
+      name: 'Tort',
+      unitPrice: 12.345,
+      currency: 'RON' as const,
+      quantity: { kind: 'fixed' as const, count: 2 },
+      paid: null,
+      note: '',
+    };
+    const row = lineRowFromLine('w1', line, 30, '2026-02-02T00:00:00Z');
+    expect(row).toMatchObject({ id: 'l9', wedding_id: 'w1', position: 30, unit_price: 12.35, qty_kind: 'fixed' });
+    expect(lineFromRow(row)).toEqual({ ...line, unitPrice: 12.35 });
   });
 });

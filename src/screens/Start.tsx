@@ -3,7 +3,7 @@ import { type ReactNode, useState } from 'react';
 import { PageHeader } from '../components/PageHeader';
 import { TaskRow } from '../components/TaskRow';
 import { Banner, Button, Card, cx, EmptyState, FilterChip, ProgressBar, Segmented } from '../components/ui';
-import { useWeddingAppData } from '../data/hooks';
+import { useSettings, useTasks } from '../data/hooks';
 import { useTaskActions } from '../data/taskActions';
 import { parseISODate } from '../domain/dates';
 import type { Task } from '../domain/schema';
@@ -32,8 +32,9 @@ const EYEBROW = 'text-[11px] font-semibold uppercase tracking-[0.08em] text-mute
 
 export function Start() {
   const t = useT();
-  const data = useWeddingAppData();
   const { id: weddingId, canEdit } = useWedding();
+  const settings = useSettings();
+  const allTasks = useTasks(weddingId);
   const actions = useTaskActions(weddingId);
   const readOnly = !canEdit('tasks');
   const today = useToday();
@@ -43,13 +44,12 @@ export function Start() {
   const [openId, setOpenId] = useState<string | null>(null);
   const [groupOpen, setGroupOpen] = useState<Record<string, boolean>>({});
 
-  const { settings } = data;
   const wedding = parseISODate(settings.weddingDate);
-  const byOwner = filterByOwner(data.tasks, owner);
+  const byOwner = filterByOwner(allTasks, owner);
   const recoverCount = filterRecover(byOwner, wedding, today).length;
   const tasks = onlyRecover ? filterRecover(byOwner, wedding, today) : byOwner;
   const filtering = owner !== 'all' || onlyRecover;
-  const { done, total } = progress(data.tasks);
+  const { done, total } = progress(allTasks);
 
   const row = (task: Task, recover = false, showYear = false) => (
     <TaskRow
@@ -176,7 +176,7 @@ export function Start() {
             </div>
           </section>
 
-          <Rail tasks={data.tasks} wedding={wedding} today={today} names={settings.names} />
+          <Rail tasks={allTasks} wedding={wedding} today={today} names={settings.names} />
         </div>
       </div>
     </>

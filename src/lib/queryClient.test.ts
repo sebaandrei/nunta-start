@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { DataError } from '../data/errors';
 import { ro } from '../i18n/ro';
 import { errorStatus, errorToMessage, shouldRetry } from './queryClient';
 
@@ -45,5 +46,11 @@ describe('errorToMessage', () => {
     expect(errorToMessage({ code: 'PGRST301' })).toBe(ro.errors.forbidden);
     expect(errorToMessage(new TypeError('Failed to fetch'))).toBe(ro.errors.network);
     expect(errorToMessage(new Error('boom'))).toBe(ro.errors.generic);
+  });
+  it('explains the scenario limits enforced by the database', () => {
+    const max = new DataError('a wedding can have at most 4 budget scenarios', 400, '23514');
+    const min = new DataError('a wedding must keep at least 1 budget scenario', 400, '23514');
+    expect(errorToMessage(max)).toBe(ro.errors.scenarioMax);
+    expect(errorToMessage(min)).toBe(ro.errors.scenarioMin);
   });
 });

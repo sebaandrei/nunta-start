@@ -1,6 +1,7 @@
 import { Info, type LucideIcon, TriangleAlert } from 'lucide-react';
 import {
   type ButtonHTMLAttributes,
+  type ComponentProps,
   type InputHTMLAttributes,
   type ReactNode,
   type SelectHTMLAttributes,
@@ -80,25 +81,37 @@ export function Select({ className, ...props }: SelectHTMLAttributes<HTMLSelectE
   return <select className={inputClasses(className, 'pr-7')} {...props} />;
 }
 
-/** Câmp numeric cu virgulă zecimală. Golul înseamnă null. Textul invalid nu modifică valoarea. */
+/**
+ * Câmp numeric cu virgulă zecimală. Golul înseamnă null. Textul invalid nu modifică valoarea.
+ * Cu `deferred`, valoarea se trimite abia când câmpul pierde focusul (sau la Enter), nu la fiecare tastă:
+ * pentru câmpurile care scriu pe server.
+ */
 export function NumberInput({
   value,
   onChange,
   min,
   integer,
+  deferred,
+  required,
   variant,
   className,
+  onKeyDown,
   ...props
 }: Omit<InputHTMLAttributes<HTMLInputElement>, 'value' | 'onChange' | 'min'> & {
   value: number | null;
   onChange: (value: number | null) => void;
   min?: number;
   integer?: boolean;
+  deferred?: boolean;
+  /** Golul nu e o valoare: nu se trimite, iar câmpul revine la valoarea de dinainte. */
+  required?: boolean;
   variant?: InputVariant;
 }) {
   // Cât nu e editat, numărul are separator de mii („4.500"); la editare, nu („4500").
   const [text, setText] = useState(decimalDisplay(value));
   const [focused, setFocused] = useState(false);
+  // Ultima valoare validă tastată, încă netrimisă (doar cu `deferred`).
+  const pending = useRef<{ value: number | null } | null>(null);
 
   useEffect(() => {
     if (!focused) setText(decimalDisplay(value));
@@ -115,16 +128,82 @@ export function NumberInput({
       }}
       onBlur={() => {
         setFocused(false);
-        setText(decimalDisplay(value));
+        const typed = pending.current && !(required && pending.current.value === null) ? pending.current : null;
+        pending.current = null;
+        if (typed && typed.value !== value) onChange(typed.value);
+        setText(decimalDisplay(typed ? typed.value : value));
+      }}
+      onKeyDown={(e) => {
+        onKeyDown?.(e);
+        if (deferred && e.key === 'Enter') e.currentTarget.blur();
       }}
       onChange={(e) => {
         setText(e.target.value);
         const parsed = parseDecimal(e.target.value);
-        if (parsed === undefined) return;
-        if (parsed !== null && min !== undefined && parsed < min) return;
-        if (parsed !== null && integer && !Number.isInteger(parsed)) return;
-        onChange(parsed);
+        const invalid =
+          parsed === undefined ||
+          (parsed !== null && min !== undefined && parsed < min) ||
+          (parsed !== null && integer && !Number.isInteger(parsed));
+        if (invalid) {
+          pending.current = null;
+          return;
+        }
+        if (deferred) pending.current = { value: parsed };
+        else onChange(parsed);
       }}
+      {...props}
+    />
+  );
+}
+
+/**
+ * Câmp text care își trimite valoarea abia la blur sau Enter (nu la fiecare tastă), pentru câmpurile care
+ * scriu pe server. Se resincronizează cu `value` cât nu e editat (de ex. după o corecție venită de pe server).
+ */
+export function CommitInput({
+  value,
+  onCommit,
+  validate,
+  variant,
+  className,
+  onKeyDown,
+  onFocus,
+  onBlur,
+  ...props
+}: Omit<ComponentProps<'input'>, 'value' | 'onChange'> & {
+  value: string;
+  onCommit: (value: string) => void;
+  /** O valoare respinsă nu se trimite, iar câmpul revine la `value`. */
+  validate?: (value: string) => boolean;
+  variant?: InputVariant;
+}) {
+  const [text, setText] = useState(value);
+  const [focused, setFocused] = useState(false);
+
+  useEffect(() => {
+    if (!focused) setText(value);
+  }, [value, focused]);
+
+  return (
+    <input
+      className={inputClasses(className, undefined, variant)}
+      value={text}
+      onFocus={(e) => {
+        setFocused(true);
+        onFocus?.(e);
+      }}
+      onBlur={(e) => {
+        setFocused(false);
+        onBlur?.(e);
+        if (text === value) return;
+        if (validate && !validate(text)) setText(value);
+        else onCommit(text);
+      }}
+      onKeyDown={(e) => {
+        onKeyDown?.(e);
+        if (e.key === 'Enter') e.currentTarget.blur();
+      }}
+      onChange={(e) => setText(e.target.value)}
       {...props}
     />
   );

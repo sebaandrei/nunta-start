@@ -41,3 +41,13 @@ export function unwrapOne<T>(res: ResponseLike<T>): NonNullable<T> {
 export function isWeddingLimitError(error: unknown): boolean {
   return error instanceof DataError && /wedding limit reached/i.test(error.message);
 }
+
+/** Triggerul din DB: cel mult 4 scenarii de buget pe nuntă. */
+export function isScenarioMaxError(error: unknown): boolean {
+  return error instanceof DataError && /at most 4 budget scenarios/i.test(error.message);
+}
+
+/** Triggerul din DB: o nuntă păstrează cel puțin un scenariu de buget. */
+export function isScenarioMinError(error: unknown): boolean {
+  return error instanceof DataError && /at least 1 budget scenario/i.test(error.message);
+}

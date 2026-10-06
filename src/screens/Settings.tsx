@@ -1,13 +1,13 @@
 import { useNavigate } from '@tanstack/react-router';
 import { Plus, Trash2 } from 'lucide-react';
 import { type ReactNode, useId, useState } from 'react';
-import { ImportButton } from '../components/ImportButton';
 import { MembersPanel } from '../components/MembersPanel';
 import { PageHeader } from '../components/PageHeader';
 import {
   Banner,
   Button,
   Card,
+  CommitInput,
   Dialog,
   Field,
   FieldGroup,
@@ -15,43 +15,41 @@ import {
   IconButton,
   NumberInput,
   Segmented,
-  TextInput,
 } from '../components/ui';
-import { useWeddingAppData } from '../data/hooks';
+import { useSettings } from '../data/hooks';
+import { useDeleteWedding, useWeddingMutation } from '../data/weddingMutations';
 import { isValidISODate } from '../domain/dates';
-
-import { CURRENCIES, MAX_GODPARENT_PAIRS } from '../domain/schema';
+import { CURRENCIES, type GodparentPair, MAX_GODPARENT_PAIRS } from '../domain/schema';
 import { useT } from '../i18n';
-import { downloadBackup } from '../lib/backup';
 import { currencySymbol } from '../lib/format';
 import { useLocale } from '../lib/locale';
 import { paths } from '../lib/paths';
 import { THEME_MODES, useTheme } from '../lib/theme';
-import { useStore } from '../store';
+import { useWedding } from '../lib/wedding';
 
 export function Settings() {
   const t = useT();
-  // Citire de pe server; scrierile (NS-044) încă nu sunt gata, deci cardurile de date sunt doar pentru vizualizare.
-  const data = useWeddingAppData();
-  const updateSettings = useStore((s) => s.updateSettings);
-  const setCity = useStore((s) => s.setCity);
-  const addGodparents = useStore((s) => s.addGodparents);
-  const updateGodparents = useStore((s) => s.updateGodparents);
-  const removeGodparents = useStore((s) => s.removeGodparents);
-  const markExported = useStore((s) => s.markExported);
-  const reset = useStore((s) => s.reset);
+  const { id: weddingId, wedding, canEdit } = useWedding();
+  const settings = useSettings();
+  const updateWedding = useWeddingMutation(weddingId);
+  const deleteWedding = useDeleteWedding(weddingId);
   const navigate = useNavigate();
   const locale = useLocale((s) => s.locale);
   const setLocale = useLocale((s) => s.setLocale);
   const mode = useTheme((s) => s.mode);
   const setMode = useTheme((s) => s.setMode);
-  const [message, setMessage] = useState<{ tone: 'ok' | 'error'; text: string } | null>(null);
   const [confirming, setConfirming] = useState(false);
   const [rateEmpty, setRateEmpty] = useState(false);
   const rateHintId = useId();
   const rateErrorId = useId();
-  const { settings } = data;
+  const downloadHintId = useId();
+  const readOnly = !canEdit('settings');
+  const isOwner = wedding.role === 'owner';
   const godparents = settings.godparents;
+
+  const setGodparents = (next: GodparentPair[]) => updateWedding({ godparents: next });
+  const changeGodparent = (index: number, patch: Partial<GodparentPair>) =>
+    setGodparents(godparents.map((pair, i) => (i === index ? { ...pair, ...patch } : pair)));
 
   return (
     <>
@@ -60,24 +58,25 @@ export function Settings() {
         title={t.pages.settings.title}
         subtitle={t.pages.settings.subtitle}
       />
-      <Banner className="mb-5">{t.readOnlySoon}</Banner>
+      {readOnly && <Banner className="mb-5">{t.settings.readOnly}</Banner>}
       <div className="grid items-start gap-5 lg:grid-cols-3">
         <Card className="p-5 md:p-6 lg:col-span-3">
           <CardHeading title={t.settings.detailsTitle} hint={t.settings.detailsHint} />
-          <fieldset disabled className="m-0 mt-5 min-w-0 space-y-5 border-0 p-0">
+          <fieldset disabled={readOnly} className="m-0 mt-5 min-w-0 space-y-5 border-0 p-0">
             <Field label={t.settings.weddingDateLabel}>
-              <TextInput
+              <CommitInput
                 type="date"
                 value={settings.weddingDate}
-                onChange={(e) => isValidISODate(e.target.value) && updateSettings({ weddingDate: e.target.value })}
+                validate={isValidISODate}
+                onCommit={(date) => updateWedding({ date })}
               />
             </Field>
             <Field label={t.settings.city}>
-              <TextInput
+              <CommitInput
                 value={settings.city}
                 placeholder={t.settings.cityPlaceholder}
                 autoComplete="off"
-                onChange={(e) => setCity(e.target.value)}
+                onCommit={(city) => updateWedding({ city })}
               />
             </Field>
 
@@ -85,13 +84,10 @@ export function Settings() {
               <div className="grid gap-3 sm:grid-cols-2">
                 {[t.settings.partner1, t.settings.partner2].map((label, i) => (
                   <Field key={label} label={label}>
-                    <TextInput
+                    <CommitInput
                       value={settings.names[i]}
-                      onChange={(e) => {
-                        const names: [string, string] = [...settings.names];
-                        names[i] = e.target.value;
-                        updateSettings({ names });
-                      }}
+                      validate={(name) => name.trim() !== ''}
+                      onCommit={(name) => updateWedding(i === 0 ? { partner1: name } : { partner2: name })}
                     />
                   </Field>
                 ))}
@@ -105,21 +101,24 @@ export function Settings() {
                   <li key={i} className="flex items-end gap-2">
                     <div className="grid min-w-0 flex-1 gap-3 sm:grid-cols-2">
                       <Field label={t.settings.godmother}>
-                        <TextInput
+                        <CommitInput
                           value={pair.godmother}
                           placeholder={t.settings.godmotherPlaceholder}
-                          onChange={(e) => updateGodparents(i, { godmother: e.target.value })}
+                          onCommit={(godmother) => changeGodparent(i, { godmother })}
                         />
                       </Field>
                       <Field label={t.settings.godfather}>
-                        <TextInput
+                        <CommitInput
                           value={pair.godfather}
                           placeholder={t.settings.godfatherPlaceholder}
-                          onChange={(e) => updateGodparents(i, { godfather: e.target.value })}
+                          onCommit={(godfather) => changeGodparent(i, { godfather })}
                         />
                       </Field>
                     </div>
-                    <IconButton label={t.settings.removeGodparents(i + 1)} onClick={() => removeGodparents(i)}>
+                    <IconButton
+                      label={t.settings.removeGodparents(i + 1)}
+                      onClick={() => setGodparents(godparents.filter((_, j) => j !== i))}
+                    >
                       <Trash2 size={18} aria-hidden="true" />
                     </IconButton>
                   </li>
@@ -129,7 +128,7 @@ export function Settings() {
                 variant="secondary"
                 className={godparents.length > 0 ? 'mt-3' : undefined}
                 disabled={godparents.length >= MAX_GODPARENT_PAIRS}
-                onClick={addGodparents}
+                onClick={() => setGodparents([...godparents, { godmother: '', godfather: '' }])}
               >
                 <Plus size={16} aria-hidden="true" />
                 {t.settings.addGodparents}
@@ -161,19 +160,23 @@ export function Settings() {
               />
             </PrefRow>
             <PrefRow label={t.settings.displayLabel} hint={t.settings.displayHint}>
-              <fieldset disabled className="contents">
+              <fieldset disabled={readOnly} className="contents">
                 <Segmented
                   label={t.settings.displayLabel}
                   value={settings.displayCurrency}
-                  onChange={(c) => updateSettings({ displayCurrency: c })}
+                  onChange={(c) => updateWedding({ displayCurrency: c })}
                   options={CURRENCIES.map((c) => ({ value: c, label: c }))}
                 />
               </fieldset>
             </PrefRow>
             <PrefRow label={t.settings.rateLabel} hint={t.settings.rateHint} hintId={rateHintId}>
-              <fieldset disabled className="m-0 flex min-w-0 items-center gap-2 border-0 p-0 text-sm text-muted">
+              <fieldset
+                disabled={readOnly}
+                className="m-0 flex min-w-0 items-center gap-2 border-0 p-0 text-sm text-muted"
+              >
                 <span className="whitespace-nowrap">{t.calc.ratePrefix}</span>
                 <NumberInput
+                  deferred
                   aria-label={t.settings.rateLabel}
                   aria-describedby={rateEmpty ? `${rateHintId} ${rateErrorId}` : rateHintId}
                   aria-invalid={rateEmpty}
@@ -182,7 +185,7 @@ export function Settings() {
                   value={settings.eurRate}
                   onChange={(v) => {
                     setRateEmpty(v === null);
-                    if (v !== null && v > 0) updateSettings({ eurRate: v });
+                    if (v !== null && v > 0) updateWedding({ eurRate: v });
                   }}
                 />
                 <span>{currencySymbol('RON')}</span>
@@ -198,36 +201,16 @@ export function Settings() {
 
         <Card className="p-5 md:p-6">
           <CardHeading title={t.settings.dataTitle} hint={t.settings.dataHint} />
-          <fieldset disabled className="m-0 mt-4 min-w-0 border-0 border-t border-line p-0 pt-4">
-            <div>
-              <p className="text-sm font-medium">{t.settings.downloadTitle}</p>
-              <p className="mt-1 text-xs text-muted">{t.settings.downloadHint}</p>
-              <Button
-                className="mt-3 w-full"
-                onClick={() => {
-                  downloadBackup(data, markExported);
-                  setMessage(null);
-                }}
-              >
-                {t.settings.downloadButton}
-              </Button>
-              <div className="mt-2">
-                <ImportButton
-                  variant="link"
-                  className="min-h-11 md:min-h-8"
-                  confirmMessage={t.settings.confirmImport}
-                  onImported={() => setMessage({ tone: 'ok', text: t.settings.imported })}
-                  onError={(error) => setMessage({ tone: 'error', text: `${t.backupErrors[error]} ${t.backupKept}` })}
-                >
-                  {t.settings.importLink}
-                </ImportButton>
-              </div>
-              {message && (
-                <p role="status" className={`mt-2 text-sm ${message.tone === 'error' ? 'text-minus' : 'text-plus'}`}>
-                  {message.text}
-                </p>
-              )}
-            </div>
+          <div className="mt-4 border-t border-line pt-4">
+            <p className="text-sm font-medium">{t.settings.downloadTitle}</p>
+            <p id={downloadHintId} className="mt-1 text-xs text-muted">
+              {t.settings.downloadHint}
+            </p>
+            <Button className="mt-3 w-full" disabled aria-describedby={downloadHintId}>
+              {t.settings.downloadButton}
+            </Button>
+          </div>
+          {isOwner && (
             <div className="mt-4 rounded-xl border border-minus/30 bg-minus/10 p-4">
               <p className="text-sm font-medium">{t.settings.deleteTitle}</p>
               <p className="mt-1 text-xs text-muted">{t.settings.deleteHint}</p>
@@ -235,36 +218,40 @@ export function Settings() {
                 {t.settings.deleteButton}
               </Button>
             </div>
-          </fieldset>
+          )}
         </Card>
       </div>
 
       <MembersPanel selfName={settings.names[0]} onLeft={() => void navigate({ to: paths.workspaces })} />
 
-      <Dialog
-        open={confirming}
-        onClose={() => setConfirming(false)}
-        title={t.settings.dialogTitle}
-        actions={
-          <>
-            <Button variant="ghost" autoFocus onClick={() => setConfirming(false)}>
-              {t.settings.cancel}
-            </Button>
-            <Button
-              variant="dangerSolid"
-              onClick={() => {
-                setConfirming(false);
-                void navigate({ to: paths.workspaces });
-                reset();
-              }}
-            >
-              {t.settings.deleteButton}
-            </Button>
-          </>
-        }
-      >
-        {t.settings.dialogBody}
-      </Dialog>
+      {isOwner && (
+        <Dialog
+          open={confirming}
+          onClose={() => setConfirming(false)}
+          title={t.settings.dialogTitle}
+          actions={
+            <>
+              <Button variant="ghost" autoFocus onClick={() => setConfirming(false)}>
+                {t.settings.cancel}
+              </Button>
+              <Button
+                variant="dangerSolid"
+                disabled={deleteWedding.isPending}
+                onClick={() =>
+                  deleteWedding.mutate(undefined, {
+                    onSuccess: () => void navigate({ to: paths.workspaces }),
+                    onSettled: () => setConfirming(false),
+                  })
+                }
+              >
+                {t.settings.deleteButton}
+              </Button>
+            </>
+          }
+        >
+          {t.settings.dialogBody(wedding.name)}
+        </Dialog>
+      )}
     </>
   );
 }
