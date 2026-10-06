@@ -191,6 +191,9 @@ export const ro = {
     names: 'Numele voastre',
     rate: 'Curs EUR / RON',
     display: 'Afișează totalurile în',
+    language: 'Limbă',
+    appearance: 'Aspect',
+    themes: { system: 'Sistem', light: 'Luminos', dark: 'Întunecat' },
     backup: 'Salvare',
     lastBackup: (days: number | null) => {
       if (days === null) return 'nicio copie descărcată';

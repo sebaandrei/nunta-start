@@ -188,6 +188,9 @@ export const en: Messages = {
     names: 'Your names',
     rate: 'EUR / RON rate',
     display: 'Show totals in',
+    language: 'Language',
+    appearance: 'Appearance',
+    themes: { system: 'System', light: 'Light', dark: 'Dark' },
     backup: 'Backup',
     lastBackup: (days: number | null) => {
       if (days === null) return 'no copy downloaded';
