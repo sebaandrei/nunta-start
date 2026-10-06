@@ -36,6 +36,8 @@ jobs:
       - run: npx supabase start -x gotrue,realtime,storage-api,imgproxy,kong,mailpit,postgrest,postgres-meta,studio,edge-runtime,logflare,vector,supavisor
       - run: npx supabase db reset
       - run: npx supabase test db
+      # Erori de schemă și de plpgsql (nu avertismente): CI pică doar la nivel `error`.
+      - run: npx supabase db lint --local --level error --fail-on error
       - run: npm run db:types
       - name: Check generated DB types are up to date
         run: |
