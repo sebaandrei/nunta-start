@@ -43,3 +43,15 @@ jobs:
             echo "::error file=src/types/database.ts::DB types are out of date. Run 'npm run db:reset && npm run db:types' and commit src/types/database.ts."
             exit 1
           fi
+
+  migrations-plan:
+    # Doar citire: fără secrete, fără acces la cloud. Migrațiile se aplică doar
+    # după merge, de deploy.yml (staging automat, producție după aprobare).
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Check migrations
+        run: scripts/check-migrations.sh origin/main
