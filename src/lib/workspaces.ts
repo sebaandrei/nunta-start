@@ -1,7 +1,5 @@
 import { isValidISODate, parseISODate } from '../domain/dates';
-import type { AppData } from '../domain/schema';
 import type { Messages } from '../i18n';
-import { useStore } from '../store';
 import { formatDate } from './format';
 
 export const ROLES = ['owner', 'partner', 'planner', 'helper', 'viewer'] as const;
@@ -25,8 +23,6 @@ export interface WorkspacesClient {
   list(): Promise<Workspace[]>;
 }
 
-export const LOCAL_WORKSPACE_ID = 'local';
-
 export function roleLabel(role: Role, t: Messages): string {
   return t.workspaces.roles[role];
 }
@@ -37,19 +33,6 @@ export function coupleName(names: readonly string[]): string {
     .map((n) => n.trim())
     .filter(Boolean)
     .join(' & ');
-}
-
-/** Singura nuntă din browser, ca spațiu cu rol de proprietar; `null` când nu sunt date. */
-export function localWorkspace(data: AppData | null): Workspace | null {
-  if (!data) return null;
-  const { names, weddingDate, city } = data.settings;
-  return {
-    id: LOCAL_WORKSPACE_ID,
-    name: coupleName(names),
-    date: weddingDate || null,
-    city: city.trim() || null,
-    role: 'owner',
-  };
 }
 
 /** „23 ianuarie 2027 · Brașov"; părțile lipsă sau invalide se omit, iar fără nimic dă șir gol. */
@@ -67,15 +50,3 @@ export function workspaceInitials(name: string): string {
   if (parts.length >= 2) return `${parts[0][0]}&${parts[1][0]}`.toUpperCase();
   return (parts[0] ?? '').slice(0, 2).toUpperCase();
 }
-
-/** Clientul implicit: arată nunta salvată local, dacă există. Funcționează azi, fără server. */
-export function createLocalWorkspacesClient(getData: () => AppData | null): WorkspacesClient {
-  return {
-    list: () => {
-      const ws = localWorkspace(getData());
-      return Promise.resolve(ws ? [ws] : []);
-    },
-  };
-}
-
-export const localWorkspacesClient = createLocalWorkspacesClient(() => useStore.getState().data);

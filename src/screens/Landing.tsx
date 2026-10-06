@@ -5,7 +5,7 @@ import { ThemeIconButton } from '../components/ShellControls';
 import { cx } from '../components/ui';
 import { useT } from '../i18n';
 import { paths, signUpPath } from '../lib/paths';
-import { useStore } from '../store';
+import { useSession } from '../lib/session';
 
 const FOCUS_RING = 'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent';
 const LABEL = 'text-[11px] font-semibold uppercase tracking-[0.1em]';
@@ -13,7 +13,7 @@ const LABEL = 'text-[11px] font-semibold uppercase tracking-[0.1em]';
 /** Pagina publică: fără meniul aplicației, la `/`. */
 export function Landing() {
   const t = useT();
-  const hasData = useStore((s) => s.data !== null);
+  const hasData = useSession((s) => s.status === 'signedIn');
   const ctaPath = hasData ? paths.workspaces : signUpPath;
   const ctaLabel = hasData ? t.landing.ctaOpen : t.landing.cta;
 

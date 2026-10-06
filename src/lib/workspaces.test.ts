@@ -1,22 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { createInitialData } from '../domain/initial';
-import type { AppData } from '../domain/schema';
 import { getMessages } from '../i18n';
-import {
-  coupleName,
-  createLocalWorkspacesClient,
-  dateAndCity,
-  LOCAL_WORKSPACE_ID,
-  localWorkspace,
-  ROLES,
-  roleLabel,
-  workspaceInitials,
-} from './workspaces';
-
-const data = (patch: Partial<AppData['settings']> = {}): AppData => {
-  const d = createInitialData({ weddingDate: '2027-01-23', names: ['Ana', 'Mihai'], guests: null }, new Date());
-  return { ...d, settings: { ...d.settings, ...patch } };
-};
+import { coupleName, dateAndCity, ROLES, roleLabel, workspaceInitials } from './workspaces';
 
 describe('ROLES', () => {
   it('matches the database member_role enum', () => {
@@ -38,33 +22,6 @@ describe('coupleName', () => {
     expect(coupleName(['Ana', 'Mihai'])).toBe('Ana & Mihai');
     expect(coupleName([' Ana ', ''])).toBe('Ana');
     expect(coupleName(['', ' '])).toBe('');
-  });
-});
-
-describe('localWorkspace', () => {
-  it('is null without local data', () => {
-    expect(localWorkspace(null)).toBeNull();
-  });
-  it('derives name, date, city and the owner role from settings', () => {
-    expect(localWorkspace(data({ city: ' Brașov ' }))).toEqual({
-      id: LOCAL_WORKSPACE_ID,
-      name: 'Ana & Mihai',
-      date: '2027-01-23',
-      city: 'Brașov',
-      role: 'owner',
-    });
-  });
-  it('leaves the city empty when blank', () => {
-    expect(localWorkspace(data({ city: '  ' }))?.city).toBeNull();
-  });
-});
-
-describe('createLocalWorkspacesClient', () => {
-  it('lists the single local wedding, or nothing', async () => {
-    expect(await createLocalWorkspacesClient(() => null).list()).toEqual([]);
-    const list = await createLocalWorkspacesClient(() => data()).list();
-    expect(list).toHaveLength(1);
-    expect(list[0].role).toBe('owner');
   });
 });
 

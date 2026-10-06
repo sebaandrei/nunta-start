@@ -11,16 +11,16 @@ Are două părți:
 - **Start:** ce aveți de făcut și până când. Sunt 61 de taskuri românești, cu termene calculate din data nunții.
 - **Calculator:** cât vă costă nunta și dacă ieșiți pe zero, în 1–4 scenarii de invitați. Arată și darul de echilibru și ce mai e de plătit.
 
-Nu are cont și nici server. Datele rămân în browserul vostru, iar o copie se poate descărca oricând.
+Accesul e pe invitație: vă conectați cu un cod trimis pe email (sau cu Google), iar planul se salvează în contul vostru, pe server, și îl puteți deschide de pe orice dispozitiv.
 
 Nu e încă o aplicație de wedding planning. Lista de invitați rămâne unde o țineți deja (WeddingWire, Excel). Aici e doar partea care lipsește din ele: ce urmează și cât costă.
 
 ## Cum se folosește
 
-1. Deschideți pagina și scrieți data nunții și prenumele voastre.
+1. Conectați-vă, apoi creați nunta: data și prenumele voastre.
 2. Uitați-vă în **Start**: taskurile sunt grupate pe etape, cu ce aveți de făcut acum sus. Ce era deja de făcut când ați început apare în „De recuperat".
 3. Completați prețurile în **Calculator**. Fiecare linie e fie pe invitat (meniu, băuturi), fie fixă (formație, foto-video).
-4. Din **Setări**, descărcați din când în când o copie. Pe un alt telefon, sau la partener, o încărcați la loc.
+4. Din **Setări** schimbați data, orașul, cursul sau moneda. Modificările se salvează automat.
 
 ## Dezvoltare
 
@@ -35,13 +35,14 @@ npm run format   # Biome: aplică formatarea și ordinea importurilor
 npm run build    # build în dist/
 ```
 
-Stack: Vite, React, TypeScript, Zustand, Zod, Tailwind CSS v4, Vitest, Biome.
+Stack: Vite, React, TypeScript, TanStack Router/Query, Supabase, Zustand (doar stare de interfață), Zod, Tailwind CSS v4, Vitest, Biome.
 
 ```
 src/
   domain/      calculele și regulile (buget, etape, termene), fără React
   content/     șablonul de taskuri și liniile de buget, în JSON
-  storage/     salvarea în browser și copia descărcabilă
+  data/        accesul la Supabase: query-uri, mutații, mapări
+  lib/         sesiune, rute, teme, limbă
   screens/     ecranele
   components/  piese de interfață comune
   i18n/ro.ts   toate textele interfeței
