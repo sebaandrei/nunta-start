@@ -120,7 +120,6 @@ export const ro = {
   pages: {
     home: { subtitle: 'Încă puțin și începe povestea voastră. Iată ce urmează.' },
     tasks: {
-      readOnly: 'Aveți acces doar pentru citire: taskurile nu pot fi modificate.',
       title: 'Planul de pregătire',
       subtitle: 'Un pas pe rând. Vedeți ce e important acum și ce urmează.',
     },
@@ -394,6 +393,7 @@ export const ro = {
   },
 
   tasks: {
+    readOnly: 'Aveți acces doar pentru citire: taskurile nu pot fi modificate.',
     byStage: 'Pe etape',
     byCategory: 'Pe categorii',
     ownerFilter: 'Responsabil',

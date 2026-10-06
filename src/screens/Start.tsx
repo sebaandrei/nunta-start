@@ -2,8 +2,9 @@ import { ChevronDown, ListChecks, Plus } from 'lucide-react';
 import { type ReactNode, useState } from 'react';
 import { PageHeader } from '../components/PageHeader';
 import { TaskRow } from '../components/TaskRow';
-import { Button, Card, cx, EmptyState, FilterChip, ProgressBar, Segmented } from '../components/ui';
+import { Banner, Button, Card, cx, EmptyState, FilterChip, ProgressBar, Segmented } from '../components/ui';
 import { useWeddingAppData } from '../data/hooks';
+import { useTaskActions } from '../data/taskActions';
 import { parseISODate } from '../domain/dates';
 import type { Task } from '../domain/schema';
 import {
@@ -23,7 +24,7 @@ import {
 import { useT } from '../i18n';
 import { formatDayMonth } from '../lib/format';
 import { useToday } from '../lib/useToday';
-import { useStore } from '../store';
+import { useWedding } from '../lib/wedding';
 
 type View = 'stages' | 'categories';
 
@@ -32,7 +33,9 @@ const EYEBROW = 'text-[11px] font-semibold uppercase tracking-[0.08em] text-mute
 export function Start() {
   const t = useT();
   const data = useWeddingAppData();
-  const addTask = useStore((s) => s.addTask);
+  const { id: weddingId, canEdit } = useWedding();
+  const actions = useTaskActions(weddingId);
+  const readOnly = !canEdit('tasks');
   const today = useToday();
   const [view, setView] = useState<View>('stages');
   const [owner, setOwner] = useState<OwnerFilter>('all');
@@ -58,6 +61,8 @@ export function Start() {
       recover={recover}
       showYear={showYear}
       expanded={openId === task.id}
+      readOnly={readOnly}
+      actions={actions}
       onToggle={() => setOpenId((id) => (id === task.id ? null : task.id))}
     />
   );
@@ -68,7 +73,7 @@ export function Start() {
   };
 
   const onAdd = () => {
-    const id = addTask();
+    const id = actions.add();
     setView('stages');
     clearFilters();
     setGroupOpen({});
@@ -86,12 +91,15 @@ export function Start() {
         title={t.pages.tasks.title}
         subtitle={t.pages.tasks.subtitle}
         action={
-          <Button onClick={onAdd}>
-            <Plus size={16} aria-hidden="true" />
-            {t.tasks.add}
-          </Button>
+          readOnly ? undefined : (
+            <Button onClick={onAdd}>
+              <Plus size={16} aria-hidden="true" />
+              {t.tasks.add}
+            </Button>
+          )
         }
       />
+      {readOnly && <Banner className="mb-6">{t.tasks.readOnly}</Banner>}
       <div className="space-y-6">
         <StageTimeline wedding={wedding} today={today} />
 

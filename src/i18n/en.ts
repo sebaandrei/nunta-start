@@ -115,7 +115,6 @@ export const en: Messages = {
   pages: {
     home: { subtitle: 'Your story is about to begin. Here is what comes next.' },
     tasks: {
-      readOnly: 'You have read-only access: tasks cannot be changed.',
       title: 'Your preparation plan',
       subtitle: 'One step at a time. See what matters now and what comes next.',
     },
@@ -388,6 +387,7 @@ export const en: Messages = {
   },
 
   tasks: {
+    readOnly: 'You have read-only access: tasks cannot be changed.',
     byStage: 'By stage',
     byCategory: 'By category',
     ownerFilter: 'Owner',
