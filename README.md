@@ -35,13 +35,14 @@ npm run format   # Biome: aplică formatarea și ordinea importurilor
 npm run build    # build în dist/
 ```
 
-Stack: Vite, React, TypeScript, Zustand, Zod, Tailwind CSS v4, Vitest, Biome.
+Stack: Vite, React, TypeScript, TanStack Router/Query, Supabase, Zustand (doar stare de interfață), Zod, Tailwind CSS v4, Vitest, Biome.
 
 ```
 src/
   domain/      calculele și regulile (buget, etape, termene), fără React
   content/     șablonul de taskuri și liniile de buget, în JSON
-  storage/     salvarea în browser și copia descărcabilă
+  data/        accesul la Supabase: query-uri, mutații, mapări
+  lib/         sesiune, rute, teme, limbă
   screens/     ecranele
   components/  piese de interfață comune
   i18n/ro.ts   toate textele interfeței

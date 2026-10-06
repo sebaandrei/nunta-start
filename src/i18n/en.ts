@@ -531,20 +531,6 @@ export const en: Messages = {
     language: 'Language',
     appearance: 'Appearance',
     themes: { system: 'System', light: 'Light', dark: 'Dark' },
-    backup: 'Backup',
-    lastBackup: (days: number | null) => {
-      if (days === null) return 'no copy downloaded';
-      if (days === 0) return 'last copy downloaded: today';
-      return `last copy downloaded: ${countLabel(days, 'day', 'days', 'en')} ago`;
-    },
-    backupExplain:
-      'Your data is saved only in this browser. If you clear the browser data or change phones, you lose it without a copy.',
-    download: 'Download a copy',
-    importExplain: 'Continue on another device or load the copy you received from your partner.',
-    import: 'Load a copy',
-    resetExplain: 'Delete everything and start from scratch.',
-    reset: 'Delete everything',
-    confirmReset: 'Delete all the data in this browser? It cannot be recovered without a copy.',
     detailsTitle: 'Wedding details',
     detailsHint: 'The wedding date sets your task deadlines.',
     weddingDateLabel: 'Wedding date',

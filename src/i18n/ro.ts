@@ -536,20 +536,6 @@ export const ro = {
     language: 'Limbă',
     appearance: 'Aspect',
     themes: { system: 'Sistem', light: 'Luminos', dark: 'Întunecat' },
-    backup: 'Salvare',
-    lastBackup: (days: number | null) => {
-      if (days === null) return 'nicio copie descărcată';
-      if (days === 0) return 'ultima copie descărcată: azi';
-      return `ultima copie descărcată: acum ${countLabel(days, 'zi', 'zile')}`;
-    },
-    backupExplain:
-      'Datele sunt salvate doar în acest browser. Dacă ștergeți datele browserului sau schimbați telefonul, le pierdeți fără o copie.',
-    download: 'Descarcă o copie',
-    importExplain: 'Continuați pe alt dispozitiv sau încărcați copia primită de la partener.',
-    import: 'Încarcă o copie',
-    resetExplain: 'Șterge tot și pornește de la zero.',
-    reset: 'Șterge tot',
-    confirmReset: 'Ștergeți toate datele din acest browser? Nu se pot recupera fără o copie.',
     detailsTitle: 'Detaliile nunții',
     detailsHint: 'Data nunții stabilește termenele taskurilor.',
     weddingDateLabel: 'Data nunții',
