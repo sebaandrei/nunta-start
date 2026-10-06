@@ -77,7 +77,7 @@ If your real weekly hours differ, rescale: the order of the tasks stays the same
 | NS-007 | P0 | Install TanStack Router; replace the hash tabs with `/`, `/start`, `/calculator`, `/settings` (same screens) | 3 | NS-004 | Each tab has a URL; back/forward work; tests pass | ✅ |
 | NS-008 | P1 | i18n split: `text.ts` → `src/i18n/ro.ts` + a `Messages` type + a `useT()` hook; templates move to `src/content/ro/` | 3 | – | There's no import of `text.ts`; typecheck catches a missing key | ✅ |
 | NS-009 | P1 | Observability: Grafana Cloud Frontend Observability (Faro) instead of Sentry. Create the Faro app; `@grafana/faro-web-sdk` init with the collector URL from env; upload source maps from the Pages build; no user identity sent | 2 | NS-002 | A test error appears in Grafana with a readable stack. Collector connection verified in prod 2026-10-05; source map check skipped | ✅ |
-| NS-010 | P2 | UptimeRobot HTTP monitor on `theromans.thedevopsguy.ro` with email alert | 0.5 | NS-003 | The monitor is green | ⬜ |
+| NS-010 | P2 | UptimeRobot HTTP monitor on `theromans.thedevopsguy.ro` with email alert | 0.5 | NS-003 | The monitor is green | ➡️ |
 | NS-011 | P0 | Create Supabase projects `nunta-prod` and `nunta-staging` in **eu-central-1**; save their keys in GitHub Environments `production` / `staging` | 1 | – | Both projects are active; secrets are set | ✅ |
 | NS-012 | P0 | `supabase init`, local Docker stack, `npm run db:start` / `db:reset` scripts, README dev section | 2 | NS-011 | `db:reset` runs clean locally | ✅ |
 | NS-013 | P0 | CI skeleton: lint → typecheck → vitest → `supabase start` → `db reset` → `supabase test db` (placeholder) → build | 3 | NS-006, NS-012 | A PR shows all jobs green | ✅ |
@@ -104,6 +104,23 @@ If your real weekly hours differ, rescale: the order of the tasks stays the same
 | NS-029 | P0 | Migration: `budget_settings`, `budget_scenarios` (1–4 enforced by trigger), `budget_lines` + RLS + pgTAP | 3 | NS-026 | Tests are green, including the 5th-scenario rejection | ✅ |
 
 ---
+
+## Scope reset · 2026-10-06 (supersedes the sprint dates below)
+
+The product is now an **invite-only app for the owner and friends** (2-3 workspaces), Romanian first, live collaboration required, **not promoted**. The decisions are in section 0 of [the roadmap](docs/plans/2026-10-05-production-roadmap.md). The sprint table and the dates further down predate this reset: the order of work is below, and the dates will be re-planned once the backend core lands.
+
+**Order:** (1) backend core, (2) auth, (3) the app on Supabase, (4) live collaboration and invitations, (5) guest list, (6) public RSVP, (7) day-of timeline, (8) custom pages, (9) hardening.
+
+**Deferred (➡️):** seating and OPIS (NS-100 to NS-112), vendors and payments (NS-090 to NS-096, vendors become a custom page), digest and activity feed UI (NS-130 to NS-136), presence (NS-055), UptimeRobot (NS-010) and the public landing prerender (NS-146). NS-060 stays, as a draft behind a banner, until the owner opens the app up. NS-023 (Turnstile) now only protects the public RSVP page.
+
+| ID | P | Task | Est | Deps | Done when | Status |
+|---|---|---|---|---|---|---|
+| NS-301 | P0 | Invite-only sign-up: `allowed_emails` table (no client access) and a `BEFORE INSERT` trigger on `auth.users` raising `signup_not_allowed`; runbook to add a friend | 2 | NS-024 | pgTAP: allowed email passes, others are rejected, case-insensitive | 🟨 |
+| NS-302 | P0 | Sign-in copy for invite-only: map `signup_not_allowed` to "Acces pe invitație", drop the "Creați un spațiu nou" CTA for strangers on the landing and sign-in | 1 | NS-022, NS-301 | A non-allowlisted Google or email sign-in shows the invite-only message | ⬜ |
+| NS-303 | P0 | Custom pages, schema: `collections`, `collection_fields`, `collection_records` with a validation trigger (required fields, types, choice values), RLS by wedding, realtime trigger | 5 | NS-053 | pgTAP: valid record accepted, missing required or wrong type rejected, outsider sees nothing | ⬜ |
+| NS-304 | P0 | Custom pages, UI: create a page, define fields, add and edit records (table on desktop, cards on mobile), live updates | 6 | NS-303, NS-041 | A page with a required field works end to end, synced between two browsers | ⬜ |
+| NS-305 | P1 | Custom page templates shipped in `src/content/ro/collections/` (Furnizor, Cadouri, Luna de miere) with a "start from a template" step | 3 | NS-304 | Each template creates a ready page | ⬜ |
+| NS-306 | P1 | Operational data-access controls: `docs/runbooks/data-access.md` (what the operator may and may not do), service-role use logged and reviewed, privacy text reworded to match | 2 | NS-060 | The runbook exists; the privacy text states the real access | ⬜ |
 
 ## Design track · redesign from `design.pen` (runs next to S2/S3)
 
@@ -167,7 +184,7 @@ If your real weekly hours differ, rescale: the order of the tasks stays the same
 
 | ID | P | Task | Est | Deps | Done when | Status |
 |---|---|---|---|---|---|---|
-| NS-055 | P2 | Presence: avatars of members currently online in the header | 2 | NS-054 | The partner's avatar appears while they're online | ⬜ |
+| NS-055 | P2 | Presence: avatars of members currently online in the header | 2 | NS-054 | The partner's avatar appears while they're online | ➡️ |
 | NS-060 | P0 | Privacy policy + terms pages (RO) at `/privacy` and `/terms`, linked in the footer and on the OAuth consent screen. They list the sub-processors | 3 | NS-041 | Pages are live; legal review requested | ⬜ |
 | NS-061 | P0 | "Download my data": an RPC returning JSON of every wedding the user owns | 2 | NS-043 | The file contains all tables for those weddings | ⬜ |
 | NS-062 | P0 | Delete account: an Edge Function (service role) that removes memberships, soft-deletes weddings where the user is the last owner, plus a 30-day hard-purge cron | 3 | NS-052 | The account is gone; the wedding is purged after 30 days (tested with a shortened interval) | ⬜ |
@@ -214,13 +231,13 @@ If your real weekly hours differ, rescale: the order of the tasks stays the same
 
 | ID | P | Task | Est | Deps | Done when | Status |
 |---|---|---|---|---|---|---|
-| NS-090 | P0 | Migration: `vendors`, `vendor_files`, `payments` + RLS + pgTAP; move `budget_lines.paid` into payment rows, then drop the column | 4 | NS-029 | Existing paid amounts are preserved as payments | ⬜ |
-| NS-091 | P0 | Private Storage bucket `contracts`: path `wedding_id/…`, RLS by membership, 10 MB limit | 2 | NS-090 | An outsider can't fetch a file (pgTAP + manual check) | ⬜ |
-| NS-092 | P0 | `src/domain/budget.ts`: compute paid from payments; update the tests while keeping the v1 reference numbers | 3 | NS-090 | Vitest is green with the same totals | ⬜ |
-| NS-093 | P0 | Vendors UI: list + detail (contact, notes, linked budget lines) | 4 | NS-090 | CRUD works on desktop and mobile | ⬜ |
-| NS-094 | P1 | Contract upload and download through signed URLs | 3 | NS-091, NS-093 | A PDF uploads and opens | ⬜ |
-| NS-095 | P0 | Payment schedule UI per vendor or line: add installment, due date, mark paid | 4 | NS-092, NS-093 | The budget's "remaining" updates live | ⬜ |
-| NS-096 | P1 | Home screen: "Upcoming payments" widget (next 30 days) | 2 | NS-095 | Shows the correct items | ⬜ |
+| NS-090 | P0 | Migration: `vendors`, `vendor_files`, `payments` + RLS + pgTAP; move `budget_lines.paid` into payment rows, then drop the column | 4 | NS-029 | Existing paid amounts are preserved as payments | ➡️ |
+| NS-091 | P0 | Private Storage bucket `contracts`: path `wedding_id/…`, RLS by membership, 10 MB limit | 2 | NS-090 | An outsider can't fetch a file (pgTAP + manual check) | ➡️ |
+| NS-092 | P0 | `src/domain/budget.ts`: compute paid from payments; update the tests while keeping the v1 reference numbers | 3 | NS-090 | Vitest is green with the same totals | ➡️ |
+| NS-093 | P0 | Vendors UI: list + detail (contact, notes, linked budget lines) | 4 | NS-090 | CRUD works on desktop and mobile | ➡️ |
+| NS-094 | P1 | Contract upload and download through signed URLs | 3 | NS-091, NS-093 | A PDF uploads and opens | ➡️ |
+| NS-095 | P0 | Payment schedule UI per vendor or line: add installment, due date, mark paid | 4 | NS-092, NS-093 | The budget's "remaining" updates live | ➡️ |
+| NS-096 | P1 | Home screen: "Upcoming payments" widget (next 30 days) | 2 | NS-095 | Shows the correct items | ➡️ |
 
 ---
 
@@ -230,12 +247,12 @@ If your real weekly hours differ, rescale: the order of the tasks stays the same
 
 | ID | P | Task | Est | Deps | Done when | Status |
 |---|---|---|---|---|---|---|
-| NS-100 | P0 | Migration: `seating_tables` (number, name, kind `prezidiu`/`regular`/`kids`, capacity) + `guests.table_id`/`seat_no` + RLS + pgTAP | 2 | NS-070 | Tests are green | ⬜ |
-| NS-105 | P0 | Attach the realtime and audit triggers to the seating tables | 0.5 | NS-100 | Live updates work | ⬜ |
-| NS-104 | P0 | Domain: seating stats + OPIS sort with `Intl.Collator('ro')` (ă, â, î, ș, ț ordering) + tests | 3 | – | Vitest covers the diacritics ordering | ⬜ |
-| NS-101 | P0 | Tables CRUD UI | 3 | NS-100 | Tables can be created, renamed and deleted | ⬜ |
-| NS-102 | P0 | Desktop seating board with `dnd-kit`: an unassigned column, table cards, capacity warnings | 6 | NS-101, NS-104 | A 300-guest wedding seats without lag | ⬜ |
-| NS-103 | P1 | Mobile: per-guest "Choose table" bottom sheet | 3 | NS-101 | Usable at 360px | ⬜ |
+| NS-100 | P0 | Migration: `seating_tables` (number, name, kind `prezidiu`/`regular`/`kids`, capacity) + `guests.table_id`/`seat_no` + RLS + pgTAP | 2 | NS-070 | Tests are green | ➡️ |
+| NS-105 | P0 | Attach the realtime and audit triggers to the seating tables | 0.5 | NS-100 | Live updates work | ➡️ |
+| NS-104 | P0 | Domain: seating stats + OPIS sort with `Intl.Collator('ro')` (ă, â, î, ș, ț ordering) + tests | 3 | – | Vitest covers the diacritics ordering | ➡️ |
+| NS-101 | P0 | Tables CRUD UI | 3 | NS-100 | Tables can be created, renamed and deleted | ➡️ |
+| NS-102 | P0 | Desktop seating board with `dnd-kit`: an unassigned column, table cards, capacity warnings | 6 | NS-101, NS-104 | A 300-guest wedding seats without lag | ➡️ |
+| NS-103 | P1 | Mobile: per-guest "Choose table" bottom sheet | 3 | NS-101 | Usable at 360px | ➡️ |
 
 ---
 
@@ -245,9 +262,9 @@ If your real weekly hours differ, rescale: the order of the tasks stays the same
 
 | ID | P | Task | Est | Deps | Done when | Status |
 |---|---|---|---|---|---|---|
-| NS-110 | P0 | Lazy-loaded `@react-pdf/renderer`: alphabetical OPIS PDF | 4 | NS-104 | The PDF opens; the main bundle doesn't grow | ⬜ |
-| NS-111 | P0 | PDFs for special menus per table and kids per table | 3 | NS-110 | The counts match the seating board | ⬜ |
-| NS-112 | P2 | Per-table cards PDF | 2 | NS-110 | Prints on A4 | ⬜ |
+| NS-110 | P0 | Lazy-loaded `@react-pdf/renderer`: alphabetical OPIS PDF | 4 | NS-104 | The PDF opens; the main bundle doesn't grow | ➡️ |
+| NS-111 | P0 | PDFs for special menus per table and kids per table | 3 | NS-110 | The counts match the seating board | ➡️ |
+| NS-112 | P2 | Per-table cards PDF | 2 | NS-110 | Prints on A4 | ➡️ |
 | NS-120 | P0 | Migration: `timeline_events` + per-wedding share token + RLS + pgTAP | 2 | NS-026 | Tests are green | ⬜ |
 | NS-121 | P0 | Timeline UI: CRUD, reorder, link to a vendor | 4 | NS-120, NS-093 | Works on mobile | ⬜ |
 | NS-122 | P1 | Public `/t/:token` read-only page + print CSS | 3 | NS-121 | A vendor opens the link without an account; it prints cleanly | ⬜ |
@@ -261,13 +278,13 @@ If your real weekly hours differ, rescale: the order of the tasks stays the same
 
 | ID | P | Task | Est | Deps | Done when | Status |
 |---|---|---|---|---|---|---|
-| NS-130 | P0 | Activity feed page `/w/:id/activity`: paginated, with readable Romanian summaries ("Ana a marcat «Rezervați locația» ca gata") | 4 | NS-056 | Shows changes from every module | ⬜ |
-| NS-131 | P1 | Unread badge: a `last_seen_activity_at` per member | 2 | NS-130 | The badge clears when the feed is opened | ⬜ |
-| NS-132 | P0 | Edge Function `send-digest`: per member, list tasks due in 14 days, overdue tasks, payments due and new RSVPs | 4 | NS-095, NS-082 | Dry-run output is correct for the seed data | ⬜ |
-| NS-133 | P0 | Digest email template (RO, plain responsive HTML) with an unsubscribe link | 3 | NS-132 | Renders correctly in Gmail web and on mobile | ⬜ |
-| NS-134 | P0 | `pg_cron` + `pg_net` on Mondays at 08:00 Europe/Bucharest; spread sends when near Resend's 100/day cap; `email_log` table | 3 | NS-132 | A staging run sends and logs | ⬜ |
-| NS-135 | P1 | Profile setting: digest on/off (honored by the unsubscribe link) | 1 | NS-133 | An opted-out user gets nothing | ⬜ |
-| NS-136 | P2 | Retention prompt: email the owner 12 months after the wedding, offering to delete guest data | 2 | NS-134 | Fires on test data with a past date | ⬜ |
+| NS-130 | P0 | Activity feed page `/w/:id/activity`: paginated, with readable Romanian summaries ("Ana a marcat «Rezervați locația» ca gata") | 4 | NS-056 | Shows changes from every module | ➡️ |
+| NS-131 | P1 | Unread badge: a `last_seen_activity_at` per member | 2 | NS-130 | The badge clears when the feed is opened | ➡️ |
+| NS-132 | P0 | Edge Function `send-digest`: per member, list tasks due in 14 days, overdue tasks, payments due and new RSVPs | 4 | NS-095, NS-082 | Dry-run output is correct for the seed data | ➡️ |
+| NS-133 | P0 | Digest email template (RO, plain responsive HTML) with an unsubscribe link | 3 | NS-132 | Renders correctly in Gmail web and on mobile | ➡️ |
+| NS-134 | P0 | `pg_cron` + `pg_net` on Mondays at 08:00 Europe/Bucharest; spread sends when near Resend's 100/day cap; `email_log` table | 3 | NS-132 | A staging run sends and logs | ➡️ |
+| NS-135 | P1 | Profile setting: digest on/off (honored by the unsubscribe link) | 1 | NS-133 | An opted-out user gets nothing | ➡️ |
+| NS-136 | P2 | Retention prompt: email the owner 12 months after the wedding, offering to delete guest data | 2 | NS-134 | Fires on test data with a past date | ➡️ |
 
 ---
 
@@ -283,7 +300,7 @@ If your real weekly hours differ, rescale: the order of the tasks stays the same
 | NS-143 | P1 | Runbooks: `rotate-secrets.md`, `incident.md` | 2 | – | Committed under `docs/runbooks/` | ⬜ |
 | NS-144 | P1 | Restore drill #2 | 1 | NS-065 | Dated entry in the runbook | ⬜ |
 | NS-145 | P0 | Supabase security and performance advisors show zero warnings | 2 | – | The advisors are clean on prod | ⬜ |
-| NS-146 | P0 | Prerendered landing page at `/` (features, screenshots, donation link); the app moves to `/w` | 4 | – | Lighthouse ≥ 95 on the landing page | ⬜ |
+| NS-146 | P0 | Prerendered landing page at `/` (features, screenshots, donation link); the app moves to `/w` | 4 | – | Lighthouse ≥ 95 on the landing page | ➡️ |
 | NS-147 | P1 | Rewrite the README and CONTRIBUTING for the new architecture | 2 | – | A new contributor runs the stack locally from the README | ⬜ |
 | NS-148 | P0 | 🚀 Release v2.0: tag, CHANGELOG, announcement | 1 | all S12 P0 | Live on `theromans.thedevopsguy.ro` | ⬜ |
 
