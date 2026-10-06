@@ -36,3 +36,23 @@ jobs:
       - run: npx supabase start -x gotrue,realtime,storage-api,imgproxy,kong,mailpit,postgrest,postgres-meta,studio,edge-runtime,logflare,vector,supavisor
       - run: npx supabase db reset
       - run: npx supabase test db
+
+  migrations-plan:
+    # Doar citire: fără secrete, fără acces la cloud. Migrațiile se aplică doar
+    # după merge, de deploy.yml (staging automat, producție după aprobare).
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: List new migrations
+        run: |
+          files=$(git diff --name-only origin/main...HEAD -- supabase/migrations)
+          if [ -z "$files" ]; then
+            echo "No migration changes in this PR."
+          else
+            echo "Migrations changed in this PR:"
+            echo "$files"
+            echo "Reminder: on merge they are applied to STAGING automatically; production needs manual approval."
+          fi
