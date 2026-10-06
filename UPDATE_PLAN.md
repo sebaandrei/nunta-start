@@ -122,9 +122,9 @@ If your real weekly hours differ, rescale: the order of the tasks stays the same
 | NS-208 | P0 | Budget screen: input strip, scenario cards, category table (stacked cards on mobile) | 3 | NS-204, NS-205 | Matches the design; totals still match the v1 reference numbers | ✅ |
 | NS-209 | P0 | Settings screen: wedding details incl. godparents, preferences, "Download my data" and "Delete account" panels (actions land with NS-061 and NS-062) | 3 | NS-204, NS-205 | Matches the design; godparents persist | ✅ |
 | NS-210 | P1 | Migration: wedding city/venue and godparents (`weddings` columns or a small table) + RLS test | 1 | NS-026 | pgTAP is green | ⬜ |
-| NS-211 | P0 | Public landing page at `/` (hero, preview card, features, CTA); the app lives under `/w` (NS-146 only prerenders it later) | 4 | NS-203, NS-205 | Matches the design; deep links to the app still work | ⬜ |
-| NS-212 | P0 | Sign-in screen to the design (Google, magic link, check-your-email and expired states, Turnstile slot): the front end of NS-022 | 4 | NS-211 | Matches the design in RO and EN | ⬜ |
-| NS-213 | P1 | Onboarding, wedding picker, members and invites, empty/error states and legal pages to the design (front end of NS-031, NS-050 to NS-052, NS-060) | 6 | NS-201, NS-205 | Each matches the design | ⬜ |
+| NS-211 | P0 | Public landing page at `/` (hero, preview card, features, CTA); the app lives under `/w` (NS-146 only prerenders it later) | 4 | NS-203, NS-205 | Matches the design; deep links to the app still work | ✅ |
+| NS-212 | P0 | Sign-in screen to the design (Google, magic link, check-your-email and expired states, Turnstile slot): the front end of NS-022 | 4 | NS-211 | Matches the design in RO and EN | ✅ |
+| NS-213 | P1 | Onboarding, wedding picker, members and invites, empty/error states and legal pages to the design (front end of NS-031, NS-050 to NS-052, NS-060) | 6 | NS-201, NS-205 | Each matches the design. *Onboarding merged; wedding picker, members and invites, empty/error states and legal pages remain* | 🟨 |
 
 ## S3 · Server data · 02 Nov – 13 Nov
 
