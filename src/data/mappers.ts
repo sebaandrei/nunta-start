@@ -9,8 +9,8 @@
  * - `days_before`/`manual_date` -> `daysBefore`/`manualDate` (null rămâne null).
  * - `position` e numeric în DB (pas de 10 la creare); rămâne în `ServerTask` ca reordonarea
  *   și realtime să poată lucra cu ea, iar UI-ul îl ignoră.
- * - `budget_lines` nu are coloana `paid` (încă): `paid` se citește mereu null. NS-043 are nevoie
- *   de o migrare nouă pentru plăți.
+ * - `budget_lines.paid` e suma plătită, în moneda liniei; null = nimic înregistrat. Plățile pe
+ *   tranșe (NS-090) vor înlocui coloana.
  */
 
 import { DEFAULT_EUR_RATE, DEFAULT_GUESTS } from '../domain/initial';
@@ -190,16 +190,17 @@ export function lineFromRow(row: BudgetLineRow): BudgetLine {
     unitPrice: num(row.unit_price),
     currency: oneOf<Currency>(CURRENCIES, row.currency, 'RON'),
     quantity: row.qty_kind === 'fixed' ? { kind: 'fixed', count: num(row.qty_count) ?? 0 } : { kind: 'perGuest' },
-    paid: null,
+    paid: num(row.paid),
     note: row.note,
   };
 }
 
-export function lineToUpdate(patch: Partial<Omit<BudgetLine, 'id' | 'paid'>>): BudgetLineUpdate {
+export function lineToUpdate(patch: Partial<Omit<BudgetLine, 'id'>>): BudgetLineUpdate {
   const out: BudgetLineUpdate = {};
   if (patch.name !== undefined) out.name = patch.name;
   if (patch.unitPrice !== undefined) out.unit_price = moneyColumn(patch.unitPrice);
   if (patch.currency !== undefined) out.currency = patch.currency;
+  if (patch.paid !== undefined) out.paid = moneyColumn(patch.paid);
   if (patch.note !== undefined) out.note = patch.note;
   if (patch.quantity !== undefined) {
     out.qty_kind = patch.quantity.kind === 'fixed' ? 'fixed' : 'per_guest';

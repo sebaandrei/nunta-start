@@ -195,6 +195,7 @@ const lineRow = (over: Partial<BudgetLineRow> = {}): BudgetLineRow => ({
   qty_kind: 'per_guest',
   qty_count: null,
   note: 'x',
+  paid: null,
   vendor_id: null,
   position: 0,
   created_at: '2026-01-01T00:00:00Z',
@@ -210,14 +211,24 @@ describe('budget lines', () => {
     expect(lineFromRow(lineRow({ qty_kind: 'fixed', qty_count: null })).quantity).toEqual({ kind: 'fixed', count: 0 });
   });
 
-  it('reads paid as null (no column yet) and a null price', () => {
+  it('reads paid (number, numeric string or null) and a null price', () => {
     const l = lineFromRow(lineRow({ unit_price: null }));
     expect(l.paid).toBeNull();
     expect(l.unitPrice).toBeNull();
+    expect(lineFromRow(lineRow({ paid: 250.5 })).paid).toBe(250.5);
+    expect(lineFromRow(lineRow({ paid: '99.10' as unknown as number })).paid).toBe(99.1);
+  });
+
+  it('writes paid rounded to 2 decimals, null clears it', () => {
+    expect(lineToUpdate({ paid: 10.456 })).toEqual({ paid: 10.46 });
+    expect(lineToUpdate({ paid: null })).toEqual({ paid: null });
   });
 
   it('round-trips through insert', () => {
-    for (const row of [lineRow(), lineRow({ qty_kind: 'fixed', qty_count: 2, unit_price: null, currency: 'RON' })]) {
+    for (const row of [
+      lineRow(),
+      lineRow({ qty_kind: 'fixed', qty_count: 2, unit_price: null, currency: 'RON', paid: 30.25 }),
+    ]) {
       const line = lineFromRow(row);
       expect(lineFromRow({ ...row, ...lineToInsert('w1', line, 0) } as BudgetLineRow)).toEqual(line);
     }
