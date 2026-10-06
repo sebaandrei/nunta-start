@@ -95,8 +95,8 @@ If your real weekly hours differ, rescale: the order of the tasks stays the same
 | NS-015 | P1 | `keepalive.yml`: REST ping to both projects every 3 days | 0.5 | NS-011 | Runs green on schedule. Manual run green for staging and production | ✅ |
 | NS-020 | P0 | Resend: verify the sending domain `mail.thedevopsguy.ro` (SPF, DKIM, DMARC); set Supabase custom SMTP on both projects | 2 | NS-011 | A magic-link email lands in the Gmail inbox, not spam | ✅ |
 | NS-021 | P0 | Google Cloud OAuth client: consent screen (authorized domain `thedevopsguy.ro`, privacy/terms URLs); enable in Supabase; redirect URLs for prod, staging and localhost | 2 | NS-003 | Google login works on staging. Note: without the paid custom auth domain, the consent screen shows `*.supabase.co` | ⬜ |
-| NS-023 | P1 | Cloudflare Turnstile site; enable Supabase captcha protection | 1 | NS-011 | Sign-in without a token is rejected | ⬜ |
-| NS-022 | P0 | Auth UI: `/login` (Google button + magic-link form with Turnstile), `/auth/callback`, sign-out, and a route guard | 4 | NS-020, NS-021, NS-023 | A signed-out user is redirected to `/login`; both methods work | ⬜ |
+| NS-023 | P1 | Provision Cloudflare Turnstile for the public RSVP page only (sign-in has no captcha: sign-up is invite-only): create the site, store the site key as `VITE_TURNSTILE_SITE_KEY` in Pages and the secret key as an Edge Function secret. The widget, the script and its CSP entry are built in NS-081 | 1 | NS-011 | The Turnstile site exists and both keys are stored where NS-081 reads them (independent of NS-081) | ⬜ |
+| NS-022 | P0 | Auth UI: `/login` (magic-link form; Google stays optional behind a flag), `/auth/callback`, sign-out, and a route guard. No captcha: this task also removes the Turnstile slot and the `TODO(NS-023)` comments from `SignIn.tsx` | 4 | NS-020, NS-301 | A signed-out user is redirected to `/login`; an allowlisted email signs in with a magic link; no Turnstile code or TODO remains in the sign-in flow | 🟨 |
 | NS-024 | P0 | Migration: `profiles` + a trigger on `auth.users` insert | 1 | NS-012 | A new user gets a profile row | ✅ |
 | NS-025 | P0 | Migration: `weddings`, `wedding_members`, `member_role` enum, `private.member_role()` / `has_role()` helpers, indexes | 3 | NS-024 | Migration applies on a clean DB | ✅ |
 | NS-026 | P0 | RLS for weddings and members + pgTAP: a member sees their wedding, an outsider sees nothing, a viewer can't update | 3 | NS-025 | `supabase test db` is green in CI | ✅ |
@@ -117,9 +117,9 @@ The product is now an **invite-only app for the owner and friends** (2-3 workspa
 |---|---|---|---|---|---|---|
 | NS-301 | P0 | Invite-only sign-up: `allowed_emails` table (no client access) and a `BEFORE INSERT` trigger on `auth.users` raising `signup_not_allowed`; runbook to add a friend | 2 | NS-024 | pgTAP: allowed email passes, others are rejected, case-insensitive | 🟨 |
 | NS-302 | P0 | Sign-in copy for invite-only: map `signup_not_allowed` to "Acces pe invitație", drop the "Creați un spațiu nou" CTA for strangers on the landing and sign-in | 1 | NS-022, NS-301 | A non-allowlisted Google or email sign-in shows the invite-only message | ⬜ |
-| NS-303 | P0 | Custom pages, schema: `collections`, `collection_fields`, `collection_records` with a validation trigger (required fields, types, choice values), RLS by wedding, realtime trigger | 5 | NS-053 | pgTAP: valid record accepted, missing required or wrong type rejected, outsider sees nothing | ⬜ |
+| NS-303 | P0 | Custom pages, schema: `collections` (with an immutable `slug`, unique per wedding, generated from the name at creation with a numeric suffix on collision; renaming never changes it), `collection_fields`, `collection_records` with a validation trigger (required fields, types, choice values), RLS by wedding, realtime trigger | 5 | NS-053 | pgTAP: valid record accepted, missing required or wrong type rejected, slug unique per wedding and unchanged on rename, outsider sees nothing | ⬜ |
 | NS-304 | P0 | Custom pages, UI: create a page, define fields, add and edit records (table on desktop, cards on mobile), live updates | 6 | NS-303, NS-041 | A page with a required field works end to end, synced between two browsers | ⬜ |
-| NS-305 | P1 | Custom page templates shipped in `src/content/ro/collections/` (Furnizor, Cadouri, Luna de miere) with a "start from a template" step | 3 | NS-304 | Each template creates a ready page | ⬜ |
+| NS-305 | P1 | Custom page templates shipped in both `src/content/ro/collections/` and `src/content/en/collections/` (Furnizor, Cadouri, Luna de miere) with a "start from a template" step, and a parity test (same template ids and field keys in both locales) | 3 | NS-304 | Each template creates a ready page in both languages | ⬜ |
 | NS-306 | P1 | Operational data-access controls: `docs/runbooks/data-access.md` (what the operator may and may not do), service-role use logged and reviewed, privacy text reworded to match | 2 | NS-060 | The runbook exists; the privacy text states the real access | ⬜ |
 
 ## Design track · redesign from `design.pen` (runs next to S2/S3)
@@ -140,7 +140,7 @@ The product is now an **invite-only app for the owner and friends** (2-3 workspa
 | NS-209 | P0 | Settings screen: wedding details incl. godparents, preferences, "Download my data" and "Delete account" panels (actions land with NS-061 and NS-062) | 3 | NS-204, NS-205 | Matches the design; godparents persist | ✅ |
 | NS-210 | P1 | Migration: wedding city/venue and godparents (`weddings` columns or a small table) + RLS test | 1 | NS-026 | pgTAP is green | ⬜ |
 | NS-211 | P0 | Public landing page at `/` (hero, preview card, features, CTA); the app lives under `/w` (NS-146 only prerenders it later) | 4 | NS-203, NS-205 | Matches the design; deep links to the app still work | ✅ |
-| NS-212 | P0 | Sign-in screen to the design (Google, magic link, check-your-email and expired states, Turnstile slot): the front end of NS-022 | 4 | NS-211 | Matches the design in RO and EN | ✅ |
+| NS-212 | P0 | Sign-in screen to the design (Google, magic link, check-your-email and expired states; its Turnstile slot is removed again in NS-022): the front end of NS-022 | 4 | NS-211 | Matches the design in RO and EN | ✅ |
 | NS-213 | P1 | Onboarding, wedding picker, members and invites, empty/error states and legal pages to the design (front end of NS-031, NS-050 to NS-052, NS-060) | 6 | NS-201, NS-205 | Each matches the design. *UI merged behind injectable clients; the real wiring lands with NS-031, NS-050 to NS-052; legal text is a draft awaiting review* | ✅ |
 
 ## S3 · Server data · 02 Nov – 13 Nov
@@ -234,7 +234,7 @@ The product is now an **invite-only app for the owner and friends** (2-3 workspa
 | NS-090 | P0 | Migration: `vendors`, `vendor_files`, `payments` + RLS + pgTAP; move `budget_lines.paid` into payment rows, then drop the column | 4 | NS-029 | Existing paid amounts are preserved as payments | ➡️ |
 | NS-091 | P0 | Private Storage bucket `contracts`: path `wedding_id/…`, RLS by membership, 10 MB limit | 2 | NS-090 | An outsider can't fetch a file (pgTAP + manual check) | ➡️ |
 | NS-092 | P0 | `src/domain/budget.ts`: compute paid from payments; update the tests while keeping the v1 reference numbers | 3 | NS-090 | Vitest is green with the same totals | ➡️ |
-| NS-093 | P0 | Vendors UI: list + detail (contact, notes, linked budget lines) | 4 | NS-090 | CRUD works on desktop and mobile | ➡️ |
+| NS-093 | P0 | Vendors UI: list + detail (contact, notes, linked budget lines, and the link from day-of timeline events via `timeline_events.vendor_id`) | 4 | NS-090 | CRUD works on desktop and mobile; a timeline event can be linked to a vendor and shows its name | ➡️ |
 | NS-094 | P1 | Contract upload and download through signed URLs | 3 | NS-091, NS-093 | A PDF uploads and opens | ➡️ |
 | NS-095 | P0 | Payment schedule UI per vendor or line: add installment, due date, mark paid | 4 | NS-092, NS-093 | The budget's "remaining" updates live | ➡️ |
 | NS-096 | P1 | Home screen: "Upcoming payments" widget (next 30 days) | 2 | NS-095 | Shows the correct items | ➡️ |
@@ -251,7 +251,7 @@ The product is now an **invite-only app for the owner and friends** (2-3 workspa
 | NS-105 | P0 | Attach the realtime and audit triggers to the seating tables | 0.5 | NS-100 | Live updates work | ➡️ |
 | NS-104 | P0 | Domain: seating stats + OPIS sort with `Intl.Collator('ro')` (ă, â, î, ș, ț ordering) + tests | 3 | – | Vitest covers the diacritics ordering | ➡️ |
 | NS-101 | P0 | Tables CRUD UI | 3 | NS-100 | Tables can be created, renamed and deleted | ➡️ |
-| NS-102 | P0 | Desktop seating board with `dnd-kit`: an unassigned column, table cards, capacity warnings | 6 | NS-101, NS-104 | A 300-guest wedding seats without lag | ➡️ |
+| NS-102 | P0 | Desktop seating board with `dnd-kit`: an unassigned column, table cards, capacity warnings, and the seating happy-path E2E (assign, move, capacity warning) | 6 | NS-101, NS-104 | A 300-guest wedding seats without lag; the seating E2E is green in CI | ➡️ |
 | NS-103 | P1 | Mobile: per-guest "Choose table" bottom sheet | 3 | NS-101 | Usable at 360px | ➡️ |
 
 ---
@@ -266,9 +266,9 @@ The product is now an **invite-only app for the owner and friends** (2-3 workspa
 | NS-111 | P0 | PDFs for special menus per table and kids per table | 3 | NS-110 | The counts match the seating board | ➡️ |
 | NS-112 | P2 | Per-table cards PDF | 2 | NS-110 | Prints on A4 | ➡️ |
 | NS-120 | P0 | Migration: `timeline_events` + per-wedding share token + RLS + pgTAP | 2 | NS-026 | Tests are green | ⬜ |
-| NS-121 | P0 | Timeline UI: CRUD, reorder, link to a vendor | 4 | NS-120, NS-093 | Works on mobile | ⬜ |
+| NS-121 | P0 | Timeline UI: CRUD and reorder (the vendor link returns with the vendors module) | 4 | NS-120 | Works on mobile | ⬜ |
 | NS-122 | P1 | Public `/t/:token` read-only page + print CSS | 3 | NS-121 | A vendor opens the link without an account; it prints cleanly | ⬜ |
-| NS-123 | P1 | E2E: seating and timeline happy paths | 2 | NS-102, NS-121 | Green in CI | ⬜ |
+| NS-123 | P1 | E2E: timeline happy path (the seating E2E returns with seating) | 2 | NS-121 | Green in CI | ⬜ |
 
 ---
 
