@@ -71,7 +71,7 @@ export function Landing() {
           <div className="mx-auto grid max-w-[1200px] items-center gap-10 px-4 py-10 md:px-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] lg:gap-16 lg:py-16">
             <div>
               <p className={cx('mb-4 text-muted', LABEL)}>{t.landing.eyebrow}</p>
-              <h1 className="font-serif text-[2.25rem] font-medium leading-[1.1] text-balance md:text-[3.5rem]">
+              <h1 className="font-serif text-[2.25rem] font-medium leading-[1.1] text-balance md:text-[3.25rem] lg:text-[3.5rem]">
                 {t.landing.headline1} <span className="md:block">{t.landing.headline2}</span>
               </h1>
               <p className="mt-6 max-w-md text-base leading-relaxed md:text-lg">{t.landing.lead}</p>

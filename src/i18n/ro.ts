@@ -61,7 +61,7 @@ export const ro = {
     start: 'Începeți',
     eyebrow: 'Planificarea nunții, cu mai multă liniște',
     headline1: 'Ziua voastră,',
-    headline2: 'așa cum v-ați imaginat.',
+    headline2: 'așa cum v‑ați imaginat.',
     lead: 'Un singur loc pentru taskuri, buget și toate deciziile mici din spatele unei zile cu adevărat mari.',
     body: 'Începeți împreună. Păstrați planul clar de la prima idee până la ultima confirmare.',
     cta: 'Creați spațiul vostru',
