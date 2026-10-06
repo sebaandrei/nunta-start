@@ -62,9 +62,9 @@ export const ro = {
       divider: 'Sau cu email',
       emailLabel: 'Adresa de email',
       emailPlaceholder: 'voi@exemplu.ro',
-      submit: 'Trimiteți linkul de conectare',
+      submit: 'Trimiteți codul de conectare',
       sending: 'Se trimite…',
-      helper: 'Vă trimitem un link securizat. Nu aveți nevoie de parolă.',
+      helper: 'Vă trimitem un cod din 6 cifre. Nu aveți nevoie de parolă.',
       inviteOnly: 'Aplicația este doar pe invitație.',
       privacyTitle: 'Planificați cu încredere',
       privacyBody: 'Informațiile voastre sunt folosite doar pentru spațiul de planificare. Le puteți exporta oricând.',
@@ -77,17 +77,15 @@ export const ro = {
     },
     sent: {
       eyebrow: 'Verificați-vă emailul',
-      title: 'Am trimis linkul de conectare',
-      before: 'Am trimis un link securizat la ',
-      after: '. Deschideți mesajul și apăsați pe link ca să intrați.',
-      tip: 'Nu îl găsiți? Verificați și folderul Spam. Linkul este valabil 15 minute.',
-      resendIn: (time: string) => `Retrimite linkul în ${time}`,
-      resend: 'Retrimiteți linkul',
+      title: 'Introduceți codul',
+      before: 'Am trimis un cod din 6 cifre la ',
+      after: '. Tastați-l mai jos ca să intrați.',
+      tip: 'Nu îl găsiți? Verificați și folderul Spam. Codul este valabil 10 minute.',
+      resendIn: (time: string) => `Retrimite codul în ${time}`,
+      resend: 'Retrimiteți codul',
       other: 'Folosiți altă adresă',
-      codeTip:
-        'Citiți emailul în aplicația de mail de pe telefon? Tastați aici codul de 6 cifre în loc să apăsați pe link: deschiderea linkului consumă codul. L-ați apăsat deja? Retrimiteți mai jos ca să primiți un email nou.',
       codeLabel: 'Cod din 6 cifre',
-      codeSubmit: 'Conectare cu cod',
+      codeSubmit: 'Conectare',
       codeVerifying: 'Se verifică…',
     },
     expired: {
@@ -102,12 +100,12 @@ export const ro = {
     errors: {
       notConfigured: 'Autentificarea nu este încă disponibilă.',
       invalidEmail: 'Verificați adresa de email și încercați din nou.',
-      network: 'Nu am putut trimite linkul. Verificați conexiunea și încercați din nou.',
+      network: 'Nu am putut trimite codul. Verificați conexiunea și încercați din nou.',
       generic: 'Ceva nu a mers. Încercați din nou.',
       notInvited:
         'Această aplicație este momentan doar pe invitație. Dacă ești prieten cu cine ți-a trimis linkul, cere să fii adăugat și încearcă din nou.',
       rateLimited: 'Prea multe încercări. Așteptați câteva minute și încercați din nou.',
-      invalidCode: 'Codul este greșit sau a expirat. Verificați ultimul email sau cereți un link nou.',
+      invalidCode: 'Codul este greșit sau a expirat. Verificați ultimul email sau cereți un cod nou.',
     },
     notInvited: { title: 'Acces pe invitație' },
     callback: {
@@ -120,7 +118,7 @@ export const ro = {
       empty: 'Introduceți adresa de email.',
       invalid: 'Adresa de email nu pare completă. Exemplu: voi@exemplu.ro',
     },
-    announce: { sending: 'Se trimite linkul…', sent: 'Linkul de conectare a fost trimis.' },
+    announce: { sending: 'Se trimite codul…', sent: 'Codul de conectare a fost trimis.' },
   },
 
   pages: {
@@ -153,7 +151,7 @@ export const ro = {
     body: 'Începeți împreună. Păstrați planul clar de la prima idee până la ultima confirmare.',
     cta: 'Intră în aplicație',
     ctaOpen: 'Deschide planul vostru',
-    reassurance: 'Conectare sigură cu un link trimis pe email',
+    reassurance: 'Conectare sigură cu un cod trimis pe email',
     motto: 'Fără haos. Fără taburi pierdute.',
     preview: {
       brand: 'nunta start',

@@ -58,9 +58,9 @@ export const en: Messages = {
       divider: 'Or with email',
       emailLabel: 'Email address',
       emailPlaceholder: 'you@example.com',
-      submit: 'Email me a sign-in link',
+      submit: 'Email me a code',
       sending: 'Sending…',
-      helper: 'We’ll email you a secure link. No password needed.',
+      helper: 'We’ll email you a 6-digit code. No password needed.',
       inviteOnly: 'The app is invite-only.',
       privacyTitle: 'Plan with confidence',
       privacyBody: 'Your details are used only for your planning space. You can export your data whenever you need.',
@@ -73,17 +73,15 @@ export const en: Messages = {
     },
     sent: {
       eyebrow: 'Check your email',
-      title: 'We sent your sign-in link',
-      before: 'We sent a secure link to ',
-      after: '. Open the message and tap the link to come in.',
-      tip: 'Can’t find it? Check your spam folder too. The link is valid for 15 minutes.',
-      resendIn: (time: string) => `Resend link in ${time}`,
-      resend: 'Resend link',
+      title: 'Enter your code',
+      before: 'We sent a 6-digit code to ',
+      after: '. Type it below to come in.',
+      tip: 'Can’t find it? Check your spam folder too. The code is valid for 10 minutes.',
+      resendIn: (time: string) => `Resend code in ${time}`,
+      resend: 'Resend code',
       other: 'Use another address',
-      codeTip:
-        'Reading this on a phone mail app? Type the 6-digit code from the email here instead of tapping the link: opening the link uses the code up. Already tapped it? Resend below to get a new email.',
       codeLabel: '6-digit code',
-      codeSubmit: 'Sign in with code',
+      codeSubmit: 'Sign in',
       codeVerifying: 'Checking…',
     },
     expired: {
@@ -97,12 +95,12 @@ export const en: Messages = {
     errors: {
       notConfigured: 'Sign-in is not available yet.',
       invalidEmail: 'Check the email address and try again.',
-      network: 'We could not send the link. Check your connection and try again.',
+      network: 'We could not send the code. Check your connection and try again.',
       generic: 'Something went wrong. Please try again.',
       notInvited:
         'This app is invite-only for now. If you know whoever sent you the link, ask to be added and try again.',
       rateLimited: 'Too many attempts. Please wait a few minutes and try again.',
-      invalidCode: 'That code is wrong or has expired. Check the latest email or request a new link.',
+      invalidCode: 'That code is wrong or has expired. Check the latest email or request a new code.',
     },
     notInvited: { title: 'Invite-only access' },
     callback: {
@@ -115,7 +113,7 @@ export const en: Messages = {
       empty: 'Enter your email address.',
       invalid: 'That email address looks incomplete. Example: you@example.com',
     },
-    announce: { sending: 'Sending the link…', sent: 'The sign-in link was sent.' },
+    announce: { sending: 'Sending the code…', sent: 'The sign-in code was sent.' },
   },
 
   pages: {
@@ -148,7 +146,7 @@ export const en: Messages = {
     body: 'Plan together. Keep every detail clear, from your first idea to the final confirmation.',
     cta: 'Open the app',
     ctaOpen: 'Open your plan',
-    reassurance: 'Secure sign-in with a link sent by email',
+    reassurance: 'Secure sign-in with a code sent by email',
     motto: 'Less chaos. Fewer lost tabs.',
     preview: {
       brand: 'nunta start',

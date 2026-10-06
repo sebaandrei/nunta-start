@@ -77,7 +77,7 @@ export function SignIn({
     const id = ++requestSeq.current;
     dispatch({ type: event, id });
     if (event === 'submit' && validateEmail(email)) return;
-    run(id, client.sendMagicLink(email.trim()), () => dispatch({ type: 'succeeded', id }));
+    run(id, client.sendCode(email.trim()), () => dispatch({ type: 'succeeded', id }));
   }
 
   function onSubmit(event: FormEvent) {
@@ -260,10 +260,9 @@ function SentView({
   const [codeError, setCodeError] = useState<string | null>(null);
   const [verifying, setVerifying] = useState(false);
 
-  function onVerify(event: FormEvent) {
-    event.preventDefault();
+  function verify(raw: string) {
     if (verifying) return;
-    const normalized = normalizeCode(code);
+    const normalized = normalizeCode(raw);
     if (!normalized) return setCodeError(t.auth.errors.invalidCode);
     setCodeError(null);
     setVerifying(true);
@@ -274,6 +273,11 @@ function SentView({
         setVerifying(false);
       },
     );
+  }
+
+  function onVerify(event: FormEvent) {
+    event.preventDefault();
+    verify(code);
   }
   return (
     <div className="flex flex-col gap-5">
@@ -294,9 +298,7 @@ function SentView({
           {s.after}
         </p>
       </div>
-      <p className="rounded-xl bg-sunken p-4 text-xs leading-relaxed text-muted">{s.tip}</p>
       <form noValidate onSubmit={onVerify} className="flex flex-col gap-3">
-        <p className="text-xs leading-relaxed text-muted">{s.codeTip}</p>
         <div>
           <label
             htmlFor="signin-code"
@@ -311,6 +313,7 @@ function SentView({
             autoComplete="one-time-code"
             maxLength={9}
             placeholder="123456"
+            autoFocus
             value={code}
             readOnly={verifying}
             aria-invalid={codeError ? true : undefined}
@@ -318,6 +321,8 @@ function SentView({
             onChange={(e) => {
               setCode(e.target.value);
               setCodeError(null);
+              // Cu 6 cifre complete (tastate sau lipite) nu mai are rost un click în plus.
+              if (normalizeCode(e.target.value)) verify(e.target.value);
             }}
           />
           {codeError && (
@@ -337,6 +342,7 @@ function SentView({
           )}
         </Button>
       </form>
+      <p className="rounded-xl bg-sunken p-4 text-xs leading-relaxed text-muted">{s.tip}</p>
       <Button
         variant="secondary"
         className="w-full"
