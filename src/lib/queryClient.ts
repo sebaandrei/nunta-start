@@ -1,5 +1,5 @@
 import { MutationCache, QueryCache, QueryClient } from '@tanstack/react-query';
-import { ro } from '../i18n/ro';
+import { getMessages } from '../i18n';
 import { showToast } from './toast';
 
 /** HTTP-like status of an error: `status` when present, else derived from PostgREST/Postgres codes (PostgrestError has no status). */
@@ -24,9 +24,10 @@ export function shouldRetry(failureCount: number, error: unknown): boolean {
 
 export function errorToMessage(error: unknown): string {
   const status = errorStatus(error);
-  if (status === 401 || status === 403) return ro.errors.forbidden;
-  if (error instanceof TypeError) return ro.errors.network;
-  return ro.errors.generic;
+  const { errors } = getMessages();
+  if (status === 401 || status === 403) return errors.forbidden;
+  if (error instanceof TypeError) return errors.network;
+  return errors.generic;
 }
 
 const onError = (error: unknown) => showToast(errorToMessage(error));

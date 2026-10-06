@@ -10,16 +10,26 @@ export function parseLocale(raw: unknown): Locale {
   return LOCALES.find((l) => l === raw) ?? DEFAULT_LOCALE;
 }
 
+/**
+ * Limba inițială: cea salvată; fără valoare salvată, cea a browserului (en* devine en);
+ * o valoare salvată necunoscută cade pe română.
+ */
+export function resolveInitialLocale(stored: string | null, browserLanguage?: string): Locale {
+  if (stored !== null) return parseLocale(stored);
+  return browserLanguage?.toLowerCase().startsWith('en') ? 'en' : DEFAULT_LOCALE;
+}
+
 /** Elementul rădăcină, injectat ca să nu depindem de DOM în teste. */
 export function applyLocale(locale: Locale, root: { lang: string }): void {
   root.lang = locale;
 }
 
 function readStored(): Locale {
+  const browserLanguage = typeof navigator === 'undefined' ? undefined : navigator.language;
   try {
-    return parseLocale(localStorage.getItem(LOCALE_KEY));
+    return resolveInitialLocale(localStorage.getItem(LOCALE_KEY), browserLanguage);
   } catch {
-    return DEFAULT_LOCALE;
+    return resolveInitialLocale(null, browserLanguage);
   }
 }
 

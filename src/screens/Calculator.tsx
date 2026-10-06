@@ -23,7 +23,8 @@ import {
 } from '../domain/budget';
 import { type BudgetLine, CURRENCIES, type Currency, type Money } from '../domain/schema';
 import { useT } from '../i18n';
-import { currencySymbol, formatMoney, formatSignedMoney } from '../lib/format';
+import { currencyOptions, currencySymbol, formatMoney, formatSignedMoney } from '../lib/format';
+import { useLocale } from '../lib/locale';
 import { useAppData, useStore } from '../store';
 
 export function Calculator() {
@@ -193,17 +194,16 @@ function MoneyField({ label, value, onChange }: { label: string; value: Money; o
   );
 }
 
-const CURRENCY_OPTIONS = CURRENCIES.map((c) => ({ value: c, label: currencySymbol(c) }));
-
 function CurrencySwitch({ value, onChange }: { value: Currency; onChange: (c: Currency) => void }) {
   const t = useT();
+  const locale = useLocale((s) => s.locale);
   return (
     <Segmented
       label={t.calc.currency}
       className="shrink-0"
       value={value}
       onChange={onChange}
-      options={CURRENCY_OPTIONS}
+      options={currencyOptions(CURRENCIES, locale)}
     />
   );
 }

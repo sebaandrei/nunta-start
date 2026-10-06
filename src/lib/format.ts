@@ -64,6 +64,14 @@ export function currencySymbol(currency: Currency, locale: Locale = currentLocal
   return locale === 'en' ? 'RON' : 'lei';
 }
 
+/** Opțiunile selectorului de monedă, derivate din limba dată (nu se rețin la import). */
+export function currencyOptions(
+  currencies: readonly Currency[],
+  locale: Locale = currentLocale(),
+): { value: Currency; label: string }[] {
+  return currencies.map((c) => ({ value: c, label: currencySymbol(c, locale) }));
+}
+
 export function formatMoney(value: number, currency: Currency, locale: Locale = currentLocale()): string {
   const symbol = currencySymbol(currency, locale);
   if (locale === 'ro') return `${formatNumber(value, locale)} ${symbol}`;

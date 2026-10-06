@@ -1,14 +1,17 @@
 import { useState } from 'react';
 import { ImportButton } from '../components/ImportButton';
-import { Banner, Button, Field, FieldGroup, NumberInput, TextInput } from '../components/ui';
+import { Banner, Button, Field, FieldGroup, NumberInput, Segmented, TextInput } from '../components/ui';
 import { isValidISODate } from '../domain/dates';
 import { useT } from '../i18n';
 import { downloadText } from '../lib/download';
+import { useLocale } from '../lib/locale';
 import type { BackupError } from '../storage/storage';
 import { useStore } from '../store';
 
 export function Onboarding() {
   const t = useT();
+  const locale = useLocale((s) => s.locale);
+  const setLocale = useLocale((s) => s.setLocale);
   const start = useStore((s) => s.start);
   const corruptRaw = useStore((s) => s.corruptRaw);
   const [date, setDate] = useState('');
@@ -41,6 +44,17 @@ export function Onboarding() {
           if (canStart) start({ weddingDate: date, names: [name1.trim(), name2.trim()], guests });
         }}
       >
+        <FieldGroup label={t.settings.language}>
+          <Segmented
+            label={t.settings.language}
+            value={locale}
+            onChange={setLocale}
+            options={[
+              { value: 'ro', label: 'Română' },
+              { value: 'en', label: 'English' },
+            ]}
+          />
+        </FieldGroup>
         <Field label={t.onboarding.date} hint={t.onboarding.dateHint}>
           <TextInput type="date" required value={date} onChange={(e) => setDate(e.target.value)} />
         </Field>

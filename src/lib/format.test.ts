@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   countLabel,
+  currencyOptions,
   decimalDisplay,
   decimalText,
   formatDate,
@@ -19,6 +20,11 @@ describe('formatarea în engleză', () => {
     expect(formatMoney(55700, 'EUR', 'en')).toBe('€55,700');
     expect(formatMoney(-500, 'RON', 'en')).toBe('−RON 500');
     expect(formatMoney(55700, 'RON', 'ro')).toBe('55.700 lei');
+  });
+
+  it('opțiunile de monedă urmează limba dată', () => {
+    expect(currencyOptions(['EUR', 'RON'], 'ro').map((o) => o.label)).toEqual(['€', 'lei']);
+    expect(currencyOptions(['EUR', 'RON'], 'en').map((o) => o.label)).toEqual(['€', 'RON']);
   });
 
   it('pluralul englezesc nu are „de"', () => {
