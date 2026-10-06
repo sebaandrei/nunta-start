@@ -1,6 +1,15 @@
 begin;
 select plan(9);
 
+-- invite-only allowlist (NS-301): allow the test users
+insert into public.allowed_emails (email) values
+  ('a1@example.com'),
+  ('a2@example.com'),
+  ('a3@example.com'),
+  ('a4@example.com'),
+  ('a5@example.com');
+
+
 -- a1 owner, a2 viewer, a3 outsider, a4 helper of W1; a5 owner of W2
 insert into auth.users (id, email) values
   ('00000000-0000-0000-0000-0000000000a1', 'a1@example.com'),
