@@ -8,6 +8,7 @@ import {
   type AuthClient,
   authErrorKind,
   authErrorMessage,
+  CODE_LENGTH,
   formatCountdown,
   normalizeCode,
   notConfiguredAuthClient,
@@ -311,7 +312,7 @@ function SentView({
             name="code"
             inputMode="numeric"
             autoComplete="one-time-code"
-            maxLength={9}
+            maxLength={CODE_LENGTH * 2} // room for spaces in a pasted code
             placeholder="12345678"
             autoFocus
             value={code}
