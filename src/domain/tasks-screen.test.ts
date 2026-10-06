@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { parseISODate, toISODate } from './dates';
 import type { Task } from './schema';
-import { filterRecover, nextDue, STAGE_IDS, stageProgress, stageState } from './tasks';
+import { filterRecover, nextDue, STAGE_IDS, showsOverdue, stageProgress, stageState } from './tasks';
 
 const wedding = parseISODate('2027-09-12');
 const today = parseISODate('2026-10-05');
@@ -67,6 +67,16 @@ describe('nextDue', () => {
   it('întoarce null când nu urmează niciun termen', () => {
     expect(nextDue([task(), task({ daysBefore: 400 })], wedding, today)).toBeNull();
     expect(nextDue([], wedding, today)).toBeNull();
+  });
+});
+
+describe('showsOverdue', () => {
+  const late = task({ manualDate: '2026-10-01' });
+  it('roșu doar pentru termen depășit în afara grupului De recuperat', () => {
+    expect(showsOverdue(late, wedding, today, false)).toBe(true);
+    expect(showsOverdue(late, wedding, today, true)).toBe(false);
+    expect(showsOverdue({ ...late, status: 'done' }, wedding, today, false)).toBe(false);
+    expect(showsOverdue(task({ manualDate: '2026-10-20' }), wedding, today, false)).toBe(false);
   });
 });
 

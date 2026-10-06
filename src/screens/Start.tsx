@@ -47,7 +47,7 @@ export function Start() {
   const filtering = owner !== 'all' || onlyRecover;
   const { done, total } = progress(data.tasks);
 
-  const row = (task: Task, recover = false) => (
+  const row = (task: Task, recover = false, showYear = false) => (
     <TaskRow
       key={task.id}
       task={task}
@@ -55,6 +55,7 @@ export function Start() {
       today={today}
       names={settings.names}
       recover={recover}
+      showYear={showYear}
       expanded={openId === task.id}
       onToggle={() => setOpenId((id) => (id === task.id ? null : task.id))}
     />
@@ -155,7 +156,7 @@ export function Start() {
                   title={t.categories[group.category]}
                   badge={t.tasks.count(group.tasks.length)}
                 >
-                  {group.tasks.map((task) => row(task))}
+                  {group.tasks.map((task) => row(task, false, true))}
                 </Group>
               ))
             )}
@@ -349,7 +350,7 @@ function StageList({
   filtering: boolean;
   groupOpen: Record<string, boolean>;
   onToggleGroup: (id: string, current: boolean) => void;
-  row: (task: Task, recover?: boolean) => ReactNode;
+  row: (task: Task, recover?: boolean, showYear?: boolean) => ReactNode;
 }) {
   const t = useT();
   const view = groupByStage(tasks, wedding, today);

@@ -212,6 +212,11 @@ export function nextDue(tasks: Task[], wedding: Date, today: Date): { task: Task
   return best;
 }
 
+/** Roșu doar pentru un termen depășit în afara grupului „De recuperat" (care nu e marcat ca întârziat). */
+export function showsOverdue(task: Task, wedding: Date, today: Date, inRecover: boolean): boolean {
+  return !inRecover && isOverdue(task, wedding, today);
+}
+
 export function filterRecover(tasks: Task[], wedding: Date, today: Date): Task[] {
   return tasks.filter((t) => isRecover(t, wedding, today));
 }

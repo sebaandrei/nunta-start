@@ -1,9 +1,9 @@
 import { Check } from 'lucide-react';
 import { addDays, toISODate } from '../domain/dates';
 import { CATEGORY_IDS, OWNERS, STATUSES, type Status, type Task } from '../domain/schema';
-import { dueDate, isOverdue } from '../domain/tasks';
+import { dueDate, showsOverdue } from '../domain/tasks';
 import { useT } from '../i18n';
-import { formatDayMonth, formatShortDate } from '../lib/format';
+import { formatDeadline, formatShortDate } from '../lib/format';
 import { useStore } from '../store';
 import { Button, cx, Field, Select, TextArea, TextInput } from './ui';
 
@@ -13,6 +13,7 @@ export function TaskRow({
   today,
   names,
   recover,
+  showYear,
   expanded,
   onToggle,
 }: {
@@ -21,14 +22,16 @@ export function TaskRow({
   today: Date;
   names: readonly [string, string];
   recover: boolean;
+  /** Vederea nu dă context de etapă (pe categorii): arată anul. */
+  showYear: boolean;
   expanded: boolean;
   onToggle: () => void;
 }) {
   const t = useT();
   const cycleStatus = useStore((s) => s.cycleTaskStatus);
   const due = dueDate(task, wedding);
-  const overdue = recover || isOverdue(task, wedding, today);
-  const dueText = recover ? t.tasks.dueRecover : due ? formatDayMonth(due, true) : t.tasks.dueNone;
+  const overdue = showsOverdue(task, wedding, today, recover);
+  const dueText = recover ? t.tasks.dueRecover : due ? formatDeadline(due, { today, showYear }) : t.tasks.dueNone;
   const done = task.status === 'done';
 
   return (
