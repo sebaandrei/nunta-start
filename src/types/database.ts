@@ -154,7 +154,7 @@ isOneToOne: false
             "clear_budget_amounts":
 { Args: { "p_wedding_id": string }; Returns: undefined
                            },
-            "create_wedding":
+"create_wedding":
 { Args: { "budget_template": Json,"input": Json,"tasks_template": Json }; Returns: string
                            }
           }
