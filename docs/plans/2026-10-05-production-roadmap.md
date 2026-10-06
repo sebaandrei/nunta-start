@@ -19,7 +19,7 @@ Where this section differs from the rest of the document, **this section wins**.
 | MVP modules | Tasks, Budget, **Guest list + RSVP**, **Day-of timeline**, **Custom pages** |
 | Deferred | Seating + OPIS, dedicated vendors and payments (vendors can be a custom page), weekly digest, activity feed UI, presence, UptimeRobot, landing polish, the legal review |
 
-**Custom pages (new).** Three generic tables: `collections` (a page: name, icon, template key), `collection_fields` (key, type `text|number|money|date|choice|checkbox|person|link`, required, options, position) and `collection_records` (jsonb `data`). A database trigger validates each record against its fields (required, types, choice values). RLS follows the wedding like every other table, and the realtime broadcast trigger is attached so edits sync live. Templates are presets shipped in `src/content/ro/collections/` (for example a "Furnizor" page with contract date, deposit and contact). Routes: `/w/:id/c/:slug`.
+**Custom pages (new).** Three generic tables: `collections` (a page: name, icon, template key, and an immutable `slug` that is unique per wedding, generated from the name at creation with a numeric suffix on collision, so renaming never breaks a link), `collection_fields` (key, type `text|number|money|date|choice|checkbox|person|link`, required, options, position) and `collection_records` (jsonb `data`). A database trigger validates each record against its fields (required, types, choice values). RLS follows the wedding like every other table, and the realtime broadcast trigger is attached so edits sync live. Templates are presets shipped in `src/content/ro/collections/` and `src/content/en/collections/` (same template ids and field keys, enforced by a parity test) (for example a "Furnizor" page with contract date, deposit and contact). Routes: `/w/:id/c/:slug`.
 
 **Revised build order.** (1) backend core: `create_wedding`, DB types, city and godparents, the allowlist; (2) auth wired, Google Testing mode; (3) the app on Supabase (routes, Tasks, Budget, Settings, localStorage removed); (4) live collaboration plus invitations; (5) guest list; (6) public RSVP; (7) day-of timeline; (8) custom pages; (9) hardening. The sprint table in `UPDATE_PLAN.md` predates this reset.
 
@@ -74,7 +74,7 @@ Supabase (free, eu-central-1)
   └─ pg_cron + pg_net     weekly digest, keep-alive, retention purge
 
 Third party (all free tiers)
-  Resend (email) · Sentry (errors) · UptimeRobot (uptime) · Cloudflare Turnstile (bot check on RSVP/login)
+  Resend (email) · Sentry (errors) · UptimeRobot (uptime) · Cloudflare Turnstile (bot check on the public RSVP page only)
   Cloudflare R2 (encrypted nightly DB dumps)
 ```
 
@@ -183,7 +183,7 @@ The free plan allows exactly 2 active projects, so that's staging + prod.
 **Security:**
 - RLS on every table, and the CI lint fails if a table lacks RLS.
 - CSP and security headers via Cloudflare `_headers`.
-- Turnstile on magic-link and RSVP.
+- Turnstile on the public RSVP page only (sign-in is invite-only, with a sign-up allowlist trigger).
 - Supabase auth rate limits configured.
 - Invitation and RSVP tokens are 128-bit random, stored hashed, and invitations expire after 14 days.
 - Storage buckets are private, with signed URLs.
