@@ -1,6 +1,5 @@
 import { ArrowLeft, ArrowRight, Check } from 'lucide-react';
 import { type FormEvent, type ReactNode, useEffect, useRef, useState } from 'react';
-import { ImportButton } from '../components/ImportButton';
 import { Banner, Button, Card, cx, Heading, Segmented, TextInput } from '../components/ui';
 import { parseISODate } from '../domain/dates';
 import {
@@ -22,7 +21,6 @@ import { useT } from '../i18n';
 import { downloadText } from '../lib/download';
 import { formatLongDate, formatNumber } from '../lib/format';
 import { useLocale } from '../lib/locale';
-import type { BackupError } from '../storage/storage';
 import { useStore } from '../store';
 
 const FIELD_IDS = {
@@ -119,7 +117,6 @@ export function Onboarding() {
   const [step, setStep] = useState<StepId>('about');
   const [values, setValues] = useState<OnboardingValues>({ name1: '', name2: '', date: '', city: '', guests: '' });
   const [errors, setErrors] = useState<OnboardingErrors>({});
-  const [importError, setImportError] = useState<BackupError | null>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const mounted = useRef(false);
 
@@ -308,11 +305,6 @@ export function Onboarding() {
             </div>
           </form>
         </Card>
-
-        <div className="flex flex-col items-center gap-2 text-center">
-          <ImportButton onError={setImportError}>{ob.import}</ImportButton>
-          {importError && <p className="text-sm text-minus">{t.backupErrors[importError]}</p>}
-        </div>
       </main>
     </div>
   );
