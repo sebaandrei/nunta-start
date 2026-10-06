@@ -52,6 +52,25 @@ export function formatShortDate(date: Date, locale: Locale = currentLocale()): s
   return `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`;
 }
 
+/** „12 oct" / „12 octombrie", fără an (în liste, unde etapa dă contextul). */
+export function formatDayMonth(date: Date, short = false, locale: Locale = currentLocale()): string {
+  const months = locale === 'en' ? (short ? MONTHS_SHORT_EN : MONTHS_EN) : short ? MONTHS_SHORT_RO : MONTHS_RO;
+  return `${date.getDate()} ${months[date.getMonth()]}`;
+}
+
+/**
+ * Termenul unui task, cu luna scurtă: „12 oct". Anul apare când `showYear` (vedere fără
+ * context de etapă) sau când nu e anul curent.
+ */
+export function formatDeadline(
+  date: Date,
+  { today, showYear, locale = currentLocale() }: { today: Date; showYear: boolean; locale?: Locale },
+): string {
+  return showYear || date.getFullYear() !== today.getFullYear()
+    ? formatShortDate(date, locale)
+    : formatDayMonth(date, true, locale);
+}
+
 const WEEKDAYS_RO = ['duminică', 'luni', 'marți', 'miercuri', 'joi', 'vineri', 'sâmbătă'];
 const WEEKDAYS_EN = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 

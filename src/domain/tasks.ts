@@ -178,3 +178,45 @@ export function defaultDateForNewTask(wedding: Date, today: Date): Date {
   const end = stageEnd(stageOf(today, wedding), wedding);
   return end ?? today;
 }
+
+export interface StageProgress {
+  /** Poziția etapei curente, începând de la 1. */
+  current: number;
+  total: number;
+  /** Cât din drum s-a parcurs, între 0 și 1 (etapa curentă contează ca parcursă). */
+  ratio: number;
+}
+
+export function stageProgress(wedding: Date, today: Date): StageProgress {
+  const total = STAGE_IDS.length;
+  const current = stageIndex(stageOf(today, wedding)) + 1;
+  return { current, total, ratio: current / total };
+}
+
+export type StageState = 'passed' | 'current' | 'upcoming';
+
+export function stageState(stage: StageId, wedding: Date, today: Date): StageState {
+  const diff = stageIndex(stage) - stageIndex(stageOf(today, wedding));
+  return diff < 0 ? 'passed' : diff === 0 ? 'current' : 'upcoming';
+}
+
+/** Cel mai apropiat termen care nu a trecut încă, dintre taskurile nefinalizate. */
+export function nextDue(tasks: Task[], wedding: Date, today: Date): { task: Task; due: Date } | null {
+  let best: { task: Task; due: Date } | null = null;
+  for (const task of tasks) {
+    if (task.status === 'done') continue;
+    const due = dueDate(task, wedding);
+    if (!due || daysBetween(due, today) > 0) continue;
+    if (!best || due.getTime() < best.due.getTime()) best = { task, due };
+  }
+  return best;
+}
+
+/** Roșu doar pentru un termen depășit în afara grupului „De recuperat" (care nu e marcat ca întârziat). */
+export function showsOverdue(task: Task, wedding: Date, today: Date, inRecover: boolean): boolean {
+  return !inRecover && isOverdue(task, wedding, today);
+}
+
+export function filterRecover(tasks: Task[], wedding: Date, today: Date): Task[] {
+  return tasks.filter((t) => isRecover(t, wedding, today));
+}
