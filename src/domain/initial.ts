@@ -8,6 +8,8 @@ export interface StartInput {
   weddingDate: string;
   names: [string, string];
   guests: number | null;
+  /** Orașul sau locația nunții (opțional). */
+  city?: string;
 }
 
 export function newId(): string {
@@ -23,7 +25,7 @@ export function createInitialData(input: StartInput, now: Date, makeId: () => st
       names: input.names,
       eurRate: DEFAULT_EUR_RATE,
       displayCurrency: 'EUR',
-      city: '',
+      city: input.city?.trim() ?? '',
       godparents: [],
     },
     tasks: taskTemplate().map(
