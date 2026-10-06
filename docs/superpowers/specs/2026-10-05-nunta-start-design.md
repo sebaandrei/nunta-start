@@ -103,7 +103,7 @@ Un task nou primește ca termen sfârșitul etapei curente și se deschide direc
 
 ## Ecrane
 
-- **Prima deschidere:** data nunții, cele două prenume, numărul estimat de invitați (opțional), plus „Am deja o copie salvată".
+- **Prima deschidere:** data nunții, cele două prenume, numărul estimat de invitați (opțional).
 - **Acasă:** trei cifre (taskuri gata, bilanțul la scenariul selectat, plătit din total), primele 5 taskuri nefinalizate (cele de recuperat primele, apoi după termen) și reminderul de copie.
 - **Start:** vederile de mai sus, cu editarea taskului în același rând.
 - **Calculator:** setări (scenarii, dar, familie, curs, monedă), un card pe scenariu (bilanț, cost total, cost pe invitat, dar de echilibru), apoi tabelul de linii cu total, plătit și rest.

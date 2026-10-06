@@ -182,7 +182,6 @@ export const en: Messages = {
     guestsHint: 'It sets up the first scenario in the Calculator. You can change it any time.',
     guestsPlaceholder: 'e.g. 200',
     start: 'Start',
-    import: 'I already have a saved copy',
     corrupt: "The data saved in this browser could not be read. Download it before you start over, so it isn't lost.",
     corruptDownload: 'Download the old data',
     stepper: 'Setup steps',

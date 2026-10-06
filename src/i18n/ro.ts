@@ -187,7 +187,6 @@ export const ro = {
     guestsHint: 'Pornește primul scenariu din Calculator. Îl schimbați oricând.',
     guestsPlaceholder: 'ex. 200',
     start: 'Începe',
-    import: 'Am deja o copie salvată',
     corrupt:
       'Datele salvate în acest browser nu au putut fi citite. Descărcați-le înainte să începeți din nou, ca să nu se piardă.',
     corruptDownload: 'Descarcă datele vechi',
