@@ -1,4 +1,5 @@
 <h2>Your sign-in link</h2>
-<p><a href="{{ .ConfirmationURL }}">Tap here to sign in</a></p>
-<p>Link opens in a mail-app browser and nothing happens? Enter this code in the app instead:</p>
+<p>Enter this code in the app to sign in:</p>
 <p style="font-size:24px;letter-spacing:4px"><strong>{{ .Token }}</strong></p>
+<p>Or, if you are on the same device and browser where you asked for it, <a href="{{ .ConfirmationURL }}">tap here to sign in</a>.</p>
+<p><strong>Use one or the other, not both:</strong> opening the link uses up the code. If you tapped the link by mistake, request a new email in the app.</p>

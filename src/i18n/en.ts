@@ -80,7 +80,7 @@ export const en: Messages = {
       resend: 'Resend link',
       other: 'Use another address',
       codeTip:
-        'Opened the link in your email app and nothing happened? Type the 6-digit code from the same email here instead.',
+        'Reading this on a phone mail app? Type the 6-digit code from the email here instead of tapping the link: opening the link uses the code up. Already tapped it? Resend below to get a new email.',
       codeLabel: '6-digit code',
       codeSubmit: 'Sign in with code',
       codeVerifying: 'Checking…',

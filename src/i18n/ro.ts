@@ -84,7 +84,7 @@ export const ro = {
       resend: 'Retrimiteți linkul',
       other: 'Folosiți altă adresă',
       codeTip:
-        'Ați deschis linkul în aplicația de mail și nu s-a întâmplat nimic? Tastați aici codul de 6 cifre din același email.',
+        'Citiți emailul în aplicația de mail de pe telefon? Tastați aici codul de 6 cifre în loc să apăsați pe link: deschiderea linkului consumă codul. L-ați apăsat deja? Retrimiteți mai jos ca să primiți un email nou.',
       codeLabel: 'Cod din 6 cifre',
       codeSubmit: 'Conectare cu cod',
       codeVerifying: 'Se verifică…',
