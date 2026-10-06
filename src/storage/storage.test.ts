@@ -46,6 +46,27 @@ describe('datele inițiale', () => {
   });
 });
 
+describe('compatibilitate city și godparents', () => {
+  it('datele vechi, fără câmpurile noi, se încarcă cu valori implicite', () => {
+    const { city, godparents, ...oldSettings } = sample().settings;
+    const old = { ...sample(), settings: oldSettings };
+    const parsed = appDataSchema.safeParse(old);
+    expect(parsed.success && parsed.data.settings.city).toBe('');
+    expect(parsed.success && parsed.data.settings.godparents).toEqual([]);
+    expect(loadData(memoryStorage({ [STORAGE_KEY]: JSON.stringify(old) })).status).toBe('ok');
+    const backup = JSON.stringify({ app: 'nunta-start', version: 1, exportedAt: now.toISOString(), data: old });
+    expect(parseBackup(backup).ok).toBe(true);
+  });
+
+  it('cu câmpurile noi trec prin descărcare și încărcare', () => {
+    const data = sample();
+    data.settings.city = 'Brașov';
+    data.settings.godparents = [{ godmother: 'Maria', godfather: 'Ion' }];
+    expect(parseBackup(serializeBackup(data, now))).toEqual({ ok: true, data });
+    expect(loadData(memoryStorage({ [STORAGE_KEY]: JSON.stringify(data) }))).toEqual({ status: 'ok', data });
+  });
+});
+
 describe('copia descărcabilă', () => {
   it('descărcare + încărcare dă aceleași date', () => {
     const data = sample();

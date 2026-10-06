@@ -7,6 +7,7 @@ import {
   type TextareaHTMLAttributes,
   useEffect,
   useId,
+  useRef,
   useState,
 } from 'react';
 import type { Status } from '../domain/schema';
@@ -22,6 +23,7 @@ const BUTTON_VARIANTS = {
   secondary: 'bg-soft text-ink hover:bg-soft/70',
   ghost: 'border border-line bg-surface text-ink hover:bg-sunken',
   danger: 'border border-minus/40 bg-surface text-minus hover:bg-minus/10',
+  dangerSolid: 'bg-minus text-accent-ink hover:opacity-90',
   link: 'text-accent underline-offset-2 hover:underline',
 };
 
@@ -456,5 +458,50 @@ export function EmptyState({
       {children && <p className="max-w-sm text-sm text-muted">{children}</p>}
       {action && <div className="mt-2">{action}</div>}
     </div>
+  );
+}
+
+/**
+ * Dialog modal pe <dialog> nativ: focusul rămâne în el, Escape îl închide, iar la închidere
+ * focusul revine pe butonul care l-a deschis (le face browserul). Click pe fundal închide.
+ */
+export function Dialog({
+  open,
+  onClose,
+  title,
+  children,
+  actions,
+}: {
+  open: boolean;
+  onClose: () => void;
+  title: string;
+  children: ReactNode;
+  actions: ReactNode;
+}) {
+  const ref = useRef<HTMLDialogElement>(null);
+  const titleId = useId();
+
+  useEffect(() => {
+    const dialog = ref.current;
+    if (!dialog) return;
+    if (open && !dialog.open) dialog.showModal();
+    if (!open && dialog.open) dialog.close();
+  }, [open]);
+
+  return (
+    // biome-ignore lint/a11y/useKeyWithClickEvents: same
+    <dialog
+      ref={ref}
+      aria-labelledby={titleId}
+      onClose={onClose}
+      onClick={(e) => e.target === e.currentTarget && e.currentTarget.close()}
+      className="m-auto w-[calc(100%-2rem)] max-w-md rounded-2xl border border-line bg-surface p-6 text-ink shadow-xl backdrop:bg-ink/40"
+    >
+      <h2 id={titleId} className="font-serif text-xl leading-snug">
+        {title}
+      </h2>
+      <div className="mt-2 text-sm text-muted">{children}</div>
+      <div className="mt-6 flex flex-wrap justify-end gap-2">{actions}</div>
+    </dialog>
   );
 }

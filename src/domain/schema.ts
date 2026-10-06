@@ -70,12 +70,21 @@ export const budgetSchema = z
     path: ['selected'],
   });
 
+export const godparentPairSchema = z.object({
+  godmother: z.string(),
+  godfather: z.string(),
+});
+
 export const settingsSchema = z.object({
   weddingDate: isoDateSchema,
   names: z.tuple([z.string(), z.string()]),
   /** Câți lei face 1 €. */
   eurRate: z.number().positive(),
   displayCurrency: currencySchema,
+  /** Orașul sau locația nunții (opțional). Datele vechi nu îl au. */
+  city: z.string().default(''),
+  /** Perechile de nași. Datele vechi nu le au. */
+  godparents: z.array(godparentPairSchema).default([]),
 });
 
 export const metaSchema = z.object({
@@ -99,6 +108,7 @@ export type Task = z.infer<typeof taskSchema>;
 export type Money = z.infer<typeof moneySchema>;
 export type BudgetLine = z.infer<typeof budgetLineSchema>;
 export type Budget = z.infer<typeof budgetSchema>;
+export type GodparentPair = z.infer<typeof godparentPairSchema>;
 export type Settings = z.infer<typeof settingsSchema>;
 export type Meta = z.infer<typeof metaSchema>;
 export type AppData = z.infer<typeof appDataSchema>;

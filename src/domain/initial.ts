@@ -23,6 +23,8 @@ export function createInitialData(input: StartInput, now: Date, makeId: () => st
       names: input.names,
       eurRate: DEFAULT_EUR_RATE,
       displayCurrency: 'EUR',
+      city: '',
+      godparents: [],
     },
     tasks: taskTemplate().map(
       (tt): Task => ({
