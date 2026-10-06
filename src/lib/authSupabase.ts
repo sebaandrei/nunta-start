@@ -53,12 +53,11 @@ const supabase = () => import('./supabase').then((m) => m.getSupabase());
 export const callbackUrl = () => `${window.location.origin}/auth/callback`;
 
 export const supabaseAuthClient: AuthClient = {
-  async sendMagicLink(email) {
-    // Linkul se deschide adesea în altă filă: `next` se păstrează în localStorage, nu în adresă.
+  async sendCode(email) {
     beginAttempt(window.location.search);
     const { error } = await (await supabase()).auth.signInWithOtp({
       email,
-      options: { emailRedirectTo: callbackUrl(), shouldCreateUser: true },
+      options: { shouldCreateUser: true },
     });
     if (error) throw mapSupabaseAuthError(error);
   },

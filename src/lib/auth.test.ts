@@ -62,16 +62,14 @@ describe('error mapping', () => {
 describe('default client', () => {
   it('rejects every call with AuthNotConfiguredError', async () => {
     await expect(notConfiguredAuthClient.signInWithGoogle()).rejects.toBeInstanceOf(AuthNotConfiguredError);
-    await expect(notConfiguredAuthClient.sendMagicLink('voi@exemplu.ro')).rejects.toBeInstanceOf(
-      AuthNotConfiguredError,
-    );
+    await expect(notConfiguredAuthClient.sendCode('voi@exemplu.ro')).rejects.toBeInstanceOf(AuthNotConfiguredError);
   });
 });
 
 describe('dev/test client and previews', () => {
   it('succeeds or fails on demand', async () => {
-    await expect(createFakeAuthClient().sendMagicLink('a@b.ro')).resolves.toBeUndefined();
-    await expect(createFakeAuthClient('network').sendMagicLink('a@b.ro')).rejects.toBeInstanceOf(AuthNetworkError);
+    await expect(createFakeAuthClient().sendCode('a@b.ro')).resolves.toBeUndefined();
+    await expect(createFakeAuthClient('network').sendCode('a@b.ro')).rejects.toBeInstanceOf(AuthNetworkError);
   });
   it('parses preview names', () => {
     expect(parsePreview('sent')).toBe('sent');

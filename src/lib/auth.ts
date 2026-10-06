@@ -2,12 +2,12 @@ import type { Messages } from '../i18n';
 
 /**
  * Clientul de autentificare, injectat în ecranul de conectare.
- * Implementarea reală (link magic prin Supabase Auth) e în authSupabase.ts; fără credențiale rămâne cea de mai jos.
+ * Implementarea reală (cod din 6 cifre prin email, Supabase Auth) e în authSupabase.ts; fără credențiale rămâne cea de mai jos.
  */
 export interface AuthClient {
   signInWithGoogle(): Promise<void>;
-  sendMagicLink(email: string): Promise<void>;
-  /** Codul din același email, tastat în aplicație: merge și când linkul se deschide într-un browser din aplicația de mail. */
+  sendCode(email: string): Promise<void>;
+  /** Verifică codul din email, tastat în aplicație; la reușită sesiunea e deja pornită. */
   verifyCode(email: string, code: string): Promise<void>;
 }
 
@@ -74,7 +74,7 @@ export function isAuthConfigured(): boolean {
 /** Clientul implicit: refuză sincer, ca interfața să nu pretindă niciodată că a trimis un email. */
 export const notConfiguredAuthClient: AuthClient = {
   signInWithGoogle: () => Promise.reject(new AuthNotConfiguredError()),
-  sendMagicLink: () => Promise.reject(new AuthNotConfiguredError()),
+  sendCode: () => Promise.reject(new AuthNotConfiguredError()),
   verifyCode: () => Promise.reject(new AuthNotConfiguredError()),
 };
 
