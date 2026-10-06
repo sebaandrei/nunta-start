@@ -8,7 +8,10 @@ import '@fontsource-variable/fraunces';
 import './index.css';
 import './lib/theme';
 import { queryClient } from './lib/queryClient';
+import { initSession } from './lib/session';
 import { router } from './router';
+
+void initSession();
 
 const ReactQueryDevtools = import.meta.env.DEV
   ? lazy(() => import('@tanstack/react-query-devtools').then((m) => ({ default: m.ReactQueryDevtools })))

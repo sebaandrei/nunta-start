@@ -9,6 +9,7 @@ export const paths = {
   budget: '/w/calculator',
   settings: '/w/settings',
   login: '/login',
+  authCallback: '/auth/callback',
   /** NS-041 o mută sub /w. */
   workspaces: '/workspaces',
   invite: '/invite/$token',

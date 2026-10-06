@@ -31,8 +31,11 @@ function Spinner() {
 export function SignIn({
   client: clientProp = notConfiguredAuthClient,
   captchaSiteKey: captchaProp = import.meta.env.VITE_TURNSTILE_SITE_KEY,
+  showGoogle = import.meta.env.VITE_AUTH_GOOGLE === 'true',
 }: {
   client?: AuthClient;
+  /** Google rămâne implementat, dar ascuns până când aplicația nu mai e doar pe invitație. */
+  showGoogle?: boolean;
   /** Fără cheie, nu apare nicio verificare anti-robot. */
   captchaSiteKey?: string;
 }) {
@@ -119,7 +122,17 @@ export function SignIn({
                 </div>
               </Banner>
             )}
-            {status === 'error' && errorKind && <Banner tone="warn">{authErrorMessage(errorKind, t)}</Banner>}
+            {status === 'error' && errorKind === 'notInvited' && (
+              <Banner tone="warn">
+                <div>
+                  <p className="font-semibold">{a.notInvited.title}</p>
+                  <p className="mt-0.5 text-muted">{authErrorMessage(errorKind, t)}</p>
+                </div>
+              </Banner>
+            )}
+            {status === 'error' && errorKind && errorKind !== 'notInvited' && (
+              <Banner tone="warn">{authErrorMessage(errorKind, t)}</Banner>
+            )}
 
             <div>
               <p className={EYEBROW}>{expired ? a.expired.eyebrow : a.form.eyebrow}</p>
@@ -129,7 +142,7 @@ export function SignIn({
               <p className="mt-2 text-sm text-muted">{expired ? a.expired.lead : a.form.lead}</p>
             </div>
 
-            {!expired && (
+            {!expired && showGoogle && (
               <>
                 <Button variant="ghost" className="w-full" onClick={onGoogle} disabled={sending}>
                   <span
@@ -210,17 +223,7 @@ export function SignIn({
               )}
             </form>
 
-            {!expired && (
-              <p className="text-center text-xs text-muted">
-                {a.form.newHere} {/* Același ecran ca butonul principal: contul se creează la prima conectare. */}
-                <Link
-                  to="/login"
-                  className="inline-flex min-h-11 items-center font-semibold text-accent hover:underline"
-                >
-                  {a.form.createSpace}
-                </Link>
-              </p>
-            )}
+            {!expired && <p className="text-center text-xs text-muted">{a.form.inviteOnly}</p>}
 
             <div className="flex items-start gap-3 rounded-xl bg-sunken p-4">
               <ShieldCheck size={18} aria-hidden="true" className="mt-0.5 shrink-0 text-accent" />

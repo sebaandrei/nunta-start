@@ -12,7 +12,8 @@ export function createFakeAuthClient(outcome: AuthOutcome = 'success'): AuthClie
   return { signInWithGoogle: run, sendMagicLink: run };
 }
 
-export type PreviewName = 'sent' | 'expired' | 'captcha' | 'error';
+const PREVIEWS = ['sent', 'expired', 'captcha', 'error', 'not-invited', 'rate-limited'] as const;
+export type PreviewName = (typeof PREVIEWS)[number];
 
 export interface Preview {
   state: SignInState;
@@ -21,7 +22,7 @@ export interface Preview {
 }
 
 export function parsePreview(raw: string | null): PreviewName | null {
-  return raw === 'sent' || raw === 'expired' || raw === 'captcha' || raw === 'error' ? raw : null;
+  return PREVIEWS.find((name) => name === raw) ?? null;
 }
 
 export function previewFor(name: PreviewName): Preview {
@@ -39,5 +40,9 @@ export function previewFor(name: PreviewName): Preview {
         state: { ...base, status: 'error', email, errorKind: 'network' },
         client: createFakeAuthClient('network'),
       };
+    case 'not-invited':
+      return { state: { ...base, status: 'error', email, errorKind: 'notInvited' }, client: createFakeAuthClient() };
+    case 'rate-limited':
+      return { state: { ...base, status: 'error', email, errorKind: 'rateLimited' }, client: createFakeAuthClient() };
   }
 }
