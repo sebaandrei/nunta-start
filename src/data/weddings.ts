@@ -4,7 +4,14 @@ import { useSession } from '../lib/session';
 import { getSupabase } from '../lib/supabase';
 import { ROLES, type Role } from '../lib/workspaces';
 import { DataError, unwrap } from './errors';
-import { type CreateWeddingInput, createWeddingArgs, type Wedding, type WeddingRow, weddingFromRow } from './mappers';
+import {
+  type CreateWeddingInput,
+  createWeddingArgs,
+  type Wedding,
+  type WeddingRow,
+  type WeddingUpdate,
+  weddingFromRow,
+} from './mappers';
 
 const SELECT = '*, wedding_members!inner(user_id, role)';
 
@@ -58,4 +65,15 @@ export async function getWedding(id: string): Promise<Wedding | null> {
 export async function createWedding(input: CreateWeddingInput, locale: Locale): Promise<string> {
   const args = createWeddingArgs(input, taskTemplate(locale), budgetDefaults(locale));
   return unwrap(await getSupabase().rpc('create_wedding', args));
+}
+
+/** Scrie doar coloanele din `update`. RLS filtrează tăcut rândurile fără drept: zero rânduri = 403. */
+export async function updateWedding(id: string, update: WeddingUpdate): Promise<void> {
+  const rows = unwrap(await getSupabase().from('weddings').update(update).eq('id', id).select('id'));
+  if (rows.length === 0) throw new DataError('Wedding not updated', 403, '42501');
+}
+
+/** Ștergere „moale" (doar proprietarul, păzit de un trigger în DB): rândul rămâne, cu `deleted_at`. */
+export async function softDeleteWedding(id: string): Promise<void> {
+  await updateWedding(id, { deleted_at: new Date().toISOString() });
 }

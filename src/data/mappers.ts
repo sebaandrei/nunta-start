@@ -15,7 +15,7 @@
 
 import { DEFAULT_EUR_RATE, DEFAULT_GUESTS } from '../domain/initial';
 import type { Budget, BudgetLine, Category, Currency, Money, Owner, Settings, Status, Task } from '../domain/schema';
-import { CATEGORY_IDS, CURRENCIES, OWNERS, STATUSES } from '../domain/schema';
+import { CATEGORY_IDS, CURRENCIES, MAX_GODPARENT_PAIRS, OWNERS, STATUSES } from '../domain/schema';
 import type { Role } from '../lib/workspaces';
 import type { Database, Json } from '../types/database';
 
@@ -24,6 +24,7 @@ export type TaskRow = Tables['tasks']['Row'];
 export type TaskInsert = Tables['tasks']['Insert'];
 export type TaskUpdate = Tables['tasks']['Update'];
 export type WeddingRow = Tables['weddings']['Row'];
+export type WeddingUpdate = Tables['weddings']['Update'];
 export type BudgetSettingsRow = Tables['budget_settings']['Row'];
 export type BudgetScenarioRow = Tables['budget_scenarios']['Row'];
 export type BudgetLineRow = Tables['budget_lines']['Row'];
@@ -173,6 +174,64 @@ export function settingsFromWedding(w: Wedding, fallbackDate: string): Settings 
     displayCurrency: w.displayCurrency,
     city: w.city ?? '',
     godparents: w.godparents,
+  };
+}
+
+/** Câmpurile unei nunți pe care Setările și Calculatorul le pot schimba. */
+export type WeddingPatch = Partial<
+  Pick<Wedding, 'name' | 'date' | 'city' | 'partner1' | 'partner2' | 'eurRate' | 'displayCurrency' | 'godparents'>
+>;
+
+const MAX_TEXT = 120;
+const MAX_NAME = 200;
+const sameJson = (a: unknown, b: unknown) => JSON.stringify(a) === JSON.stringify(b);
+
+/**
+ * Coloanele care chiar se schimbă, gata de trimis; gol = nimic de scris. Valorile se aduc la forma din DB
+ * (curs cu 4 zecimale și > 0, oraș gol = null, cel mult 5 perechi de nași, texte tăiate la limită).
+ * Numele nunții („Ana & Mihai") urmează numele partenerilor doar cât timp era cel generat din ele.
+ */
+export function weddingPatchToUpdate(current: Wedding, patch: WeddingPatch): WeddingUpdate {
+  const out: WeddingUpdate = {};
+  const set = <K extends keyof WeddingUpdate>(column: K, value: WeddingUpdate[K], before: unknown) => {
+    if (!sameJson(value, before)) out[column] = value;
+  };
+  if (patch.name !== undefined) set('name', patch.name.trim().slice(0, MAX_NAME), current.name);
+  if (patch.date !== undefined) set('wedding_date', patch.date, current.date);
+  if (patch.city !== undefined) set('city', patch.city?.trim().slice(0, MAX_TEXT) || null, current.city);
+  if (patch.partner1 !== undefined) set('partner1_name', patch.partner1.trim().slice(0, MAX_TEXT), current.partner1);
+  if (patch.partner2 !== undefined) set('partner2_name', patch.partner2.trim().slice(0, MAX_TEXT), current.partner2);
+  if (patch.eurRate !== undefined && patch.eurRate > 0) {
+    set('eur_rate', Math.round(patch.eurRate * 10000) / 10000, current.eurRate);
+  }
+  if (patch.displayCurrency !== undefined) set('display_currency', patch.displayCurrency, current.displayCurrency);
+  if (patch.godparents !== undefined) {
+    const pairs = patch.godparents.slice(0, MAX_GODPARENT_PAIRS).map(({ godmother, godfather }) => ({
+      godmother: godmother.slice(0, MAX_TEXT),
+      godfather: godfather.slice(0, MAX_TEXT),
+    }));
+    set('godparents', pairs, current.godparents);
+  }
+  const renamed = out.partner1_name !== undefined || out.partner2_name !== undefined;
+  if (renamed && patch.name === undefined && current.name === coupleLabel(current.partner1, current.partner2)) {
+    const label = coupleLabel(out.partner1_name ?? current.partner1, out.partner2_name ?? current.partner2);
+    if (label) out.name = label;
+  }
+  return out;
+}
+
+/** Aplică un `WeddingUpdate` pe nunta din cache (update optimist), cu aceleași valori pe care le primește serverul. */
+export function applyWeddingUpdate(w: Wedding, u: WeddingUpdate): Wedding {
+  return {
+    ...w,
+    name: u.name ?? w.name,
+    date: u.wedding_date === undefined ? w.date : u.wedding_date,
+    city: u.city === undefined ? w.city : u.city,
+    partner1: u.partner1_name ?? w.partner1,
+    partner2: u.partner2_name ?? w.partner2,
+    eurRate: typeof u.eur_rate === 'number' ? u.eur_rate : w.eurRate,
+    displayCurrency: u.display_currency ?? w.displayCurrency,
+    godparents: u.godparents === undefined ? w.godparents : godparentsFromJson(u.godparents),
   };
 }
 
