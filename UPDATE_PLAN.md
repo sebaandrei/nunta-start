@@ -111,16 +111,16 @@ If your real weekly hours differ, rescale: the order of the tasks stays the same
 
 | ID | P | Task | Est | Deps | Done when | Status |
 |---|---|---|---|---|---|---|
-| NS-200 | P0 | Fix design defects in `design.pen`: delete empty duplicate frames, fix the Public Home hero overlap, theme labels, contrast, "Your data" becomes download and delete account, new sidebar privacy note | 2 | – | No layout problems reported; light text is ≥ 4.5:1 | 🟨 |
-| NS-201 | P0 | Draw the missing screens: mobile (Home, Tasks, Budget, Settings, public), onboarding, sign-in states and captcha slot, wedding picker, members and invites, empty/loading/error states, privacy and terms pages, email templates | 6 | NS-200 | All listed screens exist in `design.pen`; the owner has reviewed them | 🟨 |
-| NS-202 | P0 | Design tokens: sage palette as CSS variables, `data-theme` plus system fallback, self-hosted Inter (CSP `font-src 'self'`), contrast test | 2 | – | The app is restyled; the contrast test passes in both themes | 🟨 |
-| NS-203 | P0 | Theme store (system, light, dark, no flash), English locale (`en.ts`, locale-aware formatting, EN templates), switches in Settings | 5 | NS-202 | Both switches work and persist; typecheck fails on a missing EN key | 🟨 |
-| NS-204 | P0 | App shell: sidebar and page header on desktop, bottom tab bar on mobile, theme and language buttons in the header (merge with NS-041) | 4 | NS-201, NS-203 | All routes render in the shell at 360px and 1280px | ⬜ |
-| NS-205 | P0 | UI primitives restyled (Button, Card, Segmented, pills, progress bar, stat card, inputs) with lucide icons | 3 | NS-202 | Every screen uses the new primitives | ⬜ |
-| NS-206 | P0 | Home screen: countdown hero, three summary cards, upcoming steps, current-stage card | 4 | NS-204, NS-205 | Matches the design in both themes and at 360px | ⬜ |
-| NS-207 | P0 | Tasks screen: stage timeline, filters (stage, category, owner), overdue chip, right rail | 5 | NS-204, NS-205 | Matches the design in both themes and at 360px | ⬜ |
-| NS-208 | P0 | Budget screen: input strip, scenario cards, category table (stacked cards on mobile) | 3 | NS-204, NS-205 | Matches the design; totals still match the v1 reference numbers | ⬜ |
-| NS-209 | P0 | Settings screen: wedding details incl. godparents, preferences, "Download my data" and "Delete account" panels (actions land with NS-061 and NS-062) | 3 | NS-204, NS-205 | Matches the design; godparents persist | ⬜ |
+| NS-200 | P0 | Fix design defects in `design.pen`: delete empty duplicate frames, fix the Public Home hero overlap, theme labels, contrast, "Your data" becomes download and delete account, new sidebar privacy note | 2 | – | No layout problems reported; light text is ≥ 4.5:1 | ✅ |
+| NS-201 | P0 | Draw the missing screens: mobile (Home, Tasks, Budget, Settings, public), onboarding, sign-in states and captcha slot, wedding picker, members and invites, empty/loading/error states, privacy and terms pages, email templates | 6 | NS-200 | All listed screens exist in `design.pen`; the owner has reviewed them | ✅ |
+| NS-202 | P0 | Design tokens: sage palette as CSS variables, `data-theme` plus system fallback, self-hosted Inter (CSP `font-src 'self'`), contrast test | 2 | – | The app is restyled; the contrast test passes in both themes | ✅ |
+| NS-203 | P0 | Theme store (system, light, dark, no flash), English locale (`en.ts`, locale-aware formatting, EN templates), switches in Settings | 5 | NS-202 | Both switches work and persist; typecheck fails on a missing EN key | ✅ |
+| NS-204 | P0 | App shell: sidebar and page header on desktop, bottom tab bar on mobile, theme and language buttons in the header (merge with NS-041) | 4 | NS-201, NS-203 | All routes render in the shell at 360px and 1280px | ✅ |
+| NS-205 | P0 | UI primitives restyled (Button, Card, Segmented, pills, progress bar, stat card, inputs) with lucide icons | 3 | NS-202 | Every screen uses the new primitives | ✅ |
+| NS-206 | P0 | Home screen: countdown hero, three summary cards, upcoming steps, current-stage card | 4 | NS-204, NS-205 | Matches the design in both themes and at 360px | ✅ |
+| NS-207 | P0 | Tasks screen: stage timeline, filters (stage, category, owner), overdue chip, right rail | 5 | NS-204, NS-205 | Matches the design in both themes and at 360px | ✅ |
+| NS-208 | P0 | Budget screen: input strip, scenario cards, category table (stacked cards on mobile) | 3 | NS-204, NS-205 | Matches the design; totals still match the v1 reference numbers | ✅ |
+| NS-209 | P0 | Settings screen: wedding details incl. godparents, preferences, "Download my data" and "Delete account" panels (actions land with NS-061 and NS-062) | 3 | NS-204, NS-205 | Matches the design; godparents persist | ✅ |
 | NS-210 | P1 | Migration: wedding city/venue and godparents (`weddings` columns or a small table) + RLS test | 1 | NS-026 | pgTAP is green | ⬜ |
 | NS-211 | P0 | Public landing page at `/` (hero, preview card, features, CTA); the app lives under `/w` (NS-146 only prerenders it later) | 4 | NS-203, NS-205 | Matches the design; deep links to the app still work | ⬜ |
 | NS-212 | P0 | Sign-in screen to the design (Google, magic link, check-your-email and expired states, Turnstile slot): the front end of NS-022 | 4 | NS-211 | Matches the design in RO and EN | ⬜ |
