@@ -84,13 +84,13 @@ function useSignOut(): (() => void) | null {
   };
 }
 
-/** Deconectare în meniul lateral, lângă cardul cuplului. */
+/** Deconectare în josul meniului lateral. */
 export function SignOutButton() {
   const t = useT();
   const onSignOut = useSignOut();
   if (!onSignOut) return null;
   return (
-    <Button variant="ghost" className="mt-3 w-full justify-start gap-2" onClick={onSignOut}>
+    <Button variant="ghost" className="w-full justify-start gap-2" onClick={onSignOut}>
       <LogOut size={16} aria-hidden="true" />
       {t.shell.signOut}
     </Button>

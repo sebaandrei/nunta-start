@@ -150,7 +150,6 @@ function Sidebar() {
             <p className="text-[11px] text-muted">{formatDate(wedding)}</p>
           </div>
         </div>
-        <SignOutButton />
       </section>
 
       <div className="mt-auto rounded-xl bg-hero p-3.5">
@@ -160,6 +159,7 @@ function Sidebar() {
         </p>
         <p className="mt-1.5 text-[11px] leading-relaxed text-muted">{t.shell.privacyBody}</p>
       </div>
+      <SignOutButton />
     </aside>
   );
 }
