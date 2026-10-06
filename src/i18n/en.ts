@@ -461,6 +461,7 @@ export const en: Messages = {
   },
 
   calc: {
+    readOnly: 'You have read-only access: the budget cannot be changed.',
     scenarios: 'Guest scenarios',
     addScenario: 'Add scenario',
     removeScenario: 'Remove scenario',

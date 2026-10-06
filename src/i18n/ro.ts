@@ -467,6 +467,7 @@ export const ro = {
   },
 
   calc: {
+    readOnly: 'Aveți acces doar pentru citire: bugetul nu poate fi modificat.',
     scenarios: 'Scenarii de invitați',
     addScenario: 'Adaugă scenariu',
     removeScenario: 'Scoate scenariul',
