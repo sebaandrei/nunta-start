@@ -5,11 +5,13 @@ import { LEGACY_REDIRECTS, paths } from './lib/paths';
 import { Calculator } from './screens/Calculator';
 import { NotFound, RouteError } from './screens/ErrorPages';
 import { Home } from './screens/Home';
+import { InviteRoute } from './screens/InviteAccept';
 import { Landing } from './screens/Landing';
 import { LegalPage } from './screens/LegalPage';
 import { Settings } from './screens/Settings';
 import { SignIn } from './screens/SignIn';
 import { Start } from './screens/Start';
+import { Workspaces } from './screens/Workspaces';
 
 const rootRoute = createRootRoute({ component: Outlet, errorComponent: RouteError, notFoundComponent: NotFound });
 
@@ -35,6 +37,10 @@ const legalRoutes = [
   createRoute({ getParentRoute: () => rootRoute, path: paths.terms, component: () => <LegalPage doc="terms" /> }),
 ];
 
+// Alegerea spațiului și invitațiile: ecrane publice, fără meniu.
+const workspacesRoute = createRoute({ getParentRoute: () => rootRoute, path: paths.workspaces, component: Workspaces });
+const inviteRoute = createRoute({ getParentRoute: () => rootRoute, path: paths.invite, component: InviteRoute });
+
 const legacyRoutes = LEGACY_REDIRECTS.map(({ from, to }) =>
   createRoute({
     getParentRoute: () => rootRoute,
@@ -49,6 +55,8 @@ const routeTree = rootRoute.addChildren([
   landingRoute,
   appRoute.addChildren(appChildren),
   loginRoute,
+  workspacesRoute,
+  inviteRoute,
   ...legalRoutes,
   ...legacyRoutes,
 ]);

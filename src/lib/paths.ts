@@ -9,9 +9,15 @@ export const paths = {
   budget: '/w/calculator',
   settings: '/w/settings',
   login: '/login',
+  /** NS-041 o mută sub /w. */
+  workspaces: '/workspaces',
+  invite: '/invite/$token',
   privacy: '/privacy',
   terms: '/terms',
 } as const;
+
+/** Adresa unei invitații, cu tokenul codat. */
+export const invitePath = (token: string) => `/invite/${encodeURIComponent(token)}`;
 
 /** Căile vechi, redirecționate spre cele noi ca să nu se strice favoritele. */
 export const LEGACY_REDIRECTS = [

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { LEGACY_REDIRECTS, paths, signUpPath } from './paths';
+import { invitePath, LEGACY_REDIRECTS, paths, signUpPath } from './paths';
 
 describe('paths', () => {
   it('pune ecranele aplicației sub /w', () => {
@@ -19,6 +19,10 @@ describe('paths', () => {
       ['/calculator', '/w/calculator'],
       ['/settings', '/w/settings'],
     ]);
+  });
+
+  it('codează tokenul invitației', () => {
+    expect(invitePath('a b/c')).toBe('/invite/a%20b%2Fc');
   });
 
   it('butoanele de început duc la /login', () => {

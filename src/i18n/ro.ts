@@ -2,6 +2,8 @@ import type { Countdown } from '../domain/home';
 import type { Category, Owner, Status } from '../domain/schema';
 import type { StageId } from '../domain/tasks';
 import { countLabel } from '../lib/format';
+import { INVITE_LIFETIME_DAYS } from '../lib/invites';
+import type { Role } from '../lib/workspaces';
 import type { BackupError } from '../storage/storage';
 
 /** Toate textele interfeței, într-un singur loc. */
@@ -206,6 +208,83 @@ export const ro = {
       dateRequired: 'Alegeți data nunții.',
       dateInvalid: 'Data nu este validă.',
       guestsMin: 'Numărul de invitați trebuie să fie cel puțin 1.',
+    },
+  },
+
+  workspaces: {
+    eyebrow: 'Alegeți spațiul',
+    title: 'Spațiile voastre de nuntă',
+    lead: 'Alegeți nunta la care lucrați acum.',
+    listLabel: 'Spațiile voastre',
+    open: (name: string) => `Deschide spațiul ${name}`,
+    unnamed: 'Nuntă fără nume',
+    createTitle: 'Creați un spațiu nou',
+    createExistingNote: 'Deocamdată puteți avea un singur spațiu în acest browser, așa că vă ducem în cel existent.',
+    roleLabel: 'Rol',
+    roles: {
+      owner: 'Proprietar',
+      partner: 'Partener',
+      planner: 'Planner',
+      helper: 'Ajutor',
+      viewer: 'Cititor',
+    } satisfies Record<Role, string>,
+    roleHints: {
+      owner: 'Poate face orice, inclusiv să șteargă spațiul',
+      partner: 'Poate edita tot și invita oameni',
+      planner: 'Poate edita taskurile și bugetul',
+      helper: 'Poate bifa taskurile care îi sunt date',
+      viewer: 'Poate doar să vadă planul',
+    } satisfies Record<Role, string>,
+    emptyTitle: 'Nu aveți încă niciun spațiu',
+    emptyBody: 'Creați primul spațiu ca să începeți planificarea nunții.',
+    loading: 'Se încarcă spațiile…',
+    loadError: 'Nu am putut încărca spațiile voastre.',
+    retry: 'Încercați din nou',
+    back: 'Înapoi la pagina principală',
+  },
+
+  invite: {
+    eyebrow: 'Invitație',
+    title: (inviter: string, workspace: string) => `${inviter} v-a invitat în spațiul „${workspace}"`,
+    lead: 'Veți putea ajuta la planificarea nunții, împreună cu ceilalți membri.',
+    roleTitle: 'Rolul vostru',
+    sentTo: (email: string) => `Invitația a fost trimisă către ${email}`,
+    accept: 'Acceptă invitația',
+    decline: 'Refuz',
+    accepting: 'Se acceptă…',
+    declining: 'Se refuză…',
+    loading: 'Se verifică invitația…',
+    signIn: 'Conectare',
+    backHome: 'Înapoi la pagina principală',
+    retry: 'Încercați din nou',
+    expired: {
+      eyebrow: 'Invitație expirată',
+      title: 'Invitația nu mai este valabilă',
+      body: (workspace: string) =>
+        `Invitațiile sunt valabile ${INVITE_LIFETIME_DAYS} de zile. Rugați persoana care v-a invitat să vă trimită una nouă pentru spațiul „${workspace}".`,
+    },
+    used: {
+      eyebrow: 'Invitație folosită',
+      title: 'Invitația a fost deja folosită',
+      body: (workspace: string) =>
+        `Invitația pentru spațiul „${workspace}" a fost acceptată sau refuzată. Dacă aveți nevoie de acces, cereți una nouă.`,
+    },
+    failed: { eyebrow: 'Invitație', title: 'Nu am putut verifica invitația' },
+    accepted: {
+      eyebrow: 'Invitație acceptată',
+      title: (workspace: string) => `Bun venit în „${workspace}"`,
+      body: 'Sunteți acum membru al spațiului.',
+      cta: 'Deschide spațiul',
+    },
+    declined: {
+      eyebrow: 'Invitație refuzată',
+      title: 'Ați refuzat invitația',
+      body: (workspace: string) => `Nu s-a schimbat nimic în spațiul „${workspace}". Puteți închide pagina.`,
+    },
+    errors: {
+      notConfigured: 'Invitațiile nu sunt încă disponibile.',
+      network: 'Nu ne putem conecta. Verificați conexiunea la internet.',
+      generic: 'Ceva n-a mers. Încercați din nou în câteva clipe.',
     },
   },
 
@@ -492,6 +571,74 @@ export const ro = {
     dialogTitle: 'Ștergeți contul?',
     dialogBody: 'Toate datele din acest browser se șterg și nu se mai pot recupera fără o copie descărcată.',
     cancel: 'Anulează',
+  },
+
+  members: {
+    title: 'Membri',
+    hint: 'Persoanele care au acces la acest spațiu.',
+    count: (n: number) => (n === 1 ? '1 membru' : `${n} membri`),
+    you: 'Voi',
+    youFallback: 'Voi',
+    roleFor: (name: string) => `Rol pentru ${name}`,
+    removeMember: (name: string) => `Scoate pe ${name}`,
+    leave: 'Părăsește spațiul',
+    ownerHint: 'Proprietarul nu poate fi scos și nu poate părăsi spațiul.',
+    notAvailable: 'Colaborarea nu este încă disponibilă.',
+    loadError: 'Nu am putut încărca membrii. Încercați din nou.',
+    retry: 'Reîncarcă',
+    loading: 'Se încarcă membrii…',
+    roles: { owner: 'Proprietar', partner: 'Partener', planner: 'Planner', helper: 'Ajutor', viewer: 'Cititor' },
+    roleHints: {
+      owner: 'Controlează tot, inclusiv ștergerea spațiului.',
+      partner: 'Editează tot, invită și scoate membri.',
+      planner: 'Editează taskuri și buget.',
+      helper: 'Bifează taskurile atribuite lui.',
+      viewer: 'Doar vizualizare.',
+    },
+    legendTitle: 'Ce poate face fiecare rol',
+    pendingTitle: 'Invitații în așteptare',
+    pendingHint: 'Linkul expiră după 7 zile.',
+    pendingCount: (n: number) => `${n} active`,
+    pendingEmpty: 'Nicio invitație în așteptare.',
+    sentToday: 'Trimisă azi',
+    sentDaysAgo: (n: number) => `Trimisă acum ${countLabel(n, 'zi', 'zile')}`,
+    expiresIn: (n: number) => (n <= 0 ? 'expiră azi' : `expiră în ${countLabel(n, 'zi', 'zile')}`),
+    cancelInvite: 'Anulează',
+    cancelInviteFor: (email: string) => `Anulează invitația pentru ${email}`,
+    inviteTitle: 'Invitați pe cineva',
+    inviteHint: 'Trimitem un link securizat pe email.',
+    emailLabel: 'Adresa de email',
+    emailPlaceholder: 'nume@exemplu.ro',
+    roleLabel: 'Rol',
+    send: 'Trimite invitația',
+    sending: 'Se trimite…',
+    emailErrors: {
+      empty: 'Introduceți o adresă de email.',
+      invalid: 'Adresa nu pare corectă. Verificați-o.',
+      duplicate: 'Există deja o invitație în așteptare pentru această adresă.',
+      member: 'Această persoană are deja acces.',
+    },
+    announce: {
+      invited: (email: string) => `Invitația a fost trimisă către ${email}.`,
+      cancelled: (email: string) => `Invitația pentru ${email} a fost anulată.`,
+      roleChanged: (name: string, role: string) => `${name} are acum rolul ${role}.`,
+      removed: (name: string) => `${name} nu mai are acces.`,
+      left: 'Ați părăsit spațiul.',
+    },
+    errors: {
+      invite: 'Nu am putut trimite invitația. Încercați din nou.',
+      cancel: 'Nu am putut anula invitația. Încercați din nou.',
+      changeRole: 'Nu am putut schimba rolul. S-a păstrat cel anterior.',
+      remove: 'Nu am putut scoate membrul. Încercați din nou.',
+      leave: 'Nu am putut părăsi spațiul. Încercați din nou.',
+    },
+    removeTitle: (name: string) => `Scoateți pe ${name}?`,
+    removeBody: 'Persoana pierde imediat accesul la acest spațiu. O puteți invita din nou oricând.',
+    removeConfirm: 'Scoate membrul',
+    leaveTitle: 'Părăsiți spațiul?',
+    leaveBody: 'Pierdeți accesul la acest spațiu. Pentru a reveni, veți avea nevoie de o nouă invitație.',
+    leaveConfirm: 'Părăsește',
+    cancel: 'Renunță',
   },
 
   backupErrors: {
