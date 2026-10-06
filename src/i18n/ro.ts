@@ -180,6 +180,33 @@ export const ro = {
     corrupt:
       'Datele salvate în acest browser nu au putut fi citite. Descărcați-le înainte să începeți din nou, ca să nu se piardă.',
     corruptDownload: 'Descarcă datele vechi',
+    stepper: 'Pașii configurării',
+    steps: ['Despre voi', 'Nunta', 'Gata'],
+    stepOf: (n: number, total: number) => `Pasul ${n} din ${total}`,
+    stepTitles: ['Cine se căsătorește?', 'Spuneți-ne despre nuntă', 'Totul e pregătit'],
+    stepIntros: [
+      'Cu numele voastre personalizăm aplicația.',
+      'Cu aceste detalii pornim numărătoarea inversă și bugetul inițial.',
+      'Verificați datele. Le puteți schimba oricând din Setări.',
+    ],
+    city: 'Oraș sau locație',
+    cityPlaceholder: 'ex. Brașov',
+    guestsLabel: 'Număr estimat de invitați',
+    guestsShort: 'O estimare este suficientă. O puteți schimba oricând.',
+    back: 'Înapoi',
+    next: 'Continuă',
+    create: 'Creează spațiul',
+    summaryNames: 'Voi',
+    summaryDate: 'Data nunții',
+    summaryCity: 'Oraș sau locație',
+    summaryGuests: 'Invitați estimați',
+    notSet: 'Nesetat',
+    errors: {
+      nameRequired: 'Introduceți prenumele.',
+      dateRequired: 'Alegeți data nunții.',
+      dateInvalid: 'Data nu este validă.',
+      guestsMin: 'Numărul de invitați trebuie să fie cel puțin 1.',
+    },
   },
 
   storage: {
