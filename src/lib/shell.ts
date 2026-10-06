@@ -1,19 +1,20 @@
 import type { Task } from '../domain/schema';
 import { isRecover } from '../domain/tasks';
+import { paths } from './paths';
 
 export type NavId = 'home' | 'tasks' | 'budget' | 'settings';
 
 export interface NavItem {
   id: NavId;
-  to: '/' | '/start' | '/calculator' | '/settings';
+  to: typeof paths.home | typeof paths.tasks | typeof paths.budget | typeof paths.settings;
 }
 
-/** Ordinea din meniul lateral și din bara de jos. Rutele rămân cele de acum (NS-041 le restructurează). */
+/** Ordinea din meniul lateral și din bara de jos. Căile vin din paths.ts. */
 export const NAV_ITEMS: readonly NavItem[] = [
-  { id: 'home', to: '/' },
-  { id: 'tasks', to: '/start' },
-  { id: 'budget', to: '/calculator' },
-  { id: 'settings', to: '/settings' },
+  { id: 'home', to: paths.home },
+  { id: 'tasks', to: paths.tasks },
+  { id: 'budget', to: paths.budget },
+  { id: 'settings', to: paths.settings },
 ];
 
 /** Ecranul unei rute, pentru titlul din bara de sus de pe telefon. Rută necunoscută: acasă. */
