@@ -224,32 +224,34 @@ export function Settings() {
 
       <MembersPanel selfName={settings.names[0]} onLeft={() => void navigate({ to: paths.workspaces })} />
 
-      <Dialog
-        open={confirming}
-        onClose={() => setConfirming(false)}
-        title={t.settings.dialogTitle}
-        actions={
-          <>
-            <Button variant="ghost" autoFocus onClick={() => setConfirming(false)}>
-              {t.settings.cancel}
-            </Button>
-            <Button
-              variant="dangerSolid"
-              disabled={deleteWedding.isPending}
-              onClick={() =>
-                deleteWedding.mutate(undefined, {
-                  onSuccess: () => void navigate({ to: paths.workspaces }),
-                  onSettled: () => setConfirming(false),
-                })
-              }
-            >
-              {t.settings.deleteButton}
-            </Button>
-          </>
-        }
-      >
-        {t.settings.dialogBody(wedding.name)}
-      </Dialog>
+      {isOwner && (
+        <Dialog
+          open={confirming}
+          onClose={() => setConfirming(false)}
+          title={t.settings.dialogTitle}
+          actions={
+            <>
+              <Button variant="ghost" autoFocus onClick={() => setConfirming(false)}>
+                {t.settings.cancel}
+              </Button>
+              <Button
+                variant="dangerSolid"
+                disabled={deleteWedding.isPending}
+                onClick={() =>
+                  deleteWedding.mutate(undefined, {
+                    onSuccess: () => void navigate({ to: paths.workspaces }),
+                    onSettled: () => setConfirming(false),
+                  })
+                }
+              >
+                {t.settings.deleteButton}
+              </Button>
+            </>
+          }
+        >
+          {t.settings.dialogBody(wedding.name)}
+        </Dialog>
+      )}
     </>
   );
 }
