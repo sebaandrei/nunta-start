@@ -92,8 +92,8 @@ If your real weekly hours differ, rescale: the order of the tasks stays the same
 | ID | P | Task | Est | Deps | Done when | Status |
 |---|---|---|---|---|---|---|
 | NS-014 | P1 | Cloudflare R2 bucket + `age` keypair; `backup.yml` runs a nightly encrypted `supabase db dump` (prod + staging), with 30-day lifecycle | 3 | NS-011 | A dump file is in R2 and decrypts locally | ⬜ |
-| NS-015 | P1 | `keepalive.yml`: REST ping to both projects every 3 days | 0.5 | NS-011 | Runs green on schedule. *Merged; manual run: staging ok, production pending* | 🟨 |
-| NS-020 | P0 | Resend: verify the sending domain `mail.thedevopsguy.ro` (SPF, DKIM, DMARC); set Supabase custom SMTP on both projects | 2 | NS-011 | A magic-link email lands in the Gmail inbox, not spam | ⬜ |
+| NS-015 | P1 | `keepalive.yml`: REST ping to both projects every 3 days | 0.5 | NS-011 | Runs green on schedule. Manual run green for staging and production | ✅ |
+| NS-020 | P0 | Resend: verify the sending domain `mail.thedevopsguy.ro` (SPF, DKIM, DMARC); set Supabase custom SMTP on both projects | 2 | NS-011 | A magic-link email lands in the Gmail inbox, not spam | ✅ |
 | NS-021 | P0 | Google Cloud OAuth client: consent screen (authorized domain `thedevopsguy.ro`, privacy/terms URLs); enable in Supabase; redirect URLs for prod, staging and localhost | 2 | NS-003 | Google login works on staging. Note: without the paid custom auth domain, the consent screen shows `*.supabase.co` | ⬜ |
 | NS-023 | P1 | Cloudflare Turnstile site; enable Supabase captcha protection | 1 | NS-011 | Sign-in without a token is rejected | ⬜ |
 | NS-022 | P0 | Auth UI: `/login` (Google button + magic-link form with Turnstile), `/auth/callback`, sign-out, and a route guard | 4 | NS-020, NS-021, NS-023 | A signed-out user is redirected to `/login`; both methods work | ⬜ |
