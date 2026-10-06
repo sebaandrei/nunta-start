@@ -1,5 +1,6 @@
 import type { Countdown } from '../domain/home';
 import { countLabel } from '../lib/format';
+import { INVITE_LIFETIME_DAYS } from '../lib/invites';
 import type { Messages } from './index';
 
 /** English UI text. Must have exactly the shape of the Romanian file (the source of truth). */
@@ -219,14 +220,14 @@ export const en: Messages = {
       partner: 'Partner',
       planner: 'Planner',
       helper: 'Helper',
-      reader: 'Reader',
+      viewer: 'Reader',
     },
     roleHints: {
       owner: 'Can do everything, including deleting the space',
       partner: 'Can edit everything and invite people',
       planner: 'Can edit tasks and the budget',
       helper: 'Can tick off the tasks assigned to them',
-      reader: 'Can only view the plan',
+      viewer: 'Can only view the plan',
     },
     emptyTitle: "You don't have a space yet",
     emptyBody: 'Create your first space to start planning your wedding.',
@@ -254,7 +255,7 @@ export const en: Messages = {
       eyebrow: 'Invitation expired',
       title: 'This invitation is no longer valid',
       body: (workspace: string) =>
-        `Invitations are valid for 7 days. Ask the person who invited you to send a new one for the space "${workspace}".`,
+        `Invitations are valid for ${INVITE_LIFETIME_DAYS} days. Ask the person who invited you to send a new one for the space "${workspace}".`,
     },
     used: {
       eyebrow: 'Invitation already used',

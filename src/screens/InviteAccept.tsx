@@ -35,7 +35,8 @@ function Badge({ children, tone }: { children: ReactNode; tone: 'soft' | 'warn' 
 /** Pagina `/invite/:token` pentru ecranul de rutare: citește tokenul din adresă. */
 export function InviteRoute() {
   const { token } = useParams({ strict: false });
-  return <InviteAccept token={token ?? ''} />;
+  // `key`: la schimbarea tokenului, pagina se montează de la zero, fără urme din invitația precedentă.
+  return <InviteAccept key={token} token={token ?? ''} />;
 }
 
 export function InviteAccept({
@@ -52,7 +53,7 @@ export function InviteAccept({
   const [state, dispatch] = useReducer(
     inviteReducer,
     undefined,
-    (): InviteState => preview?.state ?? initialInviteState(),
+    (): InviteState => (preview ? { ...preview.state, token } : initialInviteState('loading', null, token)),
   );
   const { status, info, errorKind } = state;
   const busy = isBusy(state);
@@ -65,7 +66,7 @@ export function InviteAccept({
   useEffect(() => {
     if (preview) return;
     const id = ++requestSeq.current;
-    dispatch({ type: 'load', id });
+    dispatch({ type: 'load', id, token });
     client.inspect(token).then(
       (result) => dispatch({ type: 'loaded', id, info: result }),
       (error: unknown) => dispatch({ type: 'failed', id, kind: inviteErrorKind(error) }),
@@ -75,7 +76,7 @@ export function InviteAccept({
   function act(type: 'accept' | 'decline') {
     if (busy || status !== 'valid') return;
     const id = ++requestSeq.current;
-    dispatch({ type, id });
+    dispatch({ type, id, token });
     (type === 'accept' ? client.accept(token) : client.decline(token)).then(
       () => dispatch({ type: 'done', id }),
       (error: unknown) => dispatch({ type: 'failed', id, kind: inviteErrorKind(error) }),

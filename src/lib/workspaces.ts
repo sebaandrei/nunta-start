@@ -4,7 +4,7 @@ import type { Messages } from '../i18n';
 import { useStore } from '../store';
 import { formatDate } from './format';
 
-export const ROLES = ['owner', 'partner', 'planner', 'helper', 'reader'] as const;
+export const ROLES = ['owner', 'partner', 'planner', 'helper', 'viewer'] as const;
 export type Role = (typeof ROLES)[number];
 
 export interface Workspace {

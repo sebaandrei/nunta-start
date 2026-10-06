@@ -2,6 +2,7 @@ import type { Countdown } from '../domain/home';
 import type { Category, Owner, Status } from '../domain/schema';
 import type { StageId } from '../domain/tasks';
 import { countLabel } from '../lib/format';
+import { INVITE_LIFETIME_DAYS } from '../lib/invites';
 import type { Role } from '../lib/workspaces';
 import type { BackupError } from '../storage/storage';
 
@@ -225,14 +226,14 @@ export const ro = {
       partner: 'Partener',
       planner: 'Planner',
       helper: 'Ajutor',
-      reader: 'Cititor',
+      viewer: 'Cititor',
     } satisfies Record<Role, string>,
     roleHints: {
       owner: 'Poate face orice, inclusiv să șteargă spațiul',
       partner: 'Poate edita tot și invita oameni',
       planner: 'Poate edita taskurile și bugetul',
       helper: 'Poate bifa taskurile care îi sunt date',
-      reader: 'Poate doar să vadă planul',
+      viewer: 'Poate doar să vadă planul',
     } satisfies Record<Role, string>,
     emptyTitle: 'Nu aveți încă niciun spațiu',
     emptyBody: 'Creați primul spațiu ca să începeți planificarea nunții.',
@@ -260,7 +261,7 @@ export const ro = {
       eyebrow: 'Invitație expirată',
       title: 'Invitația nu mai este valabilă',
       body: (workspace: string) =>
-        `Invitațiile sunt valabile 7 zile. Rugați persoana care v-a invitat să vă trimită una nouă pentru spațiul „${workspace}".`,
+        `Invitațiile sunt valabile ${INVITE_LIFETIME_DAYS} de zile. Rugați persoana care v-a invitat să vă trimită una nouă pentru spațiul „${workspace}".`,
     },
     used: {
       eyebrow: 'Invitație folosită',

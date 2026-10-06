@@ -18,6 +18,12 @@ const data = (patch: Partial<AppData['settings']> = {}): AppData => {
   return { ...d, settings: { ...d.settings, ...patch } };
 };
 
+describe('ROLES', () => {
+  it('matches the database member_role enum', () => {
+    expect([...ROLES]).toEqual(['owner', 'partner', 'planner', 'helper', 'viewer']);
+  });
+});
+
 describe('roleLabel', () => {
   it('has a distinct Romanian and English label for every role', () => {
     const ro = ROLES.map((r) => roleLabel(r, getMessages('ro')));

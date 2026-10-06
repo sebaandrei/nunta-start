@@ -1,6 +1,9 @@
 import type { Messages } from '../i18n';
 import type { Role } from './workspaces';
 
+/** Cât timp e valabilă o invitație (NS-050); textele paginii îl iau de aici. */
+export const INVITE_LIFETIME_DAYS = 14;
+
 export type InviteStatus = 'valid' | 'expired' | 'used';
 
 export interface InviteInfo {
@@ -18,7 +21,7 @@ export interface InviteInfo {
 
 /**
  * Clientul invitațiilor, injectat în pagina de acceptare.
- * Implementarea reală (token, expirare 7 zile, rol, aderarea la spațiu) vine cu NS-050/NS-051.
+ * Implementarea reală (token, expirare după INVITE_LIFETIME_DAYS de zile, rol, aderarea la spațiu) vine cu NS-050/NS-051.
  */
 export interface InvitesClient {
   inspect(token: string): Promise<InviteInfo>;
