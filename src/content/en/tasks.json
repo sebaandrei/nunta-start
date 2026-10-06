@@ -1,0 +1,429 @@
+[
+  {
+    "id": "buget-total",
+    "title": "Set the total budget and who contributes",
+    "category": "buget",
+    "daysBefore": 420,
+    "details": "Put the amounts in the Calculator. Talk openly with both sets of parents about what each will cover."
+  },
+  {
+    "id": "lista-mare",
+    "title": "Make the big guest list, by family",
+    "category": "invitati",
+    "daysBefore": 410,
+    "details": "The list decides the venue and the budget. Put everyone on it now and cut later. Note which side each family is on."
+  },
+  {
+    "id": "date-posibile",
+    "title": "Pick 2–3 possible dates",
+    "category": "buget",
+    "daysBefore": 400,
+    "details": "Check the fasting periods (no religious weddings during fasts), holidays and important family dates."
+  },
+  {
+    "id": "nasi",
+    "title": "Choose your godparents",
+    "category": "acte",
+    "daysBefore": 395,
+    "details": "Ask them early: the date has to work for them too."
+  },
+  {
+    "id": "oferte-locatii",
+    "title": "Visit venues and ask for quotes",
+    "category": "locatie",
+    "daysBefore": 390,
+    "details": "Ask for the full menu, what the price includes (drinks, cake, decor), the service charge, the closing time, the deposit and the payment deadlines."
+  },
+  {
+    "id": "rezervare-locatie",
+    "title": "Book the venue and sign the contract",
+    "category": "locatie",
+    "daysBefore": 375,
+    "details": "Ask about: your own stage or the band's · how many waiters and what an extra one costs · bar and bartender · starters on arrival · changing room for the couple and the band · menus for kids and staff · when the final guest count is due."
+  },
+  {
+    "id": "biserica",
+    "title": "Book the church",
+    "category": "acte",
+    "daysBefore": 370,
+    "details": "In summer, some parishes are booked a year ahead."
+  },
+  {
+    "id": "formatie",
+    "title": "Book the band or DJ",
+    "category": "muzica",
+    "daysBefore": 330,
+    "details": "Ask for the technical rider and check it with the venue: stage, power, changing room, a table for the band."
+  },
+  {
+    "id": "foto-video",
+    "title": "Book the photographer and videographer",
+    "category": "foto",
+    "daysBefore": 320,
+    "details": "Ask what is included: a separate photo session, the civil ceremony, an album, the delivery time."
+  },
+  {
+    "id": "planner",
+    "title": "Decide whether to hire a planner or a day-of coordinator",
+    "category": "buget",
+    "daysBefore": 310,
+    "details": "A day-of coordinator costs less and spares you from chasing vendors on the day."
+  },
+  {
+    "id": "save-the-date",
+    "title": "Send save the dates",
+    "category": "invitati",
+    "daysBefore": 290,
+    "details": "Especially to guests from other cities or abroad."
+  },
+  {
+    "id": "lista-cazari",
+    "title": "Make a list of accommodation near the venue",
+    "category": "invitati",
+    "daysBefore": 280,
+    "details": "Name, price, distance to the venue and a link. Send it to guests coming from other cities."
+  },
+  {
+    "id": "rochie",
+    "title": "Choose the wedding dress",
+    "category": "tinute",
+    "daysBefore": 250,
+    "details": "Ask about the number of fittings and the delivery time. Some dresses take 4–6 months."
+  },
+  {
+    "id": "flori-decor",
+    "title": "Book the florist and decor",
+    "category": "decor",
+    "daysBefore": 235,
+    "details": "The bride's and the godmother's bouquets, boutonnieres, the couple's table arrangement, the table centerpieces, the ceremony candles."
+  },
+  {
+    "id": "tort-candy-bar",
+    "title": "Book the cake and candy bar",
+    "category": "locatie",
+    "daysBefore": 225,
+    "details": "Cake design, topper, cake boxes, who brings it and what time it is set up."
+  },
+  {
+    "id": "fotocabina",
+    "title": "Choose the photo booth or magic mirror",
+    "category": "foto",
+    "daysBefore": 210,
+    "details": ""
+  },
+  {
+    "id": "cununie-civila-format",
+    "title": "Decide what to do for the civil ceremony",
+    "category": "acte",
+    "daysBefore": 200,
+    "details": "Only at the town hall, or a small party too? If you have a party, add it separately in the Calculator."
+  },
+  {
+    "id": "burlacie",
+    "title": "Decide who organises the bachelor and bachelorette parties",
+    "category": "altele",
+    "daysBefore": 190,
+    "details": ""
+  },
+  {
+    "id": "invitatii",
+    "title": "Order the invitations",
+    "category": "print",
+    "daysBefore": 170,
+    "details": "Count by family, not by person. Order 5–10 extra."
+  },
+  {
+    "id": "verighete",
+    "title": "Order the wedding rings",
+    "category": "tinute",
+    "daysBefore": 160,
+    "details": "Engraving can take 2–4 weeks."
+  },
+  {
+    "id": "costum",
+    "title": "Choose the groom's suit",
+    "category": "tinute",
+    "daysBefore": 150,
+    "details": "Plus shoes, shirt, cufflinks, watch."
+  },
+  {
+    "id": "par-machiaj",
+    "title": "Choose the hair and makeup and book the trial",
+    "category": "tinute",
+    "daysBefore": 140,
+    "details": "Ask whether they come to your home or the hotel, and what it costs for the mothers and bridesmaids."
+  },
+  {
+    "id": "momente-formatie",
+    "title": "Plan the first dance and special moments with the band",
+    "category": "muzica",
+    "daysBefore": 130,
+    "details": "The first dance, the father–bride moment, the cake, the bouquet toss, the genres you want and the ones you don't."
+  },
+  {
+    "id": "lectii-dans",
+    "title": "Take dance lessons (optional)",
+    "category": "muzica",
+    "daysBefore": 120,
+    "details": ""
+  },
+  {
+    "id": "rsvp",
+    "title": "Prepare an RSVP form",
+    "category": "invitati",
+    "daysBefore": 110,
+    "details": "Ask: coming or not, who they bring, dietary restrictions (vegetarian, no pork, no fish), kids, whether they need accommodation."
+  },
+  {
+    "id": "luna-de-miere",
+    "title": "Plan the honeymoon",
+    "category": "altele",
+    "daysBefore": 100,
+    "details": "Check passports, travel insurance and bookings."
+  },
+  {
+    "id": "transport",
+    "title": "Arrange guest transport, if needed",
+    "category": "invitati",
+    "daysBefore": 95,
+    "details": "A coach from the church to the venue or from the hotel to the venue. Set the departure time and place."
+  },
+  {
+    "id": "trimitere-invitatii",
+    "title": "Send the invitations",
+    "category": "invitati",
+    "daysBefore": 80,
+    "details": "Note who you sent them to and who answers for each family."
+  },
+  {
+    "id": "acte-primarie",
+    "title": "Find out which documents the town hall requires for the civil ceremony",
+    "category": "acte",
+    "daysBefore": 70,
+    "details": "The list differs from one town hall to another. Ask about booking and the fee too."
+  },
+  {
+    "id": "marturii",
+    "title": "Order the wedding favours",
+    "category": "decor",
+    "daysBefore": 65,
+    "details": ""
+  },
+  {
+    "id": "accesorii",
+    "title": "Buy the accessories",
+    "category": "tinute",
+    "daysBefore": 60,
+    "details": "Shoes (and a spare, flat pair), jewellery, veil, ring pillow, flower petal basket."
+  },
+  {
+    "id": "ghid-invitati",
+    "title": "Make a guest guide",
+    "category": "invitati",
+    "daysBefore": 50,
+    "details": "The day's schedule, addresses, parking, accommodation, dress code. A PDF or a page on a website."
+  },
+  {
+    "id": "sedinta-foto",
+    "title": "Book the wedding-day photo session",
+    "category": "foto",
+    "daysBefore": 45,
+    "details": "The location, the time, and whether a permit is needed (some parks and museums ask for one)."
+  },
+  {
+    "id": "board-foto",
+    "title": "Make the photo shot list for the photographer",
+    "category": "foto",
+    "daysBefore": 40,
+    "details": "The photos you absolutely want and the groups: each side's family, the godparents, friends."
+  },
+  {
+    "id": "design-print",
+    "title": "Prepare the design for menus, the gift list, envelopes and table numbers",
+    "category": "print",
+    "daysBefore": 38,
+    "details": "The gift list and envelopes need the final table list. Leave them for last."
+  },
+  {
+    "id": "desfasurator-restaurant",
+    "title": "Ask the restaurant for the run sheet",
+    "category": "locatie",
+    "daysBefore": 35,
+    "details": "The time each course is served, the band's breaks, the cake."
+  },
+  {
+    "id": "suna-invitatii",
+    "title": "Call guests who haven't replied",
+    "category": "invitati",
+    "daysBefore": 28,
+    "details": "Split the list: each of you calls your own people."
+  },
+  {
+    "id": "asezare-mese",
+    "title": "Plan the seating",
+    "category": "invitati",
+    "daysBefore": 21,
+    "details": "Start with the head table and family. Keep couples and families at the same table. Note how many seats each table has."
+  },
+  {
+    "id": "analize-prenuptiale",
+    "title": "Get the tests for the premarital certificate",
+    "category": "acte",
+    "daysBefore": 20,
+    "details": "The certificate is valid for a short time (usually 14 days). Book the tests so it is still valid when you file."
+  },
+  {
+    "id": "meniuri-speciale",
+    "title": "Collect the special menus by table",
+    "category": "locatie",
+    "daysBefore": 18,
+    "details": "Vegetarian, no pork, no fish, kids, staff. The restaurant wants the list with each person's name and table."
+  },
+  {
+    "id": "dosar-starea-civila",
+    "title": "File the paperwork with the civil registry",
+    "category": "acte",
+    "daysBefore": 14,
+    "details": "The marriage declaration is filed at least 10 days before the ceremony. Check the exact deadline at your town hall."
+  },
+  {
+    "id": "proba-finala",
+    "title": "Final fitting for the dress and suit",
+    "category": "tinute",
+    "daysBefore": 14,
+    "details": ""
+  },
+  {
+    "id": "program-zi",
+    "title": "Make the day's schedule, hour by hour",
+    "category": "ziua",
+    "daysBefore": 12,
+    "details": "Makeup, hair, getting ready, photos, church, arrival at the restaurant, entrances, the cake. Send it to each vendor with their arrival time."
+  },
+  {
+    "id": "print-final",
+    "title": "Print the gift list, menus, envelopes and table numbers",
+    "category": "print",
+    "daysBefore": 10,
+    "details": ""
+  },
+  {
+    "id": "plati-ziua-nuntii",
+    "title": "Prepare the wedding-day payments",
+    "category": "buget",
+    "daysBefore": 10,
+    "details": "One envelope per vendor, with the amount and their name, and a trusted person to hand them out."
+  },
+  {
+    "id": "kit-urgenta",
+    "title": "Pack the emergency kit",
+    "category": "ziua",
+    "daysBefore": 9,
+    "details": "Safety pins, needle and thread, deodorant, powder, lipstick, perfume, hairpins, plasters, tissues, spare shoes."
+  },
+  {
+    "id": "numar-final",
+    "title": "Tell the restaurant the final guest count",
+    "category": "locatie",
+    "daysBefore": 7,
+    "details": "With the table list, the special menus and the number of seats at each table."
+  },
+  {
+    "id": "confirmare-furnizori",
+    "title": "Confirm the arrival time with each vendor",
+    "category": "ziua",
+    "daysBefore": 5,
+    "details": "Band, photo and video, florist, candy bar, photo booth, hostess, coach."
+  },
+  {
+    "id": "lista-hostess",
+    "title": "Prepare the hostess list and the gift box",
+    "category": "ziua",
+    "daysBefore": 4,
+    "details": ""
+  },
+  {
+    "id": "ce-ducem",
+    "title": "Pack what you are taking to the venue",
+    "category": "ziua",
+    "daysBefore": 3,
+    "details": "Favours, table numbers, gift list, ring pillow, fans, fairy lights, the ribbon for the bouquet toss, cases of water."
+  },
+  {
+    "id": "ridicare-tinute",
+    "title": "Pick up the dress and suit",
+    "category": "tinute",
+    "daysBefore": 3,
+    "details": ""
+  },
+  {
+    "id": "camere-pregatire",
+    "title": "Prepare the getting-ready rooms and the accommodation",
+    "category": "ziua",
+    "daysBefore": 2,
+    "details": "Water in the rooms, the getting-ready room tidy and cool, something to eat in the morning."
+  },
+  {
+    "id": "plicuri-plati",
+    "title": "Hand the payment envelopes to the person in charge",
+    "category": "buget",
+    "daysBefore": 0,
+    "details": ""
+  },
+  {
+    "id": "verighete-nasi",
+    "title": "Give the rings to the godparents",
+    "category": "acte",
+    "daysBefore": 0,
+    "details": ""
+  },
+  {
+    "id": "bauturi-pregatire",
+    "title": "Check the drinks for getting ready",
+    "category": "ziua",
+    "daysBefore": 0,
+    "details": "Glasses for wine and prosecco, ice buckets, water and soft drinks in cans or 0.5 l bottles."
+  },
+  {
+    "id": "dar",
+    "title": "Note down each guest's gift",
+    "category": "buget",
+    "daysBefore": -1,
+    "details": "While it is fresh, by family. It will help you at their events."
+  },
+  {
+    "id": "plati-finale",
+    "title": "Make the final payments to vendors",
+    "category": "buget",
+    "daysBefore": -3,
+    "details": ""
+  },
+  {
+    "id": "returnari",
+    "title": "Return what you rented or borrowed",
+    "category": "altele",
+    "daysBefore": -5,
+    "details": ""
+  },
+  {
+    "id": "multumiri",
+    "title": "Thank your guests and godparents",
+    "category": "invitati",
+    "daysBefore": -14,
+    "details": ""
+  },
+  {
+    "id": "schimbare-acte",
+    "title": "Update your documents, if you changed your name",
+    "category": "acte",
+    "daysBefore": -15,
+    "details": "First the ID card, then the passport, the driving licence and the bank."
+  },
+  {
+    "id": "poze-film",
+    "title": "Receive the photos and the film",
+    "category": "foto",
+    "daysBefore": -60,
+    "details": "Check the delivery time in the contract."
+  }
+]

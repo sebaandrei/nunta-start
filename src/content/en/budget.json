@@ -1,0 +1,22 @@
+[
+  { "name": "Menu", "currency": "EUR", "perGuest": true },
+  { "name": "Drinks", "currency": "EUR", "perGuest": true },
+  { "name": "Cake", "currency": "EUR", "perGuest": true },
+  { "name": "Wedding favours", "currency": "RON", "perGuest": true },
+  { "name": "Candy bar", "currency": "RON", "perGuest": false },
+  { "name": "Band or DJ", "currency": "EUR", "perGuest": false },
+  { "name": "Photo and video", "currency": "EUR", "perGuest": false },
+  { "name": "Photo booth", "currency": "RON", "perGuest": false },
+  { "name": "Flowers and decor", "currency": "EUR", "perGuest": false },
+  { "name": "Wedding dress", "currency": "RON", "perGuest": false },
+  { "name": "Suit", "currency": "RON", "perGuest": false },
+  { "name": "Shoes and accessories", "currency": "RON", "perGuest": false },
+  { "name": "Wedding rings", "currency": "RON", "perGuest": false },
+  { "name": "Hair and makeup", "currency": "RON", "perGuest": false },
+  { "name": "Invitations", "currency": "RON", "perGuest": false },
+  { "name": "Menus, gift list, envelopes", "currency": "RON", "perGuest": false },
+  { "name": "Hostess", "currency": "RON", "perGuest": false },
+  { "name": "Civil ceremony", "currency": "RON", "perGuest": false },
+  { "name": "Church", "currency": "RON", "perGuest": false },
+  { "name": "Event planner", "currency": "EUR", "perGuest": false }
+]

@@ -6,6 +6,7 @@ import { isValidISODate } from '../domain/dates';
 import { CURRENCIES } from '../domain/schema';
 import { useT } from '../i18n';
 import { downloadBackup } from '../lib/backup';
+import { currencySymbol } from '../lib/format';
 import { daysSinceBackup } from '../storage/storage';
 import { useAppData, useStore } from '../store';
 
@@ -56,7 +57,7 @@ export function Settings() {
               value={settings.eurRate}
               onChange={(v) => v !== null && v > 0 && updateSettings({ eurRate: v })}
             />
-            <span>lei</span>
+            <span>{currencySymbol('RON')}</span>
           </div>
         </FieldGroup>
         <FieldGroup label={t.settings.display}>

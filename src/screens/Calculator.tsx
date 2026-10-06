@@ -103,7 +103,7 @@ export function Calculator() {
               value={settings.eurRate}
               onChange={(v) => v !== null && v > 0 && updateSettings({ eurRate: v })}
             />
-            <span>lei</span>
+            <span>{currencySymbol('RON')}</span>
           </div>
         </FieldGroup>
         <FieldGroup label={t.calc.display}>
