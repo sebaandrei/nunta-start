@@ -2,6 +2,7 @@ import { Plus, Wallet, X } from 'lucide-react';
 import { useRef, useState } from 'react';
 import { PageHeader } from '../components/PageHeader';
 import {
+  Banner,
   Button,
   Card,
   cx,
@@ -16,6 +17,7 @@ import {
   StatCard,
   TextInput,
 } from '../components/ui';
+import { useWeddingAppData } from '../data/hooks';
 import {
   convert,
   hasAmounts,
@@ -32,11 +34,12 @@ import { useT } from '../i18n';
 import { lineView } from '../lib/budgetView';
 import { currencyOptions, currencySymbol, formatMoney, formatSignedMoney } from '../lib/format';
 import { useLocale } from '../lib/locale';
-import { useAppData, useStore } from '../store';
+import { useStore } from '../store';
 
 export function Calculator() {
   const t = useT();
-  const data = useAppData();
+  // Citire de pe server; scrierile (NS-043) încă nu sunt gata, deci ecranul e doar pentru vizualizare.
+  const data = useWeddingAppData();
   const { budget, settings } = data;
   const updateBudget = useStore((s) => s.updateBudget);
   const updateSettings = useStore((s) => s.updateSettings);
@@ -64,169 +67,184 @@ export function Calculator() {
         title={t.pages.budget.title}
         subtitle={t.pages.budget.subtitle}
         action={
-          <Button onClick={onAddLine}>
+          <Button disabled onClick={onAddLine}>
             <Plus size={16} aria-hidden="true" />
             {t.calc.addExpense}
           </Button>
         }
       />
-      <div className="space-y-6 md:space-y-8">
-        <Card className="grid gap-4 p-4 sm:grid-cols-2 md:p-5 lg:grid-cols-[1.3fr_1.3fr_1fr_auto]">
-          <FieldGroup label={t.calc.scenarios} className="sm:col-span-2 lg:col-span-4">
-            <div className="flex flex-wrap items-center gap-1.5">
-              {budget.scenarios.map((g, i) => (
-                // biome-ignore lint/suspicious/noArrayIndexKey: scenarios are plain numbers without ids until NS-029.
-                <div key={i} className="flex items-center">
-                  <NumberInput
-                    integer
-                    min={1}
-                    aria-label={`${t.calc.scenarios} ${i + 1}`}
-                    className="w-[4.5rem] text-center"
-                    value={g}
-                    onChange={(v) => v !== null && setScenario(i, v)}
-                  />
-                  {budget.scenarios.length > 1 && (
-                    <button
-                      type="button"
-                      title={t.calc.removeScenario}
-                      aria-label={t.calc.removeScenario}
-                      className="px-1 text-faint hover:text-minus"
-                      onClick={() => removeScenario(i)}
-                    >
-                      <X size={16} aria-hidden="true" />
-                    </button>
-                  )}
-                </div>
-              ))}
-              {budget.scenarios.length < 4 && (
-                <Button
-                  variant="ghost"
-                  className="px-2.5"
-                  title={t.calc.addScenario}
-                  aria-label={t.calc.addScenario}
-                  onClick={addScenario}
-                >
-                  <Plus size={16} aria-hidden="true" />
-                </Button>
-              )}
-            </div>
-          </FieldGroup>
-          <MoneyField
-            label={t.calc.gift}
-            value={budget.giftPerGuest}
-            onChange={(m) => updateBudget({ giftPerGuest: m })}
-          />
-          <MoneyField
-            label={t.calc.family}
-            value={budget.familyGift}
-            onChange={(m) => updateBudget({ familyGift: m })}
-          />
-          <FieldGroup label={t.calc.rate}>
-            <div className="flex items-center gap-1.5 text-sm text-muted">
-              <span className="whitespace-nowrap">{t.calc.ratePrefix}</span>
-              <NumberInput
-                aria-label={t.calc.rate}
-                min={0.01}
-                className="w-20"
-                value={settings.eurRate}
-                onChange={(v) => v !== null && v > 0 && updateSettings({ eurRate: v })}
-              />
-              <span>{currencySymbol('RON')}</span>
-            </div>
-          </FieldGroup>
-          <FieldGroup label={t.calc.display}>
-            <Segmented
-              label={t.calc.display}
-              value={settings.displayCurrency}
-              onChange={(c) => updateSettings({ displayCurrency: c })}
-              options={CURRENCIES.map((c) => ({ value: c, label: c }))}
-            />
-          </FieldGroup>
-        </Card>
-
-        {giftMissing && <p className="text-sm text-muted">{t.calc.giftMissing}</p>}
-
-        {budget.lines.length === 0 ? (
-          <>
-            <div className="grid gap-3 md:grid-cols-3">
-              <StatCard label={t.calc.costTotal} value={formatMoney(0, rates.currency)} />
-              <StatCard label={t.calc.colPaid} value={formatMoney(0, rates.currency)} />
-              <StatCard label={t.calc.estimatedBalance} value="—" />
-            </div>
-            <EmptyState
-              icon={Wallet}
-              title={t.calc.emptyTitle}
-              className="py-12"
-              action={
-                <Button onClick={onAddLine}>
-                  <Plus size={16} aria-hidden="true" />
-                  {t.calc.addExpense}
-                </Button>
-              }
-            >
-              {t.calc.emptyText}
-            </EmptyState>
-          </>
-        ) : (
-          <>
-            <section aria-label={t.calc.compareTitle} className="space-y-3">
-              <div>
-                <Heading size="md">{t.calc.compareTitle}</Heading>
-                <p className="mt-1 text-sm text-muted">{t.calc.compareHint}</p>
-              </div>
-              {budget.scenarios.length > 1 && (
-                <Segmented
-                  className="md:hidden"
-                  label={t.calc.scenarios}
-                  value={budget.selected}
-                  onChange={selectScenario}
-                  options={budget.scenarios.map((g, i) => ({ value: i, label: String(g) }))}
-                />
-              )}
-              <div className="grid gap-3 md:grid-cols-[repeat(auto-fit,minmax(200px,1fr))]">
-                {summaries.map((s, i) => (
-                  <ScenarioCard
-                    // biome-ignore lint/suspicious/noArrayIndexKey: scenarios are plain numbers without ids until NS-029.
-                    key={i}
-                    summary={s}
-                    currency={rates.currency}
-                    selected={i === budget.selected}
-                    giftMissing={giftMissing}
-                    onSelect={() => selectScenario(i)}
-                  />
+      <Banner className="mb-6">{t.readOnlySoon}</Banner>
+      <fieldset disabled className="m-0 min-w-0 border-0 p-0">
+        <div className="space-y-6 md:space-y-8">
+          <Card className="grid gap-4 p-4 sm:grid-cols-2 md:p-5 lg:grid-cols-[1.3fr_1.3fr_1fr_auto]">
+            <FieldGroup label={t.calc.scenarios} className="sm:col-span-2 lg:col-span-4">
+              <div className="flex flex-wrap items-center gap-1.5">
+                {budget.scenarios.map((g, i) => (
+                  // biome-ignore lint/suspicious/noArrayIndexKey: scenarios are plain numbers without ids until NS-029.
+                  <div key={i} className="flex items-center">
+                    <NumberInput
+                      integer
+                      min={1}
+                      aria-label={`${t.calc.scenarios} ${i + 1}`}
+                      className="w-[4.5rem] text-center"
+                      value={g}
+                      onChange={(v) => v !== null && setScenario(i, v)}
+                    />
+                    {budget.scenarios.length > 1 && (
+                      <button
+                        type="button"
+                        title={t.calc.removeScenario}
+                        aria-label={t.calc.removeScenario}
+                        className="px-1 text-faint hover:text-minus"
+                        onClick={() => removeScenario(i)}
+                      >
+                        <X size={16} aria-hidden="true" />
+                      </button>
+                    )}
+                  </div>
                 ))}
+                {budget.scenarios.length < 4 && (
+                  <Button
+                    variant="ghost"
+                    className="px-2.5"
+                    title={t.calc.addScenario}
+                    aria-label={t.calc.addScenario}
+                    onClick={addScenario}
+                  >
+                    <Plus size={16} aria-hidden="true" />
+                  </Button>
+                )}
               </div>
-            </section>
-
-            <section aria-label={t.calc.expensesTitle} className="space-y-3">
-              <Heading size="md">{t.calc.expensesTitle}</Heading>
-              <div className="space-y-1 text-sm leading-relaxed text-muted">
-                <p>
-                  <span className="font-semibold text-ink">{t.calc.typesExplain.fixed}</span> ={' '}
-                  {t.calc.typesExplain.fixedText}
-                </p>
-                <p>
-                  <span className="font-semibold text-ink">{t.calc.typesExplain.perGuest}</span> ={' '}
-                  {t.calc.typesExplain.perGuestText}
-                </p>
+            </FieldGroup>
+            <MoneyField
+              label={t.calc.gift}
+              value={budget.giftPerGuest}
+              onChange={(m) => updateBudget({ giftPerGuest: m })}
+            />
+            <MoneyField
+              label={t.calc.family}
+              value={budget.familyGift}
+              onChange={(m) => updateBudget({ familyGift: m })}
+            />
+            <FieldGroup label={t.calc.rate}>
+              <div className="flex items-center gap-1.5 text-sm text-muted">
+                <span className="whitespace-nowrap">{t.calc.ratePrefix}</span>
+                <NumberInput
+                  aria-label={t.calc.rate}
+                  min={0.01}
+                  className="w-20"
+                  value={settings.eurRate}
+                  onChange={(v) => v !== null && v > 0 && updateSettings({ eurRate: v })}
+                />
+                <span>{currencySymbol('RON')}</span>
               </div>
-              <LinesTable lines={budget.lines} guests={guests} rates={rates} totals={payments} onAddLine={onAddLine} />
-              <LinesCards lines={budget.lines} guests={guests} rates={rates} totals={payments} onAddLine={onAddLine} />
-            </section>
-          </>
-        )}
+            </FieldGroup>
+            <FieldGroup label={t.calc.display}>
+              <Segmented
+                label={t.calc.display}
+                value={settings.displayCurrency}
+                onChange={(c) => updateSettings({ displayCurrency: c })}
+                options={CURRENCIES.map((c) => ({ value: c, label: c }))}
+              />
+            </FieldGroup>
+          </Card>
 
-        <div className="flex justify-end">
-          <Button
-            variant="danger"
-            title={t.calc.clearAmountsHint}
-            disabled={!hasAmounts(budget)}
-            onClick={() => window.confirm(t.calc.confirmClearAmounts) && clearAmounts()}
-          >
-            {t.calc.clearAmounts}
-          </Button>
+          {giftMissing && <p className="text-sm text-muted">{t.calc.giftMissing}</p>}
+
+          {budget.lines.length === 0 ? (
+            <>
+              <div className="grid gap-3 md:grid-cols-3">
+                <StatCard label={t.calc.costTotal} value={formatMoney(0, rates.currency)} />
+                <StatCard label={t.calc.colPaid} value={formatMoney(0, rates.currency)} />
+                <StatCard label={t.calc.estimatedBalance} value="—" />
+              </div>
+              <EmptyState
+                icon={Wallet}
+                title={t.calc.emptyTitle}
+                className="py-12"
+                action={
+                  <Button onClick={onAddLine}>
+                    <Plus size={16} aria-hidden="true" />
+                    {t.calc.addExpense}
+                  </Button>
+                }
+              >
+                {t.calc.emptyText}
+              </EmptyState>
+            </>
+          ) : (
+            <>
+              <section aria-label={t.calc.compareTitle} className="space-y-3">
+                <div>
+                  <Heading size="md">{t.calc.compareTitle}</Heading>
+                  <p className="mt-1 text-sm text-muted">{t.calc.compareHint}</p>
+                </div>
+                {budget.scenarios.length > 1 && (
+                  <Segmented
+                    className="md:hidden"
+                    label={t.calc.scenarios}
+                    value={budget.selected}
+                    onChange={selectScenario}
+                    options={budget.scenarios.map((g, i) => ({ value: i, label: String(g) }))}
+                  />
+                )}
+                <div className="grid gap-3 md:grid-cols-[repeat(auto-fit,minmax(200px,1fr))]">
+                  {summaries.map((s, i) => (
+                    <ScenarioCard
+                      // biome-ignore lint/suspicious/noArrayIndexKey: scenarios are plain numbers without ids until NS-029.
+                      key={i}
+                      summary={s}
+                      currency={rates.currency}
+                      selected={i === budget.selected}
+                      giftMissing={giftMissing}
+                      onSelect={() => selectScenario(i)}
+                    />
+                  ))}
+                </div>
+              </section>
+
+              <section aria-label={t.calc.expensesTitle} className="space-y-3">
+                <Heading size="md">{t.calc.expensesTitle}</Heading>
+                <div className="space-y-1 text-sm leading-relaxed text-muted">
+                  <p>
+                    <span className="font-semibold text-ink">{t.calc.typesExplain.fixed}</span> ={' '}
+                    {t.calc.typesExplain.fixedText}
+                  </p>
+                  <p>
+                    <span className="font-semibold text-ink">{t.calc.typesExplain.perGuest}</span> ={' '}
+                    {t.calc.typesExplain.perGuestText}
+                  </p>
+                </div>
+                <LinesTable
+                  lines={budget.lines}
+                  guests={guests}
+                  rates={rates}
+                  totals={payments}
+                  onAddLine={onAddLine}
+                />
+                <LinesCards
+                  lines={budget.lines}
+                  guests={guests}
+                  rates={rates}
+                  totals={payments}
+                  onAddLine={onAddLine}
+                />
+              </section>
+            </>
+          )}
+
+          <div className="flex justify-end">
+            <Button
+              variant="danger"
+              title={t.calc.clearAmountsHint}
+              disabled={!hasAmounts(budget)}
+              onClick={() => window.confirm(t.calc.confirmClearAmounts) && clearAmounts()}
+            >
+              {t.calc.clearAmounts}
+            </Button>
+          </div>
         </div>
-      </div>
+      </fieldset>
     </>
   );
 }

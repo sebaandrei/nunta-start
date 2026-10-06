@@ -1,11 +1,21 @@
 import { createRootRoute, createRoute, createRouter, Outlet, redirect } from '@tanstack/react-router';
 import { App } from './App';
 import { PendingPage } from './components/skeletons';
+import { Toaster } from './components/Toaster';
+import {
+  budgetLinesQuery,
+  budgetScenariosQuery,
+  budgetSettingsQuery,
+  tasksQuery,
+  weddingQuery,
+  weddingsQuery,
+} from './data/queries';
 import { isAuthConfigured, notConfiguredAuthClient } from './lib/auth';
 import { loginHref } from './lib/authCallback';
 import { supabaseAuthClient } from './lib/authSupabase';
 import { guardDecision } from './lib/guard';
-import { LEGACY_REDIRECTS, paths } from './lib/paths';
+import { isWeddingId, LEGACY_REDIRECTS, paths, UNSCOPED_PATHS, type WeddingSection, weddingPath } from './lib/paths';
+import { queryClient } from './lib/queryClient';
 import { initSession, useSession } from './lib/session';
 import { AuthCallback } from './screens/AuthCallback';
 import { Calculator } from './screens/Calculator';
@@ -14,6 +24,7 @@ import { Home } from './screens/Home';
 import { InviteRoute } from './screens/InviteAccept';
 import { Landing } from './screens/Landing';
 import { LegalPage } from './screens/LegalPage';
+import { Onboarding } from './screens/Onboarding';
 import { Settings } from './screens/Settings';
 import { SignIn } from './screens/SignIn';
 import { Start } from './screens/Start';
@@ -24,12 +35,12 @@ const rootRoute = createRootRoute({ component: Outlet, errorComponent: RouteErro
 // Pagina publică, fără meniul aplicației.
 const landingRoute = createRoute({ getParentRoute: () => rootRoute, path: '/', component: Landing });
 
-// Aplicația: meniul (sau Onboarding, când nu sunt date) învelește ecranele de sub /w.
-// Cu autentificarea configurată, orice cale de sub /w cere o sesiune; fără ea nimic nu se schimbă.
+// Zona autentificată de sub /w: orice cale cere o sesiune (cu autentificarea configurată).
+// Aici stau alegerea nunții, crearea ei și, sub /w/$weddingId, ecranele unei nunți.
 const appRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/w',
-  component: App,
+  component: AppLayout,
   beforeLoad: async ({ location }) => {
     const configured = isAuthConfigured();
     if (configured) await initSession();
@@ -38,11 +49,69 @@ const appRoute = createRoute({
   },
 });
 
-const appChildren = [
-  createRoute({ getParentRoute: () => appRoute, path: '/', component: Home }),
-  createRoute({ getParentRoute: () => appRoute, path: '/start', component: Start }),
-  createRoute({ getParentRoute: () => appRoute, path: '/calculator', component: Calculator }),
-  createRoute({ getParentRoute: () => appRoute, path: '/settings', component: Settings }),
+function AppLayout() {
+  return (
+    <>
+      <Outlet />
+      <Toaster />
+    </>
+  );
+}
+
+// /w: alegerea nunții. Cu o singură nuntă duce direct în ea, fără niciuna la crearea ei;
+// `?all` arată lista oricum (meniul „Schimbați nunta").
+const pickerRoute = createRoute({
+  getParentRoute: () => appRoute,
+  path: '/',
+  component: () => <Workspaces />,
+  validateSearch: (search: Record<string, unknown>): { all?: boolean } => (search.all ? { all: true } : {}),
+  beforeLoad: async ({ search }) => {
+    if (search.all) return;
+    const list = await queryClient.fetchQuery(weddingsQuery());
+    if (list.length === 0) throw redirect({ to: paths.newWedding, replace: true });
+    if (list.length === 1) throw redirect({ href: weddingPath(list[0].id), replace: true });
+  },
+});
+
+const newWeddingRoute = createRoute({ getParentRoute: () => appRoute, path: '/new', component: Onboarding });
+
+// Căile fără id (favorite vechi): duc în nunta omului, sau la alegere dacă are mai multe sau niciuna.
+const unscopedRoutes = (Object.keys(UNSCOPED_PATHS) as Exclude<WeddingSection, 'home'>[]).map((section) =>
+  createRoute({
+    getParentRoute: () => appRoute,
+    path: UNSCOPED_PATHS[section].slice('/w'.length),
+    beforeLoad: async () => {
+      const list = await queryClient.fetchQuery(weddingsQuery());
+      if (list.length === 1) throw redirect({ href: weddingPath(list[0].id, section), replace: true });
+      throw redirect({ to: paths.workspaces, replace: true });
+    },
+  }),
+);
+
+// /w/$weddingId: meniul și ecranele unei nunți. Loader-ul pune datele în cache înainte de afișare;
+// o nuntă la care nu am acces (sau un id invalid) o tratează `WeddingProvider`.
+const weddingRoute = createRoute({
+  getParentRoute: () => appRoute,
+  path: '/$weddingId',
+  component: App,
+  loader: async ({ params: { weddingId } }) => {
+    if (!isWeddingId(weddingId)) return;
+    const wedding = await queryClient.fetchQuery(weddingQuery(weddingId));
+    if (!wedding) return;
+    await Promise.all([
+      queryClient.ensureQueryData(tasksQuery(weddingId)),
+      queryClient.ensureQueryData(budgetSettingsQuery(weddingId)),
+      queryClient.ensureQueryData(budgetScenariosQuery(weddingId)),
+      queryClient.ensureQueryData(budgetLinesQuery(weddingId)),
+    ]);
+  },
+});
+
+const weddingChildren = [
+  createRoute({ getParentRoute: () => weddingRoute, path: '/', component: Home }),
+  createRoute({ getParentRoute: () => weddingRoute, path: '/start', component: Start }),
+  createRoute({ getParentRoute: () => weddingRoute, path: '/calculator', component: Calculator }),
+  createRoute({ getParentRoute: () => weddingRoute, path: '/settings', component: Settings }),
 ];
 
 // Autentificarea: ecran public complet, în afara aplicației (fără meniu, fără Onboarding).
@@ -54,7 +123,7 @@ const loginRoute = createRoute({
   beforeLoad: async () => {
     if (!isAuthConfigured()) return;
     await initSession();
-    if (useSession.getState().status === 'signedIn') throw redirect({ to: paths.home, replace: true });
+    if (useSession.getState().status === 'signedIn') throw redirect({ to: paths.workspaces, replace: true });
   },
 });
 const authCallbackRoute = createRoute({
@@ -69,8 +138,14 @@ const legalRoutes = [
   createRoute({ getParentRoute: () => rootRoute, path: paths.terms, component: () => <LegalPage doc="terms" /> }),
 ];
 
-// Alegerea spațiului și invitațiile: ecrane publice, fără meniu.
-const workspacesRoute = createRoute({ getParentRoute: () => rootRoute, path: paths.workspaces, component: Workspaces });
+// Invitațiile: ecran public, fără meniu. Vechiul /workspaces duce la alegerea nunții.
+const workspacesRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: paths.legacyWorkspaces,
+  beforeLoad: () => {
+    throw redirect({ to: paths.workspaces, replace: true });
+  },
+});
 const inviteRoute = createRoute({ getParentRoute: () => rootRoute, path: paths.invite, component: InviteRoute });
 
 const legacyRoutes = LEGACY_REDIRECTS.map(({ from, to }) =>
@@ -78,14 +153,14 @@ const legacyRoutes = LEGACY_REDIRECTS.map(({ from, to }) =>
     getParentRoute: () => rootRoute,
     path: from,
     beforeLoad: () => {
-      throw redirect({ to, replace: true });
+      throw redirect({ href: to, replace: true });
     },
   }),
 );
 
 const routeTree = rootRoute.addChildren([
   landingRoute,
-  appRoute.addChildren(appChildren),
+  appRoute.addChildren([pickerRoute, newWeddingRoute, ...unscopedRoutes, weddingRoute.addChildren(weddingChildren)]),
   loginRoute,
   authCallbackRoute,
   workspacesRoute,

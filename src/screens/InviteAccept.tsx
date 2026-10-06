@@ -238,7 +238,7 @@ export function InviteAccept({
               title={i.accepted.title(name)}
               body={i.accepted.body}
               actions={
-                <Link to={paths.home} className={`${LINK_BUTTON_PRIMARY} w-full`}>
+                <Link to={paths.workspaces} className={`${LINK_BUTTON_PRIMARY} w-full`}>
                   {i.accepted.cta}
                 </Link>
               }

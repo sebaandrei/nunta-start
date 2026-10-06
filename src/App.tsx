@@ -1,16 +1,17 @@
-import { Link, Outlet, useRouterState } from '@tanstack/react-router';
-import { Calculator, House, ListChecks, type LucideIcon, Settings, ShieldCheck } from 'lucide-react';
-import type { ReactNode } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { Link, Outlet, useParams, useRouterState } from '@tanstack/react-router';
+import { ArrowLeftRight, Calculator, House, ListChecks, type LucideIcon, Settings, ShieldCheck } from 'lucide-react';
 import { LocaleIconButton, SignOutButton, SignOutIconButton, ThemeIconButton } from './components/ShellControls';
-import { Toaster } from './components/Toaster';
-import { Banner, cx } from './components/ui';
+import { cx } from './components/ui';
+import { useTasks } from './data/hooks';
+import { weddingsQuery } from './data/queries';
 import { parseISODate } from './domain/dates';
 import { useT } from './i18n';
 import { formatDate } from './lib/format';
+import { paths } from './lib/paths';
 import { coupleInitials, NAV_ITEMS, type NavId, navIdForPath, recoverBadgeCount } from './lib/shell';
 import { useToday } from './lib/useToday';
-import { Onboarding } from './screens/Onboarding';
-import { useAppData, useStore } from './store';
+import { useWedding, WeddingProvider } from './lib/wedding';
 
 const NAV_ICONS: Record<NavId, LucideIcon> = {
   home: House,
@@ -21,33 +22,19 @@ const NAV_ICONS: Record<NavId, LucideIcon> = {
 
 const FOCUS_RING = 'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent';
 
+/** Meniul și ecranele unei nunți; nunta (și rolul meu) vin din `WeddingProvider`. */
 export function App() {
-  const t = useT();
-  const hasData = useStore((s) => s.data !== null);
-  const storageStatus = useStore((s) => s.storageStatus);
-  const banner = storageStatus === 'unavailable' && <Banner tone="warn">{t.storage.unavailable}</Banner>;
-
+  const { weddingId } = useParams({ strict: false });
   return (
-    <>
-      {hasData ? (
-        <Shell banner={banner} />
-      ) : (
-        <>
-          {/* Fără date nu e meniu: cine s-a conectat tot trebuie să poată ieși. */}
-          <div className="mx-auto flex max-w-5xl justify-end px-4 pt-2 empty:hidden">
-            <SignOutIconButton />
-          </div>
-          {banner && <div className="mx-auto max-w-5xl px-4 pt-4">{banner}</div>}
-          <Onboarding />
-        </>
-      )}
-      <Toaster />
-    </>
+    <WeddingProvider weddingId={weddingId ?? ''}>
+      <Shell />
+    </WeddingProvider>
   );
 }
 
-function Shell({ banner }: { banner: ReactNode }) {
+function Shell() {
   const t = useT();
+
   return (
     <div className="min-h-dvh md:pl-[244px]">
       <a
@@ -63,7 +50,6 @@ function Shell({ banner }: { banner: ReactNode }) {
         tabIndex={-1}
         className="mx-auto max-w-[1120px] px-4 pt-5 pb-[calc(6rem+env(safe-area-inset-bottom))] outline-none md:px-10 md:pt-8 md:pb-12"
       >
-        {banner && <div className="mb-5">{banner}</div>}
         <Outlet />
       </main>
       <MobileTabBar />
@@ -87,11 +73,12 @@ function BrandMark({ className }: { className?: string }) {
 
 function Sidebar() {
   const t = useT();
-  const data = useAppData();
+  const { id, wedding: row } = useWedding();
+  const tasks = useTasks(id);
   const today = useToday();
-  const wedding = parseISODate(data.settings.weddingDate);
-  const [name1, name2] = data.settings.names;
-  const badge = recoverBadgeCount(data.tasks, wedding, today);
+  const wedding = row.date ? parseISODate(row.date) : null;
+  const names: [string, string] = [row.partner1, row.partner2];
+  const badge = wedding ? recoverBadgeCount(tasks, wedding, today) : 0;
 
   return (
     <aside className="fixed inset-y-0 left-0 z-20 hidden w-[244px] flex-col gap-6 overflow-y-auto border-r border-line bg-sunken px-4 py-6 md:flex">
@@ -105,12 +92,13 @@ function Sidebar() {
 
       <nav aria-label={t.shell.mainNav} className="flex flex-col gap-1">
         <p className="px-3 pb-1 text-[10px] font-semibold uppercase tracking-[0.1em] text-muted">{t.shell.section}</p>
-        {NAV_ITEMS.map(({ id, to }) => {
-          const Icon = NAV_ICONS[id];
+        {NAV_ITEMS.map(({ id: navId, to }) => {
+          const Icon = NAV_ICONS[navId];
           return (
             <Link
-              key={id}
+              key={navId}
               to={to}
+              params={{ weddingId: id }}
               activeOptions={{ exact: true }}
               className={cx(
                 'flex min-h-10 items-center gap-3 rounded-lg px-3 text-sm text-muted transition-colors hover:bg-soft/60 hover:text-ink',
@@ -119,8 +107,8 @@ function Sidebar() {
               activeProps={{ className: 'bg-soft font-semibold text-ink', 'aria-current': 'page' }}
             >
               <Icon size={18} aria-hidden="true" />
-              <span className="flex-1">{t.shell.nav[id]}</span>
-              {id === 'tasks' && badge > 0 && (
+              <span className="flex-1">{t.shell.nav[navId]}</span>
+              {navId === 'tasks' && badge > 0 && (
                 <span
                   role="img"
                   aria-label={t.shell.badgeLabel(badge)}
@@ -143,13 +131,14 @@ function Sidebar() {
             aria-hidden="true"
             className="inline-flex size-9 shrink-0 items-center justify-center rounded-full bg-soft text-[11px] font-semibold"
           >
-            {coupleInitials(data.settings.names)}
+            {coupleInitials(names)}
           </span>
           <div className="min-w-0">
-            <p className="truncate text-[13px] font-medium">{t.header.couple(name1, name2)}</p>
-            <p className="text-[11px] text-muted">{formatDate(wedding)}</p>
+            <p className="truncate text-[13px] font-medium">{t.header.couple(...names)}</p>
+            {wedding && <p className="text-[11px] text-muted">{formatDate(wedding)}</p>}
           </div>
         </div>
+        <SwitchWedding className="mt-3 -ml-2" />
       </section>
 
       <div className="mt-auto rounded-xl bg-hero p-3.5">
@@ -171,6 +160,7 @@ function MobileTopBar() {
     <div className="sticky top-0 z-20 flex h-14 items-center gap-3 border-b border-line bg-bg px-4 md:hidden">
       <BrandMark className="size-8 text-base" />
       <p className="min-w-0 flex-1 truncate font-serif text-lg">{t.shell.tab[navIdForPath(pathname)]}</p>
+      <SwitchWedding icon />
       <ThemeIconButton />
       <LocaleIconButton />
       <SignOutIconButton />
@@ -178,8 +168,34 @@ function MobileTopBar() {
   );
 }
 
+/** Trecerea la altă nuntă: apare doar când omul are mai multe (altfel `/w` l-ar duce înapoi în aceeași). */
+function SwitchWedding({ icon = false, className }: { icon?: boolean; className?: string }) {
+  const t = useT();
+  const { data } = useQuery(weddingsQuery());
+  if (!data || data.length < 2) return null;
+  return (
+    <Link
+      to={paths.workspaces}
+      search={{ all: true }}
+      aria-label={icon ? t.shell.switchWedding : undefined}
+      title={icon ? t.shell.switchWedding : undefined}
+      className={cx(
+        icon
+          ? 'inline-flex size-11 items-center justify-center rounded-lg text-muted hover:text-ink'
+          : 'inline-flex min-h-10 items-center gap-2 rounded-lg px-2 text-[13px] font-medium text-muted hover:text-ink',
+        FOCUS_RING,
+        className,
+      )}
+    >
+      <ArrowLeftRight size={icon ? 20 : 16} aria-hidden="true" />
+      {!icon && t.shell.switchWedding}
+    </Link>
+  );
+}
+
 function MobileTabBar() {
   const t = useT();
+  const { id: weddingId } = useWedding();
   return (
     <nav
       aria-label={t.shell.mainNav}
@@ -192,6 +208,7 @@ function MobileTabBar() {
             <li key={id}>
               <Link
                 to={to}
+                params={{ weddingId }}
                 activeOptions={{ exact: true }}
                 className={cx(
                   'flex min-h-14 flex-col items-center justify-center gap-0.5 px-1 text-[11px] text-muted transition-colors',

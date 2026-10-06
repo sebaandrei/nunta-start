@@ -2,17 +2,12 @@ import { Link } from '@tanstack/react-router';
 import { ChevronRight, Heart, Plus } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { LINK_BUTTON_PRIMARY, LINK_FOCUS, PublicShell } from '../components/PublicShell';
+import { SignOutIconButton } from '../components/ShellControls';
 import { Banner, Button, EmptyState, Heading } from '../components/ui';
+import { weddingsClient } from '../data/workspacesClient';
 import { useT } from '../i18n';
-import { paths } from '../lib/paths';
-import {
-  dateAndCity,
-  localWorkspacesClient,
-  roleLabel,
-  type Workspace,
-  type WorkspacesClient,
-  workspaceInitials,
-} from '../lib/workspaces';
+import { paths, routes } from '../lib/paths';
+import { dateAndCity, roleLabel, type Workspace, type WorkspacesClient, workspaceInitials } from '../lib/workspaces';
 
 type Load = { status: 'loading' } | { status: 'error' } | { status: 'ready'; list: Workspace[] };
 
@@ -40,7 +35,12 @@ function WorkspaceCard({ ws }: { ws: Workspace }) {
   const name = ws.name || t.workspaces.unnamed;
   const meta = dateAndCity(ws.date, ws.city);
   return (
-    <Link to={paths.home} aria-label={t.workspaces.open(name)} className={`${CARD} ${LINK_FOCUS}`}>
+    <Link
+      to={routes.home}
+      params={{ weddingId: ws.id }}
+      aria-label={t.workspaces.open(name)}
+      className={`${CARD} ${LINK_FOCUS}`}
+    >
       <span
         aria-hidden="true"
         className="inline-flex size-11 shrink-0 items-center justify-center rounded-full bg-warm text-[13px] font-semibold text-ink"
@@ -57,7 +57,7 @@ function WorkspaceCard({ ws }: { ws: Workspace }) {
   );
 }
 
-export function Workspaces({ client = localWorkspacesClient }: { client?: WorkspacesClient }) {
+export function Workspaces({ client = weddingsClient }: { client?: WorkspacesClient }) {
   const t = useT();
   const w = t.workspaces;
   const [load, setLoad] = useState<Load>({ status: 'loading' });
@@ -80,7 +80,7 @@ export function Workspaces({ client = localWorkspacesClient }: { client?: Worksp
   const announce = load.status === 'loading' ? w.loading : '';
 
   return (
-    <PublicShell>
+    <PublicShell headerAction={<SignOutIconButton />}>
       <div className="w-full max-w-[34rem]">
         <p className="sr-only" aria-live="polite">
           {announce}
@@ -113,7 +113,7 @@ export function Workspaces({ client = localWorkspacesClient }: { client?: Worksp
               icon={Heart}
               title={w.emptyTitle}
               action={
-                <Link to={paths.home} className={LINK_BUTTON_PRIMARY}>
+                <Link to={paths.newWedding} className={LINK_BUTTON_PRIMARY}>
                   <Plus size={16} aria-hidden="true" />
                   {w.createTitle}
                 </Link>
@@ -133,7 +133,7 @@ export function Workspaces({ client = localWorkspacesClient }: { client?: Worksp
                 ))}
               </ul>
               <Link
-                to={paths.home}
+                to={paths.newWedding}
                 aria-describedby="workspaces-create-note"
                 className={`mt-3 flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl border border-line bg-surface px-4 text-sm font-semibold text-ink hover:bg-sunken ${LINK_FOCUS}`}
               >

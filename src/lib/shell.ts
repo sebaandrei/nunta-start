@@ -1,26 +1,29 @@
 import type { Task } from '../domain/schema';
 import { isRecover } from '../domain/tasks';
-import { paths } from './paths';
+import { routes } from './paths';
 
 export type NavId = 'home' | 'tasks' | 'budget' | 'settings';
 
 export interface NavItem {
   id: NavId;
-  to: typeof paths.home | typeof paths.tasks | typeof paths.budget | typeof paths.settings;
+  /** Tiparul rutei; se folosește cu `params={{ weddingId }}`. */
+  to: (typeof routes)[NavId];
 }
 
 /** Ordinea din meniul lateral și din bara de jos. Căile vin din paths.ts. */
 export const NAV_ITEMS: readonly NavItem[] = [
-  { id: 'home', to: paths.home },
-  { id: 'tasks', to: paths.tasks },
-  { id: 'budget', to: paths.budget },
-  { id: 'settings', to: paths.settings },
+  { id: 'home', to: routes.home },
+  { id: 'tasks', to: routes.tasks },
+  { id: 'budget', to: routes.budget },
+  { id: 'settings', to: routes.settings },
 ];
 
-/** Ecranul unei rute, pentru titlul din bara de sus de pe telefon. Rută necunoscută: acasă. */
+const SECTION_NAV: Record<string, NavId> = { start: 'tasks', calculator: 'budget', settings: 'settings' };
+
+/** Ecranul unei adrese `/w/<id>/<ecran>`, pentru titlul din bara de sus de pe telefon. Necunoscut: acasă. */
 export function navIdForPath(pathname: string): NavId {
-  const path = pathname.replace(/\/+$/, '') || '/';
-  return NAV_ITEMS.find((item) => item.to === path)?.id ?? 'home';
+  const [, w, , section] = pathname.replace(/\/+$/, '').split('/');
+  return (w === 'w' && section && SECTION_NAV[section]) || 'home';
 }
 
 /** Numărul din insigna „Taskuri": taskurile de recuperat (nefinalizate, din etape trecute). 0 ascunde insigna. */

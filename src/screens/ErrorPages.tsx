@@ -3,6 +3,7 @@ import { type ReactNode, useEffect } from 'react';
 import { PublicLayout } from '../components/PublicLayout';
 import { Button, cx, Heading } from '../components/ui';
 import { useT } from '../i18n';
+import { paths } from '../lib/paths';
 import { pageTitle, useDocumentTitle } from '../lib/useDocumentTitle';
 import { reportError } from '../observability';
 
@@ -60,6 +61,19 @@ export function NotFound() {
     <StatePage eyebrow={t.errors.notFound.code} title={t.errors.notFound.title} body={t.errors.notFound.body}>
       <Link to="/" className={cx(LINK_BUTTON, 'bg-accent text-accent-ink hover:opacity-90')}>
         {t.errors.notFound.home}
+      </Link>
+    </StatePage>
+  );
+}
+
+/** Adresă de nuntă la care nu am acces (nu există sau nu sunt membru): același stil ca „nu a fost găsită". */
+export function NoAccess() {
+  const t = useT();
+  useDocumentTitle(pageTitle(t.errors.noAccess.title, t.appName));
+  return (
+    <StatePage eyebrow={t.errors.noAccess.code} title={t.errors.noAccess.title} body={t.errors.noAccess.body}>
+      <Link to={paths.workspaces} className={cx(LINK_BUTTON, 'bg-accent text-accent-ink hover:opacity-90')}>
+        {t.errors.noAccess.picker}
       </Link>
     </StatePage>
   );

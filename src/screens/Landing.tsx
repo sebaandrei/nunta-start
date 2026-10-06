@@ -14,7 +14,7 @@ const LABEL = 'text-[11px] font-semibold uppercase tracking-[0.1em]';
 export function Landing() {
   const t = useT();
   const hasData = useStore((s) => s.data !== null);
-  const ctaPath = hasData ? paths.home : signUpPath;
+  const ctaPath = hasData ? paths.workspaces : signUpPath;
   const ctaLabel = hasData ? t.landing.ctaOpen : t.landing.cta;
 
   return (

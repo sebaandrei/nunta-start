@@ -5,6 +5,7 @@ import { ImportButton } from '../components/ImportButton';
 import { MembersPanel } from '../components/MembersPanel';
 import { PageHeader } from '../components/PageHeader';
 import {
+  Banner,
   Button,
   Card,
   Dialog,
@@ -16,6 +17,7 @@ import {
   Segmented,
   TextInput,
 } from '../components/ui';
+import { useWeddingAppData } from '../data/hooks';
 import { isValidISODate } from '../domain/dates';
 
 import { CURRENCIES, MAX_GODPARENT_PAIRS } from '../domain/schema';
@@ -25,12 +27,12 @@ import { currencySymbol } from '../lib/format';
 import { useLocale } from '../lib/locale';
 import { paths } from '../lib/paths';
 import { THEME_MODES, useTheme } from '../lib/theme';
-import { daysSinceBackup } from '../storage/storage';
-import { useAppData, useStore } from '../store';
+import { useStore } from '../store';
 
 export function Settings() {
   const t = useT();
-  const data = useAppData();
+  // Citire de pe server; scrierile (NS-044) încă nu sunt gata, deci cardurile de date sunt doar pentru vizualizare.
+  const data = useWeddingAppData();
   const updateSettings = useStore((s) => s.updateSettings);
   const setCity = useStore((s) => s.setCity);
   const addGodparents = useStore((s) => s.addGodparents);
@@ -58,10 +60,11 @@ export function Settings() {
         title={t.pages.settings.title}
         subtitle={t.pages.settings.subtitle}
       />
+      <Banner className="mb-5">{t.readOnlySoon}</Banner>
       <div className="grid items-start gap-5 lg:grid-cols-3">
         <Card className="p-5 md:p-6 lg:col-span-3">
           <CardHeading title={t.settings.detailsTitle} hint={t.settings.detailsHint} />
-          <div className="mt-5 space-y-5">
+          <fieldset disabled className="m-0 mt-5 min-w-0 space-y-5 border-0 p-0">
             <Field label={t.settings.weddingDateLabel}>
               <TextInput
                 type="date"
@@ -132,7 +135,7 @@ export function Settings() {
                 {t.settings.addGodparents}
               </Button>
             </FieldGroup>
-          </div>
+          </fieldset>
         </Card>
 
         <Card className="p-5 md:p-6 lg:col-span-2">
@@ -158,15 +161,17 @@ export function Settings() {
               />
             </PrefRow>
             <PrefRow label={t.settings.displayLabel} hint={t.settings.displayHint}>
-              <Segmented
-                label={t.settings.displayLabel}
-                value={settings.displayCurrency}
-                onChange={(c) => updateSettings({ displayCurrency: c })}
-                options={CURRENCIES.map((c) => ({ value: c, label: c }))}
-              />
+              <fieldset disabled className="contents">
+                <Segmented
+                  label={t.settings.displayLabel}
+                  value={settings.displayCurrency}
+                  onChange={(c) => updateSettings({ displayCurrency: c })}
+                  options={CURRENCIES.map((c) => ({ value: c, label: c }))}
+                />
+              </fieldset>
             </PrefRow>
             <PrefRow label={t.settings.rateLabel} hint={t.settings.rateHint} hintId={rateHintId}>
-              <div className="flex items-center gap-2 text-sm text-muted">
+              <fieldset disabled className="m-0 flex min-w-0 items-center gap-2 border-0 p-0 text-sm text-muted">
                 <span className="whitespace-nowrap">{t.calc.ratePrefix}</span>
                 <NumberInput
                   aria-label={t.settings.rateLabel}
@@ -181,7 +186,7 @@ export function Settings() {
                   }}
                 />
                 <span>{currencySymbol('RON')}</span>
-              </div>
+              </fieldset>
               {rateEmpty && (
                 <p id={rateErrorId} role="alert" className="mt-1 text-xs text-minus">
                   {t.settings.rateError}
@@ -193,48 +198,48 @@ export function Settings() {
 
         <Card className="p-5 md:p-6">
           <CardHeading title={t.settings.dataTitle} hint={t.settings.dataHint} />
-          <p className="mt-3 text-xs text-muted">{t.settings.lastBackup(daysSinceBackup(data.meta, new Date()))}</p>
-          <div className="mt-4 border-t border-line pt-4">
-            <p className="text-sm font-medium">{t.settings.downloadTitle}</p>
-            <p className="mt-1 text-xs text-muted">{t.settings.downloadHint}</p>
-            <Button
-              className="mt-3 w-full"
-              onClick={() => {
-                downloadBackup(data, markExported);
-                setMessage(null);
-              }}
-            >
-              {t.settings.downloadButton}
-            </Button>
-            <div className="mt-2">
-              <ImportButton
-                variant="link"
-                className="min-h-11 md:min-h-8"
-                confirmMessage={t.settings.confirmImport}
-                onImported={() => setMessage({ tone: 'ok', text: t.settings.imported })}
-                onError={(error) => setMessage({ tone: 'error', text: `${t.backupErrors[error]} ${t.backupKept}` })}
+          <fieldset disabled className="m-0 mt-4 min-w-0 border-0 border-t border-line p-0 pt-4">
+            <div>
+              <p className="text-sm font-medium">{t.settings.downloadTitle}</p>
+              <p className="mt-1 text-xs text-muted">{t.settings.downloadHint}</p>
+              <Button
+                className="mt-3 w-full"
+                onClick={() => {
+                  downloadBackup(data, markExported);
+                  setMessage(null);
+                }}
               >
-                {t.settings.importLink}
-              </ImportButton>
+                {t.settings.downloadButton}
+              </Button>
+              <div className="mt-2">
+                <ImportButton
+                  variant="link"
+                  className="min-h-11 md:min-h-8"
+                  confirmMessage={t.settings.confirmImport}
+                  onImported={() => setMessage({ tone: 'ok', text: t.settings.imported })}
+                  onError={(error) => setMessage({ tone: 'error', text: `${t.backupErrors[error]} ${t.backupKept}` })}
+                >
+                  {t.settings.importLink}
+                </ImportButton>
+              </div>
+              {message && (
+                <p role="status" className={`mt-2 text-sm ${message.tone === 'error' ? 'text-minus' : 'text-plus'}`}>
+                  {message.text}
+                </p>
+              )}
             </div>
-            {message && (
-              <p role="status" className={`mt-2 text-sm ${message.tone === 'error' ? 'text-minus' : 'text-plus'}`}>
-                {message.text}
-              </p>
-            )}
-          </div>
-          <div className="mt-4 rounded-xl border border-minus/30 bg-minus/10 p-4">
-            <p className="text-sm font-medium">{t.settings.deleteTitle}</p>
-            <p className="mt-1 text-xs text-muted">{t.settings.deleteHint}</p>
-            <Button variant="danger" className="mt-3 w-full" onClick={() => setConfirming(true)}>
-              {t.settings.deleteButton}
-            </Button>
-          </div>
+            <div className="mt-4 rounded-xl border border-minus/30 bg-minus/10 p-4">
+              <p className="text-sm font-medium">{t.settings.deleteTitle}</p>
+              <p className="mt-1 text-xs text-muted">{t.settings.deleteHint}</p>
+              <Button variant="danger" className="mt-3 w-full" onClick={() => setConfirming(true)}>
+                {t.settings.deleteButton}
+              </Button>
+            </div>
+          </fieldset>
         </Card>
       </div>
 
-      {/* TODO: după NS-031/NS-041 ducem utilizatorul la selectorul de spații, nu acasă. */}
-      <MembersPanel selfName={settings.names[0]} onLeft={() => void navigate({ to: paths.home })} />
+      <MembersPanel selfName={settings.names[0]} onLeft={() => void navigate({ to: paths.workspaces })} />
 
       <Dialog
         open={confirming}
@@ -249,7 +254,7 @@ export function Settings() {
               variant="dangerSolid"
               onClick={() => {
                 setConfirming(false);
-                void navigate({ to: paths.home });
+                void navigate({ to: paths.workspaces });
                 reset();
               }}
             >

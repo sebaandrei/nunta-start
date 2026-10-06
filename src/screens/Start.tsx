@@ -3,6 +3,7 @@ import { type ReactNode, useState } from 'react';
 import { PageHeader } from '../components/PageHeader';
 import { TaskRow } from '../components/TaskRow';
 import { Button, Card, cx, EmptyState, FilterChip, ProgressBar, Segmented } from '../components/ui';
+import { useWeddingAppData } from '../data/hooks';
 import { parseISODate } from '../domain/dates';
 import type { Task } from '../domain/schema';
 import {
@@ -22,7 +23,7 @@ import {
 import { useT } from '../i18n';
 import { formatDayMonth } from '../lib/format';
 import { useToday } from '../lib/useToday';
-import { useAppData, useStore } from '../store';
+import { useStore } from '../store';
 
 type View = 'stages' | 'categories';
 
@@ -30,7 +31,7 @@ const EYEBROW = 'text-[11px] font-semibold uppercase tracking-[0.08em] text-mute
 
 export function Start() {
   const t = useT();
-  const data = useAppData();
+  const data = useWeddingAppData();
   const addTask = useStore((s) => s.addTask);
   const today = useToday();
   const [view, setView] = useState<View>('stages');

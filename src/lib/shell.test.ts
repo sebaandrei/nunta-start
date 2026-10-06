@@ -23,17 +23,23 @@ function task(over: Partial<Task>): Task {
 
 describe('NAV_ITEMS', () => {
   it('are cele patru rute, în ordine, fără dubluri', () => {
-    expect(NAV_ITEMS.map((i) => i.to)).toEqual(['/w', '/w/start', '/w/calculator', '/w/settings']);
+    expect(NAV_ITEMS.map((i) => i.to)).toEqual([
+      '/w/$weddingId',
+      '/w/$weddingId/start',
+      '/w/$weddingId/calculator',
+      '/w/$weddingId/settings',
+    ]);
     expect(new Set(NAV_ITEMS.map((i) => i.id)).size).toBe(4);
   });
 });
 
 describe('navIdForPath', () => {
   it('găsește ecranul, cu sau fără slash final', () => {
-    expect(navIdForPath('/w')).toBe('home');
-    expect(navIdForPath('/w/start')).toBe('tasks');
-    expect(navIdForPath('/w/calculator/')).toBe('budget');
-    expect(navIdForPath('/w/settings')).toBe('settings');
+    expect(navIdForPath('/w/abc')).toBe('home');
+    expect(navIdForPath('/w/abc/')).toBe('home');
+    expect(navIdForPath('/w/abc/start')).toBe('tasks');
+    expect(navIdForPath('/w/abc/calculator/')).toBe('budget');
+    expect(navIdForPath('/w/abc/settings')).toBe('settings');
   });
 
   it('ruta necunoscută cade pe acasă', () => {
