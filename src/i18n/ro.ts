@@ -215,5 +215,11 @@ export const ro = {
     version: 'Copia e dintr-o versiune pe care aplicația n-o poate citi.',
     shape: 'Copia e incompletă sau modificată și nu poate fi încărcată.',
   } satisfies Record<BackupError, string>,
+  errors: {
+    generic: 'Ceva n-a mers. Încercați din nou în câteva clipe.',
+    network: 'Nu ne putem conecta. Verificați conexiunea la internet.',
+    forbidden: 'Nu aveți acces la această acțiune. Încercați să vă autentificați din nou.',
+  },
+  toast: { dismiss: 'Închide notificarea' },
   backupKept: 'Datele voastre au rămas neschimbate.',
 };

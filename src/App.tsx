@@ -1,4 +1,5 @@
 import { Link, Outlet } from '@tanstack/react-router';
+import { Toaster } from './components/Toaster';
 import { Banner } from './components/ui';
 import { daysBetween, parseISODate } from './domain/dates';
 import { useT } from './i18n';
@@ -27,6 +28,7 @@ export function App() {
         </div>
       )}
       {hasData ? <Shell /> : <Onboarding />}
+      <Toaster />
     </>
   );
 }
