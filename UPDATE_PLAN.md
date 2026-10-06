@@ -151,13 +151,13 @@ The product is now an **invite-only app for the owner and friends** (2-3 workspa
 |---|---|---|---|---|---|---|
 | NS-027 | P0 | RPC `create_wedding(input, tasks_template, budget_template)`: inserts the wedding, the owner membership and the seeded tasks/lines in one transaction | 3 | NS-028, NS-029 | pgTAP: the caller is owner and 61 tasks are seeded | ✅ |
 | NS-030 | P1 | `npm run db:types` (`supabase gen types`) plus a CI check that the generated types are committed | 1 | NS-025 | CI fails on type drift | ✅ |
-| NS-040 | P0 | TanStack Query setup: a `supabase` client module, query key factory per wedding, global error toast | 2 | NS-022 | The query devtools work in dev. *Code merged; devtools not yet checked in a browser* | 🟨 |
-| NS-031 | P0 | `/w` wedding picker and `/w/new` onboarding form (reuses the Onboarding screen) calling `create_wedding` | 3 | NS-027, NS-040 | A new user lands in a seeded wedding | ⬜ |
-| NS-041 | P0 | Route tree under `/w/:weddingId/…`; app shell with a side nav on desktop and a bottom tab bar on mobile | 3 | NS-031 | All screens are reachable at 360px and 1280px | ⬜ |
-| NS-042 | P0 | Tasks: queries + optimistic mutations (add, edit, delete, cycle status); row ↔ `Task` mapper | 4 | NS-041 | Edits survive a reload; failed writes roll back with a toast | ⬜ |
-| NS-043 | P0 | Budget: queries + mutations for settings, scenarios and lines | 4 | NS-041 | The calculator totals match the v1 reference numbers | ⬜ |
-| NS-044 | P1 | Settings screen: wedding date, names, EUR rate and display currency persisted to the DB | 2 | NS-041 | Changing the date moves the automatic task deadlines | ⬜ |
-| NS-045 | P1 | Delete `src/storage/`, the backup reminder and the JSON import; reduce Zustand to UI-only state; update tests | 2 | NS-042, NS-043 | No `localStorage` references remain in `src/` | ⬜ |
+| NS-040 | P0 | TanStack Query setup: a `supabase` client module, query key factory per wedding, global error toast | 2 | NS-022 | The query devtools work in dev. *Code merged; devtools not yet checked in a browser* | ✅ |
+| NS-031 | P0 | `/w` wedding picker and `/w/new` onboarding form (reuses the Onboarding screen) calling `create_wedding` | 3 | NS-027, NS-040 | A new user lands in a seeded wedding | ✅ |
+| NS-041 | P0 | Route tree under `/w/:weddingId/…`; app shell with a side nav on desktop and a bottom tab bar on mobile | 3 | NS-031 | All screens are reachable at 360px and 1280px | ✅ |
+| NS-042 | P0 | Tasks: queries + optimistic mutations (add, edit, delete, cycle status); row ↔ `Task` mapper | 4 | NS-041 | Edits survive a reload; failed writes roll back with a toast | ✅ |
+| NS-043 | P0 | Budget: queries + mutations for settings, scenarios and lines | 4 | NS-041 | The calculator totals match the v1 reference numbers | ✅ |
+| NS-044 | P1 | Settings screen: wedding date, names, EUR rate and display currency persisted to the DB | 2 | NS-041 | Changing the date moves the automatic task deadlines | ✅ |
+| NS-045 | P1 | Delete `src/storage/`, the backup reminder and the JSON import; reduce Zustand to UI-only state; update tests | 2 | NS-042, NS-043 | No `localStorage` references remain in `src/` | ✅ |
 
 ---
 
@@ -188,7 +188,7 @@ The product is now an **invite-only app for the owner and friends** (2-3 workspa
 | NS-060 | P0 | Privacy policy + terms pages (RO) at `/privacy` and `/terms`, linked in the footer and on the OAuth consent screen. They list the sub-processors | 3 | NS-041 | Pages are live; legal review requested | ⬜ |
 | NS-061 | P0 | "Download my data": an RPC returning JSON of every wedding the user owns | 2 | NS-043 | The file contains all tables for those weddings | ⬜ |
 | NS-062 | P0 | Delete account: an Edge Function (service role) that removes memberships, soft-deletes weddings where the user is the last owner, plus a 30-day hard-purge cron | 3 | NS-052 | The account is gone; the wedding is purged after 30 days (tested with a shortened interval) | ⬜ |
-| NS-063 | P1 | CI: `supabase db lint` + a check that fails on any table without RLS | 1 | NS-013 | CI fails on a test table without RLS | ⬜ |
+| NS-063 | P1 | CI: `supabase db lint` + a check that fails on any table without RLS | 1 | NS-013 | CI fails on a test table without RLS | ✅ |
 | NS-064 | P0 | Deploy pipeline: `main` → staging migrations run automatically; prod migrations + the Pages prod deploy wait for the `production` environment approval | 3 | NS-013 | One approved release updates prod | ✅ |
 | NS-065 | P1 | Restore drill #1: restore the latest R2 dump into staging and run E2E; write `docs/runbooks/restore.md` | 2 | NS-014 | The runbook is followed end-to-end successfully | ⬜ |
 | NS-066 | P1 | Mobile pass at 360px for Tasks, Calculator and Settings; `@axe-core/playwright` in E2E | 2 | NS-058 | No serious or critical axe violations | ⬜ |
