@@ -112,6 +112,24 @@ export function settleRoleChange(
   return { sync: { ...sync, inFlight }, members: back ? withRole(members, id, back) : members };
 }
 
+/** Membrii cu o schimbare de rol în curs. */
+export function pendingRoleIds(sync: RoleSync): string[] {
+  return Object.keys(sync.inFlight);
+}
+
+/**
+ * Rulează cererea și spune dacă a reușit. O aruncare sincronă a clientului, o respingere cu o valoare
+ * care nu e Error sau o promisiune respinsă produc toate `false`; nu iese niciodată o excepție.
+ */
+export async function attemptRoleChange(call: () => Promise<void>): Promise<boolean> {
+  try {
+    await call();
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 export type PanelStatus = 'loading' | 'ready' | 'unavailable' | 'error' | 'left';
 
 /** După încercarea de a părăsi spațiul: succesul e terminal (`left`, niciodată `ready`), eșecul nu schimbă starea. */

@@ -1,10 +1,12 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
+  attemptRoleChange,
   type Invitation,
   initialRoleSync,
   type Member,
   manageableRoles,
   type PanelStatus,
+  pendingRoleIds,
   type Role,
   settleRoleChange,
   startRoleChange,
@@ -122,21 +124,16 @@ export function MembersPanel({
   async function changeRole(target: Member, role: Role) {
     const requestId = ++roleRequest.current;
     roleSync.current = startRoleChange(roleSync.current, target.id, target.role, requestId);
-    setPendingRoles(Object.keys(roleSync.current.inFlight));
+    setPendingRoles(pendingRoleIds(roleSync.current));
     setMembers((list) => withRole(list, target.id, role));
-    let ok = true;
-    try {
-      await client.changeRole(target.id, role);
-    } catch {
-      ok = false;
-    }
+    const ok = await attemptRoleChange(() => client.changeRole(target.id, role));
     const before = roleSync.current;
     const settled = settleRoleChange(before, [{ ...target, role }], target.id, requestId, role, ok);
     if (settled.sync === before) return;
     roleSync.current = settled.sync;
     const finalRole = settled.members[0].role;
     setMembers((list) => withRole(list, target.id, finalRole));
-    setPendingRoles(Object.keys(roleSync.current.inFlight));
+    setPendingRoles(pendingRoleIds(roleSync.current));
     if (ok) setAnnouncement(m.announce.roleChanged(target.name, m.roles[role]));
     else showToast(m.errors.changeRole);
   }

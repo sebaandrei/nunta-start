@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
+  attemptRoleChange,
   canChangeRole,
   canLeave,
   canRemove,
@@ -9,6 +10,7 @@ import {
   invitationAge,
   type Member,
   manageableRoles,
+  pendingRoleIds,
   ROLES,
   type Role,
   settleRoleChange,
@@ -56,6 +58,41 @@ describe('role sync', () => {
     expect(roleOf(r.members, 'a')).toBe('viewer');
     expect(roleOf(r.members, 'b')).toBe('viewer');
     expect(r.sync.inFlight).toEqual({ b: 2 });
+  });
+});
+
+describe('pending role flag always clears', () => {
+  const one = [{ id: 'a', name: 'a', email: 'a@x.ro', role: 'viewer', isSelf: false }] as Member[];
+
+  it('a rejection with a non-Error value counts as a failure', async () => {
+    expect(await attemptRoleChange(() => Promise.reject('boom'))).toBe(false);
+    expect(await attemptRoleChange(() => Promise.reject(undefined))).toBe(false);
+  });
+  it('a synchronous throw from the client counts as a failure', async () => {
+    const client = () => {
+      throw new Error('sync');
+    };
+    expect(await attemptRoleChange(client as () => Promise<void>)).toBe(false);
+    expect(await attemptRoleChange(() => Promise.resolve())).toBe(true);
+  });
+  it('settling clears the pending id on success, failure and non-Error failure', async () => {
+    for (const call of [() => Promise.resolve(), () => Promise.reject('x')]) {
+      const s = startRoleChange(initialRoleSync, 'a', 'viewer', 1);
+      expect(pendingRoleIds(s)).toEqual(['a']);
+      const ok = await attemptRoleChange(call);
+      expect(pendingRoleIds(settleRoleChange(s, one, 'a', 1, 'helper', ok).sync)).toEqual([]);
+    }
+  });
+  it('a superseded request that settles last leaves the newest one pending until it settles', () => {
+    let s = startRoleChange(initialRoleSync, 'a', 'viewer', 1);
+    s = startRoleChange(s, 'a', 'helper', 2);
+    const newest = settleRoleChange(s, one, 'a', 2, 'planner', false);
+    expect(pendingRoleIds(newest.sync)).toEqual([]);
+    const late = settleRoleChange(newest.sync, newest.members, 'a', 1, 'helper', false);
+    expect(late).toEqual(newest);
+    expect(pendingRoleIds(late.sync)).toEqual([]);
+    const early = settleRoleChange(s, one, 'a', 1, 'helper', true);
+    expect(pendingRoleIds(early.sync)).toEqual(['a']);
   });
 });
 
