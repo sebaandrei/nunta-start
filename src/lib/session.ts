@@ -32,6 +32,11 @@ export const initialSessionState = (configured: boolean): SessionState => ({
 
 export const useSession = create<SessionState>(() => initialSessionState(isAuthConfigured()));
 
+// Alt cont (sau niciunul): datele cache-uite ale celui dinainte nu se mai arată.
+useSession.subscribe((state, previous) => {
+  if (state.user?.id !== previous.user?.id) queryClient.clear();
+});
+
 export function setSession(session: SessionLike | null): void {
   useSession.setState(stateFromSession(session));
 }

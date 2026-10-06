@@ -2,6 +2,18 @@ import { daysBetween, toISODate } from '../domain/dates';
 import { type AppData, appDataSchema, type Meta } from '../domain/schema';
 
 export const STORAGE_KEY = 'nunta-start:v1';
+
+/**
+ * Cheia planului local, într-un singur loc: cea veche doar când autentificarea e dezactivată,
+ * una pe cont când cineva e conectat, niciuna (null) cât timp identitatea nu se știe.
+ */
+export function storageKeyFor(
+  status: 'disabled' | 'unknown' | 'signedOut' | 'signedIn',
+  userId: string | null,
+): string | null {
+  if (status === 'disabled') return STORAGE_KEY;
+  return status === 'signedIn' && userId ? `${STORAGE_KEY}:${userId}` : null;
+}
 export const BACKUP_APP = 'nunta-start';
 export const BACKUP_VERSION = 1;
 export const BACKUP_REMINDER_DAYS = 14;
@@ -25,11 +37,11 @@ export function getBrowserStorage(): Storage | null {
   }
 }
 
-export function loadData(storage: Storage | null): LoadResult {
+export function loadData(storage: Storage | null, key: string = STORAGE_KEY): LoadResult {
   if (!storage) return { status: 'unavailable' };
   let raw: string | null;
   try {
-    raw = storage.getItem(STORAGE_KEY);
+    raw = storage.getItem(key);
   } catch {
     return { status: 'unavailable' };
   }
@@ -43,11 +55,11 @@ export function loadData(storage: Storage | null): LoadResult {
 }
 
 /** Salvează (sau șterge, pentru null). Întoarce false dacă browserul refuză scrierea. */
-export function saveData(storage: Storage | null, data: AppData | null): boolean {
+export function saveData(storage: Storage | null, data: AppData | null, key: string = STORAGE_KEY): boolean {
   if (!storage) return false;
   try {
-    if (data) storage.setItem(STORAGE_KEY, JSON.stringify(data));
-    else storage.removeItem(STORAGE_KEY);
+    if (data) storage.setItem(key, JSON.stringify(data));
+    else storage.removeItem(key);
     return true;
   } catch {
     return false;

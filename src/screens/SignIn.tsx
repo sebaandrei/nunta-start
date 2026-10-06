@@ -30,20 +30,16 @@ function Spinner() {
 
 export function SignIn({
   client: clientProp = notConfiguredAuthClient,
-  captchaSiteKey: captchaProp = import.meta.env.VITE_TURNSTILE_SITE_KEY,
   showGoogle = import.meta.env.VITE_AUTH_GOOGLE === 'true',
 }: {
   client?: AuthClient;
   /** Google rămâne implementat, dar ascuns până când aplicația nu mai e doar pe invitație. */
   showGoogle?: boolean;
-  /** Fără cheie, nu apare nicio verificare anti-robot. */
-  captchaSiteKey?: string;
 }) {
   const t = useT();
   const a = t.auth;
   const [preview] = useState(readPreview);
   const client = preview?.client ?? clientProp;
-  const captchaSiteKey = preview ? preview.captchaSiteKey : captchaProp;
 
   const [state, dispatch] = useReducer(signInReducer, undefined, () => {
     if (preview) return preview.state;
@@ -79,7 +75,6 @@ export function SignIn({
     const id = ++requestSeq.current;
     dispatch({ type: event, id });
     if (event === 'submit' && validateEmail(email)) return;
-    // TODO(NS-023): citiți tokenul Turnstile din widget și treceți-l ca al doilea argument.
     run(id, client.sendMagicLink(email.trim()), () => dispatch({ type: 'succeeded', id }));
   }
 
@@ -188,17 +183,6 @@ export function SignIn({
                   </p>
                 )}
               </div>
-
-              {captchaSiteKey && (
-                // TODO(NS-023): montați aici widgetul Turnstile (script încărcat doar după ce CSP îl permite).
-                <fieldset
-                  data-sitekey={captchaSiteKey}
-                  className="m-0 flex h-[65px] w-[300px] max-w-full items-center justify-center rounded-xl border border-dashed border-line bg-sunken p-0 text-xs text-muted"
-                >
-                  <legend className="sr-only">{a.form.captcha}</legend>
-                  <span aria-hidden="true">{a.form.captcha}</span>
-                </fieldset>
-              )}
 
               <Button type="submit" className="w-full" disabled={sending} aria-busy={sending}>
                 {sending ? (

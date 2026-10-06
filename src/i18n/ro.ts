@@ -65,7 +65,6 @@ export const ro = {
       sending: 'Se trimite…',
       helper: 'Vă trimitem un link securizat. Nu aveți nevoie de parolă.',
       inviteOnly: 'Aplicația este doar pe invitație.',
-      captcha: 'Verificare anti-robot',
       privacyTitle: 'Planificați cu încredere',
       privacyBody: 'Informațiile voastre sunt folosite doar pentru spațiul de planificare. Le puteți exporta oricând.',
       termsBefore: 'Continuând, acceptați ',

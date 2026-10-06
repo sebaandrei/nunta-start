@@ -6,7 +6,8 @@ import { createBudgetLine, createInitialData, createTask, type StartInput } from
 import type { AppData, Budget, BudgetLine, GodparentPair, Settings, Task } from './domain/schema';
 import { defaultDateForNewTask, nextStatus } from './domain/tasks';
 import { getMessages } from './i18n';
-import { getBrowserStorage, loadData, saveData } from './storage/storage';
+import { useSession } from './lib/session';
+import { getBrowserStorage, loadData, saveData, storageKeyFor } from './storage/storage';
 
 export type StorageStatus = 'ok' | 'unavailable';
 
@@ -44,7 +45,13 @@ interface StoreState {
 }
 
 const storage = getBrowserStorage();
-const initial = loadData(storage);
+const keyNow = () => {
+  const { status, user } = useSession.getState();
+  return storageKeyFor(status, user?.id ?? null);
+};
+/** Cheia identității active; null = nimeni conectat (sau încă nu se știe): nu se citește și nu se scrie nimic. */
+let activeKey: string | null = keyNow();
+const initial = activeKey ? loadData(storage, activeKey) : ({ status: 'empty' } as const);
 
 export const useStore = create<StoreState>()((set, get) => {
   /** Aplică o modificare și notează momentul ei. */
@@ -151,9 +158,25 @@ function touch(data: AppData): AppData {
 // Salvare automată la fiecare schimbare a datelor.
 useStore.subscribe((state, previous) => {
   if (state.data === previous.data) return;
-  const saved = saveData(storage, state.data);
+  if (!activeKey) return;
+  const saved = saveData(storage, state.data, activeKey);
   if (!saved && state.storageStatus !== 'unavailable') useStore.setState({ storageStatus: 'unavailable' });
 });
+
+/** Identitatea s-a schimbat (conectare, deconectare, alt cont): planul din memorie se înlocuiește cu al noii identități. */
+export function rehydrate(key: string | null): void {
+  if (key === activeKey) return;
+  activeKey = null; // nimic nu se salvează cât timp se înlocuiește planul
+  const loaded = key ? loadData(storage, key) : ({ status: 'empty' } as const);
+  activeKey = key;
+  useStore.setState({
+    data: loaded.status === 'ok' ? loaded.data : null,
+    storageStatus: loaded.status === 'unavailable' ? 'unavailable' : 'ok',
+    corruptRaw: loaded.status === 'corrupt' ? loaded.raw : null,
+  });
+}
+
+useSession.subscribe(() => rehydrate(keyNow()));
 
 let lastData: AppData | null = initial.status === 'ok' ? initial.data : null;
 

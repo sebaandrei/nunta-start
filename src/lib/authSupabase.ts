@@ -5,7 +5,7 @@ import {
   AuthNotInvitedError,
   AuthRateLimitError,
 } from './auth';
-import { rememberNext, safeNext } from './authCallback';
+import { beginAttempt } from './authCallback';
 
 /** Forma minimă a unei erori Supabase Auth, ca maparea să se poată testa fără client. */
 export interface SupabaseAuthErrorLike {
@@ -50,7 +50,7 @@ export const callbackUrl = () => `${window.location.origin}/auth/callback`;
 export const supabaseAuthClient: AuthClient = {
   async sendMagicLink(email) {
     // Linkul se deschide adesea în altă filă: `next` se păstrează în localStorage, nu în adresă.
-    rememberNext(safeNext(new URLSearchParams(window.location.search).get('next')));
+    beginAttempt(window.location.search);
     const { error } = await (await supabase()).auth.signInWithOtp({
       email,
       options: { emailRedirectTo: callbackUrl(), shouldCreateUser: true },
@@ -59,6 +59,7 @@ export const supabaseAuthClient: AuthClient = {
   },
   /** Implementat, dar neafișat: vezi VITE_AUTH_GOOGLE. */
   async signInWithGoogle() {
+    beginAttempt(window.location.search);
     const { error } = await (await supabase()).auth.signInWithOAuth({
       provider: 'google',
       options: { redirectTo: callbackUrl() },

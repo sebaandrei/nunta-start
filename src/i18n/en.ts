@@ -61,7 +61,6 @@ export const en: Messages = {
       sending: 'Sending…',
       helper: 'We’ll email you a secure link. No password needed.',
       inviteOnly: 'The app is invite-only.',
-      captcha: 'Anti-robot check',
       privacyTitle: 'Plan with confidence',
       privacyBody: 'Your details are used only for your planning space. You can export your data whenever you need.',
       termsBefore: 'By continuing, you agree to our ',

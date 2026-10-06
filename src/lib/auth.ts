@@ -6,7 +6,7 @@ import type { Messages } from '../i18n';
  */
 export interface AuthClient {
   signInWithGoogle(): Promise<void>;
-  sendMagicLink(email: string, captchaToken?: string): Promise<void>;
+  sendMagicLink(email: string): Promise<void>;
 }
 
 /** Autentificarea nu e configurată încă (lipsesc credențialele). */

@@ -12,12 +12,11 @@ export function createFakeAuthClient(outcome: AuthOutcome = 'success'): AuthClie
   return { signInWithGoogle: run, sendMagicLink: run };
 }
 
-const PREVIEWS = ['sent', 'expired', 'captcha', 'error', 'not-invited', 'rate-limited'] as const;
+const PREVIEWS = ['sent', 'expired', 'error', 'not-invited', 'rate-limited'] as const;
 export type PreviewName = (typeof PREVIEWS)[number];
 
 export interface Preview {
   state: SignInState;
-  captchaSiteKey?: string;
   client: AuthClient;
 }
 
@@ -33,8 +32,6 @@ export function previewFor(name: PreviewName): Preview {
       return { state: { ...base, status: 'sent', email, resendIn: 30 }, client: createFakeAuthClient() };
     case 'expired':
       return { state: { ...base, status: 'expired', email }, client: createFakeAuthClient() };
-    case 'captcha':
-      return { state: base, captchaSiteKey: 'preview', client: createFakeAuthClient() };
     case 'error':
       return {
         state: { ...base, status: 'error', email, errorKind: 'network' },

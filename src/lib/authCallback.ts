@@ -22,6 +22,21 @@ export function rememberNext(next: string): void {
   }
 }
 
+/** Începutul unei încercări de conectare: șterge destinația rămasă de la alta și o păstrează pe cea cerută acum. */
+export function beginAttempt(search: string): void {
+  clearNext();
+  rememberNext(safeNext(new URLSearchParams(search).get('next')));
+}
+
+function clearNext(): void {
+  try {
+    localStorage.removeItem(NEXT_KEY);
+  } catch {
+    // Fără stocare nu există nimic de șters.
+  }
+}
+
+/** Citește destinația păstrată și o șterge, ca să nu o folosească altă încercare. */
 export function takeNext(): string {
   try {
     const next = localStorage.getItem(NEXT_KEY);

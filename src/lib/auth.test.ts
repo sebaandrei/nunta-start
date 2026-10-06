@@ -80,7 +80,6 @@ describe('dev/test client and previews', () => {
   it('builds the designed states', () => {
     expect(previewFor('sent').state.status).toBe('sent');
     expect(previewFor('expired').state.status).toBe('expired');
-    expect(previewFor('captcha').captchaSiteKey).toBeTruthy();
     expect(previewFor('error').state.errorKind).toBe('network');
     expect(previewFor('not-invited').state.errorKind).toBe('notInvited');
     expect(previewFor('rate-limited').state.errorKind).toBe('rateLimited');
