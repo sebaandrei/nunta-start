@@ -1,6 +1,10 @@
+import { useNavigate } from '@tanstack/react-router';
 import { ArrowLeft, ArrowRight, Check } from 'lucide-react';
 import { type FormEvent, type ReactNode, useEffect, useRef, useState } from 'react';
+import { SignOutIconButton } from '../components/ShellControls';
 import { Banner, Button, Card, cx, Heading, Segmented, TextInput } from '../components/ui';
+import { isWeddingLimitError } from '../data/errors';
+import { useCreateWedding } from '../data/weddingMutations';
 import { parseISODate } from '../domain/dates';
 import {
   fieldIds,
@@ -18,10 +22,9 @@ import {
   validateStep,
 } from '../domain/onboardingSteps';
 import { useT } from '../i18n';
-import { downloadText } from '../lib/download';
 import { formatLongDate, formatNumber } from '../lib/format';
 import { useLocale } from '../lib/locale';
-import { useStore } from '../store';
+import { routes } from '../lib/paths';
 
 const FIELD_IDS = {
   name1: 'onb-name1',
@@ -112,8 +115,8 @@ export function Onboarding() {
   const t = useT();
   const locale = useLocale((s) => s.locale);
   const setLocale = useLocale((s) => s.setLocale);
-  const start = useStore((s) => s.start);
-  const corruptRaw = useStore((s) => s.corruptRaw);
+  const navigate = useNavigate();
+  const create = useCreateWedding();
   const [step, setStep] = useState<StepId>('about');
   const [values, setValues] = useState<OnboardingValues>({ name1: '', name2: '', date: '', city: '', guests: '' });
   const [errors, setErrors] = useState<OnboardingErrors>({});
@@ -144,7 +147,21 @@ export function Onboarding() {
     if (step === 'done') {
       const bad = firstInvalidStep(values);
       if (bad) return go(bad);
-      start(toStartInput(values));
+      if (create.isPending) return;
+      const start = toStartInput(values);
+      create.mutate(
+        {
+          input: {
+            name1: start.names[0],
+            name2: start.names[1],
+            date: start.weddingDate,
+            city: start.city ?? '',
+            guests: start.guests,
+          },
+          locale,
+        },
+        { onSuccess: (weddingId) => void navigate({ to: routes.home, params: { weddingId }, replace: true }) },
+      );
       return;
     }
     const found = validateStep(step, values);
@@ -177,24 +194,24 @@ export function Onboarding() {
           </span>
           {t.appName}
         </p>
-        <Segmented
-          label={t.settings.language}
-          value={locale}
-          onChange={setLocale}
-          options={[
-            { value: 'ro', label: 'Română' },
-            { value: 'en', label: 'English' },
-          ]}
-        />
+        <div className="flex items-center gap-2">
+          <SignOutIconButton />
+          <Segmented
+            label={t.settings.language}
+            value={locale}
+            onChange={setLocale}
+            options={[
+              { value: 'ro', label: 'Română' },
+              { value: 'en', label: 'English' },
+            ]}
+          />
+        </div>
       </header>
 
       <main className="mx-auto flex w-full max-w-xl flex-1 flex-col justify-center gap-4 px-4 pb-10 sm:py-6">
-        {corruptRaw && (
+        {create.isError && (
           <Banner tone="warn">
-            <span>{ob.corrupt}</span>
-            <Button variant="ghost" onClick={() => downloadText('nunta-start-date-vechi.json', corruptRaw)}>
-              {ob.corruptDownload}
-            </Button>
+            <span>{isWeddingLimitError(create.error) ? ob.limitReached : ob.createError}</span>
           </Banner>
         )}
 
@@ -298,8 +315,8 @@ export function Onboarding() {
               ) : (
                 <span />
               )}
-              <Button type="submit">
-                {step === 'done' ? ob.create : ob.next}
+              <Button type="submit" disabled={create.isPending}>
+                {step === 'done' ? (create.isPending ? ob.creating : ob.create) : ob.next}
                 {step !== 'done' && <ArrowRight aria-hidden="true" className="size-4" />}
               </Button>
             </div>
