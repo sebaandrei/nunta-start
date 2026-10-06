@@ -3,6 +3,7 @@ import { App } from './App';
 import { Calculator } from './screens/Calculator';
 import { Home } from './screens/Home';
 import { Settings } from './screens/Settings';
+import { SignIn } from './screens/SignIn';
 import { Start } from './screens/Start';
 
 const rootRoute = createRootRoute({ component: App });
@@ -12,6 +13,7 @@ const routeTree = rootRoute.addChildren([
   createRoute({ getParentRoute: () => rootRoute, path: '/start', component: Start }),
   createRoute({ getParentRoute: () => rootRoute, path: '/calculator', component: Calculator }),
   createRoute({ getParentRoute: () => rootRoute, path: '/settings', component: Settings }),
+  createRoute({ getParentRoute: () => rootRoute, path: '/login', component: SignIn }),
 ]);
 
 export const router = createRouter({ routeTree, scrollRestoration: true });
