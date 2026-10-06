@@ -16,6 +16,29 @@ create policy weddings_delete_owner on public.weddings
   for delete to authenticated
   using (private.has_role(id, array['owner']::public.member_role[]));
 
+-- Only owners may soft-delete or restore (change deleted_at); RLS cannot compare old/new.
+-- A null auth.uid() means a trusted server context (service role, migrations, pg_cron purge).
+create function private.guard_wedding_soft_delete()
+returns trigger
+language plpgsql
+security definer
+set search_path = ''
+as $$
+begin
+  if new.deleted_at is distinct from old.deleted_at
+     and (select auth.uid()) is not null
+     and not private.has_role(old.id, array['owner']::public.member_role[]) then
+    raise exception 'only the owner can delete or restore a wedding'
+      using errcode = 'insufficient_privilege';
+  end if;
+  return new;
+end;
+$$;
+
+create trigger weddings_guard_soft_delete
+  before update on public.weddings
+  for each row execute function private.guard_wedding_soft_delete();
+
 -- wedding_members: members see the roster of their own weddings.
 create policy members_select_member on public.wedding_members
   for select to authenticated

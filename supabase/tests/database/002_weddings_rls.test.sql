@@ -1,5 +1,5 @@
 begin;
-select plan(15);
+select plan(20);
 
 -- a1 owner, a2 viewer, a3 outsider, a4 planner, a5 partner (all of W1); a6 owner of W2
 insert into auth.users (id, email) values
@@ -46,6 +46,9 @@ select is((select count(*)::int from public.weddings), 0, 'outsider sees no wedd
 select is((select count(*)::int from public.wedding_members), 0, 'outsider sees no members');
 
 select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000a4","role":"authenticated"}', true);
+select throws_ok(
+  $$update public.weddings set deleted_at = now()$$,
+  '42501', 'only the owner can delete or restore a wedding', 'planner cannot soft-delete the wedding');
 select is(
   public.test_rows_affected($q$update public.weddings set name = 'Planned'$q$),
   1, 'planner can update the wedding');
@@ -60,6 +63,10 @@ select throws_ok(
   '42501', null, 'user_id of a membership cannot be changed');
 
 select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000a5","role":"authenticated"}', true);
+select throws_ok(
+  $$update public.weddings set deleted_at = now()$$,
+  '42501', 'only the owner can delete or restore a wedding', 'partner cannot soft-delete the wedding');
+select is(public.test_rows_affected($q$update public.weddings set eur_rate = 4.9$q$), 1, 'partner can still update other wedding columns');
 select is(
   public.test_rows_affected($q$delete from public.weddings$q$),
   0, 'partner cannot delete the wedding');
@@ -68,6 +75,8 @@ select is(
   0, 'partner cannot remove the owner');
 
 select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000a1","role":"authenticated"}', true);
+select is(public.test_rows_affected($q$update public.weddings set deleted_at = now() where id = '00000000-0000-0000-0000-0000000000b1'$q$), 1, 'owner can soft-delete the wedding');
+select is(public.test_rows_affected($q$update public.weddings set deleted_at = null where id = '00000000-0000-0000-0000-0000000000b1'$q$), 1, 'owner can restore the wedding');
 select is(
   public.test_rows_affected($q$delete from public.weddings where id = '00000000-0000-0000-0000-0000000000b1'$q$),
   1, 'owner can delete the wedding');
