@@ -1,4 +1,4 @@
-import { BUDGET_DEFAULTS, TASK_TEMPLATE } from '../content';
+import { budgetDefaults, taskTemplate } from '../content';
 import type { AppData, BudgetLine, Task } from './schema';
 
 export const DEFAULT_EUR_RATE = 5;
@@ -24,7 +24,7 @@ export function createInitialData(input: StartInput, now: Date, makeId: () => st
       eurRate: DEFAULT_EUR_RATE,
       displayCurrency: 'EUR',
     },
-    tasks: TASK_TEMPLATE.map(
+    tasks: taskTemplate().map(
       (tt): Task => ({
         id: makeId(),
         title: tt.title,
@@ -42,7 +42,7 @@ export function createInitialData(input: StartInput, now: Date, makeId: () => st
       selected: 0,
       giftPerGuest: { amount: null, currency: 'EUR' },
       familyGift: { amount: null, currency: 'EUR' },
-      lines: BUDGET_DEFAULTS.map(
+      lines: budgetDefaults().map(
         (d): BudgetLine => ({
           id: makeId(),
           name: d.name,

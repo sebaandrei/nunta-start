@@ -6,6 +6,9 @@ import { isValidISODate } from '../domain/dates';
 import { CURRENCIES } from '../domain/schema';
 import { useT } from '../i18n';
 import { downloadBackup } from '../lib/backup';
+import { currencySymbol } from '../lib/format';
+import { useLocale } from '../lib/locale';
+import { THEME_MODES, useTheme } from '../lib/theme';
 import { daysSinceBackup } from '../storage/storage';
 import { useAppData, useStore } from '../store';
 
@@ -16,6 +19,10 @@ export function Settings() {
   const markExported = useStore((s) => s.markExported);
   const reset = useStore((s) => s.reset);
   const navigate = useNavigate();
+  const locale = useLocale((s) => s.locale);
+  const setLocale = useLocale((s) => s.setLocale);
+  const mode = useTheme((s) => s.mode);
+  const setMode = useTheme((s) => s.setMode);
   const [message, setMessage] = useState<{ tone: 'ok' | 'error'; text: string } | null>(null);
   const { settings } = data;
 
@@ -56,7 +63,7 @@ export function Settings() {
               value={settings.eurRate}
               onChange={(v) => v !== null && v > 0 && updateSettings({ eurRate: v })}
             />
-            <span>lei</span>
+            <span>{currencySymbol('RON')}</span>
           </div>
         </FieldGroup>
         <FieldGroup label={t.settings.display}>
@@ -65,6 +72,25 @@ export function Settings() {
             value={settings.displayCurrency}
             onChange={(c) => updateSettings({ displayCurrency: c })}
             options={CURRENCIES.map((c) => ({ value: c, label: c }))}
+          />
+        </FieldGroup>
+        <FieldGroup label={t.settings.language}>
+          <Segmented
+            label={t.settings.language}
+            value={locale}
+            onChange={setLocale}
+            options={[
+              { value: 'ro', label: 'Română' },
+              { value: 'en', label: 'English' },
+            ]}
+          />
+        </FieldGroup>
+        <FieldGroup label={t.settings.appearance}>
+          <Segmented
+            label={t.settings.appearance}
+            value={mode}
+            onChange={setMode}
+            options={THEME_MODES.map((m) => ({ value: m, label: t.settings.themes[m] }))}
           />
         </FieldGroup>
       </Card>

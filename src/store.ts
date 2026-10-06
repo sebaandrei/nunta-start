@@ -4,7 +4,7 @@ import { parseISODate, startOfDay, toISODate } from './domain/dates';
 import { createBudgetLine, createInitialData, createTask, type StartInput } from './domain/initial';
 import type { AppData, Budget, BudgetLine, Settings, Task } from './domain/schema';
 import { defaultDateForNewTask, nextStatus } from './domain/tasks';
-import { ro as t } from './i18n/ro';
+import { getMessages } from './i18n';
 import { getBrowserStorage, loadData, saveData } from './storage/storage';
 
 export type StorageStatus = 'ok' | 'unavailable';
@@ -114,7 +114,7 @@ export const useStore = create<StoreState>()((set, get) => {
     selectScenario: (index) => changeBudget((b) => ({ ...b, selected: index })),
 
     addLine: () => {
-      const line = createBudgetLine(t.calc.newLine);
+      const line = createBudgetLine(getMessages().calc.newLine);
       changeBudget((b) => ({ ...b, lines: [...b.lines, line] }));
       return line.id;
     },

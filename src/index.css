@@ -2,39 +2,64 @@
 
 :root {
   color-scheme: light;
-  --bg: #faf8f5;
+  --bg: #f7f5f0;
   --surface: #ffffff;
-  --sunken: #f3efe9;
-  --line: #e7e1d8;
-  --ink: #221e1a;
-  --muted: #6e665c;
-  --faint: #a59c90;
-  --accent: #8c4f3d;
+  --sunken: #f1eee7;
+  --line: #dddcd3;
+  --ink: #272e28;
+  --muted: #59635a;
+  --faint: #697367;
+  --accent: #49604f;
   --accent-ink: #ffffff;
   --plus: #2c7a4b;
   --minus: #b23c2e;
+  --hero: #e9ede5;
+  --soft: #e1e7dd;
+  --warm: #ead9d0;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #151916;
+  --surface: #1e2520;
+  --sunken: #242e27;
+  --line: #38413a;
+  --ink: #edf1eb;
+  --muted: #aab5a7;
+  --faint: #8f9b8c;
+  --accent: #9bb796;
+  --accent-ink: #151916;
+  --plus: #73c493;
+  --minus: #f08b7b;
+  --hero: #2a382e;
+  --soft: #344238;
+  --warm: #40312c;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     color-scheme: dark;
-    --bg: #161412;
-    --surface: #1f1c19;
-    --sunken: #292521;
-    --line: #3a342e;
-    --ink: #f2ede6;
-    --muted: #a99f93;
-    --faint: #71685e;
-    --accent: #e0a58f;
-    --accent-ink: #1b1512;
+    --bg: #151916;
+    --surface: #1e2520;
+    --sunken: #242e27;
+    --line: #38413a;
+    --ink: #edf1eb;
+    --muted: #aab5a7;
+    --faint: #8f9b8c;
+    --accent: #9bb796;
+    --accent-ink: #151916;
     --plus: #73c493;
     --minus: #f08b7b;
+    --hero: #2a382e;
+    --soft: #344238;
+    --warm: #40312c;
   }
 }
 
 @theme inline {
-  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-serif: ui-serif, "Iowan Old Style", "Palatino Linotype", Georgia, "Times New Roman", serif;
+  --font-sans:
+    "Inter Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-serif: Georgia, "Iowan Old Style", serif;
   --color-bg: var(--bg);
   --color-surface: var(--surface);
   --color-sunken: var(--sunken);
@@ -46,6 +71,9 @@
   --color-accent-ink: var(--accent-ink);
   --color-plus: var(--plus);
   --color-minus: var(--minus);
+  --color-hero: var(--hero);
+  --color-soft: var(--soft);
+  --color-warm: var(--warm);
 }
 
 body {
