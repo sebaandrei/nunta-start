@@ -24,7 +24,7 @@ export const LEGACY_REDIRECTS = [
  * Se schimbă în `true` când ruta /login există (PR-ul de autentificare): butoanele
  * „Începeți" din pagina de start duc atunci la /login, altfel direct în aplicație.
  */
-export const SIGN_IN_ROUTE_EXISTS = false;
+export const SIGN_IN_ROUTE_EXISTS = true;
 
 /** Unde duc butoanele de început din pagina de start. */
 export const signUpPath: string = SIGN_IN_ROUTE_EXISTS ? paths.login : paths.home;

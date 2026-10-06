@@ -21,7 +21,7 @@ describe('paths', () => {
     ]);
   });
 
-  it('până apare /login, butoanele de început duc în aplicație', () => {
-    expect(signUpPath).toBe(paths.home);
+  it('butoanele de început duc la /login', () => {
+    expect(signUpPath).toBe(paths.login);
   });
 });

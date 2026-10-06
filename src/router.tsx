@@ -1,10 +1,11 @@
 import { createRootRoute, createRoute, createRouter, Outlet, redirect } from '@tanstack/react-router';
 import { App } from './App';
-import { LEGACY_REDIRECTS } from './lib/paths';
+import { LEGACY_REDIRECTS, paths } from './lib/paths';
 import { Calculator } from './screens/Calculator';
 import { Home } from './screens/Home';
 import { Landing } from './screens/Landing';
 import { Settings } from './screens/Settings';
+import { SignIn } from './screens/SignIn';
 import { Start } from './screens/Start';
 
 const rootRoute = createRootRoute({ component: Outlet });
@@ -22,6 +23,9 @@ const appChildren = [
   createRoute({ getParentRoute: () => appRoute, path: '/settings', component: Settings }),
 ];
 
+// Autentificarea: ecran public complet, în afara aplicației (fără meniu, fără Onboarding).
+const loginRoute = createRoute({ getParentRoute: () => rootRoute, path: paths.login, component: SignIn });
+
 const legacyRoutes = LEGACY_REDIRECTS.map(({ from, to }) =>
   createRoute({
     getParentRoute: () => rootRoute,
@@ -32,7 +36,7 @@ const legacyRoutes = LEGACY_REDIRECTS.map(({ from, to }) =>
   }),
 );
 
-const routeTree = rootRoute.addChildren([landingRoute, appRoute.addChildren(appChildren), ...legacyRoutes]);
+const routeTree = rootRoute.addChildren([landingRoute, appRoute.addChildren(appChildren), loginRoute, ...legacyRoutes]);
 
 export const router = createRouter({ routeTree, scrollRestoration: true });
 

@@ -1,3 +1,4 @@
+import { Link } from '@tanstack/react-router';
 import { Check } from 'lucide-react';
 import { ThemeIconButton } from '../components/ShellControls';
 import { cx } from '../components/ui';
@@ -37,15 +38,15 @@ export function Landing() {
           <span className="hidden sm:block">
             <ThemeIconButton />
           </span>
-          <a
-            href={paths.login}
+          <Link
+            to={paths.login}
             className={cx(
               'inline-flex min-h-11 items-center rounded-lg px-2 text-sm font-medium text-ink hover:underline md:px-3',
               FOCUS_RING,
             )}
           >
             {t.landing.signIn}
-          </a>
+          </Link>
           <a
             href={ctaPath}
             className={cx(
@@ -121,15 +122,15 @@ export function Landing() {
           <p className="flex flex-wrap items-center gap-x-5 gap-y-1">
             <span>
               {t.landing.haveAccount}{' '}
-              <a
-                href={paths.login}
+              <Link
+                to={paths.login}
                 className={cx(
                   'inline-flex min-h-11 items-center font-medium text-ink underline md:min-h-0',
                   FOCUS_RING,
                 )}
               >
                 {t.landing.haveAccountLink}
-              </a>
+              </Link>
             </span>
             <a
               href={paths.privacy}

@@ -36,6 +36,75 @@ export const ro = {
 
   greeting: { morning: 'Bună dimineața', afternoon: 'Bună ziua', evening: 'Bună seara' },
 
+  auth: {
+    panel: {
+      eyebrow: 'Planificați cu încredere',
+      line1: 'Un plan clar.',
+      line2: 'O zi de neuitat.',
+      intro:
+        'Planificați împreună fără să vă pierdeți în detalii. Taskurile, bugetul și oamenii voștri, toate într-un singur loc.',
+      stepsTitle: 'Pașii, în ordine',
+      stepsHint: 'Știți mereu ce urmează.',
+      budgetTitle: 'Buget fără surprize',
+      budgetHint: 'Comparați scenarii și plăți.',
+      note: 'Datele voastre, păstrate în siguranță.',
+      back: 'Înapoi la pagina principală',
+    },
+    form: {
+      eyebrow: 'Bine ați revenit',
+      title: 'Intrați în spațiul vostru',
+      lead: 'Conectați-vă ca să continuați planificarea împreună.',
+      google: 'Continuați cu Google',
+      divider: 'Sau cu email',
+      emailLabel: 'Adresa de email',
+      emailPlaceholder: 'voi@exemplu.ro',
+      submit: 'Trimiteți linkul de conectare',
+      sending: 'Se trimite…',
+      helper: 'Vă trimitem un link securizat. Nu aveți nevoie de parolă.',
+      newHere: 'Prima dată aici?',
+      createSpace: 'Creați un spațiu nou',
+      captcha: 'Verificare anti-robot',
+      privacyTitle: 'Planificați cu încredere',
+      privacyBody: 'Informațiile voastre sunt folosite doar pentru spațiul de planificare. Le puteți exporta oricând.',
+      termsBefore: 'Continuând, acceptați ',
+      terms: 'Termenii',
+      termsAnd: ' și ',
+      privacy: 'Politica de confidențialitate',
+      termsAfter: '.',
+      methods: 'Două metode sigure de conectare. Fără parolă.',
+    },
+    sent: {
+      eyebrow: 'Verificați-vă emailul',
+      title: 'Am trimis linkul de conectare',
+      before: 'Am trimis un link securizat la ',
+      after: '. Deschideți mesajul și apăsați pe link ca să intrați.',
+      tip: 'Nu îl găsiți? Verificați și folderul Spam. Linkul este valabil 15 minute.',
+      resendIn: (time: string) => `Retrimite linkul în ${time}`,
+      resend: 'Retrimiteți linkul',
+      other: 'Folosiți altă adresă',
+    },
+    expired: {
+      bannerTitle: 'Linkul a expirat',
+      bannerBody:
+        'Din motive de securitate, linkurile de conectare sunt valabile 15 minute și pot fi folosite o singură dată.',
+      eyebrow: 'Conectare',
+      title: 'Cereți un link nou',
+      lead: 'Vă trimitem imediat un alt link pe adresa de mai jos.',
+      submit: 'Trimiteți un link nou',
+    },
+    errors: {
+      notConfigured: 'Autentificarea nu este încă disponibilă.',
+      invalidEmail: 'Verificați adresa de email și încercați din nou.',
+      network: 'Nu am putut trimite linkul. Verificați conexiunea și încercați din nou.',
+      generic: 'Ceva nu a mers. Încercați din nou.',
+    },
+    fieldErrors: {
+      empty: 'Introduceți adresa de email.',
+      invalid: 'Adresa de email nu pare completă. Exemplu: voi@exemplu.ro',
+    },
+    announce: { sending: 'Se trimite linkul…', sent: 'Linkul de conectare a fost trimis.' },
+  },
+
   pages: {
     home: { subtitle: 'Încă puțin și începe povestea voastră. Iată ce urmează.' },
     tasks: {
