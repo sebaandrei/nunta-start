@@ -28,6 +28,10 @@ create trigger tasks_set_audit
   before update on public.tasks
   for each row execute function private.set_audit_columns();
 
+create trigger tasks_immutable_wedding
+  before update on public.tasks
+  for each row execute function private.forbid_column_change('wedding_id');
+
 alter table public.tasks enable row level security;
 
 create policy tasks_select_member on public.tasks

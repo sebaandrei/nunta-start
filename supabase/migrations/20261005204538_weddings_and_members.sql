@@ -17,6 +17,26 @@ begin
 end;
 $$;
 
+-- Generic guard: raises if any of the named columns (trigger arguments) changes.
+-- RLS WITH CHECK cannot compare old and new rows, so tenant keys are frozen with this.
+create function private.forbid_column_change()
+returns trigger
+language plpgsql
+set search_path = ''
+as $$
+declare
+  col text;
+begin
+  foreach col in array tg_argv loop
+    if to_jsonb(new) -> col is distinct from to_jsonb(old) -> col then
+      raise exception 'column % of % is immutable', col, tg_table_name
+        using errcode = 'check_violation';
+    end if;
+  end loop;
+  return new;
+end;
+$$;
+
 create table public.weddings (
   id uuid primary key default gen_random_uuid(),
   name text not null,
@@ -52,6 +72,10 @@ create index wedding_members_user_wedding_idx on public.wedding_members (user_id
 create trigger wedding_members_set_audit
   before update on public.wedding_members
   for each row execute function private.set_audit_columns();
+
+create trigger wedding_members_immutable_keys
+  before update on public.wedding_members
+  for each row execute function private.forbid_column_change('wedding_id', 'user_id');
 
 alter table public.weddings enable row level security;
 alter table public.wedding_members enable row level security;

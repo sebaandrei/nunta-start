@@ -61,6 +61,16 @@ create trigger budget_lines_set_audit
   before update on public.budget_lines
   for each row execute function private.set_audit_columns();
 
+create trigger budget_scenarios_immutable_wedding
+  before update on public.budget_scenarios
+  for each row execute function private.forbid_column_change('wedding_id');
+create trigger budget_settings_immutable_wedding
+  before update on public.budget_settings
+  for each row execute function private.forbid_column_change('wedding_id');
+create trigger budget_lines_immutable_wedding
+  before update on public.budget_lines
+  for each row execute function private.forbid_column_change('wedding_id');
+
 -- 1-4 scenarios per wedding. Security definer so the count ignores RLS.
 create function private.enforce_scenario_limits()
 returns trigger
@@ -79,8 +89,11 @@ begin
     return new;
   end if;
 
-  -- DELETE: keep at least one, unless the whole wedding is being removed (cascade).
-  if exists (select 1 from public.weddings where id = old.wedding_id)
+  -- DELETE: keep at least one. Take the same wedding row lock as the insert path so two
+  -- concurrent deletes cannot both see count = 2. When the wedding itself is being deleted
+  -- (cascade) its row is already gone for this transaction, nothing is found, and we skip.
+  perform 1 from public.weddings where id = old.wedding_id for update;
+  if found
      and (select count(*) from public.budget_scenarios where wedding_id = old.wedding_id) <= 1 then
     raise exception 'a wedding must keep at least 1 budget scenario'
       using errcode = 'check_violation';
