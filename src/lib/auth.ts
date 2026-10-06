@@ -2,7 +2,7 @@ import type { Messages } from '../i18n';
 
 /**
  * Clientul de autentificare, injectat în ecranul de conectare.
- * Implementarea reală (cod din 6 cifre prin email, Supabase Auth) e în authSupabase.ts; fără credențiale rămâne cea de mai jos.
+ * Implementarea reală (cod din 8 cifre prin email, Supabase Auth) e în authSupabase.ts; fără credențiale rămâne cea de mai jos.
  */
 export interface AuthClient {
   signInWithGoogle(): Promise<void>;
@@ -110,10 +110,13 @@ export function validateEmail(raw: string): EmailIssue | null {
   return /^[^\s@]+@[^\s@.]+(\.[^\s@.]+)+$/.test(email) ? null : 'invalid';
 }
 
-/** Codul din email: exact 6 cifre (spațiile de la copiere se ignoră). */
+/** Lungimea codului din email; trebuie să fie egală cu „Email OTP Length" din Supabase (config.toml `otp_length`). */
+export const CODE_LENGTH = 8;
+
+/** Codul din email: exact `CODE_LENGTH` cifre (spațiile de la copiere se ignoră). */
 export function normalizeCode(raw: string): string | null {
   const code = raw.replace(/\s+/g, '');
-  return /^\d{6}$/.test(code) ? code : null;
+  return new RegExp(`^\\d{${CODE_LENGTH}}$`).test(code) ? code : null;
 }
 
 /** Secunde rămase, ca m:ss (30 devine „0:30"). */

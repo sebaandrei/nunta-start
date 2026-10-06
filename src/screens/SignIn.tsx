@@ -312,7 +312,7 @@ function SentView({
             inputMode="numeric"
             autoComplete="one-time-code"
             maxLength={9}
-            placeholder="123456"
+            placeholder="12345678"
             autoFocus
             value={code}
             readOnly={verifying}
@@ -321,7 +321,7 @@ function SentView({
             onChange={(e) => {
               setCode(e.target.value);
               setCodeError(null);
-              // Cu 6 cifre complete (tastate sau lipite) nu mai are rost un click în plus.
+              // Cu 8 cifre complete (tastate sau lipite) nu mai are rost un click în plus.
               if (normalizeCode(e.target.value)) verify(e.target.value);
             }}
           />

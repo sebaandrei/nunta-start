@@ -88,11 +88,11 @@ describe('dev/test client and previews', () => {
 });
 
 describe('normalizeCode', () => {
-  it('accepts 6 digits, ignoring whitespace', () => {
-    expect(normalizeCode('123456')).toBe('123456');
-    expect(normalizeCode(' 123 456 ')).toBe('123456');
+  it('accepts 8 digits, ignoring whitespace', () => {
+    expect(normalizeCode('12345678')).toBe('12345678');
+    expect(normalizeCode(' 1234 5678 ')).toBe('12345678');
   });
   it('rejects anything else', () => {
-    for (const bad of ['', '12345', '1234567', '12a456']) expect(normalizeCode(bad)).toBeNull();
+    for (const bad of ['', '123456', '1234567', '123456789', '1234567a']) expect(normalizeCode(bad)).toBeNull();
   });
 });
