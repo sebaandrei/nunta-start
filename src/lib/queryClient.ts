@@ -1,4 +1,5 @@
 import { MutationCache, QueryCache, QueryClient } from '@tanstack/react-query';
+import { isScenarioMaxError, isScenarioMinError } from '../data/errors';
 import { getMessages } from '../i18n';
 import { showToast } from './toast';
 
@@ -25,6 +26,8 @@ export function shouldRetry(failureCount: number, error: unknown): boolean {
 export function errorToMessage(error: unknown): string {
   const status = errorStatus(error);
   const { errors } = getMessages();
+  if (isScenarioMaxError(error)) return errors.scenarioMax;
+  if (isScenarioMinError(error)) return errors.scenarioMin;
   if (status === 401 || status === 403) return errors.forbidden;
   if (error instanceof TypeError) return errors.network;
   return errors.generic;

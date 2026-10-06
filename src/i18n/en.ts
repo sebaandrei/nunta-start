@@ -660,6 +660,8 @@ export const en: Messages = {
     generic: 'Something went wrong. Please try again in a moment.',
     network: "We can't connect. Check your internet connection.",
     forbidden: "You don't have access to this action. Try signing in again.",
+    scenarioMax: 'You can compare at most 4 guest scenarios. Remove one before adding another.',
+    scenarioMin: 'The budget needs at least one scenario. The last scenario cannot be removed.',
     page: {
       title: 'Something went wrong',
       body: 'An unexpected problem came up. Your data was not deleted. Reload the page or go back home.',

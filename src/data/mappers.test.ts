@@ -6,20 +6,25 @@ import {
   type BudgetScenarioRow,
   type BudgetSettingsRow,
   budgetFromRows,
+  budgetSettingsPatchToUpdate,
+  changedColumns,
   changedPatch,
   coupleLabel,
   createWeddingArgs,
   godparentsFromJson,
   guestScenarios,
   lineFromRow,
+  lineRowFromLine,
   lineToInsert,
   lineToUpdate,
   moneyColumn,
   nextPosition,
+  nextScenarioGuests,
   num,
   positionBetween,
   type ServerTask,
   scenarioIds,
+  selectionAfterRemoval,
   settingsFromWedding,
   type TaskRow,
   taskFromRow,
@@ -339,5 +344,61 @@ describe('createWeddingArgs', () => {
   it('labels a couple, dropping empty names', () => {
     expect(coupleLabel(' A ', ' B ')).toBe('A & B');
     expect(coupleLabel('A', ' ')).toBe('A');
+  });
+});
+
+describe('budget write helpers', () => {
+  const scenarios = [scenario('s1', 100, 0), scenario('s2', 150, 10), scenario('s3', 200, 20)];
+
+  it('builds a settings update from gifts and selection', () => {
+    expect(budgetSettingsPatchToUpdate({ giftPerGuest: { amount: 99.999, currency: 'EUR' } })).toEqual({
+      gift_per_guest: 100,
+      gift_per_guest_currency: 'EUR',
+    });
+    expect(budgetSettingsPatchToUpdate({ familyGift: { amount: null, currency: 'RON' } })).toEqual({
+      family_gift: null,
+      family_gift_currency: 'RON',
+    });
+    expect(budgetSettingsPatchToUpdate({ selectedScenarioId: 's2' })).toEqual({ selected_scenario_id: 's2' });
+    expect(budgetSettingsPatchToUpdate({})).toEqual({});
+  });
+
+  it('keeps only the columns that differ from the row', () => {
+    const row = settingsRow();
+    expect(changedColumns(row, { gift_per_guest: 100, gift_per_guest_currency: 'EUR' })).toEqual({
+      gift_per_guest_currency: 'EUR',
+    });
+    expect(changedColumns(row, { gift_per_guest: 100 })).toEqual({});
+    expect(changedColumns(row, { family_gift: null })).toEqual({});
+  });
+
+  it('proposes 20% more guests than the last scenario, in tens', () => {
+    expect(nextScenarioGuests(scenarios)).toBe(240);
+    expect(nextScenarioGuests([scenario('a', 3, 0)])).toBe(1);
+    expect(nextScenarioGuests([])).toBe(240);
+  });
+
+  it('moves an explicit selection to the first remaining scenario when its scenario is removed', () => {
+    const selected = (id: string | null) => settingsRow({ selected_scenario_id: id });
+    expect(selectionAfterRemoval(selected('s2'), scenarios, 's2')).toBe('s1');
+    expect(selectionAfterRemoval(selected('s1'), scenarios, 's1')).toBe('s2');
+    expect(selectionAfterRemoval(selected('s1'), scenarios, 's3')).toBeUndefined();
+    expect(selectionAfterRemoval(selected(null), scenarios, 's1')).toBeUndefined();
+    expect(selectionAfterRemoval(null, scenarios, 's1')).toBeUndefined();
+  });
+
+  it('builds the row an inserted line will have', () => {
+    const line = {
+      id: 'l9',
+      name: 'Tort',
+      unitPrice: 12.345,
+      currency: 'RON' as const,
+      quantity: { kind: 'fixed' as const, count: 2 },
+      paid: null,
+      note: '',
+    };
+    const row = lineRowFromLine('w1', line, 30, '2026-02-02T00:00:00Z');
+    expect(row).toMatchObject({ id: 'l9', wedding_id: 'w1', position: 30, unit_price: 12.35, qty_kind: 'fixed' });
+    expect(lineFromRow(row)).toEqual({ ...line, unitPrice: 12.35 });
   });
 });

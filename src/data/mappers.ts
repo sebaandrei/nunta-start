@@ -26,7 +26,9 @@ export type TaskUpdate = Tables['tasks']['Update'];
 export type WeddingRow = Tables['weddings']['Row'];
 export type WeddingUpdate = Tables['weddings']['Update'];
 export type BudgetSettingsRow = Tables['budget_settings']['Row'];
+export type BudgetSettingsUpdate = Tables['budget_settings']['Update'];
 export type BudgetScenarioRow = Tables['budget_scenarios']['Row'];
+export type BudgetScenarioInsert = Tables['budget_scenarios']['Insert'];
 export type BudgetLineRow = Tables['budget_lines']['Row'];
 export type BudgetLineInsert = Tables['budget_lines']['Insert'];
 export type BudgetLineUpdate = Tables['budget_lines']['Update'];
@@ -280,6 +282,76 @@ export interface BudgetRows {
 
 const byPosition = <T extends { position: number | string; created_at: string }>(a: T, b: T) =>
   (num(a.position) ?? 0) - (num(b.position) ?? 0) || a.created_at.localeCompare(b.created_at);
+
+/** O linie nouă așa cum o va întoarce serverul, pentru update-ul optimist al cache-ului. */
+export function lineRowFromLine(weddingId: string, line: BudgetLine, position: number, now: string): BudgetLineRow {
+  return {
+    id: line.id,
+    wedding_id: weddingId,
+    name: line.name,
+    unit_price: moneyColumn(line.unitPrice),
+    currency: line.currency,
+    qty_kind: line.quantity.kind === 'fixed' ? 'fixed' : 'per_guest',
+    qty_count: line.quantity.kind === 'fixed' ? line.quantity.count : null,
+    note: line.note,
+    paid: moneyColumn(line.paid),
+    vendor_id: null,
+    position,
+    created_at: now,
+    updated_at: now,
+    updated_by: null,
+  };
+}
+
+/** Doar coloanele din `update` care diferă de rândul curent; gol = nimic de trimis. */
+export function changedColumns<T extends object>(row: T, update: Partial<T>): Partial<T> {
+  const out: Partial<T> = {};
+  for (const column of Object.keys(update) as (keyof T)[]) {
+    if (update[column] !== undefined && !sameJson(update[column], row[column])) out[column] = update[column];
+  }
+  return out;
+}
+
+/** Ce se schimbă la setările bugetului: darurile (sumă + monedă) și scenariul ales. */
+export interface BudgetSettingsPatch {
+  giftPerGuest?: Money;
+  familyGift?: Money;
+  selectedScenarioId?: string | null;
+}
+
+export function budgetSettingsPatchToUpdate(patch: BudgetSettingsPatch): BudgetSettingsUpdate {
+  const out: BudgetSettingsUpdate = {};
+  if (patch.giftPerGuest) {
+    out.gift_per_guest = moneyColumn(patch.giftPerGuest.amount);
+    out.gift_per_guest_currency = patch.giftPerGuest.currency;
+  }
+  if (patch.familyGift) {
+    out.family_gift = moneyColumn(patch.familyGift.amount);
+    out.family_gift_currency = patch.familyGift.currency;
+  }
+  if (patch.selectedScenarioId !== undefined) out.selected_scenario_id = patch.selectedScenarioId;
+  return out;
+}
+
+/** Numărul de invitați al unui scenariu nou: cu 20% peste ultimul, rotunjit la zeci (ca în planul local). */
+export function nextScenarioGuests(scenarios: readonly BudgetScenarioRow[]): number {
+  const last = [...scenarios].sort(byPosition).at(-1)?.guests ?? DEFAULT_GUESTS;
+  return Math.max(1, Math.round((last * 1.2) / 10) * 10);
+}
+
+/**
+ * Scenariul care rămâne ales după ștergerea lui `removedId`: dacă ștergi scenariul ales explicit, alegerea
+ * trece pe primul rămas (în ordinea din listă); altfel nu se schimbă nimic (`undefined`). Fără alegere
+ * explicită, primul din listă e deja cel afișat.
+ */
+export function selectionAfterRemoval(
+  settings: BudgetSettingsRow | null,
+  scenarios: readonly BudgetScenarioRow[],
+  removedId: string,
+): string | undefined {
+  if (settings?.selected_scenario_id !== removedId) return undefined;
+  return [...scenarios].sort(byPosition).find((s) => s.id !== removedId)?.id;
+}
 
 /** Bugetul din forma locală. `selected` e indexul scenariului ales (0 dacă lipsește sau a dispărut). */
 export function budgetFromRows({ settings, scenarios, lines }: BudgetRows): Budget {

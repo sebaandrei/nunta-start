@@ -666,6 +666,8 @@ export const ro = {
     generic: 'Ceva n-a mers. Încercați din nou în câteva clipe.',
     network: 'Nu ne putem conecta. Verificați conexiunea la internet.',
     forbidden: 'Nu aveți acces la această acțiune. Încercați să vă autentificați din nou.',
+    scenarioMax: 'Puteți compara cel mult 4 scenarii de invitați. Ștergeți unul înainte să adăugați altul.',
+    scenarioMin: 'Bugetul are nevoie de cel puțin un scenariu. Ultimul scenariu nu poate fi șters.',
     page: {
       title: 'Ceva n-a mers',
       body: 'A apărut o problemă neașteptată. Datele voastre nu au fost șterse. Reîncărcați pagina sau reveniți acasă.',
