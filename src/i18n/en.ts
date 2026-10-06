@@ -1,3 +1,4 @@
+import type { Countdown } from '../domain/home';
 import { countLabel } from '../lib/format';
 import type { Messages } from './index';
 
@@ -111,21 +112,50 @@ export const en: Messages = {
   },
 
   home: {
-    tasks: 'Tasks',
+    countdownEyebrow: 'Your day is getting closer',
+    countdownTitle: (c: Countdown) => {
+      if (c.kind === 'future') return `${countLabel(c.days, 'day', 'days', 'en')} to go`;
+      if (c.kind === 'tomorrow') return 'Your day is tomorrow';
+      if (c.kind === 'today') return 'Your day is today';
+      return `Your wedding was ${countLabel(c.days, 'day', 'days', 'en')} ago`;
+    },
+    countdownNote: 'Step by step, everything falls into place. Remember to enjoy the preparations too.',
+    countdownNotePast: 'We hope it was exactly as you wished. A few things are left to wrap up.',
+    countdownUnit: (days: number) => (days === 1 ? 'day' : 'days'),
+    overview: 'Your plan at a glance',
+    tasks: 'Preparations',
     tasksDone: (done: number, total: number) => `${done} of ${total}`,
     tasksDetail: (recover: number, current: number) => `${recover} to catch up on · ${current} in the current stage`,
-    balance: (guests: number) => `Balance at ${countLabel(guests, 'guest', 'guests', 'en')}`,
-    cost: (guests: number) => `Cost at ${countLabel(guests, 'guest', 'guests', 'en')}`,
-    breakEven: (amount: string) => `Break-even gift: ${amount} per person`,
+    balance: (guests: number) => `Estimated balance · ${countLabel(guests, 'guest', 'guests', 'en')}`,
+    cost: (guests: number) => `Estimated cost · ${countLabel(guests, 'guest', 'guests', 'en')}`,
+    breakEven: (amount: string) => `Break-even gift: ${amount} / person`,
+    paidLine: (paid: string, total: string) => `Paid: ${paid} of ${total}`,
     needPrices: 'Fill in the prices in the Calculator to see the balance.',
     needGift: 'Enter the average gift in the Calculator to see the balance.',
-    payments: 'Payments',
-    paidOf: (total: string, rest: string) => `of ${total} · ${rest} left to pay`,
-    next: 'To do now',
-    nextHint: 'the first unfinished tasks, in order of deadline',
+    payments: 'Recorded payments',
+    paymentsProgress: 'Paid out of the total',
+    remaining: (rest: string) => `${rest} left to pay`,
+    next: 'Next steps',
+    nextHint: 'Small things that bring you closer to the big day.',
+    nextList: 'Upcoming tasks',
+    allDoneTitle: "You've finished everything",
     allDone: "You've finished everything. Congratulations!",
     goCalculator: 'Open the Calculator',
-    goStart: 'All tasks',
+    goStart: 'See all tasks',
+    stageEyebrow: 'Current stage',
+    stageTasks: (n: number) => `${countLabel(n, 'task', 'tasks', 'en')} in this stage`,
+    goStage: 'Open the preparation plan',
+    stageDescriptions: {
+      m12plus: 'Plenty of time ahead. Pick the date, set the budget and dream freely about your day.',
+      m9_12: 'Time for the venue and the photographer. The most sought-after ones book up first.',
+      m6_9: 'The menu, the music and the guest list take shape. Breathe, you have time.',
+      m3_6: 'Time to settle your suppliers and the details that set the tone of the day.',
+      m1_3: 'Invitations go out, outfits get fitted and the details are confirmed one by one.',
+      lastMonth: 'Final confirmations and final fittings. Everything starts to fall into place.',
+      lastWeek: 'Last details and plenty of calm. You have already done most of it.',
+      day: 'The big day. Let it carry you and enjoy every moment.',
+      after: 'It ended beautifully. What remains is the thank-yous and a few loose ends.',
+    },
   },
 
   tasks: {
