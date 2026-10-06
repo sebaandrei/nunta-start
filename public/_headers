@@ -1,9 +1,9 @@
 # Cloudflare Pages response headers.
 # SPA routing needs no _redirects: without a top-level 404.html, Pages serves index.html for unknown paths.
-# Extend script-src / frame-src when Supabase and Turnstile are added. connect-src allows the Grafana Cloud Faro collector.
+# Extend script-src / frame-src when Turnstile is added. connect-src allows the Grafana Cloud Faro collector and Supabase (REST + Realtime websocket).
 
 /*
-  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://*.grafana.net; frame-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://*.grafana.net https://*.supabase.co wss://*.supabase.co; frame-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests
   Strict-Transport-Security: max-age=31536000; includeSubDomains
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY

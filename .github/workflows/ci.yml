@@ -22,3 +22,17 @@ jobs:
       - run: npm run typecheck
       - run: npm test
       - run: npm run build
+
+  db:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: npm
+      - run: npm ci
+      # Doar Postgres: restul serviciilor se adaugă când au nevoie testele (Realtime, Auth, E2E).
+      - run: npx supabase start -x gotrue,realtime,storage-api,imgproxy,kong,mailpit,postgrest,postgres-meta,studio,edge-runtime,logflare,vector,supavisor
+      - run: npx supabase db reset
+      - run: npx supabase test db

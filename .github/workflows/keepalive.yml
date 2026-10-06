@@ -1,0 +1,48 @@
+# Pings both Supabase projects so the free tier never pauses after 7 idle days.
+# Limitation: GitHub auto-disables scheduled workflows after 60 days without
+# repository activity in public repos. Backup: an external pinger (UptimeRobot-style
+# monitor on the Supabase auth health URL), tracked with NS-010.
+#
+# No `environment:` here on purpose: a required reviewer on `production` would
+# block every scheduled run. The public values live in repo-level variables
+# STAGING_* / PRODUCTION_SUPABASE_URL and _SUPABASE_PUBLISHABLE_KEY.
+name: Keepalive
+
+on:
+  schedule:
+    - cron: "17 6 */3 * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  ping:
+    name: Ping ${{ matrix.name }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: staging
+            url: ${{ vars.STAGING_SUPABASE_URL }}
+            key: ${{ vars.STAGING_SUPABASE_PUBLISHABLE_KEY }}
+          - name: production
+            url: ${{ vars.PRODUCTION_SUPABASE_URL }}
+            key: ${{ vars.PRODUCTION_SUPABASE_PUBLISHABLE_KEY }}
+    steps:
+      - name: Ping Supabase Auth API
+        env:
+          SUPABASE_URL: ${{ matrix.url }}
+          SUPABASE_PUBLISHABLE_KEY: ${{ matrix.key }}
+        run: |
+          if [ -z "$SUPABASE_URL" ] || [ -z "$SUPABASE_PUBLISHABLE_KEY" ]; then
+            echo "::error::Missing ${{ matrix.name }} Supabase URL or publishable key repo variable"
+            exit 1
+          fi
+          curl --fail --silent --show-error --retry 2 --max-time 30 \
+            --output /dev/null \
+            -H "apikey: $SUPABASE_PUBLISHABLE_KEY" \
+            -H "Authorization: Bearer $SUPABASE_PUBLISHABLE_KEY" \
+            "$SUPABASE_URL/auth/v1/settings"
