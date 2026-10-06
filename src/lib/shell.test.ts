@@ -23,17 +23,17 @@ function task(over: Partial<Task>): Task {
 
 describe('NAV_ITEMS', () => {
   it('are cele patru rute, în ordine, fără dubluri', () => {
-    expect(NAV_ITEMS.map((i) => i.to)).toEqual(['/', '/start', '/calculator', '/settings']);
+    expect(NAV_ITEMS.map((i) => i.to)).toEqual(['/w', '/w/start', '/w/calculator', '/w/settings']);
     expect(new Set(NAV_ITEMS.map((i) => i.id)).size).toBe(4);
   });
 });
 
 describe('navIdForPath', () => {
   it('găsește ecranul, cu sau fără slash final', () => {
-    expect(navIdForPath('/')).toBe('home');
-    expect(navIdForPath('/start')).toBe('tasks');
-    expect(navIdForPath('/calculator/')).toBe('budget');
-    expect(navIdForPath('/settings')).toBe('settings');
+    expect(navIdForPath('/w')).toBe('home');
+    expect(navIdForPath('/w/start')).toBe('tasks');
+    expect(navIdForPath('/w/calculator/')).toBe('budget');
+    expect(navIdForPath('/w/settings')).toBe('settings');
   });
 
   it('ruta necunoscută cade pe acasă', () => {
