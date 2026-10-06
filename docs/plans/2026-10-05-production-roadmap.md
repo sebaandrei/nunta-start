@@ -3,6 +3,26 @@
 Date: 2026-10-05
 Status: draft, built from the architecture interview. Supersedes the "no accounts, no server" principle of the [v1 design](../superpowers/specs/2026-10-05-nunta-start-design.md).
 
+## 0. Scope reset (2026-10-06): read this first
+
+Where this section differs from the rest of the document, **this section wins**.
+
+| Topic | Decision |
+|---|---|
+| Audience | The owner and friends only, 2-3 workspaces at first. **Not public, not promoted.** A mature, dog-fooded app comes before any public launch |
+| Access | **Invite-only**: an `allowed_emails` list enforced by a trigger on `auth.users` insert. Google OAuth stays in Testing mode with the friends as test users |
+| Language | Romanian-only launch. English stays in the code with full type-enforced parity (every new string needs both) |
+| Collaboration | Live collaboration is **required at launch** |
+| Guest data | Diet is a menu preference only: classic, vegetarian, vegan. **No allergies** are collected |
+| Data access | Operational controls, not encryption: the operator does not browse user data, uses least privilege, keeps an audit trail of service-role use, collects minimal personal data, and takes encrypted backups. The privacy text says exactly this |
+| RSVP | Guests answer through a **public link** (no account). Turnstile and rate limits apply to that page only |
+| MVP modules | Tasks, Budget, **Guest list + RSVP**, **Day-of timeline**, **Custom pages** |
+| Deferred | Seating + OPIS, dedicated vendors and payments (vendors can be a custom page), weekly digest, activity feed UI, presence, UptimeRobot, landing polish, the legal review |
+
+**Custom pages (new).** Three generic tables: `collections` (a page: name, icon, template key), `collection_fields` (key, type `text|number|money|date|choice|checkbox|person|link`, required, options, position) and `collection_records` (jsonb `data`). A database trigger validates each record against its fields (required, types, choice values). RLS follows the wedding like every other table, and the realtime broadcast trigger is attached so edits sync live. Templates are presets shipped in `src/content/ro/collections/` (for example a "Furnizor" page with contract date, deposit and contact). Routes: `/w/:id/c/:slug`.
+
+**Revised build order.** (1) backend core: `create_wedding`, DB types, city and godparents, the allowlist; (2) auth wired, Google Testing mode; (3) the app on Supabase (routes, Tasks, Budget, Settings, localStorage removed); (4) live collaboration plus invitations; (5) guest list; (6) public RSVP; (7) day-of timeline; (8) custom pages; (9) hardening. The sprint table in `UPDATE_PLAN.md` predates this reset.
+
 ## 1. Decisions (from the interview)
 
 | Topic | Decision |
