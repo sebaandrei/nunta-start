@@ -36,3 +36,10 @@ jobs:
       - run: npx supabase start -x gotrue,realtime,storage-api,imgproxy,kong,mailpit,postgrest,postgres-meta,studio,edge-runtime,logflare,vector,supavisor
       - run: npx supabase db reset
       - run: npx supabase test db
+      - run: npm run db:types
+      - name: Check generated DB types are up to date
+        run: |
+          if ! git diff --exit-code src/types/database.ts; then
+            echo "::error file=src/types/database.ts::DB types are out of date. Run 'npm run db:reset && npm run db:types' and commit src/types/database.ts."
+            exit 1
+          fi
