@@ -1,9 +1,9 @@
 import { Link } from '@tanstack/react-router';
 import { Check } from 'lucide-react';
+import { BrandMark, LanguageSwitch } from '../components/PublicLayout';
 import { ThemeIconButton } from '../components/ShellControls';
 import { cx } from '../components/ui';
 import { useT } from '../i18n';
-import { LOCALES, useLocale } from '../lib/locale';
 import { paths, signUpPath } from '../lib/paths';
 import { useStore } from '../store';
 
@@ -132,66 +132,22 @@ export function Landing() {
                 {t.landing.haveAccountLink}
               </Link>
             </span>
-            <a
-              href={paths.privacy}
+            <Link
+              to={paths.privacy}
               className={cx('inline-flex min-h-11 items-center hover:underline md:min-h-0', FOCUS_RING)}
             >
               {t.landing.privacy}
-            </a>
-            <a
-              href={paths.terms}
+            </Link>
+            <Link
+              to={paths.terms}
               className={cx('inline-flex min-h-11 items-center hover:underline md:min-h-0', FOCUS_RING)}
             >
               {t.landing.terms}
-            </a>
+            </Link>
           </p>
         </div>
       </footer>
     </div>
-  );
-}
-
-function BrandMark() {
-  return (
-    <span
-      aria-hidden="true"
-      className="inline-flex size-9 shrink-0 items-center justify-center rounded-xl bg-accent font-serif text-lg font-semibold text-accent-ink md:size-10"
-    >
-      N
-    </span>
-  );
-}
-
-function LanguageSwitch() {
-  const t = useT();
-  const locale = useLocale((s) => s.locale);
-  const setLocale = useLocale((s) => s.setLocale);
-  return (
-    <fieldset className="m-0 flex min-w-0 items-center border-0 p-0 text-xs font-semibold">
-      <legend className="sr-only">{t.landing.language}</legend>
-      {LOCALES.map((value, i) => (
-        <span key={value} className="flex items-center">
-          {i > 0 && (
-            <span aria-hidden="true" className="text-faint">
-              ·
-            </span>
-          )}
-          <button
-            type="button"
-            lang={value}
-            aria-pressed={locale === value}
-            onClick={() => setLocale(value)}
-            className={cx(
-              'min-h-11 min-w-9 rounded-lg px-1.5 transition-colors',
-              FOCUS_RING,
-              locale === value ? 'text-ink' : 'text-faint hover:text-ink',
-            )}
-          >
-            {value.toUpperCase()}
-          </button>
-        </span>
-      ))}
-    </fieldset>
   );
 }
 

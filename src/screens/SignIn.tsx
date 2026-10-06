@@ -232,13 +232,13 @@ export function SignIn({
 
             <p className="text-center text-[11px] leading-relaxed text-muted">
               {a.form.termsBefore}
-              <a href="/terms" className="underline underline-offset-2 hover:text-ink">
+              <Link to="/terms" className="underline underline-offset-2 hover:text-ink">
                 {a.form.terms}
-              </a>
+              </Link>
               {a.form.termsAnd}
-              <a href="/privacy" className="underline underline-offset-2 hover:text-ink">
+              <Link to="/privacy" className="underline underline-offset-2 hover:text-ink">
                 {a.form.privacy}
-              </a>
+              </Link>
               {a.form.termsAfter}
             </p>
           </div>
