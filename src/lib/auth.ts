@@ -7,6 +7,8 @@ import type { Messages } from '../i18n';
 export interface AuthClient {
   signInWithGoogle(): Promise<void>;
   sendMagicLink(email: string): Promise<void>;
+  /** Codul din același email, tastat în aplicație: merge și când linkul se deschide într-un browser din aplicația de mail. */
+  verifyCode(email: string, code: string): Promise<void>;
 }
 
 /** Autentificarea nu e configurată încă (lipsesc credențialele). */
@@ -49,6 +51,14 @@ export class AuthRateLimitError extends Error {
   }
 }
 
+/** Codul din email e greșit sau a expirat. */
+export class AuthInvalidCodeError extends Error {
+  constructor() {
+    super('Invalid or expired code');
+    this.name = 'AuthInvalidCodeError';
+  }
+}
+
 /** Autentificarea e configurată doar când ambele variabile Supabase sunt setate. */
 export function isAuthConfiguredFor(env: {
   VITE_SUPABASE_URL?: string;
@@ -65,15 +75,24 @@ export function isAuthConfigured(): boolean {
 export const notConfiguredAuthClient: AuthClient = {
   signInWithGoogle: () => Promise.reject(new AuthNotConfiguredError()),
   sendMagicLink: () => Promise.reject(new AuthNotConfiguredError()),
+  verifyCode: () => Promise.reject(new AuthNotConfiguredError()),
 };
 
-export type AuthErrorKind = 'notConfigured' | 'invalidEmail' | 'network' | 'notInvited' | 'rateLimited' | 'generic';
+export type AuthErrorKind =
+  | 'notConfigured'
+  | 'invalidEmail'
+  | 'network'
+  | 'notInvited'
+  | 'rateLimited'
+  | 'invalidCode'
+  | 'generic';
 
 export function authErrorKind(error: unknown): AuthErrorKind {
   if (error instanceof AuthNotConfiguredError) return 'notConfigured';
   if (error instanceof AuthInvalidEmailError) return 'invalidEmail';
   if (error instanceof AuthNotInvitedError) return 'notInvited';
   if (error instanceof AuthRateLimitError) return 'rateLimited';
+  if (error instanceof AuthInvalidCodeError) return 'invalidCode';
   if (error instanceof AuthNetworkError || error instanceof TypeError) return 'network';
   return 'generic';
 }
@@ -89,6 +108,12 @@ export function validateEmail(raw: string): EmailIssue | null {
   const email = raw.trim();
   if (email === '') return 'empty';
   return /^[^\s@]+@[^\s@.]+(\.[^\s@.]+)+$/.test(email) ? null : 'invalid';
+}
+
+/** Codul din email: exact 6 cifre (spațiile de la copiere se ignoră). */
+export function normalizeCode(raw: string): string | null {
+  const code = raw.replace(/\s+/g, '');
+  return /^\d{6}$/.test(code) ? code : null;
 }
 
 /** Secunde rămase, ca m:ss (30 devine „0:30"). */

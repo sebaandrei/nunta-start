@@ -7,6 +7,7 @@ import {
   authErrorKind,
   authErrorMessage,
   formatCountdown,
+  normalizeCode,
   notConfiguredAuthClient,
   validateEmail,
 } from './auth';
@@ -85,5 +86,15 @@ describe('dev/test client and previews', () => {
     expect(previewFor('rate-limited').state.errorKind).toBe('rateLimited');
     expect(parsePreview('not-invited')).toBe('not-invited');
     expect(parsePreview('rate-limited')).toBe('rate-limited');
+  });
+});
+
+describe('normalizeCode', () => {
+  it('accepts 6 digits, ignoring whitespace', () => {
+    expect(normalizeCode('123456')).toBe('123456');
+    expect(normalizeCode(' 123 456 ')).toBe('123456');
+  });
+  it('rejects anything else', () => {
+    for (const bad of ['', '12345', '1234567', '12a456']) expect(normalizeCode(bad)).toBeNull();
   });
 });

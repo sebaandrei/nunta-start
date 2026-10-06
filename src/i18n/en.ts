@@ -79,6 +79,11 @@ export const en: Messages = {
       resendIn: (time: string) => `Resend link in ${time}`,
       resend: 'Resend link',
       other: 'Use another address',
+      codeTip:
+        'Opened the link in your email app and nothing happened? Type the 6-digit code from the same email here instead.',
+      codeLabel: '6-digit code',
+      codeSubmit: 'Sign in with code',
+      codeVerifying: 'Checking…',
     },
     expired: {
       bannerTitle: 'This link has expired',
@@ -96,6 +101,7 @@ export const en: Messages = {
       notInvited:
         'This app is invite-only for now. If you know whoever sent you the link, ask to be added and try again.',
       rateLimited: 'Too many attempts. Please wait a few minutes and try again.',
+      invalidCode: 'That code is wrong or has expired. Check the latest email or request a new link.',
     },
     notInvited: { title: 'Invite-only access' },
     callback: {

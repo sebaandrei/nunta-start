@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
+  AuthInvalidCodeError,
   AuthInvalidEmailError,
   AuthNetworkError,
   AuthNotInvitedError,
@@ -26,6 +27,13 @@ describe('mapSupabaseAuthError', () => {
       AuthRateLimitError,
     );
     expect(mapSupabaseAuthError({ message: 'x', status: 429 })).toBeInstanceOf(AuthRateLimitError);
+  });
+  it('maps invalid or expired code', () => {
+    expect(mapSupabaseAuthError({ code: 'otp_expired', status: 403 })).toBeInstanceOf(AuthInvalidCodeError);
+    expect(mapSupabaseAuthError({ message: 'Token has expired or is invalid', status: 403 })).toBeInstanceOf(
+      AuthInvalidCodeError,
+    );
+    expect(authErrorKind(new AuthInvalidCodeError())).toBe('invalidCode');
   });
   it('maps invalid email and network', () => {
     expect(mapSupabaseAuthError({ code: 'email_address_invalid' })).toBeInstanceOf(AuthInvalidEmailError);
