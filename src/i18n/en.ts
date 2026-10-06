@@ -95,7 +95,7 @@ export const en: Messages = {
     errors: {
       notConfigured: 'Sign-in is not available yet.',
       invalidEmail: 'Check the email address and try again.',
-      network: 'We could not send the code. Check your connection and try again.',
+      network: "We can't connect. Check your connection and try again.",
       generic: 'Something went wrong. Please try again.',
       notInvited:
         'This app is invite-only for now. If you know whoever sent you the link, ask to be added and try again.',

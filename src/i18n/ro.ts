@@ -100,7 +100,7 @@ export const ro = {
     errors: {
       notConfigured: 'Autentificarea nu este încă disponibilă.',
       invalidEmail: 'Verificați adresa de email și încercați din nou.',
-      network: 'Nu am putut trimite codul. Verificați conexiunea și încercați din nou.',
+      network: 'Nu ne putem conecta. Verificați conexiunea și încercați din nou.',
       generic: 'Ceva nu a mers. Încercați din nou.',
       notInvited:
         'Această aplicație este momentan doar pe invitație. Dacă ești prieten cu cine ți-a trimis linkul, cere să fii adăugat și încearcă din nou.',
