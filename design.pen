@@ -350,9 +350,9 @@
           "name": "Greeting",
           "fill": "#272E28",
           "content": "Bună dimineața, Ana & Mihai",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 31,
-          "fontWeight": "normal"
+          "fontWeight": "500"
         },
         {
           "type": "text",
@@ -424,9 +424,9 @@
           "name": "Countdown title",
           "fill": "#2D3A30",
           "content": "Mai sunt 110 zile",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 29,
-          "fontWeight": "normal"
+          "fontWeight": "500"
         },
         {
           "type": "text",
@@ -485,9 +485,9 @@
           "content": "110",
           "textAlign": "center",
           "textAlignVertical": "middle",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 44,
-          "fontWeight": "normal"
+          "fontWeight": "500"
         },
         {
           "type": "text",
@@ -511,9 +511,9 @@
           "name": "Overview section title",
           "fill": "#2D332D",
           "content": "Planul vostru, pe scurt",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 20,
-          "fontWeight": "normal"
+          "fontWeight": "500"
         },
         {
           "type": "text",
@@ -561,9 +561,9 @@
           "name": "Tasks completed",
           "fill": "#2F382F",
           "content": "24 din 61",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 25,
-          "fontWeight": "normal"
+          "fontWeight": "500"
         },
         {
           "type": "frame",
@@ -634,9 +634,9 @@
           "name": "Budget amount",
           "fill": "#54745A",
           "content": "+ 8.450 lei",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 27,
-          "fontWeight": "normal"
+          "fontWeight": "500"
         },
         {
           "type": "text",
@@ -683,9 +683,9 @@
           "name": "Payments amount",
           "fill": "#2F382F",
           "content": "18.200 lei",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 27,
-          "fontWeight": "normal"
+          "fontWeight": "500"
         },
         {
           "type": "frame",
@@ -731,9 +731,9 @@
           "name": "Next tasks heading",
           "fill": "#2D332D",
           "content": "Următorii pași",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 20,
-          "fontWeight": "normal"
+          "fontWeight": "500"
         },
         {
           "type": "text",
@@ -1021,9 +1021,9 @@
           "name": "Current stage title",
           "fill": "#493C34",
           "content": "3–6 luni\nînainte",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 25,
-          "fontWeight": "normal"
+          "fontWeight": "500"
         },
         {
           "type": "text",
@@ -1473,9 +1473,9 @@
           "name": "Greeting",
           "fill": "#F3F4EE",
           "content": "Bună dimineața, Ana & Mihai",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 31,
-          "fontWeight": "normal"
+          "fontWeight": "500"
         },
         {
           "type": "text",
@@ -1547,9 +1547,9 @@
           "name": "Countdown title",
           "fill": "#EBEFE9",
           "content": "Mai sunt 110 zile",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 29,
-          "fontWeight": "normal"
+          "fontWeight": "500"
         },
         {
           "type": "text",
@@ -1608,9 +1608,9 @@
           "content": "110",
           "textAlign": "center",
           "textAlignVertical": "middle",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 44,
-          "fontWeight": "normal"
+          "fontWeight": "500"
         },
         {
           "type": "text",
@@ -1634,9 +1634,9 @@
           "name": "Overview section title",
           "fill": "#EBEEE8",
           "content": "Planul vostru, pe scurt",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 20,
-          "fontWeight": "normal"
+          "fontWeight": "500"
         },
         {
           "type": "text",
@@ -1684,9 +1684,9 @@
           "name": "Tasks completed",
           "fill": "#EDF0EA",
           "content": "24 din 61",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 25,
-          "fontWeight": "normal"
+          "fontWeight": "500"
         },
         {
           "type": "frame",
@@ -1757,9 +1757,9 @@
           "name": "Budget amount",
           "fill": "#A8C89E",
           "content": "+ 8.450 lei",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 27,
-          "fontWeight": "normal"
+          "fontWeight": "500"
         },
         {
           "type": "text",
@@ -1806,9 +1806,9 @@
           "name": "Payments amount",
           "fill": "#EDF0EA",
           "content": "18.200 lei",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 27,
-          "fontWeight": "normal"
+          "fontWeight": "500"
         },
         {
           "type": "frame",
@@ -1854,9 +1854,9 @@
           "name": "Next tasks heading",
           "fill": "#EBEEE8",
           "content": "Următorii pași",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 20,
-          "fontWeight": "normal"
+          "fontWeight": "500"
         },
         {
           "type": "text",
@@ -2144,9 +2144,9 @@
           "name": "Current stage title",
           "fill": "#F0E3D9",
           "content": "3–6 luni\nînainte",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 25,
-          "fontWeight": "normal"
+          "fontWeight": "500"
         },
         {
           "type": "text",
@@ -2300,7 +2300,7 @@
           "name": "Tasks page title",
           "fill": "#272E28",
           "content": "Planul de pregătire",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 31,
           "fontWeight": "500"
         },
@@ -2423,7 +2423,7 @@
           "name": "Stage headline",
           "fill": "#272E28",
           "content": "3–6 luni înainte",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 23,
           "fontWeight": "500"
         },
@@ -2688,7 +2688,7 @@
           "name": "Tasks section heading",
           "fill": "#272E28",
           "content": "Taskurile voastre",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 21,
           "fontWeight": "500"
         },
@@ -3284,7 +3284,7 @@
           "name": "Stage insight title",
           "fill": "#493C34",
           "content": "Sunteți pe drumul bun",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 19,
           "fontWeight": "500"
         },
@@ -3368,7 +3368,7 @@
           "name": "Upcoming deadline title",
           "fill": "#272E28",
           "content": "12 octombrie",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 20,
           "fontWeight": "500"
         },
@@ -3816,7 +3816,7 @@
           "name": "Tasks page title",
           "fill": "#F3F4EE",
           "content": "Planul de pregătire",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 31,
           "fontWeight": "500"
         },
@@ -3939,7 +3939,7 @@
           "name": "Stage headline",
           "fill": "#F3F4EE",
           "content": "3–6 luni înainte",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 23,
           "fontWeight": "500"
         },
@@ -4204,7 +4204,7 @@
           "name": "Tasks section heading",
           "fill": "#F3F4EE",
           "content": "Taskurile voastre",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 21,
           "fontWeight": "500"
         },
@@ -4800,7 +4800,7 @@
           "name": "Stage insight title",
           "fill": "#F0E3D9",
           "content": "Sunteți pe drumul bun",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 19,
           "fontWeight": "500"
         },
@@ -4884,7 +4884,7 @@
           "name": "Upcoming deadline title",
           "fill": "#F3F4EE",
           "content": "12 octombrie",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 20,
           "fontWeight": "500"
         },
@@ -5616,9 +5616,9 @@
           "name": "Budget page title",
           "fill": "#272E28",
           "content": "Bugetul nunții",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 31,
-          "fontWeight": "normal"
+          "fontWeight": "500"
         },
         {
           "type": "text",
@@ -6084,7 +6084,7 @@
           "name": "Scenario comparison title",
           "fill": "#272E28",
           "content": "Comparați scenariile",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 20,
           "fontWeight": "500"
         },
@@ -6132,9 +6132,9 @@
           "name": "Scenario balance 150",
           "fill": "#54745A",
           "content": "+ 5.000 lei",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 23,
-          "fontWeight": "600"
+          "fontWeight": "500"
         },
         {
           "type": "text",
@@ -6252,9 +6252,9 @@
           "name": "Scenario balance 180",
           "fill": "#54745A",
           "content": "+ 8.450 lei",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 23,
-          "fontWeight": "600"
+          "fontWeight": "500"
         },
         {
           "type": "text",
@@ -6335,9 +6335,9 @@
           "name": "Scenario balance 220",
           "fill": "#54745A",
           "content": "+ 30.000 lei",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 23,
-          "fontWeight": "600"
+          "fontWeight": "500"
         },
         {
           "type": "text",
@@ -6394,7 +6394,7 @@
           "name": "Budget details title",
           "fill": "#272E28",
           "content": "Cheltuieli pe categorie",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 19,
           "fontWeight": "500"
         },
@@ -7538,9 +7538,9 @@
           "name": "Budget page title",
           "fill": "#F3F4EE",
           "content": "Bugetul nunții",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 31,
-          "fontWeight": "normal"
+          "fontWeight": "500"
         },
         {
           "type": "text",
@@ -8006,7 +8006,7 @@
           "name": "Scenario comparison title",
           "fill": "#F3F4EE",
           "content": "Comparați scenariile",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 20,
           "fontWeight": "500"
         },
@@ -8054,9 +8054,9 @@
           "name": "Scenario balance 150",
           "fill": "#A8C89E",
           "content": "+ 5.000 lei",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 23,
-          "fontWeight": "600"
+          "fontWeight": "500"
         },
         {
           "type": "text",
@@ -8174,9 +8174,9 @@
           "name": "Scenario balance 180",
           "fill": "#A8C89E",
           "content": "+ 8.450 lei",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 23,
-          "fontWeight": "600"
+          "fontWeight": "500"
         },
         {
           "type": "text",
@@ -8257,9 +8257,9 @@
           "name": "Scenario balance 220",
           "fill": "#A8C89E",
           "content": "+ 30.000 lei",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 23,
-          "fontWeight": "600"
+          "fontWeight": "500"
         },
         {
           "type": "text",
@@ -8316,7 +8316,7 @@
           "name": "Budget details title",
           "fill": "#F3F4EE",
           "content": "Cheltuieli pe categorie",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 19,
           "fontWeight": "500"
         },
@@ -9460,9 +9460,9 @@
           "name": "Budget page title",
           "fill": "#272E28",
           "content": "Wedding budget",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 31,
-          "fontWeight": "normal"
+          "fontWeight": "500"
         },
         {
           "type": "text",
@@ -9928,7 +9928,7 @@
           "name": "Scenario comparison title",
           "fill": "#272E28",
           "content": "Compare your scenarios",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 20,
           "fontWeight": "500"
         },
@@ -9976,9 +9976,9 @@
           "name": "Scenario balance 150",
           "fill": "#54745A",
           "content": "+ 5.000 RON",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 23,
-          "fontWeight": "600"
+          "fontWeight": "500"
         },
         {
           "type": "text",
@@ -10096,9 +10096,9 @@
           "name": "Scenario balance 180",
           "fill": "#54745A",
           "content": "+ 8.450 RON",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 23,
-          "fontWeight": "600"
+          "fontWeight": "500"
         },
         {
           "type": "text",
@@ -10179,9 +10179,9 @@
           "name": "Scenario balance 220",
           "fill": "#54745A",
           "content": "+ 30.000 RON",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 23,
-          "fontWeight": "600"
+          "fontWeight": "500"
         },
         {
           "type": "text",
@@ -10238,7 +10238,7 @@
           "name": "Budget details title",
           "fill": "#272E28",
           "content": "Costs by category",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 19,
           "fontWeight": "500"
         },
@@ -11382,9 +11382,9 @@
           "name": "Budget page title",
           "fill": "#F3F4EE",
           "content": "Wedding budget",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 31,
-          "fontWeight": "normal"
+          "fontWeight": "500"
         },
         {
           "type": "text",
@@ -11850,7 +11850,7 @@
           "name": "Scenario comparison title",
           "fill": "#F3F4EE",
           "content": "Compare your scenarios",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 20,
           "fontWeight": "500"
         },
@@ -11898,9 +11898,9 @@
           "name": "Scenario balance 150",
           "fill": "#A8C89E",
           "content": "+ 5.000 RON",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 23,
-          "fontWeight": "600"
+          "fontWeight": "500"
         },
         {
           "type": "text",
@@ -12018,9 +12018,9 @@
           "name": "Scenario balance 180",
           "fill": "#A8C89E",
           "content": "+ 8.450 RON",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 23,
-          "fontWeight": "600"
+          "fontWeight": "500"
         },
         {
           "type": "text",
@@ -12101,9 +12101,9 @@
           "name": "Scenario balance 220",
           "fill": "#A8C89E",
           "content": "+ 30.000 RON",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 23,
-          "fontWeight": "600"
+          "fontWeight": "500"
         },
         {
           "type": "text",
@@ -12160,7 +12160,7 @@
           "name": "Budget details title",
           "fill": "#F3F4EE",
           "content": "Costs by category",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 19,
           "fontWeight": "500"
         },
@@ -13316,9 +13316,9 @@
           "name": "Greeting",
           "fill": "#272E28",
           "content": "Good morning, Ana & Mihai",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 31,
-          "fontWeight": "normal"
+          "fontWeight": "500"
         },
         {
           "type": "text",
@@ -13390,9 +13390,9 @@
           "name": "Countdown title",
           "fill": "#2D3A30",
           "content": "110 days to go",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 29,
-          "fontWeight": "normal"
+          "fontWeight": "500"
         },
         {
           "type": "text",
@@ -13451,9 +13451,9 @@
           "content": "110",
           "textAlign": "center",
           "textAlignVertical": "middle",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 44,
-          "fontWeight": "normal"
+          "fontWeight": "500"
         },
         {
           "type": "text",
@@ -13477,9 +13477,9 @@
           "name": "Overview section title",
           "fill": "#2D332D",
           "content": "Your plan at a glance",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 20,
-          "fontWeight": "normal"
+          "fontWeight": "500"
         },
         {
           "type": "text",
@@ -13527,9 +13527,9 @@
           "name": "Tasks completed",
           "fill": "#2F382F",
           "content": "24 of 61",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 25,
-          "fontWeight": "normal"
+          "fontWeight": "500"
         },
         {
           "type": "frame",
@@ -13600,9 +13600,9 @@
           "name": "Budget amount",
           "fill": "#54745A",
           "content": "+ 8,450 RON",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 27,
-          "fontWeight": "normal"
+          "fontWeight": "500"
         },
         {
           "type": "text",
@@ -13649,9 +13649,9 @@
           "name": "Payments amount",
           "fill": "#2F382F",
           "content": "18,200 RON",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 27,
-          "fontWeight": "normal"
+          "fontWeight": "500"
         },
         {
           "type": "frame",
@@ -13697,9 +13697,9 @@
           "name": "Next tasks heading",
           "fill": "#2D332D",
           "content": "Coming up next",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 20,
-          "fontWeight": "normal"
+          "fontWeight": "500"
         },
         {
           "type": "text",
@@ -13987,9 +13987,9 @@
           "name": "Current stage title",
           "fill": "#493C34",
           "content": "3–6 months\nbefore",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 25,
-          "fontWeight": "normal"
+          "fontWeight": "500"
         },
         {
           "type": "text",
@@ -14514,9 +14514,9 @@
           "name": "Greeting",
           "fill": "#F3F4EE",
           "content": "Good morning, Ana & Mihai",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 31,
-          "fontWeight": "normal"
+          "fontWeight": "500"
         },
         {
           "type": "text",
@@ -14575,9 +14575,9 @@
           "name": "Countdown title",
           "fill": "#EBEFE9",
           "content": "110 days to go",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 29,
-          "fontWeight": "normal"
+          "fontWeight": "500"
         },
         {
           "type": "text",
@@ -14636,9 +14636,9 @@
           "content": "110",
           "textAlign": "center",
           "textAlignVertical": "middle",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 44,
-          "fontWeight": "normal"
+          "fontWeight": "500"
         },
         {
           "type": "text",
@@ -14662,9 +14662,9 @@
           "name": "Overview section title",
           "fill": "#EBEEE8",
           "content": "Your plan at a glance",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 20,
-          "fontWeight": "normal"
+          "fontWeight": "500"
         },
         {
           "type": "text",
@@ -14712,9 +14712,9 @@
           "name": "Tasks completed",
           "fill": "#EDF0EA",
           "content": "24 of 61",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 25,
-          "fontWeight": "normal"
+          "fontWeight": "500"
         },
         {
           "type": "frame",
@@ -14785,9 +14785,9 @@
           "name": "Budget amount",
           "fill": "#A8C89E",
           "content": "+ 8,450 RON",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 27,
-          "fontWeight": "normal"
+          "fontWeight": "500"
         },
         {
           "type": "text",
@@ -14834,9 +14834,9 @@
           "name": "Payments amount",
           "fill": "#EDF0EA",
           "content": "18,200 RON",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 27,
-          "fontWeight": "normal"
+          "fontWeight": "500"
         },
         {
           "type": "frame",
@@ -14882,9 +14882,9 @@
           "name": "Next tasks heading",
           "fill": "#EBEEE8",
           "content": "Coming up next",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 20,
-          "fontWeight": "normal"
+          "fontWeight": "500"
         },
         {
           "type": "text",
@@ -15172,9 +15172,9 @@
           "name": "Current stage title",
           "fill": "#F0E3D9",
           "content": "3–6 months\nbefore",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 25,
-          "fontWeight": "normal"
+          "fontWeight": "500"
         },
         {
           "type": "text",
@@ -15366,7 +15366,7 @@
           "name": "Tasks page title",
           "fill": "#272E28",
           "content": "Your planning checklist",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 31,
           "fontWeight": "500"
         },
@@ -15489,7 +15489,7 @@
           "name": "Stage headline",
           "fill": "#272E28",
           "content": "3–6 months before",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 23,
           "fontWeight": "500"
         },
@@ -15754,7 +15754,7 @@
           "name": "Tasks section heading",
           "fill": "#272E28",
           "content": "Your checklist",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 21,
           "fontWeight": "500"
         },
@@ -16350,7 +16350,7 @@
           "name": "Stage insight title",
           "fill": "#493C34",
           "content": "You’re right on track",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 19,
           "fontWeight": "500"
         },
@@ -16434,7 +16434,7 @@
           "name": "Upcoming deadline title",
           "fill": "#272E28",
           "content": "October 12",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 20,
           "fontWeight": "500"
         },
@@ -16932,7 +16932,7 @@
           "name": "Tasks page title",
           "fill": "#F3F4EE",
           "content": "Your planning checklist",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 31,
           "fontWeight": "500"
         },
@@ -17055,7 +17055,7 @@
           "name": "Stage headline",
           "fill": "#F3F4EE",
           "content": "3–6 months before",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 23,
           "fontWeight": "500"
         },
@@ -17320,7 +17320,7 @@
           "name": "Tasks section heading",
           "fill": "#F3F4EE",
           "content": "Your checklist",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 21,
           "fontWeight": "500"
         },
@@ -17916,7 +17916,7 @@
           "name": "Stage insight title",
           "fill": "#F0E3D9",
           "content": "You’re right on track",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 19,
           "fontWeight": "500"
         },
@@ -18000,7 +18000,7 @@
           "name": "Upcoming deadline title",
           "fill": "#F3F4EE",
           "content": "October 12",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 20,
           "fontWeight": "500"
         },
@@ -18559,7 +18559,7 @@
           "name": "Settings page title",
           "fill": "#272E28",
           "content": "Setări",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 21,
           "fontWeight": "500"
         },
@@ -18595,9 +18595,9 @@
               "name": "Couple details heading",
               "fill": "#272E28",
               "content": "Detaliile nunții",
-              "fontFamily": "Inter",
+              "fontFamily": "Fraunces",
               "fontSize": 17,
-              "fontWeight": "600"
+              "fontWeight": "500"
             },
             {
               "type": "text",
@@ -18878,9 +18878,9 @@
               "name": "Preferences heading",
               "fill": "#272E28",
               "content": "Preferințe",
-              "fontFamily": "Inter",
+              "fontFamily": "Fraunces",
               "fontSize": 17,
-              "fontWeight": "600"
+              "fontWeight": "500"
             },
             {
               "type": "text",
@@ -19237,9 +19237,9 @@
               "name": "Backup heading",
               "fill": "#272E28",
               "content": "Datele voastre",
-              "fontFamily": "Inter",
+              "fontFamily": "Fraunces",
               "fontSize": 17,
-              "fontWeight": "600"
+              "fontWeight": "500"
             },
             {
               "type": "text",
@@ -19858,7 +19858,7 @@
           "name": "Settings page title",
           "fill": "#F3F4EE",
           "content": "Setări",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 21,
           "fontWeight": "500"
         },
@@ -19894,9 +19894,9 @@
               "name": "Couple details heading",
               "fill": "#F3F4EE",
               "content": "Detaliile nunții",
-              "fontFamily": "Inter",
+              "fontFamily": "Fraunces",
               "fontSize": 17,
-              "fontWeight": "600"
+              "fontWeight": "500"
             },
             {
               "type": "text",
@@ -20177,9 +20177,9 @@
               "name": "Preferences heading",
               "fill": "#F3F4EE",
               "content": "Preferințe",
-              "fontFamily": "Inter",
+              "fontFamily": "Fraunces",
               "fontSize": 17,
-              "fontWeight": "600"
+              "fontWeight": "500"
             },
             {
               "type": "text",
@@ -20536,9 +20536,9 @@
               "name": "Backup heading",
               "fill": "#F3F4EE",
               "content": "Datele voastre",
-              "fontFamily": "Inter",
+              "fontFamily": "Fraunces",
               "fontSize": 17,
-              "fontWeight": "600"
+              "fontWeight": "500"
             },
             {
               "type": "text",
@@ -21207,7 +21207,7 @@
           "name": "Settings page title",
           "fill": "#272E28",
           "content": "Settings",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 21,
           "fontWeight": "500"
         },
@@ -21243,9 +21243,9 @@
               "name": "Couple details heading",
               "fill": "#272E28",
               "content": "Wedding details",
-              "fontFamily": "Inter",
+              "fontFamily": "Fraunces",
               "fontSize": 17,
-              "fontWeight": "600"
+              "fontWeight": "500"
             },
             {
               "type": "text",
@@ -21526,9 +21526,9 @@
               "name": "Preferences heading",
               "fill": "#272E28",
               "content": "Preferences",
-              "fontFamily": "Inter",
+              "fontFamily": "Fraunces",
               "fontSize": 17,
-              "fontWeight": "600"
+              "fontWeight": "500"
             },
             {
               "type": "text",
@@ -21885,9 +21885,9 @@
               "name": "Backup heading",
               "fill": "#272E28",
               "content": "Your data",
-              "fontFamily": "Inter",
+              "fontFamily": "Fraunces",
               "fontSize": 17,
-              "fontWeight": "600"
+              "fontWeight": "500"
             },
             {
               "type": "text",
@@ -22556,7 +22556,7 @@
           "name": "Settings page title",
           "fill": "#F3F4EE",
           "content": "Settings",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 21,
           "fontWeight": "500"
         },
@@ -22592,9 +22592,9 @@
               "name": "Couple details heading",
               "fill": "#F3F4EE",
               "content": "Wedding details",
-              "fontFamily": "Inter",
+              "fontFamily": "Fraunces",
               "fontSize": 17,
-              "fontWeight": "600"
+              "fontWeight": "500"
             },
             {
               "type": "text",
@@ -22875,9 +22875,9 @@
               "name": "Preferences heading",
               "fill": "#F3F4EE",
               "content": "Preferences",
-              "fontFamily": "Inter",
+              "fontFamily": "Fraunces",
               "fontSize": 17,
-              "fontWeight": "600"
+              "fontWeight": "500"
             },
             {
               "type": "text",
@@ -23234,9 +23234,9 @@
               "name": "Backup heading",
               "fill": "#F3F4EE",
               "content": "Your data",
-              "fontFamily": "Inter",
+              "fontFamily": "Fraunces",
               "fontSize": 17,
-              "fontWeight": "600"
+              "fontWeight": "500"
             },
             {
               "type": "text",
@@ -23893,7 +23893,7 @@
           "name": "Hero title line 1",
           "fill": "#272E28",
           "content": "Ziua voastră,",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 59,
           "fontWeight": "500"
         },
@@ -23905,7 +23905,7 @@
           "name": "Hero title line 2",
           "fill": "#49604F",
           "content": "așa cum v-ați imaginat.",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 53,
           "fontWeight": "500"
         },
@@ -23989,7 +23989,7 @@
               "name": "Preview greeting",
               "fill": "#272E28",
               "content": "Bună dimineața, Ana & Mihai",
-              "fontFamily": "Inter",
+              "fontFamily": "Fraunces",
               "fontSize": 19,
               "fontWeight": "500"
             },
@@ -24037,7 +24037,7 @@
               "name": "Preview countdown number",
               "fill": "#34483A",
               "content": "110",
-              "fontFamily": "Inter",
+              "fontFamily": "Fraunces",
               "fontSize": 31,
               "fontWeight": "500"
             },
@@ -24653,7 +24653,7 @@
           "name": "Hero title line 1",
           "fill": "#272E28",
           "content": "Your day,",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 59,
           "fontWeight": "500"
         },
@@ -24665,7 +24665,7 @@
           "name": "Hero title line 2",
           "fill": "#49604F",
           "content": "just as you imagined it.",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 53,
           "fontWeight": "500"
         },
@@ -24749,7 +24749,7 @@
               "name": "Preview greeting",
               "fill": "#272E28",
               "content": "Good morning, Ana & Mihai",
-              "fontFamily": "Inter",
+              "fontFamily": "Fraunces",
               "fontSize": 19,
               "fontWeight": "500"
             },
@@ -24797,7 +24797,7 @@
               "name": "Preview countdown number",
               "fill": "#34483A",
               "content": "110",
-              "fontFamily": "Inter",
+              "fontFamily": "Fraunces",
               "fontSize": 31,
               "fontWeight": "500"
             },
@@ -25364,7 +25364,7 @@
           "name": "Sign in brand title",
           "fill": "#272E28",
           "content": "Un plan clar.\nO zi de neuitat.",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 47,
           "fontWeight": "500"
         },
@@ -25520,7 +25520,7 @@
               "name": "Sign in heading",
               "fill": "#272E28",
               "content": "Intrați în spațiul vostru",
-              "fontFamily": "Inter",
+              "fontFamily": "Fraunces",
               "fontSize": 30,
               "fontWeight": "500"
             },
@@ -25894,7 +25894,7 @@
           "name": "Sign in brand title",
           "fill": "#272E28",
           "content": "A clear plan.\nA day to remember.",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 47,
           "fontWeight": "500"
         },
@@ -26050,7 +26050,7 @@
               "name": "Sign in heading",
               "fill": "#272E28",
               "content": "Sign in to your space",
-              "fontFamily": "Inter",
+              "fontFamily": "Fraunces",
               "fontSize": 30,
               "fontWeight": "500"
             },
@@ -26441,9 +26441,9 @@
               "textGrowth": "fixed-width",
               "width": "fill_container",
               "content": "Acasă",
-              "fontFamily": "Inter",
+              "fontFamily": "Fraunces",
               "fontSize": 20,
-              "fontWeight": "600"
+              "fontWeight": "500"
             },
             {
               "type": "frame",
@@ -26540,9 +26540,9 @@
                   "width": "fill_container",
                   "content": "Bună dimineața, Ana & Mihai",
                   "lineHeight": 1.2,
-                  "fontFamily": "Inter",
+                  "fontFamily": "Fraunces",
                   "fontSize": 24,
-                  "fontWeight": "600"
+                  "fontWeight": "500"
                 }
               ]
             },
@@ -26584,9 +26584,9 @@
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "Mai sunt 110 zile",
-                      "fontFamily": "Inter",
+                      "fontFamily": "Fraunces",
                       "fontSize": 24,
-                      "fontWeight": "600"
+                      "fontWeight": "500"
                     },
                     {
                       "type": "text",
@@ -26620,9 +26620,9 @@
                       "name": "110",
                       "fill": "#34483A",
                       "content": "110",
-                      "fontFamily": "Inter",
+                      "fontFamily": "Fraunces",
                       "fontSize": 24,
-                      "fontWeight": "600"
+                      "fontWeight": "500"
                     },
                     {
                       "type": "text",
@@ -26676,9 +26676,9 @@
                       "name": "24 din 61",
                       "fill": "#272E28",
                       "content": "24 din 61",
-                      "fontFamily": "Inter",
+                      "fontFamily": "Fraunces",
                       "fontSize": 20,
-                      "fontWeight": "600"
+                      "fontWeight": "500"
                     },
                     {
                       "type": "text",
@@ -26724,9 +26724,9 @@
                       "name": "18.200 lei",
                       "fill": "#272E28",
                       "content": "18.200 lei",
-                      "fontFamily": "Inter",
+                      "fontFamily": "Fraunces",
                       "fontSize": 20,
-                      "fontWeight": "600"
+                      "fontWeight": "500"
                     },
                     {
                       "type": "text",
@@ -27046,9 +27046,9 @@
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "3–6 luni înainte",
-                  "fontFamily": "Inter",
+                  "fontFamily": "Fraunces",
                   "fontSize": 18,
-                  "fontWeight": "600"
+                  "fontWeight": "500"
                 },
                 {
                   "type": "text",
@@ -27354,9 +27354,9 @@
               "textGrowth": "fixed-width",
               "width": "fill_container",
               "content": "Acasă",
-              "fontFamily": "Inter",
+              "fontFamily": "Fraunces",
               "fontSize": 20,
-              "fontWeight": "600"
+              "fontWeight": "500"
             },
             {
               "type": "frame",
@@ -27453,9 +27453,9 @@
                   "width": "fill_container",
                   "content": "Bună dimineața, Ana & Mihai",
                   "lineHeight": 1.2,
-                  "fontFamily": "Inter",
+                  "fontFamily": "Fraunces",
                   "fontSize": 24,
-                  "fontWeight": "600"
+                  "fontWeight": "500"
                 }
               ]
             },
@@ -27497,9 +27497,9 @@
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "Mai sunt 110 zile",
-                      "fontFamily": "Inter",
+                      "fontFamily": "Fraunces",
                       "fontSize": 24,
-                      "fontWeight": "600"
+                      "fontWeight": "500"
                     },
                     {
                       "type": "text",
@@ -27533,9 +27533,9 @@
                       "name": "110",
                       "fill": "#9BB796",
                       "content": "110",
-                      "fontFamily": "Inter",
+                      "fontFamily": "Fraunces",
                       "fontSize": 24,
-                      "fontWeight": "600"
+                      "fontWeight": "500"
                     },
                     {
                       "type": "text",
@@ -27589,9 +27589,9 @@
                       "name": "24 din 61",
                       "fill": "#EDF1EB",
                       "content": "24 din 61",
-                      "fontFamily": "Inter",
+                      "fontFamily": "Fraunces",
                       "fontSize": 20,
-                      "fontWeight": "600"
+                      "fontWeight": "500"
                     },
                     {
                       "type": "text",
@@ -27637,9 +27637,9 @@
                       "name": "18.200 lei",
                       "fill": "#EDF1EB",
                       "content": "18.200 lei",
-                      "fontFamily": "Inter",
+                      "fontFamily": "Fraunces",
                       "fontSize": 20,
-                      "fontWeight": "600"
+                      "fontWeight": "500"
                     },
                     {
                       "type": "text",
@@ -27959,9 +27959,9 @@
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "3–6 luni înainte",
-                  "fontFamily": "Inter",
+                  "fontFamily": "Fraunces",
                   "fontSize": 18,
-                  "fontWeight": "600"
+                  "fontWeight": "500"
                 },
                 {
                   "type": "text",
@@ -28267,9 +28267,9 @@
               "textGrowth": "fixed-width",
               "width": "fill_container",
               "content": "Taskuri",
-              "fontFamily": "Inter",
+              "fontFamily": "Fraunces",
               "fontSize": 20,
-              "fontWeight": "600"
+              "fontWeight": "500"
             },
             {
               "type": "frame",
@@ -28647,9 +28647,9 @@
                           "name": "3–6 luni înainte",
                           "fill": "#272E28",
                           "content": "3–6 luni înainte",
-                          "fontFamily": "Inter",
+                          "fontFamily": "Fraunces",
                           "fontSize": 18,
-                          "fontWeight": "600"
+                          "fontWeight": "500"
                         }
                       ]
                     },
@@ -29351,9 +29351,9 @@
               "textGrowth": "fixed-width",
               "width": "fill_container",
               "content": "Buget",
-              "fontFamily": "Inter",
+              "fontFamily": "Fraunces",
               "fontSize": 20,
-              "fontWeight": "600"
+              "fontWeight": "500"
             },
             {
               "type": "frame",
@@ -29531,9 +29531,9 @@
                   "name": "+ 8.450 lei",
                   "fill": "#272E28",
                   "content": "+ 8.450 lei",
-                  "fontFamily": "Inter",
+                  "fontFamily": "Fraunces",
                   "fontSize": 28,
-                  "fontWeight": "600"
+                  "fontWeight": "500"
                 },
                 {
                   "type": "text",
@@ -30279,9 +30279,9 @@
               "textGrowth": "fixed-width",
               "width": "fill_container",
               "content": "Setări",
-              "fontFamily": "Inter",
+              "fontFamily": "Fraunces",
               "fontSize": 20,
-              "fontWeight": "600"
+              "fontWeight": "500"
             },
             {
               "type": "frame",
@@ -30618,9 +30618,9 @@
                   "name": "Preferințe",
                   "fill": "#272E28",
                   "content": "Preferințe",
-                  "fontFamily": "Inter",
+                  "fontFamily": "Fraunces",
                   "fontSize": 16,
-                  "fontWeight": "600"
+                  "fontWeight": "500"
                 },
                 {
                   "type": "frame",
@@ -31210,9 +31210,9 @@
               "textGrowth": "fixed-width",
               "width": "fill_container",
               "content": "Taskuri",
-              "fontFamily": "Inter",
+              "fontFamily": "Fraunces",
               "fontSize": 20,
-              "fontWeight": "600"
+              "fontWeight": "500"
             },
             {
               "type": "frame",
@@ -31590,9 +31590,9 @@
                           "name": "3–6 luni înainte",
                           "fill": "#EDF1EB",
                           "content": "3–6 luni înainte",
-                          "fontFamily": "Inter",
+                          "fontFamily": "Fraunces",
                           "fontSize": 18,
-                          "fontWeight": "600"
+                          "fontWeight": "500"
                         }
                       ]
                     },
@@ -32294,9 +32294,9 @@
               "textGrowth": "fixed-width",
               "width": "fill_container",
               "content": "Buget",
-              "fontFamily": "Inter",
+              "fontFamily": "Fraunces",
               "fontSize": 20,
-              "fontWeight": "600"
+              "fontWeight": "500"
             },
             {
               "type": "frame",
@@ -32474,9 +32474,9 @@
                   "name": "+ 8.450 lei",
                   "fill": "#EDF1EB",
                   "content": "+ 8.450 lei",
-                  "fontFamily": "Inter",
+                  "fontFamily": "Fraunces",
                   "fontSize": 28,
-                  "fontWeight": "600"
+                  "fontWeight": "500"
                 },
                 {
                   "type": "text",
@@ -33222,9 +33222,9 @@
               "textGrowth": "fixed-width",
               "width": "fill_container",
               "content": "Setări",
-              "fontFamily": "Inter",
+              "fontFamily": "Fraunces",
               "fontSize": 20,
-              "fontWeight": "600"
+              "fontWeight": "500"
             },
             {
               "type": "frame",
@@ -33561,9 +33561,9 @@
                   "name": "Preferințe",
                   "fill": "#EDF1EB",
                   "content": "Preferințe",
-                  "fontFamily": "Inter",
+                  "fontFamily": "Fraunces",
                   "fontSize": 16,
-                  "fontWeight": "600"
+                  "fontWeight": "500"
                 },
                 {
                   "type": "frame",
@@ -34260,9 +34260,9 @@
                   "width": "fill_container",
                   "content": "Ziua voastră, așa cum v-ați imaginat.",
                   "lineHeight": 1.12,
-                  "fontFamily": "Inter",
+                  "fontFamily": "Fraunces",
                   "fontSize": 34,
-                  "fontWeight": "600"
+                  "fontWeight": "500"
                 },
                 {
                   "type": "text",
@@ -35048,9 +35048,9 @@
                   "width": "fill_container",
                   "content": "Un plan clar. O zi de neuitat.",
                   "lineHeight": 1.15,
-                  "fontFamily": "Inter",
+                  "fontFamily": "Fraunces",
                   "fontSize": 26,
-                  "fontWeight": "600"
+                  "fontWeight": "500"
                 },
                 {
                   "type": "text",
@@ -35107,9 +35107,9 @@
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "Intrați în spațiul vostru",
-                      "fontFamily": "Inter",
+                      "fontFamily": "Fraunces",
                       "fontSize": 22,
-                      "fontWeight": "600"
+                      "fontWeight": "500"
                     },
                     {
                       "type": "text",
@@ -35816,9 +35816,9 @@
                       "width": "fill_container",
                       "content": "Spuneți-ne despre nuntă",
                       "lineHeight": 1.15,
-                      "fontFamily": "Inter",
+                      "fontFamily": "Fraunces",
                       "fontSize": 24,
-                      "fontWeight": "600"
+                      "fontWeight": "500"
                     },
                     {
                       "type": "text",
@@ -36549,9 +36549,9 @@
                       "width": "fill_container",
                       "content": "Tell us about your wedding",
                       "lineHeight": 1.15,
-                      "fontFamily": "Inter",
+                      "fontFamily": "Fraunces",
                       "fontSize": 24,
-                      "fontWeight": "600"
+                      "fontWeight": "500"
                     },
                     {
                       "type": "text",
@@ -37209,9 +37209,9 @@
                       "width": "fill_container",
                       "content": "Spuneți-ne despre nuntă",
                       "lineHeight": 1.15,
-                      "fontFamily": "Inter",
+                      "fontFamily": "Fraunces",
                       "fontSize": 30,
-                      "fontWeight": "600"
+                      "fontWeight": "500"
                     },
                     {
                       "type": "text",
@@ -37877,9 +37877,9 @@
                       "width": "fill_container",
                       "content": "Tell us about your wedding",
                       "lineHeight": 1.15,
-                      "fontFamily": "Inter",
+                      "fontFamily": "Fraunces",
                       "fontSize": 30,
-                      "fontWeight": "600"
+                      "fontWeight": "500"
                     },
                     {
                       "type": "text",
@@ -38293,7 +38293,7 @@
                       "width": "fill_container",
                       "content": "Un plan clar.\nO zi de neuitat.",
                       "lineHeight": 1.1,
-                      "fontFamily": "Inter",
+                      "fontFamily": "Fraunces",
                       "fontSize": 44,
                       "fontWeight": "600"
                     },
@@ -38590,9 +38590,9 @@
                       "width": "fill_container",
                       "content": "Am trimis linkul de conectare",
                       "lineHeight": 1.15,
-                      "fontFamily": "Inter",
+                      "fontFamily": "Fraunces",
                       "fontSize": 28,
-                      "fontWeight": "600"
+                      "fontWeight": "500"
                     },
                     {
                       "type": "text",
@@ -38827,7 +38827,7 @@
                       "width": "fill_container",
                       "content": "Un plan clar.\nO zi de neuitat.",
                       "lineHeight": 1.1,
-                      "fontFamily": "Inter",
+                      "fontFamily": "Fraunces",
                       "fontSize": 44,
                       "fontWeight": "600"
                     },
@@ -39158,9 +39158,9 @@
                       "width": "fill_container",
                       "content": "Cereți un link nou",
                       "lineHeight": 1.15,
-                      "fontFamily": "Inter",
+                      "fontFamily": "Fraunces",
                       "fontSize": 28,
-                      "fontWeight": "600"
+                      "fontWeight": "500"
                     },
                     {
                       "type": "text",
@@ -39407,7 +39407,7 @@
                       "width": "fill_container",
                       "content": "Un plan clar.\nO zi de neuitat.",
                       "lineHeight": 1.1,
-                      "fontFamily": "Inter",
+                      "fontFamily": "Fraunces",
                       "fontSize": 44,
                       "fontWeight": "600"
                     },
@@ -39681,9 +39681,9 @@
                       "width": "fill_container",
                       "content": "Intrați în spațiul vostru",
                       "lineHeight": 1.15,
-                      "fontFamily": "Inter",
+                      "fontFamily": "Fraunces",
                       "fontSize": 28,
-                      "fontWeight": "600"
+                      "fontWeight": "500"
                     },
                     {
                       "type": "text",
@@ -40130,9 +40130,9 @@
                       "width": "fill_container",
                       "content": "Spațiile voastre de nuntă",
                       "lineHeight": 1.15,
-                      "fontFamily": "Inter",
+                      "fontFamily": "Fraunces",
                       "fontSize": 34,
-                      "fontWeight": "600"
+                      "fontWeight": "500"
                     },
                     {
                       "type": "text",
@@ -40796,9 +40796,9 @@
                   "width": "fill_container",
                   "content": "Spațiile voastre de nuntă",
                   "lineHeight": 1.15,
-                  "fontFamily": "Inter",
+                  "fontFamily": "Fraunces",
                   "fontSize": 26,
-                  "fontWeight": "600"
+                  "fontWeight": "500"
                 },
                 {
                   "type": "text",
@@ -41443,9 +41443,9 @@
                       "content": "Ana v-a invitat în spațiul \"Ana & Mihai\"",
                       "lineHeight": 1.2,
                       "textAlign": "center",
-                      "fontFamily": "Inter",
+                      "fontFamily": "Fraunces",
                       "fontSize": 28,
-                      "fontWeight": "600"
+                      "fontWeight": "500"
                     },
                     {
                       "type": "text",
@@ -41906,9 +41906,9 @@
                       "content": "Invitația nu mai este valabilă",
                       "lineHeight": 1.2,
                       "textAlign": "center",
-                      "fontFamily": "Inter",
+                      "fontFamily": "Fraunces",
                       "fontSize": 28,
-                      "fontWeight": "600"
+                      "fontWeight": "500"
                     },
                     {
                       "type": "text",
@@ -42124,7 +42124,7 @@
           "name": "Settings page title",
           "fill": "#272E28",
           "content": "Membri și invitații",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 21,
           "fontWeight": "500"
         },
@@ -43934,7 +43934,7 @@
           "name": "Settings page title",
           "fill": "#F3F4EE",
           "content": "Membri și invitații",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 21,
           "fontWeight": "500"
         },
@@ -45683,7 +45683,7 @@
           "name": "Tasks page title",
           "fill": "#272E28",
           "content": "Planul de pregătire",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 31,
           "fontWeight": "500"
         },
@@ -46307,9 +46307,9 @@
               "name": "Niciun task aici",
               "fill": "#272E28",
               "content": "Niciun task aici",
-              "fontFamily": "Inter",
+              "fontFamily": "Fraunces",
               "fontSize": 22,
-              "fontWeight": "600"
+              "fontWeight": "500"
             },
             {
               "type": "text",
@@ -46703,9 +46703,9 @@
           "name": "Budget page title",
           "fill": "#272E28",
           "content": "Bugetul nunții",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 31,
-          "fontWeight": "normal"
+          "fontWeight": "500"
         },
         {
           "type": "text",
@@ -46894,9 +46894,9 @@
                   "name": "0 lei",
                   "fill": "#272E28",
                   "content": "0 lei",
-                  "fontFamily": "Inter",
+                  "fontFamily": "Fraunces",
                   "fontSize": 26,
-                  "fontWeight": "600"
+                  "fontWeight": "500"
                 }
               ]
             },
@@ -46929,9 +46929,9 @@
                   "name": "0 lei",
                   "fill": "#272E28",
                   "content": "0 lei",
-                  "fontFamily": "Inter",
+                  "fontFamily": "Fraunces",
                   "fontSize": 26,
-                  "fontWeight": "600"
+                  "fontWeight": "500"
                 }
               ]
             },
@@ -46964,9 +46964,9 @@
                   "name": "—",
                   "fill": "#272E28",
                   "content": "—",
-                  "fontFamily": "Inter",
+                  "fontFamily": "Fraunces",
                   "fontSize": 26,
-                  "fontWeight": "600"
+                  "fontWeight": "500"
                 }
               ]
             }
@@ -47018,9 +47018,9 @@
               "name": "Nicio cheltuială încă",
               "fill": "#272E28",
               "content": "Nicio cheltuială încă",
-              "fontFamily": "Inter",
+              "fontFamily": "Fraunces",
               "fontSize": 22,
-              "fontWeight": "600"
+              "fontWeight": "500"
             },
             {
               "type": "text",
@@ -47473,9 +47473,9 @@
           "name": "Greeting",
           "fill": "#272E28",
           "content": "Bună dimineața, Ana & Mihai",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 31,
-          "fontWeight": "normal"
+          "fontWeight": "500"
         },
         {
           "type": "text",
@@ -47625,9 +47625,9 @@
           "name": "Section title",
           "fill": "#272E28",
           "content": "Planul vostru, pe scurt",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 18,
-          "fontWeight": "600"
+          "fontWeight": "500"
         },
         {
           "type": "frame",
@@ -48504,9 +48504,9 @@
           "name": "Greeting",
           "fill": "#272E28",
           "content": "Bună dimineața, Ana & Mihai",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 31,
-          "fontWeight": "normal"
+          "fontWeight": "500"
         },
         {
           "type": "text",
@@ -48578,9 +48578,9 @@
           "name": "Countdown title",
           "fill": "#2D3A30",
           "content": "Mai sunt 110 zile",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 29,
-          "fontWeight": "normal"
+          "fontWeight": "500"
         },
         {
           "type": "text",
@@ -48639,9 +48639,9 @@
           "content": "110",
           "textAlign": "center",
           "textAlignVertical": "middle",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 44,
-          "fontWeight": "normal"
+          "fontWeight": "500"
         },
         {
           "type": "text",
@@ -48665,9 +48665,9 @@
           "name": "Overview section title",
           "fill": "#2D332D",
           "content": "Planul vostru, pe scurt",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 20,
-          "fontWeight": "normal"
+          "fontWeight": "500"
         },
         {
           "type": "text",
@@ -48715,9 +48715,9 @@
           "name": "Tasks completed",
           "fill": "#2F382F",
           "content": "24 din 61",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 25,
-          "fontWeight": "normal"
+          "fontWeight": "500"
         },
         {
           "type": "frame",
@@ -48788,9 +48788,9 @@
           "name": "Budget amount",
           "fill": "#54745A",
           "content": "+ 8.450 lei",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 27,
-          "fontWeight": "normal"
+          "fontWeight": "500"
         },
         {
           "type": "text",
@@ -48837,9 +48837,9 @@
           "name": "Payments amount",
           "fill": "#2F382F",
           "content": "18.200 lei",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 27,
-          "fontWeight": "normal"
+          "fontWeight": "500"
         },
         {
           "type": "frame",
@@ -48885,9 +48885,9 @@
           "name": "Next tasks heading",
           "fill": "#2D332D",
           "content": "Următorii pași",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 20,
-          "fontWeight": "normal"
+          "fontWeight": "500"
         },
         {
           "type": "text",
@@ -49175,9 +49175,9 @@
           "name": "Current stage title",
           "fill": "#493C34",
           "content": "3–6 luni\nînainte",
-          "fontFamily": "Inter",
+          "fontFamily": "Fraunces",
           "fontSize": 25,
-          "fontWeight": "normal"
+          "fontWeight": "500"
         },
         {
           "type": "text",
@@ -49348,9 +49348,9 @@
                   "name": "Ștergeți contul?",
                   "fill": "#272E28",
                   "content": "Ștergeți contul?",
-                  "fontFamily": "Inter",
+                  "fontFamily": "Fraunces",
                   "fontSize": 22,
-                  "fontWeight": "600"
+                  "fontWeight": "500"
                 },
                 {
                   "type": "text",
@@ -49720,7 +49720,7 @@
                       "width": "fill_container",
                       "content": "Politica de confidențialitate",
                       "lineHeight": 1.15,
-                      "fontFamily": "Inter",
+                      "fontFamily": "Fraunces",
                       "fontSize": 40,
                       "fontWeight": "600"
                     },
@@ -49794,9 +49794,9 @@
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "1. Ce date colectăm",
-                      "fontFamily": "Inter",
+                      "fontFamily": "Fraunces",
                       "fontSize": 20,
-                      "fontWeight": "600"
+                      "fontWeight": "500"
                     },
                     {
                       "type": "text",
@@ -49839,9 +49839,9 @@
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "2. De ce le folosim",
-                      "fontFamily": "Inter",
+                      "fontFamily": "Fraunces",
                       "fontSize": 20,
-                      "fontWeight": "600"
+                      "fontWeight": "500"
                     },
                     {
                       "type": "text",
@@ -49884,9 +49884,9 @@
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "3. Cine le vede",
-                      "fontFamily": "Inter",
+                      "fontFamily": "Fraunces",
                       "fontSize": 20,
-                      "fontWeight": "600"
+                      "fontWeight": "500"
                     },
                     {
                       "type": "text",
@@ -49929,9 +49929,9 @@
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "4. Subprocesatori",
-                      "fontFamily": "Inter",
+                      "fontFamily": "Fraunces",
                       "fontSize": 20,
-                      "fontWeight": "600"
+                      "fontWeight": "500"
                     },
                     {
                       "type": "text",
@@ -50143,9 +50143,9 @@
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "5. Cât timp le păstrăm",
-                      "fontFamily": "Inter",
+                      "fontFamily": "Fraunces",
                       "fontSize": 20,
-                      "fontWeight": "600"
+                      "fontWeight": "500"
                     },
                     {
                       "type": "text",
@@ -50188,9 +50188,9 @@
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "6. Drepturile voastre",
-                      "fontFamily": "Inter",
+                      "fontFamily": "Fraunces",
                       "fontSize": 20,
-                      "fontWeight": "600"
+                      "fontWeight": "500"
                     },
                     {
                       "type": "text",
@@ -50233,9 +50233,9 @@
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "7. Contact",
-                      "fontFamily": "Inter",
+                      "fontFamily": "Fraunces",
                       "fontSize": 20,
-                      "fontWeight": "600"
+                      "fontWeight": "500"
                     },
                     {
                       "type": "text",
@@ -50489,7 +50489,7 @@
                       "width": "fill_container",
                       "content": "Termeni și condiții",
                       "lineHeight": 1.15,
-                      "fontFamily": "Inter",
+                      "fontFamily": "Fraunces",
                       "fontSize": 40,
                       "fontWeight": "600"
                     },
@@ -50563,9 +50563,9 @@
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "1. Despre serviciu",
-                      "fontFamily": "Inter",
+                      "fontFamily": "Fraunces",
                       "fontSize": 20,
-                      "fontWeight": "600"
+                      "fontWeight": "500"
                     },
                     {
                       "type": "text",
@@ -50608,9 +50608,9 @@
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "2. Contul vostru",
-                      "fontFamily": "Inter",
+                      "fontFamily": "Fraunces",
                       "fontSize": 20,
-                      "fontWeight": "600"
+                      "fontWeight": "500"
                     },
                     {
                       "type": "text",
@@ -50653,9 +50653,9 @@
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "3. Utilizare acceptabilă",
-                      "fontFamily": "Inter",
+                      "fontFamily": "Fraunces",
                       "fontSize": 20,
-                      "fontWeight": "600"
+                      "fontWeight": "500"
                     },
                     {
                       "type": "text",
@@ -50698,9 +50698,9 @@
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "4. Conținutul vostru",
-                      "fontFamily": "Inter",
+                      "fontFamily": "Fraunces",
                       "fontSize": 20,
-                      "fontWeight": "600"
+                      "fontWeight": "500"
                     },
                     {
                       "type": "text",
@@ -50743,9 +50743,9 @@
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "5. Disponibilitate și răspundere",
-                      "fontFamily": "Inter",
+                      "fontFamily": "Fraunces",
                       "fontSize": 20,
-                      "fontWeight": "600"
+                      "fontWeight": "500"
                     },
                     {
                       "type": "text",
@@ -50788,9 +50788,9 @@
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "6. Încetarea",
-                      "fontFamily": "Inter",
+                      "fontFamily": "Fraunces",
                       "fontSize": 20,
-                      "fontWeight": "600"
+                      "fontWeight": "500"
                     },
                     {
                       "type": "text",
@@ -50833,9 +50833,9 @@
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "7. Legea aplicabilă",
-                      "fontFamily": "Inter",
+                      "fontFamily": "Fraunces",
                       "fontSize": 20,
-                      "fontWeight": "600"
+                      "fontWeight": "500"
                     },
                     {
                       "type": "text",
@@ -50878,9 +50878,9 @@
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "8. Contact",
-                      "fontFamily": "Inter",
+                      "fontFamily": "Fraunces",
                       "fontSize": 20,
-                      "fontWeight": "600"
+                      "fontWeight": "500"
                     },
                     {
                       "type": "text",
@@ -51052,9 +51052,9 @@
               "width": "fill_container",
               "content": "Linkul vostru de conectare",
               "lineHeight": 1.2,
-              "fontFamily": "Inter",
+              "fontFamily": "Fraunces",
               "fontSize": 26,
-              "fontWeight": "600"
+              "fontWeight": "500"
             },
             {
               "type": "text",
@@ -51321,9 +51321,9 @@
               "width": "fill_container",
               "content": "Ana v-a invitat în spațiul „Ana & Mihai\"",
               "lineHeight": 1.2,
-              "fontFamily": "Inter",
+              "fontFamily": "Fraunces",
               "fontSize": 26,
-              "fontWeight": "600"
+              "fontWeight": "500"
             },
             {
               "type": "text",
@@ -51627,9 +51627,9 @@
               "width": "fill_container",
               "content": "Bună dimineața, Ana & Mihai",
               "lineHeight": 1.2,
-              "fontFamily": "Inter",
+              "fontFamily": "Fraunces",
               "fontSize": 26,
-              "fontWeight": "600"
+              "fontWeight": "500"
             },
             {
               "type": "text",
@@ -52692,9 +52692,9 @@
               "textGrowth": "fixed-width",
               "width": "fill_container",
               "content": "Home",
-              "fontFamily": "Inter",
+              "fontFamily": "Fraunces",
               "fontSize": 20,
-              "fontWeight": "600"
+              "fontWeight": "500"
             },
             {
               "type": "frame",
@@ -52791,9 +52791,9 @@
                   "width": "fill_container",
                   "content": "Good morning, Ana & Mihai",
                   "lineHeight": 1.2,
-                  "fontFamily": "Inter",
+                  "fontFamily": "Fraunces",
                   "fontSize": 24,
-                  "fontWeight": "600"
+                  "fontWeight": "500"
                 }
               ]
             },
@@ -52835,9 +52835,9 @@
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
                       "content": "110 days to go",
-                      "fontFamily": "Inter",
+                      "fontFamily": "Fraunces",
                       "fontSize": 24,
-                      "fontWeight": "600"
+                      "fontWeight": "500"
                     },
                     {
                       "type": "text",
@@ -52871,9 +52871,9 @@
                       "name": "110",
                       "fill": "#34483A",
                       "content": "110",
-                      "fontFamily": "Inter",
+                      "fontFamily": "Fraunces",
                       "fontSize": 24,
-                      "fontWeight": "600"
+                      "fontWeight": "500"
                     },
                     {
                       "type": "text",
@@ -52927,9 +52927,9 @@
                       "name": "24 din 61",
                       "fill": "#272E28",
                       "content": "24 of 61",
-                      "fontFamily": "Inter",
+                      "fontFamily": "Fraunces",
                       "fontSize": 20,
-                      "fontWeight": "600"
+                      "fontWeight": "500"
                     },
                     {
                       "type": "text",
@@ -52975,9 +52975,9 @@
                       "name": "18.200 lei",
                       "fill": "#272E28",
                       "content": "18,200 lei",
-                      "fontFamily": "Inter",
+                      "fontFamily": "Fraunces",
                       "fontSize": 20,
-                      "fontWeight": "600"
+                      "fontWeight": "500"
                     },
                     {
                       "type": "text",
@@ -53297,9 +53297,9 @@
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
                   "content": "3–6 months before",
-                  "fontFamily": "Inter",
+                  "fontFamily": "Fraunces",
                   "fontSize": 18,
-                  "fontWeight": "600"
+                  "fontWeight": "500"
                 },
                 {
                   "type": "text",
@@ -53605,9 +53605,9 @@
               "textGrowth": "fixed-width",
               "width": "fill_container",
               "content": "Tasks",
-              "fontFamily": "Inter",
+              "fontFamily": "Fraunces",
               "fontSize": 20,
-              "fontWeight": "600"
+              "fontWeight": "500"
             },
             {
               "type": "frame",
@@ -53985,9 +53985,9 @@
                           "name": "3–6 luni înainte",
                           "fill": "#272E28",
                           "content": "3–6 months before",
-                          "fontFamily": "Inter",
+                          "fontFamily": "Fraunces",
                           "fontSize": 18,
-                          "fontWeight": "600"
+                          "fontWeight": "500"
                         }
                       ]
                     },
@@ -54689,9 +54689,9 @@
               "textGrowth": "fixed-width",
               "width": "fill_container",
               "content": "Budget",
-              "fontFamily": "Inter",
+              "fontFamily": "Fraunces",
               "fontSize": 20,
-              "fontWeight": "600"
+              "fontWeight": "500"
             },
             {
               "type": "frame",
@@ -54869,9 +54869,9 @@
                   "name": "+ 8.450 lei",
                   "fill": "#272E28",
                   "content": "+ 8,450 lei",
-                  "fontFamily": "Inter",
+                  "fontFamily": "Fraunces",
                   "fontSize": 28,
-                  "fontWeight": "600"
+                  "fontWeight": "500"
                 },
                 {
                   "type": "text",
@@ -55617,9 +55617,9 @@
               "textGrowth": "fixed-width",
               "width": "fill_container",
               "content": "Settings",
-              "fontFamily": "Inter",
+              "fontFamily": "Fraunces",
               "fontSize": 20,
-              "fontWeight": "600"
+              "fontWeight": "500"
             },
             {
               "type": "frame",
@@ -55956,9 +55956,9 @@
                   "name": "Preferințe",
                   "fill": "#272E28",
                   "content": "Preferences",
-                  "fontFamily": "Inter",
+                  "fontFamily": "Fraunces",
                   "fontSize": 16,
-                  "fontWeight": "600"
+                  "fontWeight": "500"
                 },
                 {
                   "type": "frame",
