@@ -4,7 +4,6 @@ import type { StageId } from '../domain/tasks';
 import { countLabel } from '../lib/format';
 import { INVITE_LIFETIME_DAYS } from '../lib/invites';
 import type { Role } from '../lib/workspaces';
-import type { BackupError } from '../storage/storage';
 
 /** Toate textele interfeței, într-un singur loc. */
 export const ro = {
@@ -544,8 +543,6 @@ export const ro = {
     download: 'Descarcă o copie',
     importExplain: 'Continuați pe alt dispozitiv sau încărcați copia primită de la partener.',
     import: 'Încarcă o copie',
-    confirmImport: 'Copia încărcată înlocuiește datele de acum din acest browser. Continuați?',
-    imported: 'Copia a fost încărcată.',
     resetExplain: 'Șterge tot și pornește de la zero.',
     reset: 'Șterge tot',
     confirmReset: 'Ștergeți toate datele din acest browser? Nu se pot recupera fără o copie.',
@@ -573,17 +570,18 @@ export const ro = {
     rateLabel: 'Curs valutar',
     rateHint: 'Pentru conversia sumelor din EUR.',
     rateError: 'Introduceți un curs mai mare ca 0.',
-    dataTitle: 'Datele voastre',
-    dataHint: 'Pentru moment, datele stau doar în acest browser. Descărcați o copie ca să nu le pierdeți.',
+    dataTitle: 'Datele și spațiul',
+    dataHint: 'Datele nunții stau în contul vostru, nu doar în acest browser.',
     downloadTitle: 'Descarcă datele mele',
-    downloadHint: 'Primiți un fișier JSON cu tot ce ați planificat.',
+    downloadHint: 'Veți primi un fișier cu tot ce ați planificat. Funcția vine în curând.',
     downloadButton: 'Descarcă datele',
-    importLink: 'Încarcă o copie',
-    deleteTitle: 'Ștergeți contul',
-    deleteHint: 'Șterge toate datele din acest browser. Fără o copie, acțiunea nu poate fi anulată.',
-    deleteButton: 'Șterge contul',
-    dialogTitle: 'Ștergeți contul?',
-    dialogBody: 'Toate datele din acest browser se șterg și nu se mai pot recupera fără o copie descărcată.',
+    deleteTitle: 'Ștergeți spațiul',
+    deleteHint: 'Spațiul nunții dispare pentru toți membrii. Doar proprietarul poate face asta.',
+    deleteButton: 'Șterge spațiul',
+    dialogTitle: 'Ștergeți spațiul?',
+    dialogBody: (name: string) =>
+      `Spațiul „${name}” dispare imediat pentru toți membrii, iar nimeni nu îl mai poate deschide. Nu există încă un buton de recuperare: în 30 de zile, proprietarul poate cere administratorului aplicației să îl readucă.`,
+    readOnly: 'Aveți acces doar pentru citire: setările nu pot fi modificate.',
     cancel: 'Anulează',
   },
 
@@ -655,14 +653,6 @@ export const ro = {
     cancel: 'Renunță',
   },
 
-  backupErrors: {
-    json: 'Fișierul nu e o copie validă.',
-    app: 'Fișierul nu e o copie din Nunta Start.',
-    version: 'Copia e dintr-o versiune pe care aplicația n-o poate citi.',
-    shape: 'Copia e incompletă sau modificată și nu poate fi încărcată.',
-  } satisfies Record<BackupError, string>,
-  /** Ecrane cu datele pe server, dar fără scriere încă. */
-  readOnlySoon: 'Se activează în curând. Deocamdată puteți doar vedea datele de pe această pagină.',
   errors: {
     generic: 'Ceva n-a mers. Încercați din nou în câteva clipe.',
     network: 'Nu ne putem conecta. Verificați conexiunea la internet.',
@@ -701,5 +691,4 @@ export const ro = {
   },
   loading: 'Se încarcă…',
   toast: { dismiss: 'Închide notificarea' },
-  backupKept: 'Datele voastre au rămas neschimbate.',
 };

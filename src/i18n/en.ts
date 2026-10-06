@@ -538,8 +538,6 @@ export const en: Messages = {
     download: 'Download a copy',
     importExplain: 'Continue on another device or load the copy you received from your partner.',
     import: 'Load a copy',
-    confirmImport: 'The loaded copy replaces the data currently in this browser. Continue?',
-    imported: 'The copy was loaded.',
     resetExplain: 'Delete everything and start from scratch.',
     reset: 'Delete everything',
     confirmReset: 'Delete all the data in this browser? It cannot be recovered without a copy.',
@@ -567,17 +565,18 @@ export const en: Messages = {
     rateLabel: 'Exchange rate',
     rateHint: 'To convert amounts entered in EUR.',
     rateError: 'Enter a rate greater than 0.',
-    dataTitle: 'Your data',
-    dataHint: "For now your data lives only in this browser. Download a copy so you don't lose it.",
+    dataTitle: 'Data and space',
+    dataHint: 'Your wedding data lives in your account, not only in this browser.',
     downloadTitle: 'Download my data',
-    downloadHint: 'You get a JSON file with everything you planned.',
+    downloadHint: 'You will get a file with everything you planned. This is coming soon.',
     downloadButton: 'Download data',
-    importLink: 'Load a copy',
-    deleteTitle: 'Delete account',
-    deleteHint: 'Deletes all the data in this browser. Without a copy, this cannot be undone.',
-    deleteButton: 'Delete account',
-    dialogTitle: 'Delete account?',
-    dialogBody: 'All the data in this browser is deleted and cannot be recovered without a downloaded copy.',
+    deleteTitle: 'Delete the space',
+    deleteHint: 'The wedding space disappears for all members. Only the owner can do this.',
+    deleteButton: 'Delete space',
+    dialogTitle: 'Delete the space?',
+    dialogBody: (name: string) =>
+      `The space "${name}" disappears right away for all members and nobody can open it any more. There is no restore button yet: within 30 days the owner can ask the app administrator to bring it back.`,
+    readOnly: 'You have read-only access: settings cannot be changed.',
     cancel: 'Cancel',
   },
 
@@ -649,14 +648,6 @@ export const en: Messages = {
     cancel: 'Cancel',
   },
 
-  backupErrors: {
-    json: 'The file is not a valid copy.',
-    app: 'The file is not a copy from Nunta Start.',
-    version: "The copy is from a version the app can't read.",
-    shape: 'The copy is incomplete or has been modified and cannot be loaded.',
-  },
-  /** Screens with server data but no writes yet. */
-  readOnlySoon: 'Coming soon. For now you can only view the data on this page.',
   errors: {
     generic: 'Something went wrong. Please try again in a moment.',
     network: "We can't connect. Check your internet connection.",
@@ -695,5 +686,4 @@ export const en: Messages = {
   },
   loading: 'Loading…',
   toast: { dismiss: 'Dismiss notification' },
-  backupKept: 'Your data was left unchanged.',
 };
