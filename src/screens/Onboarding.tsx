@@ -82,7 +82,7 @@ function Stepper({ current, labels, label }: { current: StepId; labels: readonly
             )}
             <span
               className={cx(
-                'relative flex size-8 items-center justify-center rounded-full border-2 text-sm font-semibold',
+                'relative z-10 flex size-8 items-center justify-center rounded-full border-2 text-sm font-semibold',
                 done && 'border-accent bg-accent text-accent-ink',
                 active && 'border-accent bg-surface text-ink',
                 !done && !active && 'border-line bg-sunken text-muted',
@@ -122,7 +122,10 @@ export function Onboarding() {
   const index = stepIndex(step);
   const ob = t.onboarding;
   const err = (field: OnboardingField) => (errors[field] ? ob.errors[errors[field]] : undefined);
-  const set = (patch: Partial<OnboardingValues>) => setValues((v) => ({ ...v, ...patch }));
+  const set = (patch: Partial<OnboardingValues>) => {
+    setValues((v) => ({ ...v, ...patch }));
+    setErrors((e) => Object.fromEntries(Object.entries(e).filter(([field]) => !(field in patch))));
+  };
 
   function go(to: StepId) {
     setErrors({});
@@ -255,7 +258,7 @@ export function Onboarding() {
                       />
                     )}
                   </FormField>
-                  <FormField label={ob.guestsLabel} hint={`${ob.guestsShort} ${ob.guestsHint}`} error={err('guests')}>
+                  <FormField label={ob.guestsLabel} hint={ob.guestsShort} error={err('guests')}>
                     {(p) => (
                       <NumberInput
                         {...p}
