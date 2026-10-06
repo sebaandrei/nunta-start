@@ -51,8 +51,8 @@ describe('error mapping', () => {
   it('gives each kind a distinct message in both languages', () => {
     for (const locale of ['ro', 'en'] as const) {
       const t = getMessages(locale);
-      const kinds = ['notConfigured', 'invalidEmail', 'network', 'generic'] as const;
-      expect(new Set(kinds.map((k) => authErrorMessage(k, t))).size).toBe(4);
+      const kinds = ['notConfigured', 'invalidEmail', 'network', 'notInvited', 'rateLimited', 'generic'] as const;
+      expect(new Set(kinds.map((k) => authErrorMessage(k, t))).size).toBe(6);
     }
     expect(authErrorMessage('notConfigured', getMessages('ro'))).toBe('Autentificarea nu este încă disponibilă.');
   });
@@ -80,7 +80,10 @@ describe('dev/test client and previews', () => {
   it('builds the designed states', () => {
     expect(previewFor('sent').state.status).toBe('sent');
     expect(previewFor('expired').state.status).toBe('expired');
-    expect(previewFor('captcha').captchaSiteKey).toBeTruthy();
     expect(previewFor('error').state.errorKind).toBe('network');
+    expect(previewFor('not-invited').state.errorKind).toBe('notInvited');
+    expect(previewFor('rate-limited').state.errorKind).toBe('rateLimited');
+    expect(parsePreview('not-invited')).toBe('not-invited');
+    expect(parsePreview('rate-limited')).toBe('rate-limited');
   });
 });

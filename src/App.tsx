@@ -1,7 +1,7 @@
 import { Link, Outlet, useRouterState } from '@tanstack/react-router';
 import { Calculator, House, ListChecks, type LucideIcon, Settings, ShieldCheck } from 'lucide-react';
 import type { ReactNode } from 'react';
-import { LocaleIconButton, ThemeIconButton } from './components/ShellControls';
+import { LocaleIconButton, SignOutButton, SignOutIconButton, ThemeIconButton } from './components/ShellControls';
 import { Toaster } from './components/Toaster';
 import { Banner, cx } from './components/ui';
 import { parseISODate } from './domain/dates';
@@ -33,6 +33,10 @@ export function App() {
         <Shell banner={banner} />
       ) : (
         <>
+          {/* Fără date nu e meniu: cine s-a conectat tot trebuie să poată ieși. */}
+          <div className="mx-auto flex max-w-5xl justify-end px-4 pt-2 empty:hidden">
+            <SignOutIconButton />
+          </div>
           {banner && <div className="mx-auto max-w-5xl px-4 pt-4">{banner}</div>}
           <Onboarding />
         </>
@@ -146,6 +150,7 @@ function Sidebar() {
             <p className="text-[11px] text-muted">{formatDate(wedding)}</p>
           </div>
         </div>
+        <SignOutButton />
       </section>
 
       <div className="mt-auto rounded-xl bg-hero p-3.5">
@@ -168,6 +173,7 @@ function MobileTopBar() {
       <p className="min-w-0 flex-1 truncate font-serif text-lg">{t.shell.tab[navIdForPath(pathname)]}</p>
       <ThemeIconButton />
       <LocaleIconButton />
+      <SignOutIconButton />
     </div>
   );
 }

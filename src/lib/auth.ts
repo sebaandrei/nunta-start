@@ -2,11 +2,11 @@ import type { Messages } from '../i18n';
 
 /**
  * Clientul de autentificare, injectat în ecranul de conectare.
- * Implementarea reală (Supabase Auth, Google, link magic, Turnstile) vine cu NS-022.
+ * Implementarea reală (link magic prin Supabase Auth) e în authSupabase.ts; fără credențiale rămâne cea de mai jos.
  */
 export interface AuthClient {
   signInWithGoogle(): Promise<void>;
-  sendMagicLink(email: string, captchaToken?: string): Promise<void>;
+  sendMagicLink(email: string): Promise<void>;
 }
 
 /** Autentificarea nu e configurată încă (lipsesc credențialele). */
@@ -33,17 +33,47 @@ export class AuthNetworkError extends Error {
   }
 }
 
+/** Aplicația e doar pe invitație: adresa nu e în lista permisă (declanșatorul din baza de date). */
+export class AuthNotInvitedError extends Error {
+  constructor() {
+    super('Email address is not on the invite list');
+    this.name = 'AuthNotInvitedError';
+  }
+}
+
+/** Prea multe cereri de email într-un timp scurt. */
+export class AuthRateLimitError extends Error {
+  constructor() {
+    super('Too many requests');
+    this.name = 'AuthRateLimitError';
+  }
+}
+
+/** Autentificarea e configurată doar când ambele variabile Supabase sunt setate. */
+export function isAuthConfiguredFor(env: {
+  VITE_SUPABASE_URL?: string;
+  VITE_SUPABASE_PUBLISHABLE_KEY?: string;
+}): boolean {
+  return Boolean(env.VITE_SUPABASE_URL && env.VITE_SUPABASE_PUBLISHABLE_KEY);
+}
+
+export function isAuthConfigured(): boolean {
+  return isAuthConfiguredFor(import.meta.env);
+}
+
 /** Clientul implicit: refuză sincer, ca interfața să nu pretindă niciodată că a trimis un email. */
 export const notConfiguredAuthClient: AuthClient = {
   signInWithGoogle: () => Promise.reject(new AuthNotConfiguredError()),
   sendMagicLink: () => Promise.reject(new AuthNotConfiguredError()),
 };
 
-export type AuthErrorKind = 'notConfigured' | 'invalidEmail' | 'network' | 'generic';
+export type AuthErrorKind = 'notConfigured' | 'invalidEmail' | 'network' | 'notInvited' | 'rateLimited' | 'generic';
 
 export function authErrorKind(error: unknown): AuthErrorKind {
   if (error instanceof AuthNotConfiguredError) return 'notConfigured';
   if (error instanceof AuthInvalidEmailError) return 'invalidEmail';
+  if (error instanceof AuthNotInvitedError) return 'notInvited';
+  if (error instanceof AuthRateLimitError) return 'rateLimited';
   if (error instanceof AuthNetworkError || error instanceof TypeError) return 'network';
   return 'generic';
 }

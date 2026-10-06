@@ -30,17 +30,16 @@ function Spinner() {
 
 export function SignIn({
   client: clientProp = notConfiguredAuthClient,
-  captchaSiteKey: captchaProp = import.meta.env.VITE_TURNSTILE_SITE_KEY,
+  showGoogle = import.meta.env.VITE_AUTH_GOOGLE === 'true',
 }: {
   client?: AuthClient;
-  /** Fără cheie, nu apare nicio verificare anti-robot. */
-  captchaSiteKey?: string;
+  /** Google rămâne implementat, dar ascuns până când aplicația nu mai e doar pe invitație. */
+  showGoogle?: boolean;
 }) {
   const t = useT();
   const a = t.auth;
   const [preview] = useState(readPreview);
   const client = preview?.client ?? clientProp;
-  const captchaSiteKey = preview ? preview.captchaSiteKey : captchaProp;
 
   const [state, dispatch] = useReducer(signInReducer, undefined, () => {
     if (preview) return preview.state;
@@ -76,7 +75,6 @@ export function SignIn({
     const id = ++requestSeq.current;
     dispatch({ type: event, id });
     if (event === 'submit' && validateEmail(email)) return;
-    // TODO(NS-023): citiți tokenul Turnstile din widget și treceți-l ca al doilea argument.
     run(id, client.sendMagicLink(email.trim()), () => dispatch({ type: 'succeeded', id }));
   }
 
@@ -119,7 +117,17 @@ export function SignIn({
                 </div>
               </Banner>
             )}
-            {status === 'error' && errorKind && <Banner tone="warn">{authErrorMessage(errorKind, t)}</Banner>}
+            {status === 'error' && errorKind === 'notInvited' && (
+              <Banner tone="warn">
+                <div>
+                  <p className="font-semibold">{a.notInvited.title}</p>
+                  <p className="mt-0.5 text-muted">{authErrorMessage(errorKind, t)}</p>
+                </div>
+              </Banner>
+            )}
+            {status === 'error' && errorKind && errorKind !== 'notInvited' && (
+              <Banner tone="warn">{authErrorMessage(errorKind, t)}</Banner>
+            )}
 
             <div>
               <p className={EYEBROW}>{expired ? a.expired.eyebrow : a.form.eyebrow}</p>
@@ -129,7 +137,7 @@ export function SignIn({
               <p className="mt-2 text-sm text-muted">{expired ? a.expired.lead : a.form.lead}</p>
             </div>
 
-            {!expired && (
+            {!expired && showGoogle && (
               <>
                 <Button variant="ghost" className="w-full" onClick={onGoogle} disabled={sending}>
                   <span
@@ -176,17 +184,6 @@ export function SignIn({
                 )}
               </div>
 
-              {captchaSiteKey && (
-                // TODO(NS-023): montați aici widgetul Turnstile (script încărcat doar după ce CSP îl permite).
-                <fieldset
-                  data-sitekey={captchaSiteKey}
-                  className="m-0 flex h-[65px] w-[300px] max-w-full items-center justify-center rounded-xl border border-dashed border-line bg-sunken p-0 text-xs text-muted"
-                >
-                  <legend className="sr-only">{a.form.captcha}</legend>
-                  <span aria-hidden="true">{a.form.captcha}</span>
-                </fieldset>
-              )}
-
               <Button type="submit" className="w-full" disabled={sending} aria-busy={sending}>
                 {sending ? (
                   <>
@@ -210,17 +207,7 @@ export function SignIn({
               )}
             </form>
 
-            {!expired && (
-              <p className="text-center text-xs text-muted">
-                {a.form.newHere} {/* Același ecran ca butonul principal: contul se creează la prima conectare. */}
-                <Link
-                  to="/login"
-                  className="inline-flex min-h-11 items-center font-semibold text-accent hover:underline"
-                >
-                  {a.form.createSpace}
-                </Link>
-              </p>
-            )}
+            {!expired && <p className="text-center text-xs text-muted">{a.form.inviteOnly}</p>}
 
             <div className="flex items-start gap-3 rounded-xl bg-sunken p-4">
               <ShieldCheck size={18} aria-hidden="true" className="mt-0.5 shrink-0 text-accent" />

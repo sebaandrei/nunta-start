@@ -1,9 +1,12 @@
-import { Languages, Moon, Sun } from 'lucide-react';
+import { useNavigate } from '@tanstack/react-router';
+import { Languages, LogOut, Moon, Sun } from 'lucide-react';
 import { useSyncExternalStore } from 'react';
 import { useT } from '../i18n';
 import { LOCALES, type Locale, useLocale } from '../lib/locale';
+import { paths } from '../lib/paths';
+import { signOut, useSession } from '../lib/session';
 import { useTheme } from '../lib/theme';
-import { IconButton, Segmented } from './ui';
+import { Button, IconButton, Segmented } from './ui';
 
 const DARK_QUERY = '(prefers-color-scheme: dark)';
 
@@ -67,6 +70,41 @@ export function ThemeIconButton() {
   return (
     <IconButton label={label} onClick={() => setMode(dark ? 'light' : 'dark')}>
       <Icon size={20} aria-hidden="true" />
+    </IconButton>
+  );
+}
+
+/** Deconectarea: doar când autentificarea e activă și omul e conectat. Mergem întâi acasă, apoi închidem sesiunea. */
+function useSignOut(): (() => void) | null {
+  const signedIn = useSession((s) => s.status === 'signedIn');
+  const navigate = useNavigate();
+  if (!signedIn) return null;
+  return () => {
+    void navigate({ to: paths.landing }).then(() => signOut());
+  };
+}
+
+/** Deconectare în meniul lateral, lângă cardul cuplului. */
+export function SignOutButton() {
+  const t = useT();
+  const onSignOut = useSignOut();
+  if (!onSignOut) return null;
+  return (
+    <Button variant="ghost" className="mt-3 w-full justify-start gap-2" onClick={onSignOut}>
+      <LogOut size={16} aria-hidden="true" />
+      {t.shell.signOut}
+    </Button>
+  );
+}
+
+/** Deconectare în bara de sus de pe telefon. */
+export function SignOutIconButton() {
+  const t = useT();
+  const onSignOut = useSignOut();
+  if (!onSignOut) return null;
+  return (
+    <IconButton label={t.shell.signOut} onClick={onSignOut}>
+      <LogOut size={20} aria-hidden="true" />
     </IconButton>
   );
 }

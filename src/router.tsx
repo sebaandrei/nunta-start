@@ -1,7 +1,13 @@
 import { createRootRoute, createRoute, createRouter, Outlet, redirect } from '@tanstack/react-router';
 import { App } from './App';
 import { PendingPage } from './components/skeletons';
+import { isAuthConfigured, notConfiguredAuthClient } from './lib/auth';
+import { loginHref } from './lib/authCallback';
+import { supabaseAuthClient } from './lib/authSupabase';
+import { guardDecision } from './lib/guard';
 import { LEGACY_REDIRECTS, paths } from './lib/paths';
+import { initSession, useSession } from './lib/session';
+import { AuthCallback } from './screens/AuthCallback';
 import { Calculator } from './screens/Calculator';
 import { NotFound, RouteError } from './screens/ErrorPages';
 import { Home } from './screens/Home';
@@ -19,7 +25,18 @@ const rootRoute = createRootRoute({ component: Outlet, errorComponent: RouteErro
 const landingRoute = createRoute({ getParentRoute: () => rootRoute, path: '/', component: Landing });
 
 // Aplicația: meniul (sau Onboarding, când nu sunt date) învelește ecranele de sub /w.
-const appRoute = createRoute({ getParentRoute: () => rootRoute, path: '/w', component: App });
+// Cu autentificarea configurată, orice cale de sub /w cere o sesiune; fără ea nimic nu se schimbă.
+const appRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/w',
+  component: App,
+  beforeLoad: async ({ location }) => {
+    const configured = isAuthConfigured();
+    if (configured) await initSession();
+    const decision = guardDecision({ configured, status: useSession.getState().status, path: location.href });
+    if (decision.type === 'redirectToLogin') throw redirect({ href: loginHref(decision.next), replace: true });
+  },
+});
 
 const appChildren = [
   createRoute({ getParentRoute: () => appRoute, path: '/', component: Home }),
@@ -29,7 +46,22 @@ const appChildren = [
 ];
 
 // Autentificarea: ecran public complet, în afara aplicației (fără meniu, fără Onboarding).
-const loginRoute = createRoute({ getParentRoute: () => rootRoute, path: paths.login, component: SignIn });
+const authClient = isAuthConfigured() ? supabaseAuthClient : notConfiguredAuthClient;
+const loginRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: paths.login,
+  component: () => <SignIn client={authClient} />,
+  beforeLoad: async () => {
+    if (!isAuthConfigured()) return;
+    await initSession();
+    if (useSession.getState().status === 'signedIn') throw redirect({ to: paths.home, replace: true });
+  },
+});
+const authCallbackRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: paths.authCallback,
+  component: AuthCallback,
+});
 
 // Pagini juridice publice (proiecte, noindex).
 const legalRoutes = [
@@ -55,6 +87,7 @@ const routeTree = rootRoute.addChildren([
   landingRoute,
   appRoute.addChildren(appChildren),
   loginRoute,
+  authCallbackRoute,
   workspacesRoute,
   inviteRoute,
   ...legalRoutes,
@@ -62,6 +95,13 @@ const routeTree = rootRoute.addChildren([
 ]);
 
 export const router = createRouter({ routeTree, scrollRestoration: true, defaultPendingComponent: PendingPage });
+
+// Sesiunea s-a pierdut cât timp omul era în aplicație (expirare, alt tab): înapoi la conectare.
+useSession.subscribe((state) => {
+  if (state.status === 'signedOut' && router.state.location.pathname.startsWith('/w')) {
+    router.history.replace(loginHref(router.state.location.href));
+  }
+});
 
 declare module '@tanstack/react-router' {
   interface Register {
