@@ -1,7 +1,9 @@
 import { createRootRoute, createRoute, createRouter, Outlet, redirect } from '@tanstack/react-router';
 import { App } from './App';
+import { PendingPage } from './components/skeletons';
 import { LEGACY_REDIRECTS, paths } from './lib/paths';
 import { Calculator } from './screens/Calculator';
+import { NotFound, RouteError } from './screens/ErrorPages';
 import { Home } from './screens/Home';
 import { Landing } from './screens/Landing';
 import { LegalPage } from './screens/LegalPage';
@@ -9,7 +11,7 @@ import { Settings } from './screens/Settings';
 import { SignIn } from './screens/SignIn';
 import { Start } from './screens/Start';
 
-const rootRoute = createRootRoute({ component: Outlet });
+const rootRoute = createRootRoute({ component: Outlet, errorComponent: RouteError, notFoundComponent: NotFound });
 
 // Pagina publică, fără meniul aplicației.
 const landingRoute = createRoute({ getParentRoute: () => rootRoute, path: '/', component: Landing });
@@ -51,7 +53,7 @@ const routeTree = rootRoute.addChildren([
   ...legacyRoutes,
 ]);
 
-export const router = createRouter({ routeTree, scrollRestoration: true });
+export const router = createRouter({ routeTree, scrollRestoration: true, defaultPendingComponent: PendingPage });
 
 declare module '@tanstack/react-router' {
   interface Register {

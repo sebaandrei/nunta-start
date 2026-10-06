@@ -1,4 +1,4 @@
-import { initializeFaro } from '@grafana/faro-web-sdk';
+import { faro, initializeFaro } from '@grafana/faro-web-sdk';
 import { version } from '../package.json';
 
 /** Erori și Web Vitals către Grafana Cloud Frontend Observability. Fără URL (dev, teste) nu pornește. */
@@ -21,4 +21,9 @@ if (url) {
       /moz-extension:\/\//,
     ],
   });
+}
+
+/** Trimite o eroare prinsă de un error boundary către Faro; fără Faro pornit (dev, teste) nu face nimic. */
+export function reportError(error: unknown): void {
+  faro.api?.pushError(error instanceof Error ? error : new Error(String(error)));
 }

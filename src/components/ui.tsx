@@ -514,3 +514,8 @@ export function Dialog({
     </dialog>
   );
 }
+
+/** Bloc pulsatil de umplere; decorativ (aria-hidden), animația se oprește la „reduce motion". */
+export function Skeleton({ className }: { className?: string }) {
+  return <div aria-hidden="true" className={cx('rounded-lg bg-soft motion-safe:animate-pulse', className)} />;
+}
