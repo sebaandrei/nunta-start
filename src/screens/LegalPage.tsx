@@ -7,6 +7,7 @@ import { legalRo } from '../content/legal/ro';
 import type { LegalContent } from '../content/legal/types';
 import { useT } from '../i18n';
 import { useLocale } from '../lib/locale';
+import { pageTitle, useDocumentTitle } from '../lib/useDocumentTitle';
 
 const FOCUS_RING = 'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent';
 const CONTENT = { ro: legalRo, en: legalEn };
@@ -36,9 +37,7 @@ export function LegalPage({ doc }: { doc: keyof LegalContent }) {
     timeZone: 'UTC',
   });
 
-  useEffect(() => {
-    document.title = `${title} · ${t.appName}`;
-  }, [title, t.appName]);
+  useDocumentTitle(pageTitle(title, t.appName));
 
   return (
     <PublicLayout>

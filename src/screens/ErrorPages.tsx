@@ -3,6 +3,7 @@ import { type ReactNode, useEffect } from 'react';
 import { PublicLayout } from '../components/PublicLayout';
 import { Button, cx, Heading } from '../components/ui';
 import { useT } from '../i18n';
+import { pageTitle, useDocumentTitle } from '../lib/useDocumentTitle';
 import { reportError } from '../observability';
 
 const LINK_BUTTON =
@@ -37,9 +38,7 @@ function StatePage({
 export function RouteError({ error }: { error: unknown }) {
   const t = useT();
   useEffect(() => reportError(error), [error]);
-  useEffect(() => {
-    document.title = `${t.errors.page.title} · ${t.appName}`;
-  }, [t]);
+  useDocumentTitle(pageTitle(t.errors.page.title, t.appName));
   return (
     <StatePage title={t.errors.page.title} body={t.errors.page.body}>
       <Button className="px-5 text-sm font-semibold md:min-h-11" onClick={() => window.location.reload()}>
@@ -56,9 +55,7 @@ export function RouteError({ error }: { error: unknown }) {
 /** `notFoundComponent` din ruta rădăcină: adrese necunoscute. */
 export function NotFound() {
   const t = useT();
-  useEffect(() => {
-    document.title = `${t.errors.notFound.title} · ${t.appName}`;
-  }, [t]);
+  useDocumentTitle(pageTitle(t.errors.notFound.title, t.appName));
   return (
     <StatePage eyebrow={t.errors.notFound.code} title={t.errors.notFound.title} body={t.errors.notFound.body}>
       <Link to="/" className={cx(LINK_BUTTON, 'bg-accent text-accent-ink hover:opacity-90')}>
