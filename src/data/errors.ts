@@ -42,6 +42,13 @@ export function isWeddingLimitError(error: unknown): boolean {
   return error instanceof DataError && /wedding limit reached/i.test(error.message);
 }
 
+/** Cum se arată o eroare a creării nunții: limita de nunți, date respinse de RPC (22023) sau generic. */
+export function createWeddingErrorKind(error: unknown): 'limit' | 'invalidData' | 'generic' {
+  if (isWeddingLimitError(error)) return 'limit';
+  if (error instanceof DataError && error.code === '22023') return 'invalidData';
+  return 'generic';
+}
+
 /** Triggerul din DB: cel mult 4 scenarii de buget pe nuntă. */
 export function isScenarioMaxError(error: unknown): boolean {
   return error instanceof DataError && /at most 4 budget scenarios/i.test(error.message);

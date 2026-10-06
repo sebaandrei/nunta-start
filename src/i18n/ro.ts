@@ -1,7 +1,8 @@
 import type { Countdown } from '../domain/home';
+import { CITY_MAX, GUESTS_MAX, PARTNER_NAME_MAX, WEDDING_NAME_MAX } from '../domain/onboardingSteps';
 import type { Category, Owner, Status } from '../domain/schema';
 import type { StageId } from '../domain/tasks';
-import { countLabel } from '../lib/format';
+import { countLabel, formatNumber } from '../lib/format';
 import { INVITE_LIFETIME_DAYS } from '../lib/invites';
 import type { Role } from '../lib/workspaces';
 
@@ -211,8 +212,11 @@ export const ro = {
     next: 'Continuă',
     create: 'Creează spațiul',
     creating: 'Se creează…',
-    createError: 'Nu am putut crea spațiul. Încercați din nou.',
-    limitReached: 'Ați atins numărul maxim de spații (5). Ștergeți unul ca să puteți crea altul.',
+    createErrors: {
+      generic: 'Nu am putut crea spațiul. Încercați din nou.',
+      invalidData: 'Verificați datele introduse și încercați din nou.',
+      limit: 'Ați atins numărul maxim de spații (5). Ștergeți unul ca să puteți crea altul.',
+    },
     summaryNames: 'Voi',
     summaryDate: 'Data nunții',
     summaryCity: 'Oraș sau locație',
@@ -222,7 +226,11 @@ export const ro = {
       nameRequired: 'Introduceți prenumele.',
       dateRequired: 'Alegeți data nunții.',
       dateInvalid: 'Data nu este validă.',
+      nameTooLong: `Prenumele poate avea cel mult ${PARTNER_NAME_MAX} de caractere.`,
+      weddingNameTooLong: `Cele două prenume împreună (cu „ & ”) pot avea cel mult ${WEDDING_NAME_MAX} de caractere. Scurtați unul dintre ele.`,
+      cityTooLong: `Orașul sau locația poate avea cel mult ${CITY_MAX} de caractere.`,
       guestsMin: 'Numărul de invitați trebuie să fie cel puțin 1.',
+      guestsMax: `Numărul de invitați poate fi cel mult ${formatNumber(GUESTS_MAX, 'ro')}.`,
     },
   },
 

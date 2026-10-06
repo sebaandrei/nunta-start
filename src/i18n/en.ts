@@ -1,5 +1,6 @@
 import type { Countdown } from '../domain/home';
-import { countLabel } from '../lib/format';
+import { CITY_MAX, GUESTS_MAX, PARTNER_NAME_MAX, WEDDING_NAME_MAX } from '../domain/onboardingSteps';
+import { countLabel, formatNumber } from '../lib/format';
 import { INVITE_LIFETIME_DAYS } from '../lib/invites';
 import type { Messages } from './index';
 
@@ -206,8 +207,11 @@ export const en: Messages = {
     next: 'Continue',
     create: 'Create your space',
     creating: 'Creating…',
-    createError: 'We could not create the space. Please try again.',
-    limitReached: 'You have reached the maximum number of spaces (5). Delete one to create another.',
+    createErrors: {
+      generic: 'We could not create the space. Please try again.',
+      invalidData: 'Check the data you entered and try again.',
+      limit: 'You have reached the maximum number of spaces (5). Delete one to create another.',
+    },
     summaryNames: 'You',
     summaryDate: 'Wedding date',
     summaryCity: 'City or venue',
@@ -217,7 +221,11 @@ export const en: Messages = {
       nameRequired: 'Enter the first name.',
       dateRequired: 'Pick the wedding date.',
       dateInvalid: 'The date is not valid.',
+      nameTooLong: `A name can have at most ${PARTNER_NAME_MAX} characters.`,
+      weddingNameTooLong: `The two names together (with " & ") can have at most ${WEDDING_NAME_MAX} characters. Shorten one of the names.`,
+      cityTooLong: `The city or venue can have at most ${CITY_MAX} characters.`,
       guestsMin: 'The number of guests must be at least 1.',
+      guestsMax: `The number of guests can be at most ${formatNumber(GUESTS_MAX, 'en')}.`,
     },
   },
 
