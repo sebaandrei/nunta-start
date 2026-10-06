@@ -15,6 +15,11 @@ describe('mapSupabaseAuthError', () => {
     expect(mapSupabaseAuthError(e)).toBeInstanceOf(AuthNotInvitedError);
     expect(mapSupabaseAuthError({ message: 'DATABASE ERROR SAVING NEW USER' })).toBeInstanceOf(AuthNotInvitedError);
     expect(mapSupabaseAuthError({ code: 'unexpected_failure' })).toBeInstanceOf(AuthNotInvitedError);
+    // Forma observată în supabase-js local: AuthRetryableFetchError, 500, fără cod.
+    expect(
+      mapSupabaseAuthError({ name: 'AuthRetryableFetchError', message: 'Database error saving new user', status: 500 }),
+    ).toBeInstanceOf(AuthNotInvitedError);
+    expect(mapSupabaseAuthError({ message: 'signup_not_allowed', code: 'P0001' })).toBeInstanceOf(AuthNotInvitedError);
   });
   it('maps rate limits', () => {
     expect(mapSupabaseAuthError({ code: 'over_email_send_rate_limit', status: 429 })).toBeInstanceOf(

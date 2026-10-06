@@ -33,6 +33,10 @@ export function App() {
         <Shell banner={banner} />
       ) : (
         <>
+          {/* Fără date nu e meniu: cine s-a conectat tot trebuie să poată ieși. */}
+          <div className="mx-auto flex max-w-5xl justify-end px-4 pt-2 empty:hidden">
+            <SignOutIconButton />
+          </div>
           {banner && <div className="mx-auto max-w-5xl px-4 pt-4">{banner}</div>}
           <Onboarding />
         </>

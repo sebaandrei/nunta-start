@@ -25,7 +25,11 @@ export function mapSupabaseAuthError(error: SupabaseAuthErrorLike): Error {
   if (code === 'over_email_send_rate_limit' || code === 'over_request_rate_limit' || error.status === 429) {
     return new AuthRateLimitError();
   }
-  if (code === 'unexpected_failure' || message.includes('database error saving new user')) {
+  if (
+    code === 'unexpected_failure' ||
+    message.includes('database error saving new user') ||
+    message.includes('signup_not_allowed')
+  ) {
     return new AuthNotInvitedError();
   }
   if (code === 'email_address_invalid' || /invalid.*email|email.*invalid/.test(message)) {
