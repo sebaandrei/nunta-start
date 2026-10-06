@@ -93,12 +93,5 @@ export async function deleteBudgetLine(id: string): Promise<void> {
 
 /** „Golește sumele": prețurile și plățile liniilor și darurile devin goale; restul rămâne. */
 export async function clearBudgetAmounts(weddingId: string): Promise<void> {
-  unwrap(
-    await getSupabase()
-      .from('budget_lines')
-      .update({ unit_price: null, paid: null })
-      .eq('wedding_id', weddingId)
-      .select('id'),
-  );
-  await saveBudgetSettings(weddingId, { gift_per_guest: null, family_gift: null });
+  unwrap(await getSupabase().rpc('clear_budget_amounts', { p_wedding_id: weddingId }));
 }

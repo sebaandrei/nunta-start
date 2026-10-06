@@ -140,9 +140,14 @@ export function NumberInput({
       onChange={(e) => {
         setText(e.target.value);
         const parsed = parseDecimal(e.target.value);
-        if (parsed === undefined) return;
-        if (parsed !== null && min !== undefined && parsed < min) return;
-        if (parsed !== null && integer && !Number.isInteger(parsed)) return;
+        const invalid =
+          parsed === undefined ||
+          (parsed !== null && min !== undefined && parsed < min) ||
+          (parsed !== null && integer && !Number.isInteger(parsed));
+        if (invalid) {
+          pending.current = null;
+          return;
+        }
         if (deferred) pending.current = { value: parsed };
         else onChange(parsed);
       }}

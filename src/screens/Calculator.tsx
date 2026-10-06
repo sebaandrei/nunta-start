@@ -263,6 +263,14 @@ export function Calculator() {
 }
 
 function MoneyField({ label, value, onChange }: { label: string; value: Money; onChange: (m: Money) => void }) {
+  // Amount commits on blur, so a click on the currency switch can run before the re-render that carries the
+  // new amount; keep the latest Money in a ref so neither change overwrites the other.
+  const latest = useRef(value);
+  latest.current = value;
+  const commit = (patch: Partial<Money>) => {
+    latest.current = { ...latest.current, ...patch };
+    onChange(latest.current);
+  };
   return (
     <FieldGroup label={label}>
       <div className="flex items-center gap-1.5">
@@ -271,9 +279,9 @@ function MoneyField({ label, value, onChange }: { label: string; value: Money; o
           aria-label={label}
           min={0}
           value={value.amount}
-          onChange={(amount) => onChange({ ...value, amount })}
+          onChange={(amount) => commit({ amount })}
         />
-        <CurrencySwitch value={value.currency} onChange={(currency) => onChange({ ...value, currency })} />
+        <CurrencySwitch value={value.currency} onChange={(currency) => commit({ currency })} />
       </div>
     </FieldGroup>
   );

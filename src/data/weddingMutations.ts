@@ -75,6 +75,10 @@ export function useDeleteWedding(weddingId: string) {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: () => softDeleteWedding(weddingId),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: keys.list() }),
+    onSuccess: () => {
+      // The deleted wedding must not be served from cache (detail, tasks, budget) when the user navigates back.
+      queryClient.removeQueries({ queryKey: keys.wedding(weddingId).all });
+      return queryClient.invalidateQueries({ queryKey: keys.list() });
+    },
   });
 }
