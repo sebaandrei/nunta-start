@@ -188,7 +188,7 @@ The product is now an **invite-only app for the owner and friends** (2-3 workspa
 | NS-060 | P0 | Privacy policy + terms pages (RO) at `/privacy` and `/terms`, linked in the footer and on the OAuth consent screen. They list the sub-processors | 3 | NS-041 | Pages are live; legal review requested | ⬜ |
 | NS-061 | P0 | "Download my data": an RPC returning JSON of every wedding the user owns | 2 | NS-043 | The file contains all tables for those weddings | ⬜ |
 | NS-062 | P0 | Delete account: an Edge Function (service role) that removes memberships, soft-deletes weddings where the user is the last owner, plus a 30-day hard-purge cron | 3 | NS-052 | The account is gone; the wedding is purged after 30 days (tested with a shortened interval) | ⬜ |
-| NS-063 | P1 | CI: `supabase db lint` + a check that fails on any table without RLS | 1 | NS-013 | CI fails on a test table without RLS | ⬜ |
+| NS-063 | P1 | CI: `supabase db lint` + a check that fails on any table without RLS | 1 | NS-013 | CI fails on a test table without RLS | ✅ |
 | NS-064 | P0 | Deploy pipeline: `main` → staging migrations run automatically; prod migrations + the Pages prod deploy wait for the `production` environment approval | 3 | NS-013 | One approved release updates prod | ✅ |
 | NS-065 | P1 | Restore drill #1: restore the latest R2 dump into staging and run E2E; write `docs/runbooks/restore.md` | 2 | NS-014 | The runbook is followed end-to-end successfully | ⬜ |
 | NS-066 | P1 | Mobile pass at 360px for Tasks, Calculator and Settings; `@axe-core/playwright` in E2E | 2 | NS-058 | No serious or critical axe violations | ⬜ |
