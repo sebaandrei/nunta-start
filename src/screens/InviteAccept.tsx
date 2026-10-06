@@ -101,7 +101,7 @@ export function InviteAccept({
       headerAction={
         <Link
           to={paths.login}
-          className={`inline-flex min-h-11 items-center rounded-lg px-3 text-[13px] font-medium text-ink hover:bg-sunken ${LINK_FOCUS}`}
+          className={`inline-flex min-h-11 items-center whitespace-nowrap rounded-lg px-3 text-[13px] font-medium text-ink hover:bg-sunken ${LINK_FOCUS}`}
         >
           {i.signIn}
         </Link>
@@ -130,7 +130,7 @@ export function InviteAccept({
               </div>
               <div>
                 <p className={EYEBROW}>{i.eyebrow}</p>
-                <Heading as="h1" id="invite-title" size="lg" className="mt-2 md:text-[1.7rem]">
+                <Heading as="h1" id="invite-title" size="lg" className="mt-2 max-md:text-[1.6rem] md:text-[1.7rem]">
                   {i.title(info.inviterName, info.workspaceName)}
                 </Heading>
                 <p className="mt-2 text-sm text-muted">{i.lead}</p>
@@ -321,7 +321,7 @@ function Message({
       <Badge tone={tone}>{icon}</Badge>
       <div>
         <p className={EYEBROW}>{eyebrow}</p>
-        <Heading as="h1" id="invite-title" size="lg" className="mt-2 md:text-[1.7rem]">
+        <Heading as="h1" id="invite-title" size="lg" className="mt-2 max-md:text-[1.6rem] md:text-[1.7rem]">
           {title}
         </Heading>
         {body && <p className="mt-2 text-sm text-muted">{body}</p>}

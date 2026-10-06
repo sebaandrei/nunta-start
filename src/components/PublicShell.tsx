@@ -23,7 +23,9 @@ export function PublicShell({ headerAction, children }: { headerAction?: ReactNo
           >
             N
           </span>
-          <span className="font-sans text-[17px] leading-tight font-semibold lowercase">{t.appName}</span>
+          <span className="font-sans text-[17px] leading-tight font-semibold whitespace-nowrap lowercase max-[479px]:sr-only">
+            {t.appName}
+          </span>
         </Link>
         <div className="flex items-center gap-1 md:gap-3">
           <LocaleSegmented />
