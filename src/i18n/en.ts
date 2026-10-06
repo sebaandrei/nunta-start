@@ -31,6 +31,7 @@ export const en: Messages = {
     language: 'Language',
     toLanguage: (other: string) => `Switch language to ${other}`,
     signOut: 'Sign out',
+    switchWedding: 'Switch wedding',
   },
 
   greeting: { morning: 'Good morning', afternoon: 'Good afternoon', evening: 'Good evening' },
@@ -200,6 +201,9 @@ export const en: Messages = {
     back: 'Back',
     next: 'Continue',
     create: 'Create your space',
+    creating: 'Creating…',
+    createError: 'We could not create the space. Please try again.',
+    limitReached: 'You have reached the maximum number of spaces (5). Delete one to create another.',
     summaryNames: 'You',
     summaryDate: 'Wedding date',
     summaryCity: 'City or venue',
@@ -221,7 +225,7 @@ export const en: Messages = {
     open: (name: string) => `Open the space ${name}`,
     unnamed: 'Unnamed wedding',
     createTitle: 'Create a new space',
-    createExistingNote: 'For now you can have one space in this browser, so we take you to the existing one.',
+    createExistingNote: 'You can have several spaces and switch between them from the menu.',
     roleLabel: 'Role',
     roles: {
       owner: 'Owner',
@@ -383,6 +387,7 @@ export const en: Messages = {
   },
 
   tasks: {
+    readOnly: 'You have read-only access: tasks cannot be changed.',
     byStage: 'By stage',
     byCategory: 'By category',
     ownerFilter: 'Owner',
@@ -649,6 +654,8 @@ export const en: Messages = {
     version: "The copy is from a version the app can't read.",
     shape: 'The copy is incomplete or has been modified and cannot be loaded.',
   },
+  /** Screens with server data but no writes yet. */
+  readOnlySoon: 'Coming soon. For now you can only view the data on this page.',
   errors: {
     generic: 'Something went wrong. Please try again in a moment.',
     network: "We can't connect. Check your internet connection.",
@@ -658,6 +665,12 @@ export const en: Messages = {
       body: 'An unexpected problem came up. Your data was not deleted. Reload the page or go back home.',
       reload: 'Reload page',
       home: 'Back home',
+    },
+    noAccess: {
+      code: 'Access',
+      title: 'We could not find this wedding',
+      body: 'The wedding does not exist or you are not a member. Ask for an invitation or pick another wedding.',
+      picker: 'My spaces',
     },
     notFound: {
       code: 'Error 404',

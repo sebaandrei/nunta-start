@@ -22,4 +22,13 @@ describe('keys', () => {
   it('wedding.all is a prefix of its resource keys', () => {
     expect(keys.wedding('w1').tasks().slice(0, 2)).toEqual([...keys.wedding('w1').all]);
   });
+
+  it('budget leaf keys sit under the budget key and the list key is separate', () => {
+    const w = keys.wedding('w1');
+    for (const k of [w.budgetSettings(), w.budgetScenarios(), w.budgetLines()]) {
+      expect(k.slice(0, 3)).toEqual([...w.budget()]);
+    }
+    expect(keys.list()).not.toEqual([...w.all]);
+    expect(w.detail().slice(0, 2)).toEqual([...w.all]);
+  });
 });

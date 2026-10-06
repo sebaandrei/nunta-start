@@ -19,7 +19,7 @@ export interface Workspace {
 
 /**
  * Lista spațiilor utilizatorului, injectată în ecranul de alegere.
- * Implementarea reală (Supabase: weddings + members) vine cu NS-031.
+ * Implementarea reală (Supabase: weddings + members) e în src/data/workspacesClient.ts.
  */
 export interface WorkspacesClient {
   list(): Promise<Workspace[]>;

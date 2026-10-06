@@ -35,6 +35,7 @@ export const ro = {
     language: 'Limbă',
     toLanguage: (other: string) => `Schimbați limba în ${other}`,
     signOut: 'Deconectare',
+    switchWedding: 'Schimbați nunta',
   },
 
   greeting: { morning: 'Bună dimineața', afternoon: 'Bună ziua', evening: 'Bună seara' },
@@ -206,6 +207,9 @@ export const ro = {
     back: 'Înapoi',
     next: 'Continuă',
     create: 'Creează spațiul',
+    creating: 'Se creează…',
+    createError: 'Nu am putut crea spațiul. Încercați din nou.',
+    limitReached: 'Ați atins numărul maxim de spații (5). Ștergeți unul ca să puteți crea altul.',
     summaryNames: 'Voi',
     summaryDate: 'Data nunții',
     summaryCity: 'Oraș sau locație',
@@ -227,7 +231,7 @@ export const ro = {
     open: (name: string) => `Deschide spațiul ${name}`,
     unnamed: 'Nuntă fără nume',
     createTitle: 'Creați un spațiu nou',
-    createExistingNote: 'Deocamdată puteți avea un singur spațiu în acest browser, așa că vă ducem în cel existent.',
+    createExistingNote: 'Puteți avea mai multe spații și le schimbați oricând din meniu.',
     roleLabel: 'Rol',
     roles: {
       owner: 'Proprietar',
@@ -389,6 +393,7 @@ export const ro = {
   },
 
   tasks: {
+    readOnly: 'Aveți acces doar pentru citire: taskurile nu pot fi modificate.',
     byStage: 'Pe etape',
     byCategory: 'Pe categorii',
     ownerFilter: 'Responsabil',
@@ -655,6 +660,8 @@ export const ro = {
     version: 'Copia e dintr-o versiune pe care aplicația n-o poate citi.',
     shape: 'Copia e incompletă sau modificată și nu poate fi încărcată.',
   } satisfies Record<BackupError, string>,
+  /** Ecrane cu datele pe server, dar fără scriere încă. */
+  readOnlySoon: 'Se activează în curând. Deocamdată puteți doar vedea datele de pe această pagină.',
   errors: {
     generic: 'Ceva n-a mers. Încercați din nou în câteva clipe.',
     network: 'Nu ne putem conecta. Verificați conexiunea la internet.',
@@ -664,6 +671,12 @@ export const ro = {
       body: 'A apărut o problemă neașteptată. Datele voastre nu au fost șterse. Reîncărcați pagina sau reveniți acasă.',
       reload: 'Reîncarcă pagina',
       home: 'Înapoi acasă',
+    },
+    noAccess: {
+      code: 'Acces',
+      title: 'Nu am găsit această nuntă',
+      body: 'Nunta nu există sau nu faceți parte din ea. Cereți o invitație sau alegeți altă nuntă.',
+      picker: 'Spațiile mele',
     },
     notFound: {
       code: 'Eroare 404',

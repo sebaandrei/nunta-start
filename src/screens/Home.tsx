@@ -2,27 +2,28 @@ import { Link } from '@tanstack/react-router';
 import { ArrowRight, Circle, CircleCheck, CircleDot, Heart, PartyPopper } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { PageHeader } from '../components/PageHeader';
-import { Banner, Button, Card, cx, EmptyState, Heading, ProgressBar, StatCard } from '../components/ui';
+import { Card, cx, EmptyState, Heading, ProgressBar, StatCard } from '../components/ui';
+import { useWeddingAppData } from '../data/hooks';
+import { type TaskActions, useTaskActions } from '../data/taskActions';
 import { hasPrices, selectedGuests, summarizePayments, summarizeScenario } from '../domain/budget';
 import { parseISODate } from '../domain/dates';
 import { capitalize, countdown, paidPercent, withCity } from '../domain/home';
 import type { Task } from '../domain/schema';
 import { dueDate, isOverdue, isRecover, nextTasks, openInCurrentStage, progress, stageOf } from '../domain/tasks';
 import { useT } from '../i18n';
-import { downloadBackup } from '../lib/backup';
 import { formatLongDate, formatMoney, formatShortDate, formatSignedMoney } from '../lib/format';
-import { paths } from '../lib/paths';
+import { routes } from '../lib/paths';
 import { dayPart } from '../lib/shell';
 import { useToday } from '../lib/useToday';
-import { daysSinceBackup, needsBackupReminder } from '../storage/storage';
-import { useAppData, useStore } from '../store';
+import { useWedding } from '../lib/wedding';
 
 const LINK = 'inline-flex min-h-11 items-center gap-1.5 text-sm font-semibold hover:underline md:min-h-0';
 
 export function Home() {
   const t = useT();
-  const data = useAppData();
-  const markExported = useStore((s) => s.markExported);
+  const data = useWeddingAppData();
+  const { id: weddingId, canEdit } = useWedding();
+  const actions = useTaskActions(weddingId);
   const today = useToday();
 
   const { settings, budget, tasks } = data;
@@ -42,7 +43,6 @@ export function Home() {
   const giftMissing = budget.giftPerGuest.amount === null;
 
   const now = new Date();
-  const showReminder = needsBackupReminder(data.meta, now);
   const count = countdown(wedding, today);
   const stage = stageOf(today, wedding);
 
@@ -53,15 +53,6 @@ export function Home() {
         subtitle={t.pages.home.subtitle}
       />
       <div className="space-y-6 md:space-y-8">
-        {showReminder && (
-          <Banner>
-            <span>{t.storage.reminder(daysSinceBackup(data.meta, now))}</span>
-            <Button variant="ghost" onClick={() => downloadBackup(data, markExported)}>
-              {t.storage.reminderAction}
-            </Button>
-          </Banner>
-        )}
-
         <Card tone="hero" className="flex items-center justify-between gap-4 p-5 md:gap-8 md:p-8">
           <div className="min-w-0 flex-1">
             {(count.kind === 'future' || count.kind === 'tomorrow') && (
@@ -128,7 +119,7 @@ export function Home() {
                 !pricesFilled ? (
                   <>
                     {t.home.needPrices}{' '}
-                    <Link className={cx(LINK, 'text-accent')} to={paths.budget}>
+                    <Link className={cx(LINK, 'text-accent')} to={routes.budget} params={{ weddingId }}>
                       {t.home.goCalculator}
                     </Link>
                   </>
@@ -169,11 +160,19 @@ export function Home() {
               <Card className="overflow-hidden">
                 <ul aria-label={t.home.nextList}>
                   {next.map((task) => (
-                    <NextTask key={task.id} task={task} wedding={wedding} today={today} names={settings.names} />
+                    <NextTask
+                      key={task.id}
+                      task={task}
+                      wedding={wedding}
+                      today={today}
+                      names={settings.names}
+                      readOnly={!canEdit('tasks')}
+                      actions={actions}
+                    />
                   ))}
                 </ul>
                 <div className="border-t border-line px-4 py-1 md:py-3">
-                  <Link className={cx(LINK, 'text-accent')} to={paths.tasks}>
+                  <Link className={cx(LINK, 'text-accent')} to={routes.tasks} params={{ weddingId }}>
                     {t.home.goStart}
                     <ArrowRight size={14} aria-hidden="true" />
                   </Link>
@@ -194,7 +193,7 @@ export function Home() {
             <p className="mt-2 text-sm text-muted">{t.home.stageDescriptions[stage]}</p>
             <hr className="my-4 border-line" />
             <p className="text-sm font-semibold">{t.home.stageTasks(currentCount)}</p>
-            <Link className={cx(LINK, 'mt-1')} to={paths.tasks}>
+            <Link className={cx(LINK, 'mt-1')} to={routes.tasks} params={{ weddingId }}>
               {t.home.goStage}
               <ArrowRight size={14} aria-hidden="true" />
             </Link>
@@ -212,14 +211,17 @@ function NextTask({
   wedding,
   today,
   names,
+  readOnly,
+  actions,
 }: {
   task: Task;
   wedding: Date;
   today: Date;
   names: readonly [string, string];
+  readOnly: boolean;
+  actions: TaskActions;
 }) {
   const t = useT();
-  const cycleStatus = useStore((s) => s.cycleTaskStatus);
   const Icon = STATUS_ICON[task.status];
   const due = dueDate(task, wedding);
   const recover = isRecover(task, wedding, today);
@@ -236,7 +238,8 @@ function NextTask({
     <li className="flex items-center gap-1 border-t border-line first:border-t-0 pr-4">
       <button
         type="button"
-        onClick={() => cycleStatus(task.id)}
+        disabled={readOnly}
+        onClick={() => actions.cycleStatus(task.id)}
         aria-label={`${task.title || t.tasks.untitled}: ${t.status[task.status]}. ${t.statusHint}`}
         title={t.statusHint}
         className="inline-flex size-11 shrink-0 items-center justify-center text-accent"

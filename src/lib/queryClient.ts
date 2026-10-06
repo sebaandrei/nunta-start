@@ -32,9 +32,14 @@ export function errorToMessage(error: unknown): string {
 
 const onError = (error: unknown) => showToast(errorToMessage(error));
 
+/** Mutațiile cu `meta: { silent: true }` își arată singure eroarea (bandă în ecran), fără toast. */
+const onMutationError = (error: unknown, _vars: unknown, _ctx: unknown, mutation: { meta?: { silent?: boolean } }) => {
+  if (!mutation.meta?.silent) onError(error);
+};
+
 export const queryClient = new QueryClient({
   queryCache: new QueryCache({ onError }),
-  mutationCache: new MutationCache({ onError }),
+  mutationCache: new MutationCache({ onError: onMutationError }),
   defaultOptions: {
     queries: { staleTime: 30_000, retry: shouldRetry },
   },

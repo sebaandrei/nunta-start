@@ -5,12 +5,12 @@ const NEXT_KEY = 'nunta.authNext';
 /** Doar căi relative din aplicație (/w, /w/...): orice altceva, inclusiv adrese externe, devine /w. */
 export function safeNext(raw: string | null | undefined): string {
   const hasControlOrBackslash = (s: string) => [...s].some((c) => c === '\\' || c.charCodeAt(0) < 32);
-  if (!raw || !/^\/w(?:[/?#]|$)/.test(raw) || hasControlOrBackslash(raw)) return paths.home;
+  if (!raw || !/^\/w(?:[/?#]|$)/.test(raw) || hasControlOrBackslash(raw)) return paths.workspaces;
   try {
     const url = new URL(raw, 'http://local.invalid');
-    return url.origin === 'http://local.invalid' ? raw : paths.home;
+    return url.origin === 'http://local.invalid' ? raw : paths.workspaces;
   } catch {
-    return paths.home;
+    return paths.workspaces;
   }
 }
 
@@ -43,7 +43,7 @@ export function takeNext(): string {
     localStorage.removeItem(NEXT_KEY);
     return safeNext(next);
   } catch {
-    return paths.home;
+    return paths.workspaces;
   }
 }
 
