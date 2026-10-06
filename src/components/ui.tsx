@@ -360,16 +360,22 @@ export function ProgressBar({
 export function Heading({
   as: Element = 'h2',
   size = 'md',
+  id,
   className,
   children,
 }: {
   as?: 'h1' | 'h2' | 'h3';
+  id?: string;
   size?: 'lg' | 'md' | 'sm';
   className?: string;
   children: ReactNode;
 }) {
   const sizes = { lg: 'text-[2rem] leading-tight', md: 'text-xl leading-snug', sm: 'text-base leading-snug' };
-  return <Element className={cx('font-serif font-medium text-ink', sizes[size], className)}>{children}</Element>;
+  return (
+    <Element id={id} className={cx('font-serif font-medium text-ink', sizes[size], className)}>
+      {children}
+    </Element>
+  );
 }
 
 /** Cifră mare cu etichetă deasupra și o linie de ajutor dedesubt. */
