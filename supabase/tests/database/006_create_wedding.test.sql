@@ -2,7 +2,7 @@
 -- Templates are a fixture with the same counts as the real files (61 tasks from
 -- src/content/ro/tasks.json, 20 budget lines from budget.json), built with generate_series.
 begin;
-select plan(17);
+select plan(18);
 
 -- invite-only allowlist (NS-301): allow the test users
 insert into public.allowed_emails (email) values
@@ -97,6 +97,13 @@ select public.create_wedding(pg_temp.valid_input(), '[]'::jsonb, '[]'::jsonb);
 select public.create_wedding(pg_temp.valid_input(), '[]'::jsonb, '[]'::jsonb);
 select throws_ok($$select public.create_wedding(pg_temp.valid_input(), '[]'::jsonb, '[]'::jsonb)$$,
   'P0001', 'wedding limit reached: at most 5 weddings per owner', 'sixth owned wedding rejected');
+
+-- restoring a soft-deleted wedding counts against the cap
+update public.weddings set deleted_at = now()
+  where id = (select wedding_id from public.wedding_members where user_id = '00000000-0000-0000-0000-0000000000a1' limit 1);
+select public.create_wedding(pg_temp.valid_input(), '[]'::jsonb, '[]'::jsonb);
+select throws_ok($$update public.weddings set deleted_at = null where deleted_at is not null$$,
+  'P0001', 'wedding limit reached: at most 5 weddings per owner', 'restore beyond the cap rejected');
 
 -- isolation
 select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000a2","role":"authenticated"}', true);
