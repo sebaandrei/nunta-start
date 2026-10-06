@@ -204,6 +204,83 @@ export const en: Messages = {
     },
   },
 
+  workspaces: {
+    eyebrow: 'Choose your space',
+    title: 'Your wedding spaces',
+    lead: "Choose the wedding you're working on now.",
+    listLabel: 'Your spaces',
+    open: (name: string) => `Open the space ${name}`,
+    unnamed: 'Unnamed wedding',
+    createTitle: 'Create a new space',
+    createExistingNote: 'For now you can have one space in this browser, so we take you to the existing one.',
+    roleLabel: 'Role',
+    roles: {
+      owner: 'Owner',
+      partner: 'Partner',
+      planner: 'Planner',
+      helper: 'Helper',
+      reader: 'Reader',
+    },
+    roleHints: {
+      owner: 'Can do everything, including deleting the space',
+      partner: 'Can edit everything and invite people',
+      planner: 'Can edit tasks and the budget',
+      helper: 'Can tick off the tasks assigned to them',
+      reader: 'Can only view the plan',
+    },
+    emptyTitle: "You don't have a space yet",
+    emptyBody: 'Create your first space to start planning your wedding.',
+    loading: 'Loading your spaces…',
+    loadError: "We couldn't load your spaces.",
+    retry: 'Try again',
+    back: 'Back to the home page',
+  },
+
+  invite: {
+    eyebrow: 'Invitation',
+    title: (inviter: string, workspace: string) => `${inviter} invited you to the space "${workspace}"`,
+    lead: "You'll be able to help plan the wedding together with the other members.",
+    roleTitle: 'Your role',
+    sentTo: (email: string) => `The invitation was sent to ${email}`,
+    accept: 'Accept invitation',
+    decline: 'Decline',
+    accepting: 'Accepting…',
+    declining: 'Declining…',
+    loading: 'Checking the invitation…',
+    signIn: 'Sign in',
+    backHome: 'Back to the home page',
+    retry: 'Try again',
+    expired: {
+      eyebrow: 'Invitation expired',
+      title: 'This invitation is no longer valid',
+      body: (workspace: string) =>
+        `Invitations are valid for 7 days. Ask the person who invited you to send a new one for the space "${workspace}".`,
+    },
+    used: {
+      eyebrow: 'Invitation already used',
+      title: 'This invitation was already used',
+      body: (workspace: string) =>
+        `The invitation to the space "${workspace}" was already accepted or declined. If you need access, ask for a new one.`,
+    },
+    failed: { eyebrow: 'Invitation', title: "We couldn't check the invitation" },
+    accepted: {
+      eyebrow: 'Invitation accepted',
+      title: (workspace: string) => `Welcome to "${workspace}"`,
+      body: "You're now a member of the space.",
+      cta: 'Open the space',
+    },
+    declined: {
+      eyebrow: 'Invitation declined',
+      title: 'You declined the invitation',
+      body: (workspace: string) => `Nothing changed in the space "${workspace}". You can close this page.`,
+    },
+    errors: {
+      notConfigured: "Invitations aren't available yet.",
+      network: "We can't connect. Check your internet connection.",
+      generic: 'Something went wrong. Please try again in a moment.',
+    },
+  },
+
   storage: {
     unavailable:
       "The browser can't save your data (private mode or full storage). Download a copy from Settings so you don't lose your work.",

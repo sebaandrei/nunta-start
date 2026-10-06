@@ -3,10 +3,12 @@ import { App } from './App';
 import { LEGACY_REDIRECTS, paths } from './lib/paths';
 import { Calculator } from './screens/Calculator';
 import { Home } from './screens/Home';
+import { InviteRoute } from './screens/InviteAccept';
 import { Landing } from './screens/Landing';
 import { Settings } from './screens/Settings';
 import { SignIn } from './screens/SignIn';
 import { Start } from './screens/Start';
+import { Workspaces } from './screens/Workspaces';
 
 const rootRoute = createRootRoute({ component: Outlet });
 
@@ -26,6 +28,10 @@ const appChildren = [
 // Autentificarea: ecran public complet, în afara aplicației (fără meniu, fără Onboarding).
 const loginRoute = createRoute({ getParentRoute: () => rootRoute, path: paths.login, component: SignIn });
 
+// Alegerea spațiului și invitațiile: ecrane publice, fără meniu.
+const workspacesRoute = createRoute({ getParentRoute: () => rootRoute, path: paths.workspaces, component: Workspaces });
+const inviteRoute = createRoute({ getParentRoute: () => rootRoute, path: paths.invite, component: InviteRoute });
+
 const legacyRoutes = LEGACY_REDIRECTS.map(({ from, to }) =>
   createRoute({
     getParentRoute: () => rootRoute,
@@ -36,7 +42,14 @@ const legacyRoutes = LEGACY_REDIRECTS.map(({ from, to }) =>
   }),
 );
 
-const routeTree = rootRoute.addChildren([landingRoute, appRoute.addChildren(appChildren), loginRoute, ...legacyRoutes]);
+const routeTree = rootRoute.addChildren([
+  landingRoute,
+  appRoute.addChildren(appChildren),
+  loginRoute,
+  workspacesRoute,
+  inviteRoute,
+  ...legacyRoutes,
+]);
 
 export const router = createRouter({ routeTree, scrollRestoration: true });
 
