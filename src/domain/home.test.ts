@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { getMessages } from '../i18n';
-import { capitalize, countdown, paidPercent } from './home';
+import { capitalize, countdown, paidPercent, withCity } from './home';
 import { STAGE_IDS } from './tasks';
 
 const d = (y: number, m: number, day: number) => new Date(y, m - 1, day);
@@ -29,6 +29,17 @@ describe('capitalize', () => {
   it('pune prima literă mare, inclusiv cu diacritice', () => {
     expect(capitalize('sâmbătă, 23 ianuarie')).toBe('Sâmbătă, 23 ianuarie');
     expect(capitalize('')).toBe('');
+  });
+});
+
+describe('withCity', () => {
+  it('adaugă orașul după dată', () => {
+    expect(withCity('Sâmbătă, 23 ianuarie 2027', ' Brașov ')).toBe('Sâmbătă, 23 ianuarie 2027 · Brașov');
+  });
+
+  it('nu adaugă nimic când orașul e gol', () => {
+    expect(withCity('Sâmbătă, 23 ianuarie 2027', '')).toBe('Sâmbătă, 23 ianuarie 2027');
+    expect(withCity('Sâmbătă, 23 ianuarie 2027', '   ')).toBe('Sâmbătă, 23 ianuarie 2027');
   });
 });
 

@@ -21,6 +21,12 @@ export function paidPercent(paid: number, total: number): number {
   return Math.min(100, Math.max(0, Math.round((paid / total) * 100)));
 }
 
+/** Data nunții urmată de oraș, când e completat: „Sâmbătă, 23 ianuarie 2027 · Brașov". */
+export function withCity(dateText: string, city: string): string {
+  const name = city.trim();
+  return name ? `${dateText} · ${name}` : dateText;
+}
+
 /** Prima literă mare („sâmbătă, 23 ianuarie" devine „Sâmbătă, 23 ianuarie"). */
 export function capitalize(text: string): string {
   return text.charAt(0).toLocaleUpperCase() + text.slice(1);

@@ -22,6 +22,7 @@ import { useT } from '../i18n';
 import { downloadBackup } from '../lib/backup';
 import { currencySymbol } from '../lib/format';
 import { useLocale } from '../lib/locale';
+import { paths } from '../lib/paths';
 import { THEME_MODES, useTheme } from '../lib/theme';
 import { daysSinceBackup } from '../storage/storage';
 import { useAppData, useStore } from '../store';
@@ -244,7 +245,7 @@ export function Settings() {
               variant="dangerSolid"
               onClick={() => {
                 setConfirming(false);
-                void navigate({ to: '/' });
+                void navigate({ to: paths.home });
                 reset();
               }}
             >
