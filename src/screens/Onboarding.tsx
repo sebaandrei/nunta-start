@@ -7,14 +7,12 @@ import { createWeddingErrorKind } from '../data/errors';
 import { useCreateWedding } from '../data/weddingMutations';
 import { parseISODate } from '../domain/dates';
 import {
-  CITY_MAX,
   fieldIds,
   firstInvalidStep,
   nextStep,
   type OnboardingErrors,
   type OnboardingField,
   type OnboardingValues,
-  PARTNER_NAME_MAX,
   prevStep,
   STEPS,
   type StepId,
@@ -140,6 +138,12 @@ export function Onboarding() {
     setErrors((e) => Object.fromEntries(Object.entries(e).filter(([field]) => !(field in patch))));
   };
 
+  /** La ieșirea din câmp, arată doar eroarea de lungime (după nume/oraș lungi lipite), nu și cele „obligatoriu". */
+  function checkLength(field: 'name1' | 'name2' | 'city') {
+    const code = validateStep(step, values)[field];
+    if (code && /TooLong$/.test(code)) setErrors((e) => ({ ...e, [field]: code }));
+  }
+
   function go(to: StepId) {
     setErrors({});
     setStep(to);
@@ -239,10 +243,10 @@ export function Onboarding() {
                       <TextInput
                         {...p}
                         autoComplete="off"
-                        maxLength={PARTNER_NAME_MAX}
                         placeholder={ob.namePlaceholder1}
                         value={values.name1}
                         onChange={(e) => set({ name1: e.target.value })}
+                        onBlur={() => checkLength('name1')}
                       />
                     )}
                   </FormField>
@@ -251,10 +255,10 @@ export function Onboarding() {
                       <TextInput
                         {...p}
                         autoComplete="off"
-                        maxLength={PARTNER_NAME_MAX}
                         placeholder={ob.namePlaceholder2}
                         value={values.name2}
                         onChange={(e) => set({ name2: e.target.value })}
+                        onBlur={() => checkLength('name2')}
                       />
                     )}
                   </FormField>
@@ -278,10 +282,10 @@ export function Onboarding() {
                       <TextInput
                         {...p}
                         autoComplete="off"
-                        maxLength={CITY_MAX}
                         placeholder={ob.cityPlaceholder}
                         value={values.city}
                         onChange={(e) => set({ city: e.target.value })}
+                        onBlur={() => checkLength('city')}
                       />
                     )}
                   </FormField>
