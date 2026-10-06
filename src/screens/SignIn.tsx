@@ -1,4 +1,4 @@
-import { Link } from '@tanstack/react-router';
+import { Link, useRouter } from '@tanstack/react-router';
 import { Loader2, Mail, ShieldCheck } from 'lucide-react';
 import { type FormEvent, useEffect, useReducer, useRef, useState } from 'react';
 import { AuthLayout } from '../components/auth/AuthLayout';
@@ -9,9 +9,11 @@ import {
   authErrorKind,
   authErrorMessage,
   formatCountdown,
+  normalizeCode,
   notConfiguredAuthClient,
   validateEmail,
 } from '../lib/auth';
+import { takeNext } from '../lib/authCallback';
 import { parsePreview, previewFor } from '../lib/authPreview';
 import { initialSignInState, signInReducer } from '../lib/signInState';
 
@@ -102,6 +104,7 @@ export function SignIn({
         {showSent ? (
           <SentView
             email={email}
+            client={client}
             resendIn={resendIn}
             busy={sending}
             onResend={() => sendLink('resend')}
@@ -237,12 +240,14 @@ export function SignIn({
 
 function SentView({
   email,
+  client,
   resendIn,
   busy,
   onResend,
   onOther,
 }: {
   email: string;
+  client: AuthClient;
   resendIn: number;
   busy: boolean;
   onResend: () => void;
@@ -250,6 +255,26 @@ function SentView({
 }) {
   const t = useT();
   const s = t.auth.sent;
+  const router = useRouter();
+  const [code, setCode] = useState('');
+  const [codeError, setCodeError] = useState<string | null>(null);
+  const [verifying, setVerifying] = useState(false);
+
+  function onVerify(event: FormEvent) {
+    event.preventDefault();
+    if (verifying) return;
+    const normalized = normalizeCode(code);
+    if (!normalized) return setCodeError(t.auth.errors.invalidCode);
+    setCodeError(null);
+    setVerifying(true);
+    client.verifyCode(email.trim(), normalized).then(
+      () => router.history.replace(takeNext()),
+      (error: unknown) => {
+        setCodeError(authErrorMessage(authErrorKind(error), t));
+        setVerifying(false);
+      },
+    );
+  }
   return (
     <div className="flex flex-col gap-5">
       <span
@@ -270,6 +295,48 @@ function SentView({
         </p>
       </div>
       <p className="rounded-xl bg-sunken p-4 text-xs leading-relaxed text-muted">{s.tip}</p>
+      <form noValidate onSubmit={onVerify} className="flex flex-col gap-3">
+        <p className="text-xs leading-relaxed text-muted">{s.codeTip}</p>
+        <div>
+          <label
+            htmlFor="signin-code"
+            className="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-muted"
+          >
+            {s.codeLabel}
+          </label>
+          <TextInput
+            id="signin-code"
+            name="code"
+            inputMode="numeric"
+            autoComplete="one-time-code"
+            maxLength={9}
+            placeholder="123456"
+            value={code}
+            readOnly={verifying}
+            aria-invalid={codeError ? true : undefined}
+            aria-describedby={codeError ? 'signin-code-error' : undefined}
+            onChange={(e) => {
+              setCode(e.target.value);
+              setCodeError(null);
+            }}
+          />
+          {codeError && (
+            <p id="signin-code-error" role="alert" className="mt-1.5 text-xs font-medium text-minus">
+              {codeError}
+            </p>
+          )}
+        </div>
+        <Button type="submit" className="w-full" disabled={verifying} aria-busy={verifying}>
+          {verifying ? (
+            <>
+              <Spinner />
+              {s.codeVerifying}
+            </>
+          ) : (
+            s.codeSubmit
+          )}
+        </Button>
+      </form>
       <Button
         variant="secondary"
         className="w-full"

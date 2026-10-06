@@ -84,6 +84,11 @@ export const ro = {
       resendIn: (time: string) => `Retrimite linkul în ${time}`,
       resend: 'Retrimiteți linkul',
       other: 'Folosiți altă adresă',
+      codeTip:
+        'Citiți emailul în aplicația de mail de pe telefon? Tastați aici codul de 6 cifre în loc să apăsați pe link: deschiderea linkului consumă codul. L-ați apăsat deja? Retrimiteți mai jos ca să primiți un email nou.',
+      codeLabel: 'Cod din 6 cifre',
+      codeSubmit: 'Conectare cu cod',
+      codeVerifying: 'Se verifică…',
     },
     expired: {
       bannerTitle: 'Linkul a expirat',
@@ -102,6 +107,7 @@ export const ro = {
       notInvited:
         'Această aplicație este momentan doar pe invitație. Dacă ești prieten cu cine ți-a trimis linkul, cere să fii adăugat și încearcă din nou.',
       rateLimited: 'Prea multe încercări. Așteptați câteva minute și încercați din nou.',
+      invalidCode: 'Codul este greșit sau a expirat. Verificați ultimul email sau cereți un link nou.',
     },
     notInvited: { title: 'Acces pe invitație' },
     callback: {

@@ -9,7 +9,7 @@ export type AuthOutcome = 'success' | 'network';
 
 export function createFakeAuthClient(outcome: AuthOutcome = 'success'): AuthClient {
   const run = () => (outcome === 'success' ? Promise.resolve() : Promise.reject(new AuthNetworkError()));
-  return { signInWithGoogle: run, sendMagicLink: run };
+  return { signInWithGoogle: run, sendMagicLink: run, verifyCode: run };
 }
 
 const PREVIEWS = ['sent', 'expired', 'error', 'not-invited', 'rate-limited'] as const;

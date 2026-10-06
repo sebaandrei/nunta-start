@@ -1,11 +1,13 @@
 import {
   type AuthClient,
+  AuthInvalidCodeError,
   AuthInvalidEmailError,
   AuthNetworkError,
   AuthNotInvitedError,
   AuthRateLimitError,
 } from './auth';
 import { beginAttempt } from './authCallback';
+import { setSession } from './session';
 
 /** Forma minimă a unei erori Supabase Auth, ca maparea să se poată testa fără client. */
 export interface SupabaseAuthErrorLike {
@@ -32,6 +34,9 @@ export function mapSupabaseAuthError(error: SupabaseAuthErrorLike): Error {
   ) {
     return new AuthNotInvitedError();
   }
+  if (code === 'otp_expired' || message.includes('token has expired or is invalid')) {
+    return new AuthInvalidCodeError();
+  }
   if (code === 'email_address_invalid' || /invalid.*email|email.*invalid/.test(message)) {
     return new AuthInvalidEmailError();
   }
@@ -56,6 +61,11 @@ export const supabaseAuthClient: AuthClient = {
       options: { emailRedirectTo: callbackUrl(), shouldCreateUser: true },
     });
     if (error) throw mapSupabaseAuthError(error);
+  },
+  async verifyCode(email, code) {
+    const { data, error } = await (await supabase()).auth.verifyOtp({ email, token: code, type: 'email' });
+    if (error) throw mapSupabaseAuthError(error);
+    setSession(data.session);
   },
   /** Implementat, dar neafișat: vezi VITE_AUTH_GOOGLE. */
   async signInWithGoogle() {
