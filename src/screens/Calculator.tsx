@@ -1,15 +1,19 @@
-import { Plus, X } from 'lucide-react';
+import { Plus, Wallet, X } from 'lucide-react';
 import { useRef, useState } from 'react';
 import { PageHeader } from '../components/PageHeader';
 import {
   Button,
   Card,
   cx,
+  EmptyState,
   Field,
   FieldGroup,
+  Heading,
   type InputVariant,
   NumberInput,
+  ProgressBar,
   Segmented,
+  StatCard,
   TextInput,
 } from '../components/ui';
 import {
@@ -25,6 +29,7 @@ import {
 } from '../domain/budget';
 import { type BudgetLine, CURRENCIES, type Currency, type Money } from '../domain/schema';
 import { useT } from '../i18n';
+import { lineView } from '../lib/budgetView';
 import { currencyOptions, currencySymbol, formatMoney, formatSignedMoney } from '../lib/format';
 import { useLocale } from '../lib/locale';
 import { useAppData, useStore } from '../store';
@@ -65,9 +70,9 @@ export function Calculator() {
           </Button>
         }
       />
-      <div className="space-y-5">
-        <Card className="grid gap-4 p-4 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr_auto]">
-          <FieldGroup label={t.calc.scenarios}>
+      <div className="space-y-6 md:space-y-8">
+        <Card className="grid gap-4 p-4 sm:grid-cols-2 md:p-5 lg:grid-cols-[1.3fr_1.3fr_1fr_auto]">
+          <FieldGroup label={t.calc.scenarios} className="sm:col-span-2 lg:col-span-4">
             <div className="flex flex-wrap items-center gap-1.5">
               {budget.scenarios.map((g, i) => (
                 // biome-ignore lint/suspicious/noArrayIndexKey: scenarios are plain numbers without ids until NS-029.
@@ -141,47 +146,77 @@ export function Calculator() {
 
         {giftMissing && <p className="text-sm text-muted">{t.calc.giftMissing}</p>}
 
-        {budget.scenarios.length > 1 && (
-          <Segmented
-            className="sm:hidden"
-            label={t.calc.scenarios}
-            value={budget.selected}
-            onChange={selectScenario}
-            options={budget.scenarios.map((g, i) => ({ value: i, label: String(g) }))}
-          />
+        {budget.lines.length === 0 ? (
+          <>
+            <div className="grid gap-3 md:grid-cols-3">
+              <StatCard label={t.calc.costTotal} value={formatMoney(0, rates.currency)} />
+              <StatCard label={t.calc.colPaid} value={formatMoney(0, rates.currency)} />
+              <StatCard label={t.calc.estimatedBalance} value="—" />
+            </div>
+            <EmptyState
+              icon={Wallet}
+              title={t.calc.emptyTitle}
+              className="py-12"
+              action={
+                <Button onClick={onAddLine}>
+                  <Plus size={16} aria-hidden="true" />
+                  {t.calc.addExpense}
+                </Button>
+              }
+            >
+              {t.calc.emptyText}
+            </EmptyState>
+          </>
+        ) : (
+          <>
+            <section aria-label={t.calc.compareTitle} className="space-y-3">
+              <div>
+                <Heading size="md">{t.calc.compareTitle}</Heading>
+                <p className="mt-1 text-sm text-muted">{t.calc.compareHint}</p>
+              </div>
+              {budget.scenarios.length > 1 && (
+                <Segmented
+                  className="md:hidden"
+                  label={t.calc.scenarios}
+                  value={budget.selected}
+                  onChange={selectScenario}
+                  options={budget.scenarios.map((g, i) => ({ value: i, label: String(g) }))}
+                />
+              )}
+              <div className="grid gap-3 md:grid-cols-[repeat(auto-fit,minmax(200px,1fr))]">
+                {summaries.map((s, i) => (
+                  <ScenarioCard
+                    // biome-ignore lint/suspicious/noArrayIndexKey: scenarios are plain numbers without ids until NS-029.
+                    key={i}
+                    summary={s}
+                    currency={rates.currency}
+                    selected={i === budget.selected}
+                    giftMissing={giftMissing}
+                    onSelect={() => selectScenario(i)}
+                  />
+                ))}
+              </div>
+            </section>
+
+            <section aria-label={t.calc.expensesTitle} className="space-y-3">
+              <Heading size="md">{t.calc.expensesTitle}</Heading>
+              <div className="space-y-1 text-sm leading-relaxed text-muted">
+                <p>
+                  <span className="font-semibold text-ink">{t.calc.typesExplain.fixed}</span> ={' '}
+                  {t.calc.typesExplain.fixedText}
+                </p>
+                <p>
+                  <span className="font-semibold text-ink">{t.calc.typesExplain.perGuest}</span> ={' '}
+                  {t.calc.typesExplain.perGuestText}
+                </p>
+              </div>
+              <LinesTable lines={budget.lines} guests={guests} rates={rates} totals={payments} onAddLine={onAddLine} />
+              <LinesCards lines={budget.lines} guests={guests} rates={rates} totals={payments} onAddLine={onAddLine} />
+            </section>
+          </>
         )}
-        <div className="grid gap-3 sm:grid-cols-[repeat(auto-fit,minmax(190px,1fr))]">
-          {summaries.map((s, i) => (
-            <ScenarioCard
-              // biome-ignore lint/suspicious/noArrayIndexKey: scenarios are plain numbers without ids until NS-029.
-              key={i}
-              summary={s}
-              currency={rates.currency}
-              selected={i === budget.selected}
-              giftMissing={giftMissing}
-              onSelect={() => selectScenario(i)}
-            />
-          ))}
-        </div>
 
-        <div className="space-y-1 text-sm leading-relaxed text-muted">
-          <p>
-            <span className="font-semibold text-ink">{t.calc.typesExplain.fixed}</span> ={' '}
-            {t.calc.typesExplain.fixedText}
-          </p>
-          <p>
-            <span className="font-semibold text-ink">{t.calc.typesExplain.perGuest}</span> ={' '}
-            {t.calc.typesExplain.perGuestText}
-          </p>
-        </div>
-
-        <LinesTable lines={budget.lines} guests={guests} rates={rates} totals={payments} />
-        <LinesCards lines={budget.lines} guests={guests} rates={rates} totals={payments} />
-
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <Button variant="ghost" onClick={onAddLine}>
-            {t.calc.addLine}
-          </Button>
+        <div className="flex justify-end">
           <Button
             variant="danger"
             title={t.calc.clearAmountsHint}
@@ -247,30 +282,43 @@ function ScenarioCard({
       onClick={onSelect}
       aria-pressed={selected}
       className={cx(
-        'rounded-xl border bg-surface px-4 py-3.5 text-left transition-colors hover:border-accent/60',
-        selected ? 'border-2 border-accent' : 'hidden border-line sm:block',
+        'rounded-2xl border px-4 py-4 text-left transition-colors hover:border-accent/60 md:px-5',
+        // Pe telefon cardul ales e „hero"; acolo cifra rămâne în culoarea textului (plus/minus nu au contrast pe hero).
+        selected ? 'border-accent bg-hero ring-1 ring-accent md:bg-surface' : 'hidden border-line bg-surface md:block',
       )}
     >
-      <p className="text-[11px] font-semibold uppercase tracking-wider text-muted">
-        {t.calc.scenario(summary.guests)}
-        {selected && ` · ${t.calc.selected}`}
+      <p className="flex items-center justify-between gap-2 text-[11px] font-semibold uppercase tracking-[0.08em] text-muted">
+        <span>{t.calc.scenario(summary.guests)}</span>
+        {selected && (
+          <span className="rounded-md bg-soft px-1.5 py-0.5 text-[10px] tracking-wider text-ink">
+            {t.calc.selected}
+          </span>
+        )}
       </p>
       {giftMissing ? (
-        <p className="my-1 text-2xl font-semibold tabular-nums">{money(summary.total)}</p>
+        <p className="mt-2 font-serif text-[1.75rem] leading-tight tabular-nums">{money(summary.total)}</p>
       ) : (
         <p
-          className={cx('my-1 text-2xl font-semibold tabular-nums', summary.balance >= 0 ? 'text-plus' : 'text-minus')}
+          className={cx(
+            'mt-2 font-serif text-[1.75rem] leading-tight tabular-nums text-ink',
+            summary.balance >= 0 ? 'md:text-plus' : 'md:text-minus',
+          )}
         >
           {formatSignedMoney(summary.balance, currency)}
         </p>
       )}
-      <p className="text-xs leading-relaxed text-muted">
-        {giftMissing
-          ? t.calc.perGuest(money(summary.perGuest))
-          : t.calc.totalAndPerGuest(money(summary.total), money(summary.perGuest))}
-        <br />
-        {t.calc.breakEven(money(summary.breakEvenGift))}
-      </p>
+      <p className="mt-0.5 text-xs text-muted">{giftMissing ? t.calc.costTotal : t.calc.estimatedBalance}</p>
+      <div className="mt-3 space-y-1 border-t border-line pt-3 text-xs text-muted">
+        {!giftMissing && (
+          <p className="flex justify-between gap-2">
+            <span className="font-semibold uppercase tracking-wider">{t.calc.costTotal}</span>
+            <span className="font-semibold tabular-nums text-ink">{money(summary.total)}</span>
+          </p>
+        )}
+        <p className="tabular-nums">
+          {t.calc.perPerson(money(summary.perGuest))} · {t.calc.breakEven(money(summary.breakEvenGift))}
+        </p>
+      </div>
     </button>
   );
 }
@@ -280,6 +328,7 @@ interface LinesProps {
   guests: number;
   rates: Rates;
   totals: { total: number; paid: number; remaining: number };
+  onAddLine: () => void;
 }
 
 function useLineActions() {
@@ -368,7 +417,7 @@ function PriceInputs({ line, variant }: LineFieldProps) {
         onChange={(unitPrice) => update(line, { unitPrice })}
       />
       <CurrencySwitch value={line.currency} onChange={(currency) => update(line, { currency })} />
-      <span className="w-12 shrink-0 text-xs text-muted">
+      <span className="w-11 shrink-0 text-[11px] text-muted">
         {line.quantity.kind === 'perGuest' && t.calc.perGuestSuffix}
       </span>
     </div>
@@ -426,7 +475,7 @@ function PaidInput({ line, variant }: LineFieldProps) {
         value={line.paid}
         onChange={(paid) => update(line, { paid })}
       />
-      <span className="w-6 shrink-0 text-xs text-muted">{currencySymbol(line.currency)}</span>
+      <span className="min-w-6 shrink-0 text-xs text-muted">{currencySymbol(line.currency)}</span>
     </div>
   );
 }
@@ -447,112 +496,154 @@ function RemoveLineButton({ line, className }: { line: BudgetLine; className?: s
   );
 }
 
-function LinesTable({ lines, guests, rates, totals }: LinesProps) {
+function LinesTable({ lines, guests, rates, totals, onAddLine }: LinesProps) {
   const t = useT();
   const cur = rates.currency;
+  const th = 'px-2 py-2.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-muted';
   return (
-    <Card className="hidden overflow-x-auto md:block">
-      <table className="w-full min-w-[960px] text-sm">
-        <thead className="bg-sunken/60 text-left text-[11px] uppercase tracking-wider text-muted">
-          <tr>
-            <th className="px-3 py-2 font-semibold">{t.calc.colLine}</th>
-            <th className="w-[12.5rem] px-2 py-2 font-semibold">{t.calc.colType}</th>
-            <th className="w-56 px-2 py-2 font-semibold">{t.calc.colPrice}</th>
-            <th className="w-28 px-3 py-2 text-right font-semibold">{t.calc.colTotal(guests)}</th>
-            <th className="w-32 px-3 py-2 text-right font-semibold">{t.calc.colPaid}</th>
-            <th className="w-28 px-3 py-2 text-right font-semibold">{t.calc.colRest}</th>
-            <th className="w-9" />
-          </tr>
-        </thead>
-        <tbody>
-          {lines.map((line) => (
-            <tr key={line.id} className="group border-t border-line align-top hover:bg-sunken/30">
-              <td className="px-1 py-1.5">
-                <NameInputs line={line} variant="inline" />
-              </td>
-              <td className="px-2 py-1.5">
-                <TypeInputs line={line} variant="inline" />
-              </td>
-              <td className="px-1 py-1.5">
-                <PriceInputs line={line} variant="inline" />
-              </td>
-              <td className="px-3 pb-1.5 pt-[11px] text-right tabular-nums">
-                {inDisplay(lineTotal(line, guests), line, rates)}
-              </td>
-              <td className="px-1 py-1.5">
-                <PaidInput line={line} variant="inline" />
-              </td>
-              <td className="px-3 pb-1.5 pt-[11px] text-right tabular-nums">
-                {inDisplay(lineRemaining(line, guests), line, rates)}
-              </td>
-              <td className="py-1.5 pr-1 text-right">
-                {/* Ștergerea apare la hover pe rând (sau la focus cu tastatura). */}
-                <RemoveLineButton line={line} className="opacity-0 focus:opacity-100 group-hover:opacity-100" />
-              </td>
+    <Card className="hidden md:block">
+      <div className="relative overflow-x-auto">
+        <table className="w-full min-w-[900px] text-sm">
+          <caption className="sr-only">{t.calc.expensesTitle}</caption>
+          <thead className="bg-sunken/60 text-left">
+            <tr>
+              <th scope="col" className={cx(th, 'min-w-[9.5rem] px-3')}>
+                {t.calc.colLine}
+              </th>
+              <th scope="col" className={cx(th, 'w-[11.5rem]')}>
+                {t.calc.colType}
+              </th>
+              <th scope="col" className={cx(th, 'w-[14rem]')}>
+                {t.calc.colPrice}
+              </th>
+              <th scope="col" className={cx(th, 'w-28 px-3 text-right')}>
+                {t.calc.colTotal(guests)}
+              </th>
+              <th scope="col" className={cx(th, 'w-32 px-3 text-right')}>
+                {t.calc.colPaid}
+              </th>
+              <th scope="col" className={cx(th, 'w-28 px-3 text-right')}>
+                {t.calc.colRest}
+              </th>
+              <th scope="col" className="w-9">
+                <span className="sr-only">{t.calc.removeLine}</span>
+              </th>
             </tr>
-          ))}
-        </tbody>
-        <tfoot>
-          <tr className="border-t border-line bg-sunken/60 font-semibold tabular-nums">
-            <td className="px-3 py-2.5">{t.calc.total}</td>
-            <td />
-            <td />
-            <td className="px-3 py-2.5 text-right">{formatMoney(totals.total, cur)}</td>
-            <td className="px-3 py-2.5 text-right">{formatMoney(totals.paid, cur)}</td>
-            <td className="px-3 py-2.5 text-right">{formatMoney(totals.remaining, cur)}</td>
-            <td />
-          </tr>
-        </tfoot>
-      </table>
+          </thead>
+          <tbody>
+            {lines.map((line) => (
+              <tr key={line.id} className="group border-t border-line align-top hover:bg-sunken/30">
+                <th scope="row" className="px-1 py-1.5 text-left font-normal">
+                  <NameInputs line={line} variant="inline" />
+                </th>
+                <td className="px-2 py-1.5">
+                  <TypeInputs line={line} variant="inline" />
+                </td>
+                <td className="px-1 py-1.5">
+                  <PriceInputs line={line} variant="inline" />
+                </td>
+                <td className="px-3 pb-1.5 pt-[11px] text-right tabular-nums">
+                  {inDisplay(lineTotal(line, guests), line, rates)}
+                </td>
+                <td className="px-1 py-1.5">
+                  <PaidInput line={line} variant="inline" />
+                </td>
+                <td className="px-3 pb-1.5 pt-[11px] text-right font-semibold tabular-nums">
+                  {inDisplay(lineRemaining(line, guests), line, rates)}
+                </td>
+                <td className="py-1.5 pr-1 text-right">
+                  {/* Ștergerea apare la hover pe rând (sau la focus cu tastatura). */}
+                  <RemoveLineButton line={line} className="opacity-0 focus:opacity-100 group-hover:opacity-100" />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+          <tfoot>
+            <tr className="border-t border-line bg-sunken/60 font-semibold tabular-nums">
+              <th
+                scope="row"
+                colSpan={3}
+                className="px-3 py-3 text-left text-[11px] uppercase tracking-[0.08em] text-muted"
+              >
+                {t.calc.totalEstimated}
+              </th>
+              <td className="px-3 py-3 text-right">{formatMoney(totals.total, cur)}</td>
+              <td className="px-3 py-3 text-right">{formatMoney(totals.paid, cur)}</td>
+              <td className="px-3 py-3 text-right">{formatMoney(totals.remaining, cur)}</td>
+              <td />
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-line px-3 py-3">
+        <Button variant="ghost" onClick={onAddLine}>
+          {t.calc.addLine}
+        </Button>
+        <p className="text-xs text-muted">{t.calc.emptyNote}</p>
+      </div>
     </Card>
   );
 }
 
-function LinesCards({ lines, guests, rates, totals }: LinesProps) {
+function LinesCards({ lines, guests, rates, totals, onAddLine }: LinesProps) {
   const t = useT();
   const cur = rates.currency;
   return (
-    <div className="space-y-3 md:hidden">
-      {lines.map((line) => (
-        <Card key={line.id} className="space-y-3 p-3">
-          <div className="flex items-start gap-2">
-            <div className="min-w-0 flex-1">
-              <NameInputs line={line} variant="box" />
-            </div>
-            <RemoveLineButton line={line} />
-          </div>
-          <div className="grid grid-cols-2 gap-2">
-            {/* FieldGroup, nu Field: un <label> în jurul switcherului ar apăsa „Fix" la click pe etichetă. */}
-            <FieldGroup label={t.calc.colType} className="col-span-2">
-              <TypeInputs line={line} variant="box" />
-            </FieldGroup>
-            <Field label={t.calc.colPrice} className="col-span-2">
-              <PriceInputs line={line} variant="box" />
-            </Field>
-            <Field label={t.calc.colPaid}>
-              <PaidInput line={line} variant="box" />
-            </Field>
-            <div className="text-right text-xs leading-relaxed text-muted">
-              <p>
-                {t.calc.colTotal(guests)}:{' '}
-                <span className="font-semibold text-ink">{inDisplay(lineTotal(line, guests), line, rates)}</span>
+    <ul aria-label={t.calc.expenseList} className="space-y-3 md:hidden">
+      {lines.map((line) => {
+        const v = lineView(line, guests, rates);
+        return (
+          <li key={line.id}>
+            <Card className="space-y-3 p-3">
+              <div className="flex items-start gap-2">
+                <div className="min-w-0 flex-1">
+                  <NameInputs line={line} variant="box" />
+                </div>
+                <RemoveLineButton line={line} />
+              </div>
+              <p className="flex items-baseline justify-between gap-2 text-sm">
+                <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-muted">
+                  {t.calc.colTotal(guests)}
+                </span>
+                <span className="font-semibold tabular-nums">{formatMoney(v.total, cur)}</span>
               </p>
-              <p>
-                {t.calc.colRest}:{' '}
-                <span className="text-ink">{inDisplay(lineRemaining(line, guests), line, rates)}</span>
+              <div className="grid grid-cols-2 gap-2">
+                {/* FieldGroup, nu Field: un <label> în jurul switcherului ar apăsa „Fix" la click pe etichetă. */}
+                <FieldGroup label={t.calc.colType} className="col-span-2">
+                  <TypeInputs line={line} variant="box" />
+                </FieldGroup>
+                <Field label={t.calc.colPrice} className="col-span-2">
+                  <PriceInputs line={line} variant="box" />
+                </Field>
+                <Field label={t.calc.colPaid} className="col-span-2">
+                  <PaidInput line={line} variant="box" />
+                </Field>
+              </div>
+              <ProgressBar value={v.paidRatio * 100} label={t.calc.paidAmount(formatMoney(v.paid, cur))} />
+              <p className="flex justify-between gap-2 text-xs tabular-nums text-muted">
+                <span>{t.calc.paidAmount(formatMoney(v.paid, cur))}</span>
+                <span className="font-semibold text-ink">{t.calc.toPay(formatMoney(v.remaining, cur))}</span>
               </p>
-            </div>
-          </div>
+            </Card>
+          </li>
+        );
+      })}
+      <li>
+        <Button variant="ghost" className="w-full" onClick={onAddLine}>
+          {t.calc.addLine}
+        </Button>
+      </li>
+      <li>
+        <Card tone="hero" className="p-4">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-muted">{t.calc.totalEstimated}</p>
+          <p className="mt-1 font-serif text-[1.75rem] leading-tight tabular-nums">{formatMoney(totals.total, cur)}</p>
+          <p className="mt-2 flex flex-wrap justify-between gap-x-3 text-xs tabular-nums text-muted">
+            <span>{t.calc.paidAmount(formatMoney(totals.paid, cur))}</span>
+            <span>{t.calc.toPay(formatMoney(totals.remaining, cur))}</span>
+          </p>
+          <p className="mt-2 text-xs text-muted">{t.calc.emptyNote}</p>
         </Card>
-      ))}
-      <Card className="flex flex-wrap justify-between gap-2 bg-sunken/60 p-3 text-sm font-semibold tabular-nums">
-        <span>
-          {t.calc.total}: {formatMoney(totals.total, cur)}
-        </span>
-        <span className="text-muted">
-          {t.calc.colPaid} {formatMoney(totals.paid, cur)} · {t.calc.colRest} {formatMoney(totals.remaining, cur)}
-        </span>
-      </Card>
-    </div>
+      </li>
+    </ul>
   );
 }
