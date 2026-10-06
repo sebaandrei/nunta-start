@@ -5,12 +5,13 @@ import { PageHeader } from '../components/PageHeader';
 import { Banner, Button, Card, cx, EmptyState, Heading, ProgressBar, StatCard } from '../components/ui';
 import { hasPrices, selectedGuests, summarizePayments, summarizeScenario } from '../domain/budget';
 import { parseISODate } from '../domain/dates';
-import { capitalize, countdown, paidPercent } from '../domain/home';
+import { capitalize, countdown, paidPercent, withCity } from '../domain/home';
 import type { Task } from '../domain/schema';
 import { dueDate, isOverdue, isRecover, nextTasks, openInCurrentStage, progress, stageOf } from '../domain/tasks';
 import { useT } from '../i18n';
 import { downloadBackup } from '../lib/backup';
 import { formatLongDate, formatMoney, formatShortDate, formatSignedMoney } from '../lib/format';
+import { paths } from '../lib/paths';
 import { dayPart } from '../lib/shell';
 import { useToday } from '../lib/useToday';
 import { daysSinceBackup, needsBackupReminder } from '../storage/storage';
@@ -71,7 +72,7 @@ export function Home() {
             <Heading as="h2" className="mt-1.5 text-balance !text-[1.625rem] md:!text-[2rem]">
               {t.home.countdownTitle(count)}
             </Heading>
-            <p className="mt-1.5 text-sm text-muted">{capitalize(formatLongDate(wedding))}</p>
+            <p className="mt-1.5 text-sm text-muted">{withCity(capitalize(formatLongDate(wedding)), settings.city)}</p>
             <hr className="my-4 max-w-xl border-line" />
             <p className="max-w-md text-sm text-muted">
               {count.kind === 'past' ? t.home.countdownNotePast : t.home.countdownNote}
@@ -127,7 +128,7 @@ export function Home() {
                 !pricesFilled ? (
                   <>
                     {t.home.needPrices}{' '}
-                    <Link className={cx(LINK, 'text-accent')} to="/calculator">
+                    <Link className={cx(LINK, 'text-accent')} to={paths.budget}>
                       {t.home.goCalculator}
                     </Link>
                   </>
@@ -172,7 +173,7 @@ export function Home() {
                   ))}
                 </ul>
                 <div className="border-t border-line px-4 py-1 md:py-3">
-                  <Link className={cx(LINK, 'text-accent')} to="/start">
+                  <Link className={cx(LINK, 'text-accent')} to={paths.tasks}>
                     {t.home.goStart}
                     <ArrowRight size={14} aria-hidden="true" />
                   </Link>
@@ -193,7 +194,7 @@ export function Home() {
             <p className="mt-2 text-sm text-muted">{t.home.stageDescriptions[stage]}</p>
             <hr className="my-4 border-line" />
             <p className="text-sm font-semibold">{t.home.stageTasks(currentCount)}</p>
-            <Link className={cx(LINK, 'mt-1')} to="/start">
+            <Link className={cx(LINK, 'mt-1')} to={paths.tasks}>
               {t.home.goStage}
               <ArrowRight size={14} aria-hidden="true" />
             </Link>

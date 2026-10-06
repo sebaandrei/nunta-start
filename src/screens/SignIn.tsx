@@ -1,6 +1,6 @@
 import { Link } from '@tanstack/react-router';
 import { Loader2, Mail, ShieldCheck } from 'lucide-react';
-import { type FormEvent, useEffect, useReducer, useState } from 'react';
+import { type FormEvent, useEffect, useReducer, useRef, useState } from 'react';
 import { AuthLayout } from '../components/auth/AuthLayout';
 import { Banner, Button, Card, Heading, TextInput } from '../components/ui';
 import { useT } from '../i18n';
@@ -64,19 +64,20 @@ export function SignIn({
     return () => clearInterval(id);
   }, [counting]);
 
-  function run(request: Promise<void>, onDone: () => void) {
-    request.then(onDone, (error: unknown) => dispatch({ type: 'failed', kind: authErrorKind(error) }));
+  // Fiecare cerere are un număr; rezultatele unei cereri înlocuite sunt ignorate de reducer.
+  const requestSeq = useRef(0);
+
+  function run(id: number, request: Promise<void>, onDone: () => void) {
+    request.then(onDone, (error: unknown) => dispatch({ type: 'failed', id, kind: authErrorKind(error) }));
   }
 
   function sendLink(event: 'submit' | 'resend') {
     if (sending) return;
-    if (event === 'submit' && validateEmail(email)) {
-      dispatch({ type: 'submit' });
-      return;
-    }
-    dispatch({ type: event });
+    const id = ++requestSeq.current;
+    dispatch({ type: event, id });
+    if (event === 'submit' && validateEmail(email)) return;
     // TODO(NS-023): citiți tokenul Turnstile din widget și treceți-l ca al doilea argument.
-    run(client.sendMagicLink(email.trim()), () => dispatch({ type: 'succeeded' }));
+    run(id, client.sendMagicLink(email.trim()), () => dispatch({ type: 'succeeded', id }));
   }
 
   function onSubmit(event: FormEvent) {
@@ -86,9 +87,10 @@ export function SignIn({
 
   function onGoogle() {
     if (sending) return;
-    dispatch({ type: 'google' });
+    const id = ++requestSeq.current;
+    dispatch({ type: 'google', id });
     // Clientul real redirecționează spre Google; la reușită nu avem ce arăta, pagina se schimbă.
-    run(client.signInWithGoogle(), () => {});
+    run(id, client.signInWithGoogle(), () => {});
   }
 
   const announce = sending ? a.announce.sending : status === 'sent' ? a.announce.sent : '';
@@ -291,7 +293,7 @@ function SentView({
         {busy && <Spinner />}
         {resendIn > 0 ? s.resendIn(formatCountdown(resendIn)) : s.resend}
       </Button>
-      <Button variant="link" className="min-h-11 self-center" onClick={onOther}>
+      <Button variant="link" className="min-h-11 self-center" onClick={onOther} disabled={busy} aria-disabled={busy}>
         {s.other}
       </Button>
     </div>

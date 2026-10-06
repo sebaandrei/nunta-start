@@ -23,20 +23,9 @@ const FOCUS_RING = 'focus-visible:outline-2 focus-visible:outline-offset-2 focus
 
 export function App() {
   const t = useT();
-  const pathname = useRouterState({ select: (s) => s.location.pathname });
   const hasData = useStore((s) => s.data !== null);
   const storageStatus = useStore((s) => s.storageStatus);
   const banner = storageStatus === 'unavailable' && <Banner tone="warn">{t.storage.unavailable}</Banner>;
-
-  // Conectarea are propriul ecran complet, fără bara laterală și fără onboarding.
-  if (pathname === '/login') {
-    return (
-      <>
-        <Outlet />
-        <Toaster />
-      </>
-    );
-  }
 
   return (
     <>
