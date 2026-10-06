@@ -44,7 +44,7 @@ export function AuthLayout({ children }: { children: ReactNode }) {
         {/* Cercul decorativ: iese din panou pe jos și nu atinge conținutul. */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute -bottom-24 -left-20 -z-10 size-72 rounded-full bg-warm md:-bottom-32 md:-left-24 md:size-[26rem]"
+          className="pointer-events-none absolute -right-16 -bottom-20 -z-10 size-48 rounded-full bg-warm md:-bottom-32 md:right-auto md:-left-24 md:size-[22rem]"
         />
         <div className="flex h-full flex-col gap-6 px-4 pt-5 pb-6 md:gap-10 md:px-12 md:py-10 lg:px-16">
           <div className="flex items-center justify-between gap-3">
