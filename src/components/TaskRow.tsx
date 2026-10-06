@@ -1,10 +1,11 @@
+import { Check } from 'lucide-react';
 import { addDays, toISODate } from '../domain/dates';
-import { CATEGORY_IDS, OWNERS, STATUSES, type Task } from '../domain/schema';
+import { CATEGORY_IDS, OWNERS, STATUSES, type Status, type Task } from '../domain/schema';
 import { dueDate, isOverdue } from '../domain/tasks';
 import { useT } from '../i18n';
-import { formatShortDate } from '../lib/format';
+import { formatDayMonth, formatShortDate } from '../lib/format';
 import { useStore } from '../store';
-import { Button, cx, Field, Select, StatusPill, Tag, TextArea, TextInput } from './ui';
+import { Button, cx, Field, Select, TextArea, TextInput } from './ui';
 
 export function TaskRow({
   task,
@@ -26,38 +27,91 @@ export function TaskRow({
   const t = useT();
   const cycleStatus = useStore((s) => s.cycleTaskStatus);
   const due = dueDate(task, wedding);
-  const overdue = !recover && isOverdue(task, wedding, today);
-  const dueText = recover ? t.tasks.dueRecover : due ? formatShortDate(due) : t.tasks.dueNone;
+  const overdue = recover || isOverdue(task, wedding, today);
+  const dueText = recover ? t.tasks.dueRecover : due ? formatDayMonth(due, true) : t.tasks.dueNone;
   const done = task.status === 'done';
 
   return (
     <li id={`task-${task.id}`} className="border-t border-line first:border-t-0">
-      <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 px-4 py-3 transition-colors hover:bg-sunken/40 md:flex-nowrap">
-        <StatusPill status={task.status} onClick={() => cycleStatus(task.id)} />
+      <div className="flex items-start gap-1 px-2 py-1 transition-colors hover:bg-sunken/40 md:gap-2 md:px-5 md:py-3.5">
+        <StatusCheck
+          status={task.status}
+          label={t.tasks.checkLabel(t.status[task.status], task.title || t.tasks.untitled)}
+          hint={t.statusHint}
+          onClick={() => cycleStatus(task.id)}
+        />
         <button
           type="button"
           onClick={onToggle}
           aria-expanded={expanded}
+          className="flex min-h-11 min-w-0 flex-1 flex-col items-start justify-center gap-0.5 rounded-lg py-1 text-left md:min-h-0"
+        >
+          <span
+            className={cx(
+              'text-sm font-semibold leading-snug',
+              done && 'text-faint line-through',
+              !task.title && 'italic text-muted',
+            )}
+          >
+            {task.title || t.tasks.untitled}
+          </span>
+          <span className="text-xs text-muted">
+            {t.categories[task.category]} · {t.owner(task.owner, names)}
+          </span>
+          {task.status === 'doing' && (
+            <span className="mt-1 rounded-full bg-warm px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-ink">
+              {t.status.doing}
+            </span>
+          )}
+        </button>
+        <span
           className={cx(
-            'min-h-6 min-w-0 flex-1 text-left text-sm font-medium leading-snug hover:text-accent',
-            done && 'text-faint line-through',
-            !task.title && 'italic text-muted',
+            'shrink-0 whitespace-nowrap py-3.5 pr-2 text-xs font-medium md:py-1 md:pr-0',
+            overdue && !done ? 'text-minus' : 'text-muted',
           )}
         >
-          {task.title || t.tasks.untitled}
-        </button>
-        <div className="flex basis-full flex-wrap items-center gap-x-3 gap-y-1 pl-[6rem] md:basis-auto md:flex-nowrap md:pl-0">
-          <Tag tone="soft">{t.categories[task.category]}</Tag>
-          <span className="truncate text-xs text-muted md:w-16">{t.owner(task.owner, names)}</span>
-          <span
-            className={cx('whitespace-nowrap text-xs md:w-24 md:text-right', overdue ? 'text-minus' : 'text-muted')}
-          >
-            {dueText}
-          </span>
-        </div>
+          {recover || !due ? dueText : <span className="max-md:hidden">{t.tasks.dueBy(dueText)}</span>}
+          {!recover && due && <span className="md:hidden">{dueText}</span>}
+        </span>
       </div>
       {expanded && <TaskEditor task={task} wedding={wedding} names={names} onClose={onToggle} />}
     </li>
+  );
+}
+
+/** Cercul care schimbă statusul (de făcut, în lucru, gata). Zonă de apăsare de 44px pe telefon. */
+function StatusCheck({
+  status,
+  label,
+  hint,
+  onClick,
+}: {
+  status: Status;
+  label: string;
+  hint: string;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label={label}
+      aria-pressed={status === 'done' ? true : status === 'doing' ? 'mixed' : false}
+      title={hint}
+      className="group inline-flex size-11 shrink-0 items-center justify-center rounded-full md:size-8"
+    >
+      <span
+        className={cx(
+          'inline-flex size-6 items-center justify-center rounded-full border-2 transition-colors',
+          status === 'todo' && 'border-faint group-hover:border-accent',
+          status === 'doing' && 'border-accent bg-soft',
+          status === 'done' && 'border-accent bg-accent text-accent-ink',
+        )}
+      >
+        {status === 'done' && <Check size={14} strokeWidth={3} aria-hidden="true" />}
+        {status === 'doing' && <span className="size-2 rounded-full bg-accent" aria-hidden="true" />}
+      </span>
+    </button>
   );
 }
 
