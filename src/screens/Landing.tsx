@@ -42,6 +42,7 @@ export function Landing() {
             to={paths.login}
             className={cx(
               'inline-flex min-h-11 items-center rounded-lg px-2 text-sm font-medium text-ink hover:underline md:px-3',
+              !hasData && 'md:hidden',
               FOCUS_RING,
             )}
           >
