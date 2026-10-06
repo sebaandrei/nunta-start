@@ -92,16 +92,16 @@ If your real weekly hours differ, rescale: the order of the tasks stays the same
 | ID | P | Task | Est | Deps | Done when | Status |
 |---|---|---|---|---|---|---|
 | NS-014 | P1 | Cloudflare R2 bucket + `age` keypair; `backup.yml` runs a nightly encrypted `supabase db dump` (prod + staging), with 30-day lifecycle | 3 | NS-011 | A dump file is in R2 and decrypts locally | ⬜ |
-| NS-015 | P1 | `keepalive.yml`: REST ping to both projects every 3 days | 0.5 | NS-011 | Runs green on schedule | ⬜ |
+| NS-015 | P1 | `keepalive.yml`: REST ping to both projects every 3 days | 0.5 | NS-011 | Runs green on schedule. *Merged; manual run: staging ok, production pending* | 🟨 |
 | NS-020 | P0 | Resend: verify the sending domain `mail.thedevopsguy.ro` (SPF, DKIM, DMARC); set Supabase custom SMTP on both projects | 2 | NS-011 | A magic-link email lands in the Gmail inbox, not spam | ⬜ |
 | NS-021 | P0 | Google Cloud OAuth client: consent screen (authorized domain `thedevopsguy.ro`, privacy/terms URLs); enable in Supabase; redirect URLs for prod, staging and localhost | 2 | NS-003 | Google login works on staging. Note: without the paid custom auth domain, the consent screen shows `*.supabase.co` | ⬜ |
 | NS-023 | P1 | Cloudflare Turnstile site; enable Supabase captcha protection | 1 | NS-011 | Sign-in without a token is rejected | ⬜ |
 | NS-022 | P0 | Auth UI: `/login` (Google button + magic-link form with Turnstile), `/auth/callback`, sign-out, and a route guard | 4 | NS-020, NS-021, NS-023 | A signed-out user is redirected to `/login`; both methods work | ⬜ |
-| NS-024 | P0 | Migration: `profiles` + a trigger on `auth.users` insert | 1 | NS-012 | A new user gets a profile row | ⬜ |
-| NS-025 | P0 | Migration: `weddings`, `wedding_members`, `member_role` enum, `private.member_role()` / `has_role()` helpers, indexes | 3 | NS-024 | Migration applies on a clean DB | ⬜ |
-| NS-026 | P0 | RLS for weddings and members + pgTAP: a member sees their wedding, an outsider sees nothing, a viewer can't update | 3 | NS-025 | `supabase test db` is green in CI | ⬜ |
-| NS-028 | P0 | Migration: `tasks` + RLS + pgTAP (helper can edit, viewer can't) | 2 | NS-026 | Tests are green | ⬜ |
-| NS-029 | P0 | Migration: `budget_settings`, `budget_scenarios` (1–4 enforced by trigger), `budget_lines` + RLS + pgTAP | 3 | NS-026 | Tests are green, including the 5th-scenario rejection | ⬜ |
+| NS-024 | P0 | Migration: `profiles` + a trigger on `auth.users` insert | 1 | NS-012 | A new user gets a profile row | ✅ |
+| NS-025 | P0 | Migration: `weddings`, `wedding_members`, `member_role` enum, `private.member_role()` / `has_role()` helpers, indexes | 3 | NS-024 | Migration applies on a clean DB | ✅ |
+| NS-026 | P0 | RLS for weddings and members + pgTAP: a member sees their wedding, an outsider sees nothing, a viewer can't update | 3 | NS-025 | `supabase test db` is green in CI | ✅ |
+| NS-028 | P0 | Migration: `tasks` + RLS + pgTAP (helper can edit, viewer can't) | 2 | NS-026 | Tests are green | ✅ |
+| NS-029 | P0 | Migration: `budget_settings`, `budget_scenarios` (1–4 enforced by trigger), `budget_lines` + RLS + pgTAP | 3 | NS-026 | Tests are green, including the 5th-scenario rejection | ✅ |
 
 ---
 
@@ -113,7 +113,7 @@ If your real weekly hours differ, rescale: the order of the tasks stays the same
 |---|---|---|---|---|---|---|
 | NS-027 | P0 | RPC `create_wedding(input, tasks_template, budget_template)`: inserts the wedding, the owner membership and the seeded tasks/lines in one transaction | 3 | NS-028, NS-029 | pgTAP: the caller is owner and 61 tasks are seeded | ⬜ |
 | NS-030 | P1 | `npm run db:types` (`supabase gen types`) plus a CI check that the generated types are committed | 1 | NS-025 | CI fails on type drift | ⬜ |
-| NS-040 | P0 | TanStack Query setup: a `supabase` client module, query key factory per wedding, global error toast | 2 | NS-022 | The query devtools work in dev | ⬜ |
+| NS-040 | P0 | TanStack Query setup: a `supabase` client module, query key factory per wedding, global error toast | 2 | NS-022 | The query devtools work in dev. *Code merged; devtools not yet checked in a browser* | 🟨 |
 | NS-031 | P0 | `/w` wedding picker and `/w/new` onboarding form (reuses the Onboarding screen) calling `create_wedding` | 3 | NS-027, NS-040 | A new user lands in a seeded wedding | ⬜ |
 | NS-041 | P0 | Route tree under `/w/:weddingId/…`; app shell with a side nav on desktop and a bottom tab bar on mobile | 3 | NS-031 | All screens are reachable at 360px and 1280px | ⬜ |
 | NS-042 | P0 | Tasks: queries + optimistic mutations (add, edit, delete, cycle status); row ↔ `Task` mapper | 4 | NS-041 | Edits survive a reload; failed writes roll back with a toast | ⬜ |
