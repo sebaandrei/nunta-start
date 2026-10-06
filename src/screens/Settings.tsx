@@ -16,8 +16,8 @@ import {
   TextInput,
 } from '../components/ui';
 import { isValidISODate } from '../domain/dates';
-import { MAX_GODPARENT_PAIRS } from '../domain/godparents';
-import { CURRENCIES } from '../domain/schema';
+
+import { CURRENCIES, MAX_GODPARENT_PAIRS } from '../domain/schema';
 import { useT } from '../i18n';
 import { downloadBackup } from '../lib/backup';
 import { currencySymbol } from '../lib/format';

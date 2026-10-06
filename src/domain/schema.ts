@@ -70,6 +70,9 @@ export const budgetSchema = z
     path: ['selected'],
   });
 
+/** Cel mult câte perechi de nași se pot salva; peste limită datele sunt respinse la citire. */
+export const MAX_GODPARENT_PAIRS = 5;
+
 export const godparentPairSchema = z.object({
   godmother: z.string(),
   godfather: z.string(),
@@ -84,7 +87,7 @@ export const settingsSchema = z.object({
   /** Orașul sau locația nunții (opțional). Datele vechi nu îl au. */
   city: z.string().default(''),
   /** Perechile de nași. Datele vechi nu le au. */
-  godparents: z.array(godparentPairSchema).default([]),
+  godparents: z.array(godparentPairSchema).max(MAX_GODPARENT_PAIRS).default([]),
 });
 
 export const metaSchema = z.object({

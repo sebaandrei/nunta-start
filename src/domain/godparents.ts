@@ -1,6 +1,4 @@
-import type { GodparentPair } from './schema';
-
-export const MAX_GODPARENT_PAIRS = 5;
+import { type GodparentPair, MAX_GODPARENT_PAIRS } from './schema';
 
 export function addGodparentPair(list: GodparentPair[]): GodparentPair[] {
   if (list.length >= MAX_GODPARENT_PAIRS) return list;

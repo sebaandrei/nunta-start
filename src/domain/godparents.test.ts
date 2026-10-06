@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { addGodparentPair, MAX_GODPARENT_PAIRS, removeGodparentPair, updateGodparentPair } from './godparents';
-import type { GodparentPair } from './schema';
+import { addGodparentPair, removeGodparentPair, updateGodparentPair } from './godparents';
+import { type GodparentPair, MAX_GODPARENT_PAIRS } from './schema';
 
 const two: GodparentPair[] = [
   { godmother: 'A', godfather: 'B' },

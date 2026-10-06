@@ -501,13 +501,16 @@ export function Dialog({
       aria-labelledby={titleId}
       onClose={onClose}
       onClick={(e) => e.target === e.currentTarget && e.currentTarget.close()}
-      className="m-auto w-[calc(100%-2rem)] max-w-md rounded-2xl border border-line bg-surface p-6 text-ink shadow-xl backdrop:bg-ink/40"
+      className="m-auto w-[calc(100%-2rem)] max-w-md rounded-2xl border border-line bg-surface p-0 text-ink shadow-xl backdrop:bg-ink/40"
     >
-      <h2 id={titleId} className="font-serif text-xl leading-snug">
-        {title}
-      </h2>
-      <div className="mt-2 text-sm text-muted">{children}</div>
-      <div className="mt-6 flex flex-wrap justify-end gap-2">{actions}</div>
+      {/* Dialogul însuși nu are padding: orice click direct pe el e un click pe fundal. */}
+      <div className="p-6">
+        <h2 id={titleId} className="font-serif text-xl leading-snug">
+          {title}
+        </h2>
+        <div className="mt-2 text-sm text-muted">{children}</div>
+        <div className="mt-6 flex flex-wrap justify-end gap-2">{actions}</div>
+      </div>
     </dialog>
   );
 }

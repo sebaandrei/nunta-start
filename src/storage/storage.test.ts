@@ -58,6 +58,19 @@ describe('compatibilitate city și godparents', () => {
     expect(parseBackup(backup).ok).toBe(true);
   });
 
+  it('acceptă 5 perechi de nași și respinge 6, ca date ilizibile, fără a le pierde', () => {
+    const pair = { godmother: 'M', godfather: 'I' };
+    const withPairs = (n: number) => {
+      const data = sample();
+      data.settings.godparents = Array.from({ length: n }, () => pair);
+      return data;
+    };
+    expect(parseBackup(serializeBackup(withPairs(5), now)).ok).toBe(true);
+    expect(parseBackup(serializeBackup(withPairs(6), now))).toEqual({ ok: false, error: 'shape' });
+    const raw = JSON.stringify(withPairs(6));
+    expect(loadData(memoryStorage({ [STORAGE_KEY]: raw }))).toEqual({ status: 'corrupt', raw });
+  });
+
   it('cu câmpurile noi trec prin descărcare și încărcare', () => {
     const data = sample();
     data.settings.city = 'Brașov';
