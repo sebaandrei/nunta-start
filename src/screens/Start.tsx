@@ -1,6 +1,8 @@
+import { ChevronRight, ListChecks, Plus } from 'lucide-react';
 import { type ReactNode, useState } from 'react';
+import { PageHeader } from '../components/PageHeader';
 import { TaskRow } from '../components/TaskRow';
-import { Button, cx, Segmented } from '../components/ui';
+import { Button, cx, EmptyState, Segmented } from '../components/ui';
 import { parseISODate } from '../domain/dates';
 import type { Task } from '../domain/schema';
 import { filterByOwner, groupByCategory, groupByStage, type OwnerFilter, progress } from '../domain/tasks';
@@ -49,51 +51,60 @@ export function Start() {
   };
 
   return (
-    <div className="space-y-4">
-      <div className="flex flex-wrap items-center gap-2">
-        <Segmented
-          label={t.tasks.viewLabel}
-          value={view}
-          onChange={setView}
-          options={[
-            { value: 'stages', label: t.tasks.byStage },
-            { value: 'categories', label: t.tasks.byCategory },
-          ]}
-        />
-        <Segmented
-          label={t.tasks.ownerFilter}
-          value={owner}
-          onChange={setOwner}
-          options={[
-            { value: 'all', label: t.tasks.all },
-            { value: 'p1', label: t.owner('p1', settings.names) },
-            { value: 'p2', label: t.owner('p2', settings.names) },
-            { value: 'both', label: t.owner('both', settings.names) },
-          ]}
-        />
-        <span className="ml-auto text-xs text-muted">{t.tasks.doneCount(done, total)}</span>
-        <Button onClick={onAdd}>{t.tasks.add}</Button>
-      </div>
+    <>
+      <PageHeader
+        title={t.pages.tasks.title}
+        subtitle={t.pages.tasks.subtitle}
+        action={
+          <Button onClick={onAdd}>
+            <Plus size={16} aria-hidden="true" />
+            {t.tasks.add}
+          </Button>
+        }
+      />
+      <div className="space-y-4">
+        <div className="flex flex-wrap items-center gap-2">
+          <Segmented
+            label={t.tasks.viewLabel}
+            value={view}
+            onChange={setView}
+            options={[
+              { value: 'stages', label: t.tasks.byStage },
+              { value: 'categories', label: t.tasks.byCategory },
+            ]}
+          />
+          <Segmented
+            label={t.tasks.ownerFilter}
+            value={owner}
+            onChange={setOwner}
+            options={[
+              { value: 'all', label: t.tasks.all },
+              { value: 'p1', label: t.owner('p1', settings.names) },
+              { value: 'p2', label: t.owner('p2', settings.names) },
+              { value: 'both', label: t.owner('both', settings.names) },
+            ]}
+          />
+          <span className="ml-auto text-xs text-muted">{t.tasks.doneCount(done, total)}</span>
+        </div>
 
-      {tasks.length === 0 ? (
-        <p className="rounded-xl border border-dashed border-line px-4 py-6 text-center text-sm text-muted">
-          {t.tasks.emptyFilter}
-        </p>
-      ) : view === 'stages' ? (
-        <StageList tasks={tasks} wedding={wedding} today={today} openId={openId} row={row} />
-      ) : (
-        groupByCategory(tasks, wedding).map((group) => (
-          <Group
-            key={group.category}
-            title={t.categories[group.category]}
-            hint={t.tasks.count(group.tasks.length)}
-            open
-          >
-            {group.tasks.map((task) => row(task))}
-          </Group>
-        ))
-      )}
-    </div>
+        {tasks.length === 0 ? (
+          <EmptyState icon={ListChecks} title={t.tasks.emptyFilter} />
+        ) : view === 'stages' ? (
+          <StageList tasks={tasks} wedding={wedding} today={today} openId={openId} row={row} />
+        ) : (
+          groupByCategory(tasks, wedding).map((group) => (
+            <Group
+              key={group.category}
+              title={t.categories[group.category]}
+              hint={t.tasks.count(group.tasks.length)}
+              open
+            >
+              {group.tasks.map((task) => row(task))}
+            </Group>
+          ))
+        )}
+      </div>
+    </>
   );
 }
 
@@ -179,7 +190,7 @@ function Group({
     >
       <summary className="flex cursor-pointer list-none flex-wrap items-baseline justify-between gap-x-3 gap-y-0.5 bg-sunken/60 px-4 py-2.5 [&::-webkit-details-marker]:hidden">
         <span className="flex items-center gap-2 text-sm font-semibold">
-          <span className="inline-block text-faint transition-transform group-open:rotate-90">›</span>
+          <ChevronRight size={16} aria-hidden="true" className="text-faint transition-transform group-open:rotate-90" />
           {title}
         </span>
         <span className="text-xs text-muted">{hint}</span>

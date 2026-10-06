@@ -52,6 +52,15 @@ export function formatShortDate(date: Date, locale: Locale = currentLocale()): s
   return `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`;
 }
 
+const WEEKDAYS_RO = ['duminică', 'luni', 'marți', 'miercuri', 'joi', 'vineri', 'sâmbătă'];
+const WEEKDAYS_EN = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+/** „luni, 5 octombrie 2026" / „Monday, 5 October 2026" (eticheta de deasupra titlului). */
+export function formatLongDate(date: Date, locale: Locale = currentLocale()): string {
+  const weekdays = locale === 'en' ? WEEKDAYS_EN : WEEKDAYS_RO;
+  return `${weekdays[date.getDay()]}, ${formatDate(date, locale)}`;
+}
+
 /** Întreg rotunjit, cu separator la mii (ro 55.700, en 55,700) și minus tipografic. */
 export function formatNumber(value: number, locale: Locale = currentLocale()): string {
   const rounded = Math.round(Math.abs(value));

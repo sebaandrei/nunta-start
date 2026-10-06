@@ -1,13 +1,16 @@
 import { Link } from '@tanstack/react-router';
+import { ArrowRight } from 'lucide-react';
 import { type ReactNode, useState } from 'react';
+import { PageHeader } from '../components/PageHeader';
 import { TaskRow } from '../components/TaskRow';
-import { Banner, Button, Card, cx } from '../components/ui';
+import { Banner, Button, Card, cx, ProgressBar } from '../components/ui';
 import { hasPrices, selectedGuests, summarizePayments, summarizeScenario } from '../domain/budget';
 import { parseISODate } from '../domain/dates';
 import { isRecover, nextTasks, openInCurrentStage, progress } from '../domain/tasks';
 import { useT } from '../i18n';
 import { downloadBackup } from '../lib/backup';
 import { formatMoney, formatSignedMoney } from '../lib/format';
+import { dayPart } from '../lib/shell';
 import { useToday } from '../lib/useToday';
 import { daysSinceBackup, needsBackupReminder } from '../storage/storage';
 import { useAppData, useStore } from '../store';
@@ -39,94 +42,99 @@ export function Home() {
   const showReminder = needsBackupReminder(data.meta, now);
 
   return (
-    <div className="space-y-5">
-      {showReminder && (
-        <Banner>
-          <span>{t.storage.reminder(daysSinceBackup(data.meta, now))}</span>
-          <Button variant="ghost" onClick={() => downloadBackup(data, markExported)}>
-            {t.storage.reminderAction}
-          </Button>
-        </Banner>
-      )}
-
-      <div className="grid gap-3 sm:grid-cols-3">
-        <Stat label={t.home.tasks}>
-          <p className="text-2xl font-semibold tabular-nums">{t.home.tasksDone(done, total)}</p>
-          <div className="my-2 h-1.5 overflow-hidden rounded-full bg-sunken">
-            <div className="h-full rounded-full bg-accent" style={{ width: `${total ? (done / total) * 100 : 0}%` }} />
-          </div>
-          <p className="text-xs text-muted">{t.home.tasksDetail(recoverCount, currentCount)}</p>
-        </Stat>
-
-        <Stat label={giftMissing ? t.home.cost(guests) : t.home.balance(guests)}>
-          {!pricesFilled ? (
-            <>
-              <p className="text-2xl font-semibold text-faint">—</p>
-              <p className="mt-2 text-xs text-muted">
-                {t.home.needPrices}{' '}
-                <Link className="text-accent underline-offset-2 hover:underline" to="/calculator">
-                  {t.home.goCalculator}
-                </Link>
-              </p>
-            </>
-          ) : giftMissing ? (
-            <>
-              <p className="text-2xl font-semibold tabular-nums">{formatMoney(scenario.total, cur)}</p>
-              <p className="mt-2 text-xs text-muted">{t.home.needGift}</p>
-            </>
-          ) : (
-            <>
-              <p
-                className={cx(
-                  'text-2xl font-semibold tabular-nums',
-                  scenario.balance >= 0 ? 'text-plus' : 'text-minus',
-                )}
-              >
-                {formatSignedMoney(scenario.balance, cur)}
-              </p>
-              <p className="mt-2 text-xs text-muted">{t.home.breakEven(formatMoney(scenario.breakEvenGift, cur))}</p>
-            </>
-          )}
-        </Stat>
-
-        <Stat label={t.home.payments}>
-          <p className="text-2xl font-semibold tabular-nums">{formatMoney(payments.paid, cur)}</p>
-          <p className="mt-2 text-xs text-muted">
-            {t.home.paidOf(formatMoney(payments.total, cur), formatMoney(payments.remaining, cur))}
-          </p>
-        </Stat>
-      </div>
-
-      <Card className="overflow-hidden">
-        <div className="flex flex-wrap items-baseline justify-between gap-2 bg-sunken/60 px-4 py-2.5">
-          <h2 className="text-sm font-semibold">{t.home.next}</h2>
-          <span className="text-xs text-muted">{t.home.nextHint}</span>
-        </div>
-        {next.length ? (
-          <ul>
-            {next.map((task) => (
-              <TaskRow
-                key={task.id}
-                task={task}
-                wedding={wedding}
-                today={today}
-                names={settings.names}
-                recover={isRecover(task, wedding, today)}
-                expanded={openId === task.id}
-                onToggle={() => setOpenId((id) => (id === task.id ? null : task.id))}
-              />
-            ))}
-          </ul>
-        ) : (
-          <p className="px-4 py-4 text-sm text-muted">{t.home.allDone}</p>
+    <>
+      <PageHeader
+        title={`${t.greeting[dayPart(now.getHours())]}, ${t.header.couple(...settings.names)}`}
+        subtitle={t.pages.home.subtitle}
+      />
+      <div className="space-y-5">
+        {showReminder && (
+          <Banner>
+            <span>{t.storage.reminder(daysSinceBackup(data.meta, now))}</span>
+            <Button variant="ghost" onClick={() => downloadBackup(data, markExported)}>
+              {t.storage.reminderAction}
+            </Button>
+          </Banner>
         )}
-        <div className="border-t border-line px-4 py-2.5 text-right">
-          <Link className="text-sm text-accent underline-offset-2 hover:underline" to="/start">
-            {t.home.goStart} →
-          </Link>
+
+        <div className="grid gap-3 sm:grid-cols-3">
+          <Stat label={t.home.tasks}>
+            <p className="text-2xl font-semibold tabular-nums">{t.home.tasksDone(done, total)}</p>
+            <ProgressBar className="my-2" label={t.home.tasks} value={done} max={total} />
+            <p className="text-xs text-muted">{t.home.tasksDetail(recoverCount, currentCount)}</p>
+          </Stat>
+
+          <Stat label={giftMissing ? t.home.cost(guests) : t.home.balance(guests)}>
+            {!pricesFilled ? (
+              <>
+                <p className="text-2xl font-semibold text-faint">—</p>
+                <p className="mt-2 text-xs text-muted">
+                  {t.home.needPrices}{' '}
+                  <Link className="text-accent underline-offset-2 hover:underline" to="/calculator">
+                    {t.home.goCalculator}
+                  </Link>
+                </p>
+              </>
+            ) : giftMissing ? (
+              <>
+                <p className="text-2xl font-semibold tabular-nums">{formatMoney(scenario.total, cur)}</p>
+                <p className="mt-2 text-xs text-muted">{t.home.needGift}</p>
+              </>
+            ) : (
+              <>
+                <p
+                  className={cx(
+                    'text-2xl font-semibold tabular-nums',
+                    scenario.balance >= 0 ? 'text-plus' : 'text-minus',
+                  )}
+                >
+                  {formatSignedMoney(scenario.balance, cur)}
+                </p>
+                <p className="mt-2 text-xs text-muted">{t.home.breakEven(formatMoney(scenario.breakEvenGift, cur))}</p>
+              </>
+            )}
+          </Stat>
+
+          <Stat label={t.home.payments}>
+            <p className="text-2xl font-semibold tabular-nums">{formatMoney(payments.paid, cur)}</p>
+            <p className="mt-2 text-xs text-muted">
+              {t.home.paidOf(formatMoney(payments.total, cur), formatMoney(payments.remaining, cur))}
+            </p>
+          </Stat>
         </div>
-      </Card>
-    </div>
+
+        <Card className="overflow-hidden">
+          <div className="flex flex-wrap items-baseline justify-between gap-2 bg-sunken/60 px-4 py-2.5">
+            <h2 className="text-sm font-semibold">{t.home.next}</h2>
+            <span className="text-xs text-muted">{t.home.nextHint}</span>
+          </div>
+          {next.length ? (
+            <ul>
+              {next.map((task) => (
+                <TaskRow
+                  key={task.id}
+                  task={task}
+                  wedding={wedding}
+                  today={today}
+                  names={settings.names}
+                  recover={isRecover(task, wedding, today)}
+                  expanded={openId === task.id}
+                  onToggle={() => setOpenId((id) => (id === task.id ? null : task.id))}
+                />
+              ))}
+            </ul>
+          ) : (
+            <p className="px-4 py-4 text-sm text-muted">{t.home.allDone}</p>
+          )}
+          <div className="border-t border-line px-4 py-2.5 text-right">
+            <Link className="text-sm text-accent underline-offset-2 hover:underline" to="/start">
+              {t.home.goStart}
+              <ArrowRight size={14} aria-hidden="true" className="ml-1 inline" />
+            </Link>
+          </div>
+        </Card>
+      </div>
+    </>
   );
 }
 

@@ -5,17 +5,47 @@ import type { Messages } from './index';
 export const en: Messages = {
   appName: 'Nunta Start',
   tagline: 'What you need to do and by when, plus what it costs. No account: everything stays in your browser.',
-  footer: 'Open source · your data stays only in this browser',
-
-  tabs: { acasa: 'Home', start: 'Start', calculator: 'Calculator', setari: 'Settings' },
 
   header: {
     couple: (a: string, b: string) => [a, b].filter((n) => n.trim()).join(' & ') || 'Your wedding',
-    countdown: (days: number) => {
-      if (days > 1) return `${countLabel(days, 'day', 'days', 'en')} to go`;
-      if (days === 1) return 'the wedding is tomorrow';
-      if (days === 0) return 'the wedding is today';
-      return `the wedding was ${countLabel(-days, 'day', 'days', 'en')} ago`;
+  },
+
+  shell: {
+    skip: 'Skip to content',
+    mainNav: 'Main navigation',
+    section: 'Planning',
+    caption: 'Your plan',
+    nav: { home: 'Home', tasks: 'Tasks', budget: 'Budget calculator', settings: 'Settings' },
+    tab: { home: 'Home', tasks: 'Tasks', budget: 'Budget', settings: 'Settings' },
+    badgeLabel: (n: number) => `${countLabel(n, 'task', 'tasks', 'en')} to catch up on`,
+    coupleLabel: 'Your space',
+    privacyTitle: 'Your plan, kept safe',
+    privacyBody: 'Saved to your account, visible only to you and the people you invite.',
+    theme: 'Theme',
+    themeLight: 'Light',
+    themeDark: 'Dark',
+    toLight: 'Switch to the light theme',
+    toDark: 'Switch to the dark theme',
+    language: 'Language',
+    toLanguage: (other: string) => `Switch language to ${other}`,
+  },
+
+  greeting: { morning: 'Good morning', afternoon: 'Good afternoon', evening: 'Good evening' },
+
+  pages: {
+    home: { subtitle: 'Your story is about to begin. Here is what comes next.' },
+    tasks: {
+      title: 'Your preparation plan',
+      subtitle: 'One step at a time. See what matters now and what comes next.',
+    },
+    budget: {
+      title: 'The wedding budget',
+      subtitle: 'A clear picture of the costs, before you make the next decision.',
+    },
+    settings: {
+      eyebrow: 'Your planner',
+      title: 'Settings',
+      subtitle: 'Make the space yours and keep your data safe.',
     },
   },
 
@@ -104,7 +134,7 @@ export const en: Messages = {
     ownerFilter: 'Owner',
     viewLabel: 'View',
     all: 'Everyone',
-    add: '+ Task',
+    add: 'Add a task',
     doneCount: (done: number, total: number) => `${done} of ${total} done`,
     recover: 'To catch up on',
     recoverHint: 'from stages that have passed',
@@ -170,6 +200,7 @@ export const en: Messages = {
     perGuestSuffix: '/ guest',
     total: 'Total',
     addLine: '+ Line',
+    addExpense: 'Add an expense',
     clearAmounts: 'Clear amounts',
     clearAmountsHint: 'Deletes prices, payments, the gift and the family amount. Lines and scenarios stay.',
     confirmClearAmounts:
