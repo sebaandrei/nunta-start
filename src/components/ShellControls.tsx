@@ -3,7 +3,7 @@ import { useSyncExternalStore } from 'react';
 import { useT } from '../i18n';
 import { LOCALES, type Locale, useLocale } from '../lib/locale';
 import { useTheme } from '../lib/theme';
-import { Segmented } from './ui';
+import { IconButton, Segmented } from './ui';
 
 const DARK_QUERY = '(prefers-color-scheme: dark)';
 
@@ -57,9 +57,6 @@ export function LocaleSegmented() {
   );
 }
 
-const ICON_BUTTON =
-  'inline-flex size-11 items-center justify-center rounded-lg text-muted transition-colors hover:bg-sunken hover:text-ink';
-
 /** Comută între luminos și întunecat, pentru bara de sus de pe telefon. */
 export function ThemeIconButton() {
   const t = useT();
@@ -68,15 +65,9 @@ export function ThemeIconButton() {
   const Icon = dark ? Sun : Moon;
   const label = dark ? t.shell.toLight : t.shell.toDark;
   return (
-    <button
-      type="button"
-      className={ICON_BUTTON}
-      aria-label={label}
-      title={label}
-      onClick={() => setMode(dark ? 'light' : 'dark')}
-    >
+    <IconButton label={label} onClick={() => setMode(dark ? 'light' : 'dark')}>
       <Icon size={20} aria-hidden="true" />
-    </button>
+    </IconButton>
   );
 }
 
@@ -88,8 +79,8 @@ export function LocaleIconButton() {
   const other: Locale = locale === 'ro' ? 'en' : 'ro';
   const label = t.shell.toLanguage(other.toUpperCase());
   return (
-    <button type="button" className={ICON_BUTTON} aria-label={label} title={label} onClick={() => setLocale(other)}>
+    <IconButton label={label} onClick={() => setLocale(other)}>
       <Languages size={20} aria-hidden="true" />
-    </button>
+    </IconButton>
   );
 }

@@ -1,8 +1,9 @@
 import { Link } from '@tanstack/react-router';
+import { ArrowRight } from 'lucide-react';
 import { type ReactNode, useState } from 'react';
 import { PageHeader } from '../components/PageHeader';
 import { TaskRow } from '../components/TaskRow';
-import { Banner, Button, Card, cx } from '../components/ui';
+import { Banner, Button, Card, cx, ProgressBar } from '../components/ui';
 import { hasPrices, selectedGuests, summarizePayments, summarizeScenario } from '../domain/budget';
 import { parseISODate } from '../domain/dates';
 import { isRecover, nextTasks, openInCurrentStage, progress } from '../domain/tasks';
@@ -59,12 +60,7 @@ export function Home() {
         <div className="grid gap-3 sm:grid-cols-3">
           <Stat label={t.home.tasks}>
             <p className="text-2xl font-semibold tabular-nums">{t.home.tasksDone(done, total)}</p>
-            <div className="my-2 h-1.5 overflow-hidden rounded-full bg-sunken">
-              <div
-                className="h-full rounded-full bg-accent"
-                style={{ width: `${total ? (done / total) * 100 : 0}%` }}
-              />
-            </div>
+            <ProgressBar className="my-2" label={t.home.tasks} value={done} max={total} />
             <p className="text-xs text-muted">{t.home.tasksDetail(recoverCount, currentCount)}</p>
           </Stat>
 
@@ -132,7 +128,8 @@ export function Home() {
           )}
           <div className="border-t border-line px-4 py-2.5 text-right">
             <Link className="text-sm text-accent underline-offset-2 hover:underline" to="/start">
-              {t.home.goStart} →
+              {t.home.goStart}
+              <ArrowRight size={14} aria-hidden="true" className="ml-1 inline" />
             </Link>
           </div>
         </Card>

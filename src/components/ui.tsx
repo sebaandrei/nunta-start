@@ -1,3 +1,4 @@
+import { Info, type LucideIcon, TriangleAlert } from 'lucide-react';
 import {
   type ButtonHTMLAttributes,
   type InputHTMLAttributes,
@@ -18,9 +19,10 @@ export function cx(...classes: (string | false | null | undefined)[]): string {
 
 const BUTTON_VARIANTS = {
   primary: 'bg-accent text-accent-ink hover:opacity-90',
+  secondary: 'bg-soft text-ink hover:bg-soft/70',
   ghost: 'border border-line bg-surface text-ink hover:bg-sunken',
-  danger: 'border border-line bg-surface text-minus hover:bg-sunken',
-  link: 'px-0 py-0 text-accent underline-offset-2 hover:underline',
+  danger: 'border border-minus/40 bg-surface text-minus hover:bg-minus/10',
+  link: 'text-accent underline-offset-2 hover:underline',
 };
 
 export function Button({
@@ -32,7 +34,9 @@ export function Button({
     <button
       type="button"
       className={cx(
-        'inline-flex items-center justify-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-40',
+        'inline-flex items-center justify-center gap-1.5 text-sm font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-40',
+        // „link" arată ca text; celelalte au 44px înălțime pe telefon (țintă de atingere).
+        variant === 'link' ? 'p-0' : 'min-h-11 rounded-xl px-4 py-1.5 md:min-h-9 md:px-3.5',
         BUTTON_VARIANTS[variant],
         className,
       )}
@@ -47,7 +51,7 @@ const inputBase =
 export type InputVariant = 'box' | 'inline';
 
 const INPUT_VARIANTS: Record<InputVariant, string> = {
-  box: 'rounded-lg border-line bg-surface px-2.5 py-1.5',
+  box: 'min-h-11 rounded-xl border-line bg-surface px-3 py-1.5 md:min-h-9',
   /** Arată ca text; chenarul apare la hover și la editare. */
   inline: 'rounded-md border-transparent bg-transparent px-2 py-1 hover:border-line focus:bg-surface',
 };
@@ -188,7 +192,7 @@ export function Segmented<T extends string | number>({
     <div
       role="radiogroup"
       aria-label={label}
-      className={cx('inline-flex max-w-full overflow-x-auto rounded-lg border border-line bg-surface p-0.5', className)}
+      className={cx('inline-flex max-w-full overflow-x-auto rounded-xl bg-sunken p-1', className)}
     >
       {options.map((option) => {
         const active = option.value === value;
@@ -201,8 +205,8 @@ export function Segmented<T extends string | number>({
             aria-checked={active}
             onClick={() => onChange(option.value)}
             className={cx(
-              'whitespace-nowrap rounded-md px-2.5 py-1 text-xs font-medium transition-colors',
-              active ? 'bg-sunken text-ink' : 'text-muted hover:text-ink',
+              'min-h-11 whitespace-nowrap rounded-lg px-3 text-xs font-medium transition-colors md:min-h-8',
+              active ? 'bg-surface text-ink shadow-sm' : 'text-muted hover:text-ink',
             )}
           >
             {option.label}
@@ -213,8 +217,23 @@ export function Segmented<T extends string | number>({
   );
 }
 
-export function Card({ className, children }: { className?: string; children: ReactNode }) {
-  return <section className={cx('rounded-xl border border-line bg-surface', className)}>{children}</section>;
+const CARD_TONES = {
+  default: 'border-line bg-surface',
+  hero: 'border-transparent bg-hero',
+  warm: 'border-transparent bg-warm',
+  sunken: 'border-line bg-sunken',
+};
+
+export function Card({
+  className,
+  tone = 'default',
+  children,
+}: {
+  className?: string;
+  tone?: keyof typeof CARD_TONES;
+  children: ReactNode;
+}) {
+  return <section className={cx('rounded-2xl border', CARD_TONES[tone], className)}>{children}</section>;
 }
 
 export function Banner({
@@ -226,24 +245,30 @@ export function Banner({
   children: ReactNode;
   className?: string;
 }) {
+  const Icon = tone === 'warn' ? TriangleAlert : Info;
   return (
     <div
       role={tone === 'warn' ? 'alert' : 'status'}
       className={cx(
-        'flex flex-wrap items-center justify-between gap-3 rounded-xl border px-4 py-3 text-sm',
+        'flex items-start gap-3 rounded-2xl border px-4 py-3 text-sm',
         tone === 'warn' ? 'border-minus/30 bg-minus/10 text-ink' : 'border-line bg-sunken text-ink',
         className,
       )}
     >
-      {children}
+      <Icon
+        size={18}
+        aria-hidden="true"
+        className={cx('mt-0.5 shrink-0', tone === 'warn' ? 'text-minus' : 'text-accent')}
+      />
+      <div className="flex min-w-0 flex-1 flex-wrap items-center justify-between gap-3">{children}</div>
     </div>
   );
 }
 
 const STATUS_STYLES: Record<Status, string> = {
-  todo: 'border-line text-muted',
-  doing: 'border-accent text-accent',
-  done: 'border-plus text-plus',
+  todo: 'border-line bg-surface text-muted hover:bg-sunken',
+  doing: 'border-transparent bg-soft text-ink hover:bg-soft/70',
+  done: 'border-plus/40 bg-plus/10 text-plus hover:bg-plus/20',
 };
 
 export function StatusPill({ status, onClick }: { status: Status; onClick: () => void }) {
@@ -254,7 +279,7 @@ export function StatusPill({ status, onClick }: { status: Status; onClick: () =>
       onClick={onClick}
       title={t.statusHint}
       className={cx(
-        'w-[5.25rem] shrink-0 rounded-full border px-2 py-0.5 text-center text-xs font-medium transition-colors hover:bg-sunken',
+        'w-[5.25rem] shrink-0 rounded-full border px-2 py-1 text-center text-xs font-medium transition-colors',
         STATUS_STYLES[status],
       )}
     >
@@ -263,10 +288,173 @@ export function StatusPill({ status, onClick }: { status: Status; onClick: () =>
   );
 }
 
-export function Tag({ children }: { children: ReactNode }) {
+const TAG_TONES = {
+  neutral: 'bg-sunken text-muted',
+  soft: 'bg-soft text-ink',
+  warm: 'bg-warm text-ink',
+  minus: 'bg-minus/10 text-minus',
+};
+
+export function Tag({ children, tone = 'neutral' }: { children: ReactNode; tone?: keyof typeof TAG_TONES }) {
   return (
-    <span className="whitespace-nowrap rounded-md bg-sunken px-1.5 py-0.5 text-[11px] font-medium text-muted">
+    <span className={cx('whitespace-nowrap rounded-md px-1.5 py-0.5 text-[11px] font-medium', TAG_TONES[tone])}>
       {children}
     </span>
+  );
+}
+
+/** Buton doar cu pictogramă; eticheta e obligatorie (nume accesibil și tooltip). 44px pe telefon. */
+export function IconButton({
+  label,
+  className,
+  children,
+  ...props
+}: Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'aria-label' | 'title'> & { label: string }) {
+  return (
+    <button
+      type="button"
+      aria-label={label}
+      title={label}
+      className={cx(
+        'inline-flex size-11 shrink-0 items-center justify-center rounded-xl text-muted transition-colors hover:bg-sunken hover:text-ink disabled:cursor-not-allowed disabled:opacity-40 md:size-9',
+        className,
+      )}
+      {...props}
+    >
+      {children}
+    </button>
+  );
+}
+
+/** Bară de progres accesibilă. */
+export function ProgressBar({
+  value,
+  max = 100,
+  label,
+  className,
+}: {
+  value: number;
+  max?: number;
+  label: string;
+  className?: string;
+}) {
+  const clamped = Math.min(Math.max(value, 0), max);
+  const percent = max > 0 ? (clamped / max) * 100 : 0;
+  return (
+    <div
+      role="progressbar"
+      aria-label={label}
+      aria-valuemin={0}
+      aria-valuemax={max}
+      aria-valuenow={clamped}
+      className={cx('h-2 overflow-hidden rounded-full bg-soft', className)}
+    >
+      <div className="h-full rounded-full bg-accent transition-[width]" style={{ width: `${percent}%` }} />
+    </div>
+  );
+}
+
+/** Titlu serif (Fraunces). */
+export function Heading({
+  as: Element = 'h2',
+  size = 'md',
+  className,
+  children,
+}: {
+  as?: 'h1' | 'h2' | 'h3';
+  size?: 'lg' | 'md' | 'sm';
+  className?: string;
+  children: ReactNode;
+}) {
+  const sizes = { lg: 'text-[2rem] leading-tight', md: 'text-xl leading-snug', sm: 'text-base leading-snug' };
+  return <Element className={cx('font-serif font-medium text-ink', sizes[size], className)}>{children}</Element>;
+}
+
+/** Cifră mare cu etichetă deasupra și o linie de ajutor dedesubt. */
+export function StatCard({
+  label,
+  value,
+  helper,
+  tone,
+  valueClassName,
+  className,
+  children,
+}: {
+  label: string;
+  value: ReactNode;
+  helper?: ReactNode;
+  tone?: keyof typeof CARD_TONES;
+  valueClassName?: string;
+  className?: string;
+  /** Între cifră și linia de ajutor (de ex. o bară de progres). */
+  children?: ReactNode;
+}) {
+  return (
+    <Card tone={tone} className={cx('p-4 md:p-5', className)}>
+      <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-muted">{label}</p>
+      <p className={cx('mt-1.5 font-serif text-[1.75rem] leading-tight tabular-nums md:text-3xl', valueClassName)}>
+        {value}
+      </p>
+      {children}
+      {helper && <p className="mt-2 text-xs text-muted">{helper}</p>}
+    </Card>
+  );
+}
+
+/** Filtru ca pastilă, apăsat sau nu. */
+export function FilterChip({
+  selected,
+  count,
+  children,
+  className,
+  ...props
+}: Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'aria-pressed'> & { selected: boolean; count?: number }) {
+  return (
+    <button
+      type="button"
+      aria-pressed={selected}
+      className={cx(
+        'inline-flex min-h-11 items-center gap-1.5 whitespace-nowrap rounded-full border px-3.5 text-xs font-medium transition-colors md:min-h-8',
+        selected
+          ? 'border-transparent bg-soft text-ink'
+          : 'border-line bg-surface text-muted hover:bg-sunken hover:text-ink',
+        className,
+      )}
+      {...props}
+    >
+      {children}
+      {count !== undefined && <span className="tabular-nums text-muted">{count}</span>}
+    </button>
+  );
+}
+
+/** Stare goală: pictogramă, text și, opțional, o acțiune. */
+export function EmptyState({
+  icon: Icon,
+  title,
+  children,
+  action,
+  className,
+}: {
+  icon: LucideIcon;
+  title: string;
+  children?: ReactNode;
+  action?: ReactNode;
+  className?: string;
+}) {
+  return (
+    <div
+      className={cx(
+        'flex flex-col items-center gap-2 rounded-2xl border border-dashed border-line px-4 py-8 text-center',
+        className,
+      )}
+    >
+      <span className="inline-flex size-11 items-center justify-center rounded-full bg-soft text-ink">
+        <Icon size={20} aria-hidden="true" />
+      </span>
+      <p className="font-serif text-lg">{title}</p>
+      {children && <p className="max-w-sm text-sm text-muted">{children}</p>}
+      {action && <div className="mt-2">{action}</div>}
+    </div>
   );
 }

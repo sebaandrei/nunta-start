@@ -1,4 +1,4 @@
-import { Plus } from 'lucide-react';
+import { Plus, X } from 'lucide-react';
 import { useRef, useState } from 'react';
 import { PageHeader } from '../components/PageHeader';
 import {
@@ -88,7 +88,7 @@ export function Calculator() {
                       className="px-1 text-faint hover:text-minus"
                       onClick={() => removeScenario(i)}
                     >
-                      ×
+                      <X size={16} aria-hidden="true" />
                     </button>
                   )}
                 </div>
@@ -101,7 +101,7 @@ export function Calculator() {
                   aria-label={t.calc.addScenario}
                   onClick={addScenario}
                 >
-                  +
+                  <Plus size={16} aria-hidden="true" />
                 </Button>
               )}
             </div>
@@ -442,7 +442,7 @@ function RemoveLineButton({ line, className }: { line: BudgetLine; className?: s
       className={cx('rounded-md px-2 py-1 text-faint hover:bg-sunken hover:text-minus', className)}
       onClick={() => remove(line)}
     >
-      ×
+      <X size={16} aria-hidden="true" />
     </button>
   );
 }

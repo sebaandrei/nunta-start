@@ -59,7 +59,7 @@
 @theme inline {
   --font-sans:
     "Inter Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-serif: Georgia, "Iowan Old Style", serif;
+  --font-serif: "Fraunces Variable", Georgia, serif;
   --color-bg: var(--bg);
   --color-surface: var(--surface);
   --color-sunken: var(--sunken);

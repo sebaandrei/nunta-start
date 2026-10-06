@@ -32,14 +32,14 @@ export function TaskRow({
 
   return (
     <li id={`task-${task.id}`} className="border-t border-line first:border-t-0">
-      <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 px-4 py-2.5 md:flex-nowrap">
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 px-4 py-3 transition-colors hover:bg-sunken/40 md:flex-nowrap">
         <StatusPill status={task.status} onClick={() => cycleStatus(task.id)} />
         <button
           type="button"
           onClick={onToggle}
           aria-expanded={expanded}
           className={cx(
-            'min-w-0 flex-1 text-left text-sm leading-snug hover:text-accent',
+            'min-h-6 min-w-0 flex-1 text-left text-sm font-medium leading-snug hover:text-accent',
             done && 'text-faint line-through',
             !task.title && 'italic text-muted',
           )}
@@ -47,7 +47,7 @@ export function TaskRow({
           {task.title || t.tasks.untitled}
         </button>
         <div className="flex basis-full flex-wrap items-center gap-x-3 gap-y-1 pl-[6rem] md:basis-auto md:flex-nowrap md:pl-0">
-          <Tag>{t.categories[task.category]}</Tag>
+          <Tag tone="soft">{t.categories[task.category]}</Tag>
           <span className="truncate text-xs text-muted md:w-16">{t.owner(task.owner, names)}</span>
           <span
             className={cx('whitespace-nowrap text-xs md:w-24 md:text-right', overdue ? 'text-minus' : 'text-muted')}
@@ -80,7 +80,7 @@ function TaskEditor({
   const auto = task.daysBefore === null ? null : addDays(wedding, -task.daysBefore);
 
   return (
-    <div className="grid gap-3 border-t border-line bg-sunken/50 px-4 py-4 md:grid-cols-4">
+    <div className="grid gap-3 border-t border-line bg-sunken/60 px-4 py-4 md:grid-cols-4">
       <Field label={t.tasks.edit.title} className="md:col-span-4">
         <TextInput
           autoFocus={!task.title}

@@ -1,8 +1,8 @@
-import { Plus } from 'lucide-react';
+import { ChevronRight, ListChecks, Plus } from 'lucide-react';
 import { type ReactNode, useState } from 'react';
 import { PageHeader } from '../components/PageHeader';
 import { TaskRow } from '../components/TaskRow';
-import { Button, cx, Segmented } from '../components/ui';
+import { Button, cx, EmptyState, Segmented } from '../components/ui';
 import { parseISODate } from '../domain/dates';
 import type { Task } from '../domain/schema';
 import { filterByOwner, groupByCategory, groupByStage, type OwnerFilter, progress } from '../domain/tasks';
@@ -88,9 +88,7 @@ export function Start() {
         </div>
 
         {tasks.length === 0 ? (
-          <p className="rounded-xl border border-dashed border-line px-4 py-6 text-center text-sm text-muted">
-            {t.tasks.emptyFilter}
-          </p>
+          <EmptyState icon={ListChecks} title={t.tasks.emptyFilter} />
         ) : view === 'stages' ? (
           <StageList tasks={tasks} wedding={wedding} today={today} openId={openId} row={row} />
         ) : (
@@ -192,7 +190,7 @@ function Group({
     >
       <summary className="flex cursor-pointer list-none flex-wrap items-baseline justify-between gap-x-3 gap-y-0.5 bg-sunken/60 px-4 py-2.5 [&::-webkit-details-marker]:hidden">
         <span className="flex items-center gap-2 text-sm font-semibold">
-          <span className="inline-block text-faint transition-transform group-open:rotate-90">›</span>
+          <ChevronRight size={16} aria-hidden="true" className="text-faint transition-transform group-open:rotate-90" />
           {title}
         </span>
         <span className="text-xs text-muted">{hint}</span>

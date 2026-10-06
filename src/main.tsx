@@ -4,6 +4,7 @@ import { RouterProvider } from '@tanstack/react-router';
 import { lazy, StrictMode, Suspense } from 'react';
 import { createRoot } from 'react-dom/client';
 import '@fontsource-variable/inter';
+import '@fontsource-variable/fraunces';
 import './index.css';
 import './lib/theme';
 import { queryClient } from './lib/queryClient';
