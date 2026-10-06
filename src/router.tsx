@@ -1,16 +1,19 @@
 import { createRootRoute, createRoute, createRouter, Outlet, redirect } from '@tanstack/react-router';
 import { App } from './App';
+import { PendingPage } from './components/skeletons';
 import { LEGACY_REDIRECTS, paths } from './lib/paths';
 import { Calculator } from './screens/Calculator';
+import { NotFound, RouteError } from './screens/ErrorPages';
 import { Home } from './screens/Home';
 import { InviteRoute } from './screens/InviteAccept';
 import { Landing } from './screens/Landing';
+import { LegalPage } from './screens/LegalPage';
 import { Settings } from './screens/Settings';
 import { SignIn } from './screens/SignIn';
 import { Start } from './screens/Start';
 import { Workspaces } from './screens/Workspaces';
 
-const rootRoute = createRootRoute({ component: Outlet });
+const rootRoute = createRootRoute({ component: Outlet, errorComponent: RouteError, notFoundComponent: NotFound });
 
 // Pagina publică, fără meniul aplicației.
 const landingRoute = createRoute({ getParentRoute: () => rootRoute, path: '/', component: Landing });
@@ -27,6 +30,12 @@ const appChildren = [
 
 // Autentificarea: ecran public complet, în afara aplicației (fără meniu, fără Onboarding).
 const loginRoute = createRoute({ getParentRoute: () => rootRoute, path: paths.login, component: SignIn });
+
+// Pagini juridice publice (proiecte, noindex).
+const legalRoutes = [
+  createRoute({ getParentRoute: () => rootRoute, path: paths.privacy, component: () => <LegalPage doc="privacy" /> }),
+  createRoute({ getParentRoute: () => rootRoute, path: paths.terms, component: () => <LegalPage doc="terms" /> }),
+];
 
 // Alegerea spațiului și invitațiile: ecrane publice, fără meniu.
 const workspacesRoute = createRoute({ getParentRoute: () => rootRoute, path: paths.workspaces, component: Workspaces });
@@ -48,10 +57,11 @@ const routeTree = rootRoute.addChildren([
   loginRoute,
   workspacesRoute,
   inviteRoute,
+  ...legalRoutes,
   ...legacyRoutes,
 ]);
 
-export const router = createRouter({ routeTree, scrollRestoration: true });
+export const router = createRouter({ routeTree, scrollRestoration: true, defaultPendingComponent: PendingPage });
 
 declare module '@tanstack/react-router' {
   interface Register {
