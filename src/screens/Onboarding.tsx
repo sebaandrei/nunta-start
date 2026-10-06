@@ -3,16 +3,18 @@ import { ArrowLeft, ArrowRight, Check } from 'lucide-react';
 import { type FormEvent, type ReactNode, useEffect, useRef, useState } from 'react';
 import { SignOutIconButton } from '../components/ShellControls';
 import { Banner, Button, Card, cx, Heading, Segmented, TextInput } from '../components/ui';
-import { isWeddingLimitError } from '../data/errors';
+import { createWeddingErrorKind } from '../data/errors';
 import { useCreateWedding } from '../data/weddingMutations';
 import { parseISODate } from '../domain/dates';
 import {
+  CITY_MAX,
   fieldIds,
   firstInvalidStep,
   nextStep,
   type OnboardingErrors,
   type OnboardingField,
   type OnboardingValues,
+  PARTNER_NAME_MAX,
   prevStep,
   STEPS,
   type StepId,
@@ -30,6 +32,7 @@ const FIELD_IDS = {
   name1: 'onb-name1',
   name2: 'onb-name2',
   date: 'onb-date',
+  city: 'onb-city',
   guests: 'onb-guests',
 } as const;
 
@@ -167,7 +170,7 @@ export function Onboarding() {
     const found = validateStep(step, values);
     if (Object.keys(found).length > 0) {
       setErrors(found);
-      const first = (['name1', 'name2', 'date', 'guests'] as const).find((f) => found[f]);
+      const first = (['name1', 'name2', 'date', 'city', 'guests'] as const).find((f) => found[f]);
       if (first) document.getElementById(FIELD_IDS[first])?.focus();
       return;
     }
@@ -211,7 +214,7 @@ export function Onboarding() {
       <main className="mx-auto flex w-full max-w-xl flex-1 flex-col justify-center gap-4 px-4 pb-10 sm:py-6">
         {create.isError && (
           <Banner tone="warn">
-            <span>{isWeddingLimitError(create.error) ? ob.limitReached : ob.createError}</span>
+            <span>{ob.createErrors[createWeddingErrorKind(create.error)]}</span>
           </Banner>
         )}
 
@@ -236,6 +239,7 @@ export function Onboarding() {
                       <TextInput
                         {...p}
                         autoComplete="off"
+                        maxLength={PARTNER_NAME_MAX}
                         placeholder={ob.namePlaceholder1}
                         value={values.name1}
                         onChange={(e) => set({ name1: e.target.value })}
@@ -247,6 +251,7 @@ export function Onboarding() {
                       <TextInput
                         {...p}
                         autoComplete="off"
+                        maxLength={PARTNER_NAME_MAX}
                         placeholder={ob.namePlaceholder2}
                         value={values.name2}
                         onChange={(e) => set({ name2: e.target.value })}
@@ -268,11 +273,12 @@ export function Onboarding() {
                       />
                     )}
                   </FormField>
-                  <FormField id="onb-city" label={ob.city}>
+                  <FormField id="onb-city" label={ob.city} error={err('city')}>
                     {(p) => (
                       <TextInput
                         {...p}
                         autoComplete="off"
+                        maxLength={CITY_MAX}
                         placeholder={ob.cityPlaceholder}
                         value={values.city}
                         onChange={(e) => set({ city: e.target.value })}

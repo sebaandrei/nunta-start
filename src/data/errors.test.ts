@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { errorStatus, shouldRetry } from '../lib/queryClient';
-import { DataError, isWeddingLimitError, unwrap, unwrapOne } from './errors';
+import { createWeddingErrorKind, DataError, isWeddingLimitError, unwrap, unwrapOne } from './errors';
 
 describe('unwrap', () => {
   it('returns the data', () => {
@@ -56,5 +56,15 @@ describe('isWeddingLimitError', () => {
     ).toBe(true);
     expect(isWeddingLimitError(new DataError('other', 400))).toBe(false);
     expect(isWeddingLimitError(new Error('wedding limit reached'))).toBe(false);
+  });
+});
+
+describe('createWeddingErrorKind', () => {
+  it('keeps the limit message, flags 22023 as invalid data and falls back to generic', () => {
+    expect(createWeddingErrorKind(new DataError('wedding limit reached: at most 5', 400, 'P0001'))).toBe('limit');
+    expect(createWeddingErrorKind(new DataError('name or partner names too long', 400, '22023'))).toBe('invalidData');
+    expect(createWeddingErrorKind(new DataError('boom', 500, '23514'))).toBe('generic');
+    expect(createWeddingErrorKind(new DataError('boom', 500))).toBe('generic');
+    expect(createWeddingErrorKind(new TypeError('network'))).toBe('generic');
   });
 });
