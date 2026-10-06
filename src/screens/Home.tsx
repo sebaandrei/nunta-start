@@ -3,7 +3,7 @@ import { ArrowRight, Circle, CircleCheck, CircleDot, Heart, PartyPopper } from '
 import type { ReactNode } from 'react';
 import { PageHeader } from '../components/PageHeader';
 import { Card, cx, EmptyState, Heading, ProgressBar, StatCard } from '../components/ui';
-import { useWeddingAppData } from '../data/hooks';
+import { useBudget, useSettings, useTasks } from '../data/hooks';
 import { type TaskActions, useTaskActions } from '../data/taskActions';
 import { hasPrices, selectedGuests, summarizePayments, summarizeScenario } from '../domain/budget';
 import { parseISODate } from '../domain/dates';
@@ -21,12 +21,13 @@ const LINK = 'inline-flex min-h-11 items-center gap-1.5 text-sm font-semibold ho
 
 export function Home() {
   const t = useT();
-  const data = useWeddingAppData();
   const { id: weddingId, canEdit } = useWedding();
+  const settings = useSettings();
+  const { budget } = useBudget(weddingId);
+  const tasks = useTasks(weddingId);
   const actions = useTaskActions(weddingId);
   const today = useToday();
 
-  const { settings, budget, tasks } = data;
   const wedding = parseISODate(settings.weddingDate);
   const rates = { eurRate: settings.eurRate, currency: settings.displayCurrency };
   const cur = settings.displayCurrency;
