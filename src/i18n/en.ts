@@ -85,12 +85,12 @@ export const en: Messages = {
       codeVerifying: 'Checking…',
     },
     expired: {
-      bannerTitle: 'This link has expired',
-      bannerBody: 'For security, sign-in links are valid for 15 minutes and can be used only once.',
+      bannerTitle: 'This sign-in has expired',
+      bannerBody: 'For security, sign-in codes are valid for 10 minutes and can be used only once.',
       eyebrow: 'Sign in',
-      title: 'Request a new link',
-      lead: 'We’ll send another link to the address below right away.',
-      submit: 'Send a new link',
+      title: 'Request a new code',
+      lead: 'We’ll send another code to the address below right away.',
+      submit: 'Send a new code',
     },
     errors: {
       notConfigured: 'Sign-in is not available yet.',
@@ -106,7 +106,7 @@ export const en: Messages = {
     callback: {
       connecting: 'Signing you in…',
       errorTitle: 'We could not finish signing you in',
-      errorBody: 'The link did not work. Request a new link and try again.',
+      errorBody: 'The sign-in did not work. Go back and try again.',
       back: 'Back to sign-in',
     },
     fieldErrors: {

@@ -89,13 +89,13 @@ export const ro = {
       codeVerifying: 'Se verifică…',
     },
     expired: {
-      bannerTitle: 'Linkul a expirat',
+      bannerTitle: 'Conectarea a expirat',
       bannerBody:
-        'Din motive de securitate, linkurile de conectare sunt valabile 15 minute și pot fi folosite o singură dată.',
+        'Din motive de securitate, codurile de conectare sunt valabile 10 minute și pot fi folosite o singură dată.',
       eyebrow: 'Conectare',
-      title: 'Cereți un link nou',
-      lead: 'Vă trimitem imediat un alt link pe adresa de mai jos.',
-      submit: 'Trimiteți un link nou',
+      title: 'Cereți un cod nou',
+      lead: 'Vă trimitem imediat un alt cod pe adresa de mai jos.',
+      submit: 'Trimiteți un cod nou',
     },
     errors: {
       notConfigured: 'Autentificarea nu este încă disponibilă.',
@@ -111,7 +111,7 @@ export const ro = {
     callback: {
       connecting: 'Se conectează…',
       errorTitle: 'Nu am putut finaliza conectarea',
-      errorBody: 'Linkul nu a funcționat. Cereți un link nou și încercați din nou.',
+      errorBody: 'Conectarea nu a funcționat. Reveniți și încercați din nou.',
       back: 'Înapoi la conectare',
     },
     fieldErrors: {
