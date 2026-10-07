@@ -5,6 +5,7 @@ import type { ServerGuest, ServerHousehold } from '../../data/mappers';
 import { OWNERS } from '../../domain/schema';
 import { useT } from '../../i18n';
 import { Button, Card, CommitInput, IconButton, Select, Tag } from '../ui';
+import { RsvpLinkButtons } from './RsvpLinkButtons';
 
 const ATTENDING_TONES = { unknown: 'neutral', yes: 'soft', no: 'minus' } as const;
 
@@ -99,6 +100,12 @@ export const MobileHouseholdCard = memo(
           </ul>
         )}
         {guests.length === 0 && <p className="mt-3 text-sm text-muted">{t.guests.emptyHousehold}</p>}
+
+        {!readOnly && (
+          <div className="mt-3">
+            <RsvpLinkButtons householdId={household.id} householdName={household.name} />
+          </div>
+        )}
 
         {!readOnly && (
           <Button variant="link" className="mt-3 min-h-11 text-sm" onClick={() => actions.addGuest(household.id)}>
