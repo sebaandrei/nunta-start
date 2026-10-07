@@ -109,6 +109,15 @@ describe('applyChange on tasks', () => {
     expect(asked).toEqual([[...k.tasks(), 'write']]);
   });
 
+  it('marks the data stale instead of patching while it is being fetched', () => {
+    const queryClient = clientWith();
+    void queryClient.prefetchQuery({ queryKey: k.tasks(), queryFn: () => new Promise<ServerTask[]>(() => {}) });
+    expect(queryClient.isFetching({ queryKey: k.tasks() })).toBe(1);
+    applyChange(queryClient, W, change('tasks', 'INSERT', taskRecord('a')), idle);
+    expect(queryClient.getQueryData<ServerTask[]>(k.tasks())).toEqual([]);
+    expect(queryClient.getQueryState(k.tasks())?.isInvalidated).toBe(true);
+  });
+
   it('ignores data that is not loaded and changes of another wedding', () => {
     const empty = new QueryClient();
     applyChange(empty, W, change('tasks', 'INSERT', taskRecord('a')), idle);

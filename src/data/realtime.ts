@@ -55,6 +55,8 @@ const byPositionThenCreated = (
 /**
  * Patches the cache with one change. Skipped while this client has writes in flight on the same data: those
  * writes already show their result optimistically and refetch when they settle, which picks the change up.
+ * While the data is being fetched, the fetch may have started before the change and would overwrite a patch
+ * with older rows, so the data is marked stale instead (an observed query restarts its fetch).
  * Data that is not loaded is left alone; it is read fresh when a screen needs it.
  */
 export function applyChange(
@@ -69,6 +71,10 @@ export function applyChange(
   const patch = <T>(key: QueryKey, writeKey: QueryKey, update: (current: T) => T) => {
     const current = queryClient.getQueryData<T>(key);
     if (current === undefined || isWriting(writeKey)) return;
+    if (queryClient.isFetching({ queryKey: key, exact: true }) > 0) {
+      void queryClient.invalidateQueries({ queryKey: key, exact: true });
+      return;
+    }
     queryClient.setQueryData<T>(key, update(current));
   };
 
