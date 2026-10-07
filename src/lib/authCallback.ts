@@ -2,10 +2,11 @@ import { paths } from './paths';
 
 const NEXT_KEY = 'nunta.authNext';
 
-/** Doar căi relative din aplicație (/w, /w/...): orice altceva, inclusiv adrese externe, devine /w. */
+/** Doar căi relative din aplicație (/w, /w/..., /invite/<token>): orice altceva, inclusiv adrese externe, devine /w. */
 export function safeNext(raw: string | null | undefined): string {
   const hasControlOrBackslash = (s: string) => [...s].some((c) => c === '\\' || c.charCodeAt(0) < 32);
-  if (!raw || !/^\/w(?:[/?#]|$)/.test(raw) || hasControlOrBackslash(raw)) return paths.workspaces;
+  if (!raw || !/^\/(?:w(?:[/?#]|$)|invite\/[A-Za-z0-9_-]{1,128}$)/.test(raw) || hasControlOrBackslash(raw))
+    return paths.workspaces;
   try {
     const url = new URL(raw, 'http://local.invalid');
     return url.origin === 'http://local.invalid' ? raw : paths.workspaces;

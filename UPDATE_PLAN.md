@@ -167,10 +167,10 @@ The product is now an **invite-only app for the owner and friends** (2-3 workspa
 
 | ID | P | Task | Est | Deps | Done when | Status |
 |---|---|---|---|---|---|---|
-| NS-050 | P0 | `invitations` table + RLS; Edge Function `invite` creates a 128-bit token (stored hashed, 14-day expiry) and emails it through Resend | 3 | NS-020, NS-026 | The invite email arrives with a working link | ⬜ |
-| NS-051 | P0 | `/invite/:token` accept flow: log in if needed, join with the invited role, handle expired or used tokens | 3 | NS-050 | The partner sees the wedding after accepting | ⬜ |
+| NS-050 | P0 | `invitations` table + RLS; Edge Function `invite` creates a 128-bit token (stored hashed, 14-day expiry) and emails it through Resend | 3 | NS-020, NS-026 | The invite email arrives with a working link *Needs a manual deploy of the function plus Resend secrets, see docs/runbooks/invitations.md* | ✅ |
+| NS-051 | P0 | `/invite/:token` accept flow: log in if needed, join with the invited role, handle expired or used tokens | 3 | NS-050 | The partner sees the wedding after accepting | ✅ |
 | NS-052 | P1 | Members panel in Settings: list, change role, remove, leave; the last owner can't leave | 3 | NS-051 | Rules are enforced in both RLS and the UI | ⬜ |
-| NS-053 | P0 | Generic `broadcast_wedding_change()` trigger on tasks and budget tables → private channel `wedding:<id>`; RLS on `realtime.messages` | 3 | NS-028, NS-029 | An outsider can't join the channel (pgTAP) | ⬜ |
+| NS-053 | P0 | Generic `broadcast_wedding_change()` trigger on tasks and budget tables → private channel `wedding:<id>`; RLS on `realtime.messages` | 3 | NS-028, NS-029 | An outsider can't join the channel (pgTAP) | ✅ |
 | NS-054 | P0 | Client realtime: subscribe per open wedding, patch the Query cache, refetch on reconnect | 3 | NS-053, NS-042 | An edit in tab A appears in tab B in under 1 s | ⬜ |
 | NS-056 | P1 | `activity_log` table + generic audit trigger + `pg_cron` purge after 180 days | 2 | NS-028 | Rows are written for each insert, update and delete | ⬜ |
 | NS-057 | P0 | Playwright in CI against the local stack; magic-link helper that reads Mailpit | 3 | NS-013, NS-022 | A sample login E2E is green in CI | ⬜ |

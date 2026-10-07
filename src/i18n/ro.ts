@@ -307,8 +307,12 @@ export const ro = {
     errors: {
       notConfigured: 'Invitațiile nu sunt încă disponibile.',
       network: 'Nu ne putem conecta. Verificați conexiunea la internet.',
+      wrongAccount: 'Invitația a fost trimisă pe altă adresă de email. Conectați-vă cu adresa pe care ați primit-o.',
       generic: 'Ceva n-a mers. Încercați din nou în câteva clipe.',
     },
+    switchAccount: 'Deconectați-vă și continuați',
+    signInHint: (email: string | null) =>
+      email ? `Veți fi rugat să vă conectați cu adresa ${email}.` : 'Veți fi rugat să vă conectați.',
   },
 
   storage: {
@@ -607,7 +611,7 @@ export const ro = {
     },
     legendTitle: 'Ce poate face fiecare rol',
     pendingTitle: 'Invitații în așteptare',
-    pendingHint: 'Linkul expiră după 7 zile.',
+    pendingHint: `Linkul expiră după ${INVITE_LIFETIME_DAYS} de zile.`,
     pendingCount: (n: number) => `${n} active`,
     pendingEmpty: 'Nicio invitație în așteptare.',
     sentToday: 'Trimisă azi',

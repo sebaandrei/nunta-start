@@ -1,12 +1,20 @@
 import { describe, expect, it } from 'vitest';
 import { getMessages } from '../i18n';
 import { PREVIEW_INVITE, parsePreview, previewFor } from './invitePreview';
-import { type InviteEvent, type InviteState, initialInviteState, inviteReducer, isBusy } from './inviteState';
+import {
+  emailsDiffer,
+  type InviteEvent,
+  type InviteState,
+  initialInviteState,
+  inviteReducer,
+  isBusy,
+} from './inviteState';
 import {
   INVITE_LIFETIME_DAYS,
   type InviteInfo,
   InvitesNetworkError,
   InvitesNotConfiguredError,
+  InvitesStateError,
   inviteErrorKind,
   inviteErrorMessage,
   notConfiguredInvitesClient,
@@ -180,5 +188,58 @@ describe('invite lifetime copy', () => {
     for (const l of ['ro', 'en'] as const) {
       expect(getMessages(l).invite.expired.body('X')).toContain(String(INVITE_LIFETIME_DAYS));
     }
+  });
+});
+
+describe('invitation changed under the page', () => {
+  const info = { ...PREVIEW_INVITE };
+  const accepting = (): InviteState => ({
+    ...initialInviteState('valid', info, 't'),
+    status: 'accepting',
+    requestId: 3,
+  });
+
+  it('moves to the real terminal state when accept finds the invitation expired or used', () => {
+    for (const kind of ['expired', 'used'] as const) {
+      const next = inviteReducer(accepting(), { type: 'failed', id: 3, kind });
+      expect(next.status).toBe(kind);
+      expect(next.info?.status).toBe(kind);
+      expect(next.errorKind).toBeNull();
+    }
+  });
+
+  it('does the same for decline', () => {
+    const state: InviteState = { ...accepting(), status: 'declining' };
+    expect(inviteReducer(state, { type: 'failed', id: 3, kind: 'expired' }).status).toBe('expired');
+  });
+
+  it('keeps the actions available after an ordinary failure', () => {
+    const next = inviteReducer(accepting(), { type: 'failed', id: 3, kind: 'wrongAccount' });
+    expect(next.status).toBe('valid');
+    expect(next.errorKind).toBe('wrongAccount');
+  });
+});
+
+describe('emailsDiffer', () => {
+  it('ignores case and spaces', () => {
+    expect(emailsDiffer('Ana@Test.ro', ' ana@test.ro ')).toBe(false);
+  });
+  it('flags another address', () => {
+    expect(emailsDiffer('ana@test.ro', 'mihai@test.ro')).toBe(true);
+  });
+  it('does not flag when either side is unknown', () => {
+    expect(emailsDiffer(null, 'a@b.ro')).toBe(false);
+    expect(emailsDiffer('a@b.ro', null)).toBe(false);
+  });
+});
+
+describe('state errors', () => {
+  it('maps an expired or used invitation to its own kind', () => {
+    expect(inviteErrorKind(new InvitesStateError('expired'))).toBe('expired');
+    expect(inviteErrorKind(new InvitesStateError('used'))).toBe('used');
+  });
+  it('has a readable message for them anyway', () => {
+    const t = getMessages('ro');
+    expect(inviteErrorMessage('expired', t)).toBe(t.invite.errors.generic);
   });
 });

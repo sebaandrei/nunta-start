@@ -1,15 +1,19 @@
-import { Link, useParams } from '@tanstack/react-router';
+import { Link, useNavigate, useParams } from '@tanstack/react-router';
 import { Calendar, CircleCheck, Loader2, MailX, MapPin, UserRound } from 'lucide-react';
 import { type ReactNode, useEffect, useReducer, useRef, useState } from 'react';
 import { LINK_BUTTON_GHOST, LINK_BUTTON_PRIMARY, LINK_FOCUS, PublicShell } from '../components/PublicShell';
 import { Banner, Button, Heading } from '../components/ui';
+import { supabaseInvitesClient } from '../data/invites';
 import { isValidISODate, parseISODate } from '../domain/dates';
 import { useT } from '../i18n';
+import { isAuthConfigured } from '../lib/auth';
+import { loginHref } from '../lib/authCallback';
 import { formatDate } from '../lib/format';
 import { parsePreview, previewFor } from '../lib/invitePreview';
-import { type InviteState, initialInviteState, inviteReducer, isBusy } from '../lib/inviteState';
+import { emailsDiffer, type InviteState, initialInviteState, inviteReducer, isBusy } from '../lib/inviteState';
 import { type InvitesClient, inviteErrorKind, inviteErrorMessage, notConfiguredInvitesClient } from '../lib/invites';
-import { paths } from '../lib/paths';
+import { invitePath, paths } from '../lib/paths';
+import { signOut, useSession } from '../lib/session';
 import { roleLabel } from '../lib/workspaces';
 
 const EYEBROW = 'text-[11px] font-semibold uppercase tracking-[0.1em] text-muted';
@@ -36,7 +40,13 @@ function Badge({ children, tone }: { children: ReactNode; tone: 'soft' | 'warn' 
 export function InviteRoute() {
   const { token } = useParams({ strict: false });
   // `key`: la schimbarea tokenului, pagina se montează de la zero, fără urme din invitația precedentă.
-  return <InviteAccept key={token} token={token ?? ''} />;
+  return (
+    <InviteAccept
+      key={token}
+      token={token ?? ''}
+      client={isAuthConfigured() ? supabaseInvitesClient : notConfiguredInvitesClient}
+    />
+  );
 }
 
 export function InviteAccept({
@@ -57,6 +67,9 @@ export function InviteAccept({
   );
   const { status, info, errorKind } = state;
   const busy = isBusy(state);
+  const signedOut = useSession((s) => s.status === 'signedOut');
+  const sessionEmail = useSession((s) => s.user?.email ?? null);
+  const navigate = useNavigate();
 
   // Fiecare cerere are un număr; rezultatele unei cereri înlocuite sunt ignorate de reducer.
   const requestSeq = useRef(0);
@@ -73,8 +86,21 @@ export function InviteAccept({
     );
   }, [client, token, preview, attempt]);
 
+  // Conectat cu alt cont decât cel invitat: acceptarea ar fi refuzată, deci se oferă schimbarea contului.
+  const wrongAccount = errorKind === 'wrongAccount' || emailsDiffer(sessionEmail, info?.email ?? null);
+
+  async function switchAccount() {
+    await signOut();
+    void navigate({ href: loginHref(invitePath(token)) });
+  }
+
   function act(type: 'accept' | 'decline') {
     if (busy || status !== 'valid') return;
+    // Fără cont conectat nu se poate accepta: după conectare, omul revine aici.
+    if (type === 'accept' && signedOut) {
+      void navigate({ href: loginHref(invitePath(token)) });
+      return;
+    }
     const id = ++requestSeq.current;
     dispatch({ type, id, token });
     (type === 'accept' ? client.accept(token) : client.decline(token)).then(
@@ -138,6 +164,7 @@ export function InviteAccept({
               </div>
 
               {errorKind && <Banner tone="warn">{inviteErrorMessage(errorKind, t)}</Banner>}
+              {!errorKind && wrongAccount && <Banner tone="warn">{inviteErrorMessage('wrongAccount', t)}</Banner>}
 
               <div className="flex items-center justify-between gap-3 rounded-xl bg-sunken p-4 text-left">
                 <div className="min-w-0">
@@ -183,7 +210,13 @@ export function InviteAccept({
                     i.decline
                   )}
                 </Button>
+                {wrongAccount && (
+                  <Button variant="ghost" className="w-full" disabled={busy} onClick={() => void switchAccount()}>
+                    {i.switchAccount}
+                  </Button>
+                )}
               </div>
+              {signedOut && <p className="text-xs text-muted">{i.signInHint(info.email)}</p>}
               {info.email && <p className="text-xs text-muted">{i.sentTo(info.email)}</p>}
             </div>
           )}
