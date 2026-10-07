@@ -81,6 +81,25 @@ isOneToOne: true
       referencedColumns: ["id"]
     }
                   ]
+                },"invitations": {
+                  Row: {
+                    "accepted_at": string | null,"accepted_by": string | null,"created_at": string,"declined_at": string | null,"email": string,"expires_at": string,"id": string,"invited_by": string | null,"role": Database["public"]['Enums']["member_role"],"token_hash": string,"wedding_id": string
+                  }
+                  Insert: {
+                    "accepted_at"?: string | null,"accepted_by"?: string | null,"created_at"?: string,"declined_at"?: string | null,"email": string,"expires_at"?: string,"id"?: string,"invited_by"?: string | null,"role": Database["public"]['Enums']["member_role"],"token_hash": string,"wedding_id": string
+                  }
+                  Update: {
+                    "accepted_at"?: string | null,"accepted_by"?: string | null,"created_at"?: string,"declined_at"?: string | null,"email"?: string,"expires_at"?: string,"id"?: string,"invited_by"?: string | null,"role"?: Database["public"]['Enums']["member_role"],"token_hash"?: string,"wedding_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "invitations_wedding_id_fkey"
+      columns: ["wedding_id"]
+isOneToOne: false
+      referencedRelation: "weddings"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"profiles": {
                   Row: {
                     "created_at": string,"display_name": string,"email_digest": boolean,"id": string,"locale": string,"updated_at": string
@@ -151,11 +170,28 @@ isOneToOne: false
             [_ in never]: never
           }
           Functions: {
-            "clear_budget_amounts":
+            "accept_invitation":
+{ Args: { "p_token": string }; Returns: string
+                           },
+"clear_budget_amounts":
 { Args: { "p_wedding_id": string }; Returns: undefined
+                           },
+"create_invitation":
+{ Args: { "p_email": string,"p_role": Database["public"]['Enums']["member_role"],"p_wedding_id": string }; Returns: Json
                            },
 "create_wedding":
 { Args: { "budget_template": Json,"input": Json,"tasks_template": Json }; Returns: string
+                           },
+"decline_invitation":
+{ Args: { "p_token": string }; Returns: undefined
+                           },
+"inspect_invitation":
+{ Args: { "p_token": string }; Returns: Json
+                           },
+"list_wedding_members":
+{ Args: { "p_wedding_id": string }; Returns: {
+              "email": string,"id": string,"is_self": boolean,"name": string,"role": Database["public"]['Enums']["member_role"]
+            }[]
                            }
           }
           Enums: {
