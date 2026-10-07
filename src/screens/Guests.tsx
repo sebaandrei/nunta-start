@@ -32,6 +32,12 @@ export function Guests() {
 
   const stats = useMemo(() => guestStats(households, guests), [households, guests]);
   const groups = useMemo(() => groupGuests(households, guests, side, attending), [households, guests, side, attending]);
+  // Ștergerea unei familii șterge toți invitații ei, nu doar cei rămași după filtru.
+  const sizes = useMemo(() => {
+    const counts = new Map<string, number>();
+    for (const guest of guests) counts.set(guest.householdId, (counts.get(guest.householdId) ?? 0) + 1);
+    return counts;
+  }, [guests]);
   const filtering = side !== 'all' || attending !== 'all';
   const clearFilters = () => {
     setSide('all');
@@ -55,7 +61,13 @@ export function Guests() {
         subtitle={t.pages.guests.subtitle}
         action={
           readOnly ? undefined : (
-            <Button onClick={() => actions.addHousehold(side === 'all' ? 'both' : side)}>
+            <Button
+              onClick={() => {
+                // Familia nouă n-are invitați: cu un filtru de răspuns activ ar dispărea imediat.
+                setAttending('all');
+                actions.addHousehold(side === 'all' ? 'both' : side);
+              }}
+            >
               <Plus size={16} aria-hidden="true" />
               {t.guests.addHousehold}
             </Button>
@@ -118,6 +130,7 @@ export function Guests() {
               key={household.id}
               household={household}
               guests={members}
+              size={sizes.get(household.id) ?? 0}
               names={names}
               readOnly={readOnly}
               actions={actions}
@@ -137,12 +150,15 @@ const HouseholdCard = memo(
   function HouseholdCard({
     household,
     guests,
+    size,
     names,
     readOnly,
     actions,
   }: {
     household: ServerHousehold;
     guests: ServerGuest[];
+    /** Toți invitații familiei, fără filtre. */
+    size: number;
     names: readonly [string, string];
     readOnly: boolean;
     actions: GuestActions;
@@ -177,7 +193,7 @@ const HouseholdCard = memo(
             <IconButton
               label={t.guests.removeHousehold}
               onClick={() => {
-                if (window.confirm(t.guests.confirmRemoveHousehold(household.name, guests.length)))
+                if (window.confirm(t.guests.confirmRemoveHousehold(household.name, size)))
                   actions.removeHousehold(household.id);
               }}
             >
@@ -204,6 +220,7 @@ const HouseholdCard = memo(
   },
   (a, b) =>
     a.household === b.household &&
+    a.size === b.size &&
     a.names === b.names &&
     a.readOnly === b.readOnly &&
     a.actions === b.actions &&
