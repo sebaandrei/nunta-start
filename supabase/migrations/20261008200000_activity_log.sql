@@ -25,7 +25,7 @@ create policy activity_log_select_member on public.activity_log
   using (private.member_role(wedding_id) is not null);
 
 -- summary: insert/delete = the row, update = {column: {"old": .., "new": ..}} for changed columns.
--- Bookkeeping columns and personal text (guest names, notes, details) are left out.
+-- Bookkeeping columns and personal text (guest names, household family names, notes, details) are left out.
 create function private.write_activity_log()
 returns trigger
 language plpgsql
@@ -33,7 +33,8 @@ security definer
 set search_path = ''
 as $$
 declare
-  skip text[] := array['created_at', 'updated_at', 'updated_by', 'first_name', 'last_name', 'notes', 'note', 'details'];
+  skip text[] := array['created_at', 'updated_at', 'updated_by', 'first_name', 'last_name', 'notes', 'note', 'details']
+    || case when tg_table_name = 'households' then array['name'] else '{}'::text[] end;
   old_row jsonb := to_jsonb(old) - skip;
   new_row jsonb := to_jsonb(new) - skip;
   rec jsonb := coalesce(new_row, old_row);

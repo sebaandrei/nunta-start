@@ -1,5 +1,5 @@
 begin;
-select plan(14);
+select plan(15);
 
 insert into public.allowed_emails (email) values
   ('a1@example.com'),
@@ -25,6 +25,7 @@ insert into public.guests (id, wedding_id, household_id, first_name, last_name) 
 update public.guests set attending = 'yes', first_name = 'Anca';
 update public.guests set attending = 'yes';
 delete from public.guests;
+update public.households set name = 'Ionescu';
 
 select is((select count(*)::int from public.activity_log where entity = 'guests' and action = 'insert'), 1, 'insert is logged');
 select is((select count(*)::int from public.activity_log where entity = 'guests' and action = 'update'), 1, 'update is logged, a no-op update is not');
@@ -42,6 +43,10 @@ select is(
 select is(
   (select entity_id from public.activity_log where entity = 'households'),
   '00000000-0000-0000-0000-0000000000d1'::uuid, 'households are logged with the row id');
+
+select is(
+  (select count(*)::int from public.activity_log where entity = 'households' and (summary::text ~ 'Popescu|Ionescu' or action = 'update')),
+  0, 'household family name is not logged on insert or rename');
 
 select is((select count(*)::int from public.activity_log), 4, 'member reads the log of their wedding');
 
