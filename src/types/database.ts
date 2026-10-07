@@ -81,6 +81,75 @@ isOneToOne: true
       referencedColumns: ["id"]
     }
                   ]
+                },"collection_fields": {
+                  Row: {
+                    "collection_id": string,"created_at": string,"id": string,"key": string,"label": string,"options": NonNullable<Json>,"position": number,"required": boolean,"type": string,"updated_at": string,"updated_by": string | null,"wedding_id": string
+                  }
+                  Insert: {
+                    "collection_id": string,"created_at"?: string,"id"?: string,"key": string,"label": string,"options"?: NonNullable<Json>,"position"?: number,"required"?: boolean,"type": string,"updated_at"?: string,"updated_by"?: string | null,"wedding_id": string
+                  }
+                  Update: {
+                    "collection_id"?: string,"created_at"?: string,"id"?: string,"key"?: string,"label"?: string,"options"?: NonNullable<Json>,"position"?: number,"required"?: boolean,"type"?: string,"updated_at"?: string,"updated_by"?: string | null,"wedding_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "collection_fields_collection_id_wedding_id_fkey"
+      columns: ["collection_id","wedding_id"]
+isOneToOne: false
+      referencedRelation: "collections"
+      referencedColumns: ["id","wedding_id"]
+    },{
+      foreignKeyName: "collection_fields_wedding_id_fkey"
+      columns: ["wedding_id"]
+isOneToOne: false
+      referencedRelation: "weddings"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"collection_records": {
+                  Row: {
+                    "collection_id": string,"created_at": string,"data": NonNullable<Json>,"id": string,"position": number,"updated_at": string,"updated_by": string | null,"wedding_id": string
+                  }
+                  Insert: {
+                    "collection_id": string,"created_at"?: string,"data"?: NonNullable<Json>,"id"?: string,"position"?: number,"updated_at"?: string,"updated_by"?: string | null,"wedding_id": string
+                  }
+                  Update: {
+                    "collection_id"?: string,"created_at"?: string,"data"?: NonNullable<Json>,"id"?: string,"position"?: number,"updated_at"?: string,"updated_by"?: string | null,"wedding_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "collection_records_collection_id_wedding_id_fkey"
+      columns: ["collection_id","wedding_id"]
+isOneToOne: false
+      referencedRelation: "collections"
+      referencedColumns: ["id","wedding_id"]
+    },{
+      foreignKeyName: "collection_records_wedding_id_fkey"
+      columns: ["wedding_id"]
+isOneToOne: false
+      referencedRelation: "weddings"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"collections": {
+                  Row: {
+                    "created_at": string,"id": string,"name": string,"position": number,"slug": string,"updated_at": string,"updated_by": string | null,"wedding_id": string
+                  }
+                  Insert: {
+                    "created_at"?: string,"id"?: string,"name": string,"position"?: number,"slug"?: string,"updated_at"?: string,"updated_by"?: string | null,"wedding_id": string
+                  }
+                  Update: {
+                    "created_at"?: string,"id"?: string,"name"?: string,"position"?: number,"slug"?: string,"updated_at"?: string,"updated_by"?: string | null,"wedding_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "collections_wedding_id_fkey"
+      columns: ["wedding_id"]
+isOneToOne: false
+      referencedRelation: "weddings"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"guests": {
                   Row: {
                     "age_group": string,"attending": string,"created_at": string,"diet": string,"first_name": string,"household_id": string,"id": string,"last_name": string,"position": number,"updated_at": string,"updated_by": string | null,"wedding_id": string
