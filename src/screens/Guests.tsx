@@ -157,14 +157,13 @@ export function Guests() {
           )}
         </div>
       )}
-      {mobile && (
-        <GuestEditSheet
-          guest={guests.find((g) => g.id === editingId) ?? null}
-          readOnly={readOnly}
-          actions={actions}
-          onClose={() => setEditingId(null)}
-        />
-      )}
+      {/* Rămâne montată și la trecerea pe desktop: dialogul se închide (blur → câmpul își trimite valoarea) și resetează editingId. */}
+      <GuestEditSheet
+        guest={mobile ? (guests.find((g) => g.id === editingId) ?? null) : null}
+        readOnly={readOnly}
+        actions={actions}
+        onClose={() => setEditingId(null)}
+      />
     </>
   );
 }
