@@ -16,7 +16,12 @@ export const paths = {
   invite: '/invite/$token',
   privacy: '/privacy',
   terms: '/terms',
+  /** Pagina publică de confirmare a unei familii (NS-082), fără cont. */
+  rsvp: '/r/$token',
 } as const;
+
+/** Adresa de confirmare a unei familii, cu tokenul codat. */
+export const rsvpPath = (token: string) => `/r/${encodeURIComponent(token)}`;
 
 /** Tiparele ecranelor unei nunți. */
 export const routes = {
