@@ -1,5 +1,7 @@
 import { Plus, Trash2, Users } from 'lucide-react';
 import { memo, useMemo, useState } from 'react';
+import { GuestEditSheet } from '../components/guests/GuestEditSheet';
+import { MobileHouseholdCard } from '../components/guests/MobileHouseholdCard';
 import { RsvpLinkButtons } from '../components/guests/RsvpLinkButtons';
 import { PageHeader } from '../components/PageHeader';
 import { Banner, Button, Card, CommitInput, cx, EmptyState, IconButton, Segmented, Select } from '../components/ui';
@@ -18,6 +20,7 @@ import {
 import { OWNERS } from '../domain/schema';
 import { useT } from '../i18n';
 import { formatNumber } from '../lib/format';
+import { useMediaQuery } from '../lib/useMediaQuery';
 import { useWedding } from '../lib/wedding';
 
 export function Guests() {
@@ -30,6 +33,8 @@ export function Guests() {
   const readOnly = !canEdit('guests');
   const [side, setSide] = useState<SideFilter>('all');
   const [attending, setAttending] = useState<AttendingFilter>('all');
+  const mobile = !useMediaQuery('(min-width: 768px)');
+  const [editingId, setEditingId] = useState<string | null>(null);
 
   const stats = useMemo(() => guestStats(households, guests), [households, guests]);
   const groups = useMemo(() => groupGuests(households, guests, side, attending), [households, guests, side, attending]);
@@ -126,19 +131,39 @@ export function Guests() {
         </EmptyState>
       ) : (
         <div className="space-y-4">
-          {groups.map(({ household, guests: members }) => (
-            <HouseholdCard
-              key={household.id}
-              household={household}
-              guests={members}
-              size={sizes.get(household.id) ?? 0}
-              names={names}
-              readOnly={readOnly}
-              actions={actions}
-            />
-          ))}
+          {groups.map(({ household, guests: members }) =>
+            mobile ? (
+              <MobileHouseholdCard
+                key={household.id}
+                household={household}
+                guests={members}
+                size={sizes.get(household.id) ?? 0}
+                names={names}
+                readOnly={readOnly}
+                actions={actions}
+                onEditGuest={setEditingId}
+              />
+            ) : (
+              <HouseholdCard
+                key={household.id}
+                household={household}
+                guests={members}
+                size={sizes.get(household.id) ?? 0}
+                names={names}
+                readOnly={readOnly}
+                actions={actions}
+              />
+            ),
+          )}
         </div>
       )}
+      {/* Rămâne montată și la trecerea pe desktop: dialogul se închide (blur → câmpul își trimite valoarea) și resetează editingId. */}
+      <GuestEditSheet
+        guest={mobile ? (guests.find((g) => g.id === editingId) ?? null) : null}
+        readOnly={readOnly}
+        actions={actions}
+        onClose={() => setEditingId(null)}
+      />
     </>
   );
 }
