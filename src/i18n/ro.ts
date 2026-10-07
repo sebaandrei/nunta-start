@@ -732,6 +732,49 @@ export const ro = {
     signIn: 'Conectare',
     footer: 'Nunta Start',
   },
+  rsvp: {
+    eyebrow: 'Confirmare de participare',
+    title: (household: string) => (household ? `${household}, vă așteptăm!` : 'Vă așteptăm!'),
+    lead: (wedding: string) =>
+      wedding
+        ? `Spuneți-ne cine vine la nunta ${wedding}. Durează un minut.`
+        : 'Spuneți-ne cine vine la nuntă. Durează un minut.',
+    loading: 'Se încarcă invitația…',
+    guestsLegend: 'Invitații',
+    attendingLabel: (name: string) => `Răspuns pentru ${name}`,
+    attendingOptions: { yes: 'Vine', no: 'Nu poate veni' },
+    unansweredHint: 'Alegeți un răspuns.',
+    dietLabel: 'Meniu',
+    noteLabel: 'Un mesaj pentru miri (opțional)',
+    noteHint: (max: number) => `Alergii, un loc pentru cărucior, urări. Cel mult ${max} de caractere.`,
+    notePlaceholder: 'Scrieți aici…',
+    // TODO(NS-081): aici apare widgetul Turnstile; până atunci cererea pleacă fără token.
+    submit: 'Trimite răspunsul',
+    submitting: 'Se trimite…',
+    missing: 'Mai lipsește un răspuns. Alegeți pentru fiecare invitat.',
+    gdprTitle: 'Datele voastre',
+    gdpr: 'Folosim numele, răspunsul, meniul și mesajul vostru doar ca mirii să vă organizeze invitația. Datele sunt vizibile numai pentru ei și pentru persoanele cu care își planifică nunta, nu le vindem și nu le dăm altora. Puteți reveni oricând pe acest link ca să schimbați răspunsul sau să cereți mirilor ștergerea datelor.',
+    gdprLink: 'Politica de confidențialitate',
+    done: {
+      eyebrow: 'Mulțumim',
+      title: 'Răspunsul a fost trimis',
+      body: 'Mirii l-au primit. Dacă vă răzgândiți, deschideți din nou acest link și schimbați răspunsul.',
+      edit: 'Schimbă răspunsul',
+    },
+    notFound: {
+      eyebrow: 'Link invalid',
+      title: 'Nu am găsit această invitație',
+      body: 'Linkul e greșit sau a fost dezactivat. Cereți mirilor un link nou.',
+    },
+    failed: { eyebrow: 'Ceva n-a mers', title: 'Nu am putut încărca invitația' },
+    retry: 'Încercați din nou',
+    errors: {
+      notConfigured: 'Confirmările nu sunt încă active. Reveniți mai târziu.',
+      rejected: 'Răspunsul nu a putut fi acceptat acum. Încercați din nou peste câteva minute.',
+      network: 'Nu avem conexiune la internet. Verificați rețeaua și încercați din nou.',
+      generic: 'Nu am putut trimite răspunsul. Încercați din nou.',
+    },
+  },
   loading: 'Se încarcă…',
   toast: { dismiss: 'Închide notificarea' },
 };

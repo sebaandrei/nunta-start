@@ -726,6 +726,49 @@ export const en: Messages = {
     signIn: 'Sign in',
     footer: 'Nunta Start',
   },
+  rsvp: {
+    eyebrow: 'RSVP',
+    title: (household: string) => (household ? `${household}, we hope to see you!` : 'We hope to see you!'),
+    lead: (wedding: string) =>
+      wedding
+        ? `Let us know who is coming to the wedding of ${wedding}. It takes a minute.`
+        : 'Let us know who is coming to the wedding. It takes a minute.',
+    loading: 'Loading your invitation…',
+    guestsLegend: 'Guests',
+    attendingLabel: (name: string) => `Answer for ${name}`,
+    attendingOptions: { yes: 'Attending', no: 'Cannot attend' },
+    unansweredHint: 'Pick an answer.',
+    dietLabel: 'Menu',
+    noteLabel: 'A message for the couple (optional)',
+    noteHint: (max: number) => `Allergies, room for a stroller, wishes. Up to ${max} characters.`,
+    notePlaceholder: 'Write here…',
+    // TODO(NS-081): the Turnstile widget goes here; until then the request is sent without a token.
+    submit: 'Send answer',
+    submitting: 'Sending…',
+    missing: 'An answer is missing. Pick one for every guest.',
+    gdprTitle: 'Your data',
+    gdpr: 'We use your name, answer, menu and message only so the couple can organise your invitation. The data is visible only to them and the people they plan the wedding with; we do not sell it or share it. You can come back to this link at any time to change your answer or ask the couple to delete your data.',
+    gdprLink: 'Privacy policy',
+    done: {
+      eyebrow: 'Thank you',
+      title: 'Your answer was sent',
+      body: 'The couple has received it. If you change your mind, open this link again and update your answer.',
+      edit: 'Change answer',
+    },
+    notFound: {
+      eyebrow: 'Invalid link',
+      title: 'We could not find this invitation',
+      body: 'The link is wrong or has been turned off. Ask the couple for a new one.',
+    },
+    failed: { eyebrow: 'Something went wrong', title: 'We could not load the invitation' },
+    retry: 'Try again',
+    errors: {
+      notConfigured: 'RSVPs are not active yet. Please come back later.',
+      rejected: 'Your answer could not be accepted right now. Try again in a few minutes.',
+      network: 'No internet connection. Check your network and try again.',
+      generic: 'We could not send your answer. Try again.',
+    },
+  },
   loading: 'Loading…',
   toast: { dismiss: 'Dismiss notification' },
 };

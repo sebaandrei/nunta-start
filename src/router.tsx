@@ -28,6 +28,7 @@ import { InviteRoute } from './screens/InviteAccept';
 import { Landing } from './screens/Landing';
 import { LegalPage } from './screens/LegalPage';
 import { Onboarding } from './screens/Onboarding';
+import { RsvpRoute } from './screens/Rsvp';
 import { Settings } from './screens/Settings';
 import { SignIn } from './screens/SignIn';
 import { Start } from './screens/Start';
@@ -154,6 +155,9 @@ const workspacesRoute = createRoute({
 });
 const inviteRoute = createRoute({ getParentRoute: () => rootRoute, path: paths.invite, component: InviteRoute });
 
+// Confirmarea de participare: pagină publică, fără cont (tokenul din adresă e singura "cheie").
+const rsvpRoute = createRoute({ getParentRoute: () => rootRoute, path: paths.rsvp, component: RsvpRoute });
+
 const legacyRoutes = LEGACY_REDIRECTS.map(({ from, to }) =>
   createRoute({
     getParentRoute: () => rootRoute,
@@ -171,6 +175,7 @@ const routeTree = rootRoute.addChildren([
   authCallbackRoute,
   workspacesRoute,
   inviteRoute,
+  rsvpRoute,
   ...legalRoutes,
   ...legacyRoutes,
 ]);
