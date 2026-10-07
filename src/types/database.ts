@@ -5,7 +5,26 @@ export type Database = {
   
   "public": {
           Tables: {
-            "allowed_emails": {
+            "activity_log": {
+                  Row: {
+                    "action": string,"actor_id": string | null,"created_at": string,"entity": string,"entity_id": string,"id": string,"summary": NonNullable<Json>,"wedding_id": string
+                  }
+                  Insert: {
+                    "action": string,"actor_id"?: string | null,"created_at"?: string,"entity": string,"entity_id": string,"id"?: string,"summary"?: NonNullable<Json>,"wedding_id": string
+                  }
+                  Update: {
+                    "action"?: string,"actor_id"?: string | null,"created_at"?: string,"entity"?: string,"entity_id"?: string,"id"?: string,"summary"?: NonNullable<Json>,"wedding_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "activity_log_wedding_id_fkey"
+      columns: ["wedding_id"]
+isOneToOne: false
+      referencedRelation: "weddings"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"allowed_emails": {
                   Row: {
                     "created_at": string,"email": string,"note": string | null
                   }
