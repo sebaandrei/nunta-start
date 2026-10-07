@@ -7,10 +7,13 @@
       "x": 0,
       "y": 0,
       "name": "Nunta Start · Dashboard",
+      "theme": {
+        "mode": "light"
+      },
       "clip": true,
       "width": 1440,
       "height": 1080,
-      "fill": "#F7F5F0",
+      "fill": "$bg",
       "layout": "none",
       "children": [
         {
@@ -21,7 +24,7 @@
           "name": "Sidebar",
           "width": 244,
           "height": 1080,
-          "fill": "#F1EEE7",
+          "fill": "$sidebar-bg",
           "layout": "none"
         },
         {
@@ -32,7 +35,7 @@
           "name": "Brand mark background",
           "width": 38,
           "height": 38,
-          "fill": "#E1E7DD",
+          "fill": "$accent-bg",
           "cornerRadius": 13,
           "layout": "none"
         },
@@ -42,7 +45,7 @@
           "x": 40,
           "y": 30,
           "name": "Brand mark",
-          "fill": "#49604F",
+          "fill": "$accent",
           "content": "N",
           "textAlign": "center",
           "textAlignVertical": "middle",
@@ -56,7 +59,7 @@
           "x": 80,
           "y": 27,
           "name": "Brand name",
-          "fill": "#252B25",
+          "fill": "$text-1",
           "content": "nunta start",
           "textAlignVertical": "middle",
           "fontFamily": "Inter",
@@ -69,7 +72,7 @@
           "x": 80,
           "y": 50,
           "name": "Brand caption",
-          "fill": "#5F6A5E",
+          "fill": "$text-2",
           "content": "PLAN YOUR DAY",
           "fontFamily": "Inter",
           "fontSize": 9,
@@ -82,7 +85,7 @@
           "x": 30,
           "y": 119,
           "name": "Navigation label",
-          "fill": "#5F6A5E",
+          "fill": "$text-2",
           "content": "PLANIFICARE",
           "fontFamily": "Inter",
           "fontSize": 10,
@@ -97,7 +100,7 @@
           "name": "Active navigation",
           "width": 208,
           "height": 44,
-          "fill": "#E1E7DD",
+          "fill": "$accent-bg",
           "cornerRadius": 11,
           "layout": "none"
         },
@@ -107,7 +110,7 @@
           "x": 31,
           "y": 161,
           "name": "Home icon",
-          "fill": "#49604F",
+          "fill": "$accent",
           "content": "⌂",
           "textAlign": "center",
           "fontFamily": "Inter",
@@ -120,7 +123,7 @@
           "x": 64,
           "y": 161,
           "name": "Home",
-          "fill": "#34483A",
+          "fill": "$text-1",
           "content": "Acasă",
           "textAlignVertical": "middle",
           "fontFamily": "Inter",
@@ -133,7 +136,7 @@
           "x": 31,
           "y": 212,
           "name": "Tasks icon",
-          "fill": "#5F6A5E",
+          "fill": "$text-2",
           "content": "✓",
           "textAlign": "center",
           "fontFamily": "Inter",
@@ -146,7 +149,7 @@
           "x": 64,
           "y": 212,
           "name": "Tasks",
-          "fill": "#565B52",
+          "fill": "$text-2",
           "content": "Taskuri",
           "textAlignVertical": "middle",
           "fontFamily": "Inter",
@@ -159,7 +162,7 @@
           "x": 188,
           "y": 215,
           "name": "Task count",
-          "fill": "#5F6A5E",
+          "fill": "$text-2",
           "content": "12",
           "textAlign": "right",
           "fontFamily": "Inter",
@@ -172,7 +175,7 @@
           "x": 31,
           "y": 258,
           "name": "Budget icon",
-          "fill": "#5F6A5E",
+          "fill": "$text-2",
           "content": "◫",
           "textAlign": "center",
           "fontFamily": "Inter",
@@ -185,7 +188,7 @@
           "x": 64,
           "y": 258,
           "name": "Budget",
-          "fill": "#565B52",
+          "fill": "$text-2",
           "content": "Calculator buget",
           "textAlignVertical": "middle",
           "fontFamily": "Inter",
@@ -198,7 +201,7 @@
           "x": 31,
           "y": 304,
           "name": "Settings icon",
-          "fill": "#5F6A5E",
+          "fill": "$text-2",
           "content": "⚙",
           "textAlign": "center",
           "fontFamily": "Inter",
@@ -211,7 +214,7 @@
           "x": 64,
           "y": 304,
           "name": "Settings",
-          "fill": "#565B52",
+          "fill": "$text-2",
           "content": "Setări",
           "textAlignVertical": "middle",
           "fontFamily": "Inter",
@@ -226,7 +229,7 @@
           "name": "Sidebar divider",
           "width": 192,
           "height": 1,
-          "fill": "#DDDCD3",
+          "fill": "$border",
           "layout": "none"
         },
         {
@@ -235,7 +238,7 @@
           "x": 30,
           "y": 398,
           "name": "Couple section label",
-          "fill": "#5F6A5E",
+          "fill": "$text-2",
           "content": "SPAȚIUL VOSTRU",
           "fontFamily": "Inter",
           "fontSize": 10,
@@ -250,7 +253,7 @@
           "name": "Couple avatar",
           "width": 40,
           "height": 40,
-          "fill": "#EAD9D0",
+          "fill": "$warm-bg",
           "cornerRadius": 20,
           "layout": "none"
         },
@@ -260,7 +263,7 @@
           "x": 37,
           "y": 446,
           "name": "Couple initials",
-          "fill": "#74594B",
+          "fill": "$warm",
           "content": "A&M",
           "textAlign": "center",
           "fontFamily": "Inter",
@@ -273,7 +276,7 @@
           "x": 82,
           "y": 435,
           "name": "Couple names",
-          "fill": "#333831",
+          "fill": "$text-1",
           "content": "Ana & Mihai",
           "fontFamily": "Inter",
           "fontSize": 13,
@@ -285,7 +288,7 @@
           "x": 82,
           "y": 456,
           "name": "Wedding date",
-          "fill": "#5F6A5E",
+          "fill": "$text-2",
           "content": "23 ianuarie 2027",
           "fontFamily": "Inter",
           "fontSize": 11,
@@ -299,7 +302,7 @@
           "name": "Privacy note",
           "width": 204,
           "height": 97,
-          "fill": "#E7E9E0",
+          "fill": "$panel-bg",
           "cornerRadius": 12,
           "layout": "none"
         },
@@ -309,7 +312,7 @@
           "x": 34,
           "y": 959,
           "name": "Privacy note title",
-          "fill": "#415244",
+          "fill": "$accent",
           "content": "Planul vostru, în siguranță",
           "fontFamily": "Inter",
           "fontSize": 12,
@@ -321,7 +324,7 @@
           "x": 34,
           "y": 982,
           "name": "Privacy note copy",
-          "fill": "#687268",
+          "fill": "$text-2",
           "textGrowth": "fixed-width",
           "width": 176,
           "content": "Salvat în contul vostru, vizibil doar pentru voi și persoanele invitate.",
@@ -335,7 +338,7 @@
           "x": 286,
           "y": 31,
           "name": "Top date",
-          "fill": "#5F6A5E",
+          "fill": "$text-2",
           "content": "LUNI, 5 OCTOMBRIE 2026",
           "fontFamily": "Inter",
           "fontSize": 10,
@@ -348,7 +351,7 @@
           "x": 286,
           "y": 57,
           "name": "Greeting",
-          "fill": "#272E28",
+          "fill": "$text-1",
           "content": "Bună dimineața, Ana & Mihai",
           "fontFamily": "Fraunces",
           "fontSize": 31,
@@ -360,7 +363,7 @@
           "x": 286,
           "y": 111,
           "name": "Dashboard subtitle",
-          "fill": "#5F6A5E",
+          "fill": "$text-2",
           "content": "Încă puțin și începe povestea voastră. Iată ce urmează.",
           "fontFamily": "Inter",
           "fontSize": 14,
@@ -374,7 +377,7 @@
           "name": "Add task button",
           "width": 194,
           "height": 44,
-          "fill": "#49604F",
+          "fill": "$accent-solid",
           "cornerRadius": 11,
           "layout": "none"
         },
@@ -384,7 +387,7 @@
           "x": 1230,
           "y": 72,
           "name": "Add task button label",
-          "fill": "#5F6A5E",
+          "fill": "$on-accent",
           "content": "+  Adaugă un task",
           "textAlign": "center",
           "fontFamily": "Inter",
@@ -399,7 +402,7 @@
           "name": "Wedding countdown feature",
           "width": 1098,
           "height": 214,
-          "fill": "#E9EDE5",
+          "fill": "$panel-bg",
           "cornerRadius": 18,
           "layout": "none"
         },
@@ -409,7 +412,7 @@
           "x": 316,
           "y": 190,
           "name": "Countdown eyebrow",
-          "fill": "#5F6A5E",
+          "fill": "$text-2",
           "content": "ZIUA VOASTRĂ SE APROPIE",
           "fontFamily": "Inter",
           "fontSize": 10,
@@ -422,7 +425,7 @@
           "x": 316,
           "y": 219,
           "name": "Countdown title",
-          "fill": "#2D3A30",
+          "fill": "$text-1",
           "content": "Mai sunt 110 zile",
           "fontFamily": "Fraunces",
           "fontSize": 29,
@@ -434,7 +437,7 @@
           "x": 316,
           "y": 269,
           "name": "Countdown date",
-          "fill": "#657164",
+          "fill": "$text-2",
           "content": "Sâmbătă, 23 ianuarie 2027  ·  Brașov",
           "fontFamily": "Inter",
           "fontSize": 13,
@@ -448,7 +451,7 @@
           "name": "Countdown divider",
           "width": 720,
           "height": 1,
-          "fill": "#D2D9CE",
+          "fill": "$border",
           "layout": "none"
         },
         {
@@ -457,7 +460,7 @@
           "x": 316,
           "y": 326,
           "name": "Countdown supporting note",
-          "fill": "#657164",
+          "fill": "$text-2",
           "content": "Pas cu pas, totul se așază. Aveți grijă să vă bucurați și de pregătiri.",
           "fontFamily": "Inter",
           "fontSize": 12,
@@ -471,7 +474,7 @@
           "name": "Countdown decorative circle",
           "width": 152,
           "height": 152,
-          "fill": "#DCE4D8",
+          "fill": "$deco",
           "cornerRadius": 76,
           "layout": "none"
         },
@@ -481,7 +484,7 @@
           "x": 1153,
           "y": 227,
           "name": "Countdown day number",
-          "fill": "#3D5844",
+          "fill": "$accent",
           "content": "110",
           "textAlign": "center",
           "textAlignVertical": "middle",
@@ -495,7 +498,7 @@
           "x": 1176,
           "y": 287,
           "name": "Countdown day label",
-          "fill": "#647562",
+          "fill": "$text-2",
           "content": "ZILE",
           "textAlign": "center",
           "fontFamily": "Inter",
@@ -509,7 +512,7 @@
           "x": 286,
           "y": 409,
           "name": "Overview section title",
-          "fill": "#2D332D",
+          "fill": "$text-1",
           "content": "Planul vostru, pe scurt",
           "fontFamily": "Fraunces",
           "fontSize": 20,
@@ -521,7 +524,7 @@
           "x": 1190,
           "y": 414,
           "name": "Overview link",
-          "fill": "#49604F",
+          "fill": "$accent",
           "content": "Vezi toate taskurile  →",
           "textAlign": "right",
           "fontFamily": "Inter",
@@ -536,7 +539,7 @@
           "name": "Tasks progress card",
           "width": 350,
           "height": 153,
-          "fill": "#FFFFFF",
+          "fill": "$card-bg",
           "cornerRadius": 15,
           "layout": "none"
         },
@@ -546,7 +549,7 @@
           "x": 309,
           "y": 472,
           "name": "Tasks label",
-          "fill": "#5F6A5E",
+          "fill": "$text-2",
           "content": "PREGĂTIRI",
           "fontFamily": "Inter",
           "fontSize": 10,
@@ -559,7 +562,7 @@
           "x": 309,
           "y": 498,
           "name": "Tasks completed",
-          "fill": "#2F382F",
+          "fill": "$text-1",
           "content": "24 din 61",
           "fontFamily": "Fraunces",
           "fontSize": 25,
@@ -573,7 +576,7 @@
           "name": "Progress track",
           "width": 302,
           "height": 7,
-          "fill": "#ECEEE9",
+          "fill": "$track",
           "cornerRadius": 4,
           "layout": "none"
         },
@@ -585,7 +588,7 @@
           "name": "Progress value",
           "width": 119,
           "height": 7,
-          "fill": "#718872",
+          "fill": "$progress-fill",
           "cornerRadius": 4,
           "layout": "none"
         },
@@ -595,7 +598,7 @@
           "x": 309,
           "y": 571,
           "name": "Progress footnote",
-          "fill": "#5F6A5E",
+          "fill": "$text-2",
           "content": "37 de pregătit · 4 în etapa curentă",
           "fontFamily": "Inter",
           "fontSize": 11,
@@ -609,7 +612,7 @@
           "name": "Budget balance card",
           "width": 350,
           "height": 153,
-          "fill": "#FFFFFF",
+          "fill": "$card-bg",
           "cornerRadius": 15,
           "layout": "none"
         },
@@ -619,7 +622,7 @@
           "x": 677,
           "y": 472,
           "name": "Budget label",
-          "fill": "#5F6A5E",
+          "fill": "$text-2",
           "content": "BILANȚ ESTIMAT · 180 INVITAȚI",
           "fontFamily": "Inter",
           "fontSize": 10,
@@ -632,7 +635,7 @@
           "x": 677,
           "y": 500,
           "name": "Budget amount",
-          "fill": "#54745A",
+          "fill": "$accent",
           "content": "+ 8.450 lei",
           "fontFamily": "Fraunces",
           "fontSize": 27,
@@ -644,7 +647,7 @@
           "x": 677,
           "y": 553,
           "name": "Budget footnote",
-          "fill": "#5F6A5E",
+          "fill": "$text-2",
           "content": "Dar de echilibru: 520 lei / persoană\nPlătit: 18.200 lei din 62.400 lei",
           "fontFamily": "Inter",
           "fontSize": 11,
@@ -658,7 +661,7 @@
           "name": "Payments card",
           "width": 362,
           "height": 153,
-          "fill": "#FFFFFF",
+          "fill": "$card-bg",
           "cornerRadius": 15,
           "layout": "none"
         },
@@ -668,7 +671,7 @@
           "x": 1045,
           "y": 472,
           "name": "Payments label",
-          "fill": "#5F6A5E",
+          "fill": "$text-2",
           "content": "PLĂȚI ÎNREGISTRATE",
           "fontFamily": "Inter",
           "fontSize": 10,
@@ -681,7 +684,7 @@
           "x": 1045,
           "y": 500,
           "name": "Payments amount",
-          "fill": "#2F382F",
+          "fill": "$text-1",
           "content": "18.200 lei",
           "fontFamily": "Fraunces",
           "fontSize": 27,
@@ -695,7 +698,7 @@
           "name": "Payments progress track",
           "width": 315,
           "height": 7,
-          "fill": "#ECEEE9",
+          "fill": "$track",
           "cornerRadius": 4,
           "layout": "none"
         },
@@ -707,7 +710,7 @@
           "name": "Payments progress value",
           "width": 92,
           "height": 7,
-          "fill": "#C59A83",
+          "fill": "$warm-solid",
           "cornerRadius": 4,
           "layout": "none"
         },
@@ -717,7 +720,7 @@
           "x": 1045,
           "y": 571,
           "name": "Payments footnote",
-          "fill": "#5F6A5E",
+          "fill": "$text-2",
           "content": "Mai aveți de achitat 44.200 lei",
           "fontFamily": "Inter",
           "fontSize": 11,
@@ -729,7 +732,7 @@
           "x": 286,
           "y": 640,
           "name": "Next tasks heading",
-          "fill": "#2D332D",
+          "fill": "$text-1",
           "content": "Următorii pași",
           "fontFamily": "Fraunces",
           "fontSize": 20,
@@ -741,7 +744,7 @@
           "x": 286,
           "y": 672,
           "name": "Next tasks subtitle",
-          "fill": "#5F6A5E",
+          "fill": "$text-2",
           "content": "Lucruri mici, care vă apropie de ziua cea mare.",
           "fontFamily": "Inter",
           "fontSize": 12,
@@ -755,7 +758,7 @@
           "name": "Upcoming tasks list",
           "width": 706,
           "height": 304,
-          "fill": "#FFFFFF",
+          "fill": "$card-bg",
           "cornerRadius": 15,
           "layout": "none"
         },
@@ -765,7 +768,7 @@
           "x": 308,
           "y": 728,
           "name": "Task one status",
-          "fill": "#82917F",
+          "fill": "$text-3",
           "content": "○",
           "fontFamily": "Inter",
           "fontSize": 18,
@@ -777,7 +780,7 @@
           "x": 344,
           "y": 729,
           "name": "Task one title",
-          "fill": "#343B34",
+          "fill": "$text-1",
           "content": "Stabiliți meniul cu locația",
           "fontFamily": "Inter",
           "fontSize": 13,
@@ -789,7 +792,7 @@
           "x": 344,
           "y": 753,
           "name": "Task one details",
-          "fill": "#5F6A5E",
+          "fill": "$text-2",
           "content": "Locație și meniu  ·  Amândoi",
           "fontFamily": "Inter",
           "fontSize": 11,
@@ -801,7 +804,7 @@
           "x": 796,
           "y": 737,
           "name": "Task one due date",
-          "fill": "#697367",
+          "fill": "$text-2",
           "content": "Până la 12 oct",
           "textAlign": "right",
           "fontFamily": "Inter",
@@ -816,7 +819,7 @@
           "name": "Task one divider",
           "width": 662,
           "height": 1,
-          "fill": "#F0F0EB",
+          "fill": "$border-subtle",
           "layout": "none"
         },
         {
@@ -825,7 +828,7 @@
           "x": 308,
           "y": 800,
           "name": "Task two status",
-          "fill": "#82917F",
+          "fill": "$text-3",
           "content": "○",
           "fontFamily": "Inter",
           "fontSize": 18,
@@ -837,7 +840,7 @@
           "x": 344,
           "y": 801,
           "name": "Task two title",
-          "fill": "#343B34",
+          "fill": "$text-1",
           "content": "Alegeți fotograful și videograful",
           "fontFamily": "Inter",
           "fontSize": 13,
@@ -849,7 +852,7 @@
           "x": 344,
           "y": 825,
           "name": "Task two details",
-          "fill": "#5F6A5E",
+          "fill": "$text-2",
           "content": "Foto-video  ·  Ana",
           "fontFamily": "Inter",
           "fontSize": 11,
@@ -861,7 +864,7 @@
           "x": 796,
           "y": 809,
           "name": "Task two due date",
-          "fill": "#697367",
+          "fill": "$text-2",
           "content": "Până la 19 oct",
           "textAlign": "right",
           "fontFamily": "Inter",
@@ -876,7 +879,7 @@
           "name": "Task two divider",
           "width": 662,
           "height": 1,
-          "fill": "#F0F0EB",
+          "fill": "$border-subtle",
           "layout": "none"
         },
         {
@@ -885,7 +888,7 @@
           "x": 308,
           "y": 872,
           "name": "Task three status",
-          "fill": "#82917F",
+          "fill": "$text-3",
           "content": "○",
           "fontFamily": "Inter",
           "fontSize": 18,
@@ -897,7 +900,7 @@
           "x": 344,
           "y": 873,
           "name": "Task three title",
-          "fill": "#343B34",
+          "fill": "$text-1",
           "content": "Confirmați lista pentru degustare",
           "fontFamily": "Inter",
           "fontSize": 13,
@@ -909,7 +912,7 @@
           "x": 344,
           "y": 897,
           "name": "Task three details",
-          "fill": "#5F6A5E",
+          "fill": "$text-2",
           "content": "Locație și meniu  ·  Mihai",
           "fontFamily": "Inter",
           "fontSize": 11,
@@ -921,7 +924,7 @@
           "x": 796,
           "y": 881,
           "name": "Task three due date",
-          "fill": "#697367",
+          "fill": "$text-2",
           "content": "Până la 2 nov",
           "textAlign": "right",
           "fontFamily": "Inter",
@@ -936,7 +939,7 @@
           "name": "Task three divider",
           "width": 662,
           "height": 1,
-          "fill": "#F0F0EB",
+          "fill": "$border-subtle",
           "layout": "none"
         },
         {
@@ -945,7 +948,7 @@
           "x": 308,
           "y": 944,
           "name": "Task four status",
-          "fill": "#82917F",
+          "fill": "$text-3",
           "content": "○",
           "fontFamily": "Inter",
           "fontSize": 18,
@@ -957,7 +960,7 @@
           "x": 344,
           "y": 945,
           "name": "Task four title",
-          "fill": "#343B34",
+          "fill": "$text-1",
           "content": "Cereți ofertele pentru flori",
           "fontFamily": "Inter",
           "fontSize": 13,
@@ -969,7 +972,7 @@
           "x": 344,
           "y": 969,
           "name": "Task four details",
-          "fill": "#5F6A5E",
+          "fill": "$text-2",
           "content": "Flori și decor  ·  Ana",
           "fontFamily": "Inter",
           "fontSize": 11,
@@ -981,7 +984,7 @@
           "x": 796,
           "y": 953,
           "name": "Task four due date",
-          "fill": "#697367",
+          "fill": "$text-2",
           "content": "Până la 10 nov",
           "textAlign": "right",
           "fontFamily": "Inter",
@@ -996,7 +999,7 @@
           "name": "Current stage card",
           "width": 372,
           "height": 304,
-          "fill": "#EFE7DF",
+          "fill": "$warm-card",
           "cornerRadius": 15,
           "layout": "none"
         },
@@ -1006,7 +1009,7 @@
           "x": 1037,
           "y": 732,
           "name": "Current stage eyebrow",
-          "fill": "#5F6A5E",
+          "fill": "$warm-text-2",
           "content": "ETAPA CURENTĂ",
           "fontFamily": "Inter",
           "fontSize": 10,
@@ -1019,7 +1022,7 @@
           "x": 1037,
           "y": 759,
           "name": "Current stage title",
-          "fill": "#493C34",
+          "fill": "$warm-text-1",
           "content": "3–6 luni\nînainte",
           "fontFamily": "Fraunces",
           "fontSize": 25,
@@ -1031,7 +1034,7 @@
           "x": 1037,
           "y": 829,
           "name": "Current stage copy",
-          "fill": "#77675D",
+          "fill": "$warm-text-2",
           "content": "E timpul să puneți la punct furnizorii\nși detaliile care dau tonul zilei.",
           "fontFamily": "Inter",
           "fontSize": 12,
@@ -1045,7 +1048,7 @@
           "name": "Stage card divider",
           "width": 322,
           "height": 1,
-          "fill": "#DCCFC4",
+          "fill": "$warm-border",
           "layout": "none"
         },
         {
@@ -1054,7 +1057,7 @@
           "x": 1037,
           "y": 905,
           "name": "Stage tasks count",
-          "fill": "#594A40",
+          "fill": "$warm-text-1",
           "content": "4 taskuri în etapa aceasta",
           "fontFamily": "Inter",
           "fontSize": 12,
@@ -1066,7 +1069,7 @@
           "x": 1037,
           "y": 959,
           "name": "Stage link",
-          "fill": "#6A5143",
+          "fill": "$warm",
           "content": "Deschide planul de pregătire  →",
           "fontFamily": "Inter",
           "fontSize": 12,
@@ -1080,7 +1083,7 @@
           "name": "Theme switch · light panel",
           "width": 168,
           "height": 32,
-          "fill": "#FFFFFF",
+          "fill": "$card-bg",
           "cornerRadius": 10,
           "layout": "none"
         },
@@ -1092,7 +1095,7 @@
           "name": "Light theme selected",
           "width": 82,
           "height": 26,
-          "fill": "#E1E7DD",
+          "fill": "$accent-bg",
           "cornerRadius": 8,
           "layout": "none"
         },
@@ -1102,7 +1105,7 @@
           "x": 1023,
           "y": 31,
           "name": "Light theme option",
-          "fill": "#34483A",
+          "fill": "$text-1",
           "content": "Luminos",
           "textAlign": "center",
           "fontFamily": "Inter",
@@ -1115,7 +1118,7 @@
           "x": 1101,
           "y": 31,
           "name": "Dark theme option",
-          "fill": "#5F6A5E",
+          "fill": "$text-2",
           "content": "Întunecat",
           "textAlign": "center",
           "fontFamily": "Inter",
@@ -1130,10 +1133,13 @@
       "x": 1500,
       "y": 0,
       "name": "Nunta Start · Dark Theme",
+      "theme": {
+        "mode": "dark"
+      },
       "clip": true,
       "width": 1440,
       "height": 1080,
-      "fill": "#151916",
+      "fill": "$bg",
       "layout": "none",
       "children": [
         {
@@ -1144,7 +1150,7 @@
           "name": "Sidebar",
           "width": 244,
           "height": 1080,
-          "fill": "#1B211D",
+          "fill": "$sidebar-bg",
           "layout": "none"
         },
         {
@@ -1155,7 +1161,7 @@
           "name": "Brand mark background",
           "width": 38,
           "height": 38,
-          "fill": "#2A382E",
+          "fill": "$accent-bg",
           "cornerRadius": 13,
           "layout": "none"
         },
@@ -1165,7 +1171,7 @@
           "x": 40,
           "y": 30,
           "name": "Brand mark",
-          "fill": "#B6C8B0",
+          "fill": "$accent",
           "content": "N",
           "textAlign": "center",
           "textAlignVertical": "middle",
@@ -1179,7 +1185,7 @@
           "x": 80,
           "y": 27,
           "name": "Brand name",
-          "fill": "#EDF1EB",
+          "fill": "$text-1",
           "content": "nunta start",
           "textAlignVertical": "middle",
           "fontFamily": "Inter",
@@ -1192,7 +1198,7 @@
           "x": 80,
           "y": 50,
           "name": "Brand caption",
-          "fill": "#AAB5A7",
+          "fill": "$text-2",
           "content": "PLAN YOUR DAY",
           "fontFamily": "Inter",
           "fontSize": 9,
@@ -1205,7 +1211,7 @@
           "x": 30,
           "y": 119,
           "name": "Navigation label",
-          "fill": "#AAB5A7",
+          "fill": "$text-2",
           "content": "PLANIFICARE",
           "fontFamily": "Inter",
           "fontSize": 10,
@@ -1220,7 +1226,7 @@
           "name": "Active navigation",
           "width": 208,
           "height": 44,
-          "fill": "#2A382E",
+          "fill": "$accent-bg",
           "cornerRadius": 11,
           "layout": "none"
         },
@@ -1230,7 +1236,7 @@
           "x": 31,
           "y": 161,
           "name": "Home icon",
-          "fill": "#D1E0CE",
+          "fill": "$accent",
           "content": "⌂",
           "textAlign": "center",
           "fontFamily": "Inter",
@@ -1243,7 +1249,7 @@
           "x": 64,
           "y": 161,
           "name": "Home",
-          "fill": "#D1E0CE",
+          "fill": "$text-1",
           "content": "Acasă",
           "textAlignVertical": "middle",
           "fontFamily": "Inter",
@@ -1256,7 +1262,7 @@
           "x": 31,
           "y": 212,
           "name": "Tasks icon",
-          "fill": "#BAC3B7",
+          "fill": "$text-2",
           "content": "✓",
           "textAlign": "center",
           "fontFamily": "Inter",
@@ -1269,7 +1275,7 @@
           "x": 64,
           "y": 212,
           "name": "Tasks",
-          "fill": "#D3D9D0",
+          "fill": "$text-2",
           "content": "Taskuri",
           "textAlignVertical": "middle",
           "fontFamily": "Inter",
@@ -1282,7 +1288,7 @@
           "x": 188,
           "y": 215,
           "name": "Task count",
-          "fill": "#AAB5A7",
+          "fill": "$text-2",
           "content": "12",
           "textAlign": "right",
           "fontFamily": "Inter",
@@ -1295,7 +1301,7 @@
           "x": 31,
           "y": 258,
           "name": "Budget icon",
-          "fill": "#BAC3B7",
+          "fill": "$text-2",
           "content": "◫",
           "textAlign": "center",
           "fontFamily": "Inter",
@@ -1308,7 +1314,7 @@
           "x": 64,
           "y": 258,
           "name": "Budget",
-          "fill": "#D3D9D0",
+          "fill": "$text-2",
           "content": "Calculator buget",
           "textAlignVertical": "middle",
           "fontFamily": "Inter",
@@ -1321,7 +1327,7 @@
           "x": 31,
           "y": 304,
           "name": "Settings icon",
-          "fill": "#BAC3B7",
+          "fill": "$text-2",
           "content": "⚙",
           "textAlign": "center",
           "fontFamily": "Inter",
@@ -1334,7 +1340,7 @@
           "x": 64,
           "y": 304,
           "name": "Settings",
-          "fill": "#D3D9D0",
+          "fill": "$text-2",
           "content": "Setări",
           "textAlignVertical": "middle",
           "fontFamily": "Inter",
@@ -1349,7 +1355,7 @@
           "name": "Sidebar divider",
           "width": 192,
           "height": 1,
-          "fill": "#38413A",
+          "fill": "$border",
           "layout": "none"
         },
         {
@@ -1358,7 +1364,7 @@
           "x": 30,
           "y": 398,
           "name": "Couple section label",
-          "fill": "#AAB5A7",
+          "fill": "$text-2",
           "content": "SPAȚIUL VOSTRU",
           "fontFamily": "Inter",
           "fontSize": 10,
@@ -1373,7 +1379,7 @@
           "name": "Couple avatar",
           "width": 40,
           "height": 40,
-          "fill": "#40312C",
+          "fill": "$warm-bg",
           "cornerRadius": 20,
           "layout": "none"
         },
@@ -1383,7 +1389,7 @@
           "x": 37,
           "y": 446,
           "name": "Couple initials",
-          "fill": "#E4C2A9",
+          "fill": "$warm",
           "content": "A&M",
           "textAlign": "center",
           "fontFamily": "Inter",
@@ -1396,7 +1402,7 @@
           "x": 82,
           "y": 435,
           "name": "Couple names",
-          "fill": "#EDF1EB",
+          "fill": "$text-1",
           "content": "Ana & Mihai",
           "fontFamily": "Inter",
           "fontSize": 13,
@@ -1408,7 +1414,7 @@
           "x": 82,
           "y": 456,
           "name": "Wedding date",
-          "fill": "#BAC3B7",
+          "fill": "$text-2",
           "content": "23 ianuarie 2027",
           "fontFamily": "Inter",
           "fontSize": 11,
@@ -1422,7 +1428,7 @@
           "name": "Privacy note",
           "width": 204,
           "height": 97,
-          "fill": "#242E27",
+          "fill": "$panel-bg",
           "cornerRadius": 12,
           "layout": "none"
         },
@@ -1432,7 +1438,7 @@
           "x": 34,
           "y": 959,
           "name": "Privacy note title",
-          "fill": "#C8D9C5",
+          "fill": "$accent",
           "content": "Planul vostru, în siguranță",
           "fontFamily": "Inter",
           "fontSize": 12,
@@ -1444,7 +1450,7 @@
           "x": 34,
           "y": 982,
           "name": "Privacy note copy",
-          "fill": "#ADB9AA",
+          "fill": "$text-2",
           "textGrowth": "fixed-width",
           "width": 176,
           "content": "Salvat în contul vostru, vizibil doar pentru voi și persoanele invitate.",
@@ -1458,7 +1464,7 @@
           "x": 286,
           "y": 31,
           "name": "Top date",
-          "fill": "#AAB5A7",
+          "fill": "$text-2",
           "content": "LUNI, 5 OCTOMBRIE 2026",
           "fontFamily": "Inter",
           "fontSize": 10,
@@ -1471,7 +1477,7 @@
           "x": 286,
           "y": 57,
           "name": "Greeting",
-          "fill": "#F3F4EE",
+          "fill": "$text-1",
           "content": "Bună dimineața, Ana & Mihai",
           "fontFamily": "Fraunces",
           "fontSize": 31,
@@ -1483,7 +1489,7 @@
           "x": 286,
           "y": 111,
           "name": "Dashboard subtitle",
-          "fill": "#BDC5BA",
+          "fill": "$text-2",
           "content": "Încă puțin și începe povestea voastră. Iată ce urmează.",
           "fontFamily": "Inter",
           "fontSize": 14,
@@ -1497,7 +1503,7 @@
           "name": "Add task button",
           "width": 194,
           "height": 44,
-          "fill": "#56735D",
+          "fill": "$accent-solid",
           "cornerRadius": 11,
           "layout": "none"
         },
@@ -1507,7 +1513,7 @@
           "x": 1230,
           "y": 72,
           "name": "Add task button label",
-          "fill": "#FFFFFF",
+          "fill": "$on-accent",
           "content": "+  Adaugă un task",
           "textAlign": "center",
           "fontFamily": "Inter",
@@ -1522,7 +1528,7 @@
           "name": "Wedding countdown feature",
           "width": 1098,
           "height": 214,
-          "fill": "#202923",
+          "fill": "$panel-bg",
           "cornerRadius": 18,
           "layout": "none"
         },
@@ -1532,7 +1538,7 @@
           "x": 316,
           "y": 190,
           "name": "Countdown eyebrow",
-          "fill": "#BAC6B6",
+          "fill": "$text-2",
           "content": "ZIUA VOASTRĂ SE APROPIE",
           "fontFamily": "Inter",
           "fontSize": 10,
@@ -1545,7 +1551,7 @@
           "x": 316,
           "y": 219,
           "name": "Countdown title",
-          "fill": "#EBEFE9",
+          "fill": "$text-1",
           "content": "Mai sunt 110 zile",
           "fontFamily": "Fraunces",
           "fontSize": 29,
@@ -1557,7 +1563,7 @@
           "x": 316,
           "y": 269,
           "name": "Countdown date",
-          "fill": "#B9C5B6",
+          "fill": "$text-2",
           "content": "Sâmbătă, 23 ianuarie 2027  ·  Brașov",
           "fontFamily": "Inter",
           "fontSize": 13,
@@ -1571,7 +1577,7 @@
           "name": "Countdown divider",
           "width": 720,
           "height": 1,
-          "fill": "#3C473E",
+          "fill": "$border",
           "layout": "none"
         },
         {
@@ -1580,7 +1586,7 @@
           "x": 316,
           "y": 326,
           "name": "Countdown supporting note",
-          "fill": "#B9C5B6",
+          "fill": "$text-2",
           "content": "Pas cu pas, totul se așază. Aveți grijă să vă bucurați și de pregătiri.",
           "fontFamily": "Inter",
           "fontSize": 12,
@@ -1594,7 +1600,7 @@
           "name": "Countdown decorative circle",
           "width": 152,
           "height": 152,
-          "fill": "#344238",
+          "fill": "$deco",
           "cornerRadius": 76,
           "layout": "none"
         },
@@ -1604,7 +1610,7 @@
           "x": 1153,
           "y": 227,
           "name": "Countdown day number",
-          "fill": "#CEDBC6",
+          "fill": "$accent",
           "content": "110",
           "textAlign": "center",
           "textAlignVertical": "middle",
@@ -1618,7 +1624,7 @@
           "x": 1176,
           "y": 287,
           "name": "Countdown day label",
-          "fill": "#BDCCB9",
+          "fill": "$text-2",
           "content": "ZILE",
           "textAlign": "center",
           "fontFamily": "Inter",
@@ -1632,7 +1638,7 @@
           "x": 286,
           "y": 409,
           "name": "Overview section title",
-          "fill": "#EBEEE8",
+          "fill": "$text-1",
           "content": "Planul vostru, pe scurt",
           "fontFamily": "Fraunces",
           "fontSize": 20,
@@ -1644,7 +1650,7 @@
           "x": 1190,
           "y": 414,
           "name": "Overview link",
-          "fill": "#B6C8B0",
+          "fill": "$accent",
           "content": "Vezi toate taskurile  →",
           "textAlign": "right",
           "fontFamily": "Inter",
@@ -1659,7 +1665,7 @@
           "name": "Tasks progress card",
           "width": 350,
           "height": 153,
-          "fill": "#1E2520",
+          "fill": "$card-bg",
           "cornerRadius": 15,
           "layout": "none"
         },
@@ -1669,7 +1675,7 @@
           "x": 309,
           "y": 472,
           "name": "Tasks label",
-          "fill": "#AAB5A7",
+          "fill": "$text-2",
           "content": "PREGĂTIRI",
           "fontFamily": "Inter",
           "fontSize": 10,
@@ -1682,7 +1688,7 @@
           "x": 309,
           "y": 498,
           "name": "Tasks completed",
-          "fill": "#EDF0EA",
+          "fill": "$text-1",
           "content": "24 din 61",
           "fontFamily": "Fraunces",
           "fontSize": 25,
@@ -1696,7 +1702,7 @@
           "name": "Progress track",
           "width": 302,
           "height": 7,
-          "fill": "#313A33",
+          "fill": "$track",
           "cornerRadius": 4,
           "layout": "none"
         },
@@ -1708,7 +1714,7 @@
           "name": "Progress value",
           "width": 119,
           "height": 7,
-          "fill": "#9BB796",
+          "fill": "$progress-fill",
           "cornerRadius": 4,
           "layout": "none"
         },
@@ -1718,7 +1724,7 @@
           "x": 309,
           "y": 571,
           "name": "Progress footnote",
-          "fill": "#B7BFB4",
+          "fill": "$text-2",
           "content": "37 de pregătit · 4 în etapa curentă",
           "fontFamily": "Inter",
           "fontSize": 11,
@@ -1732,7 +1738,7 @@
           "name": "Budget balance card",
           "width": 350,
           "height": 153,
-          "fill": "#1E2520",
+          "fill": "$card-bg",
           "cornerRadius": 15,
           "layout": "none"
         },
@@ -1742,7 +1748,7 @@
           "x": 677,
           "y": 472,
           "name": "Budget label",
-          "fill": "#AAB5A7",
+          "fill": "$text-2",
           "content": "BILANȚ ESTIMAT · 180 INVITAȚI",
           "fontFamily": "Inter",
           "fontSize": 10,
@@ -1755,7 +1761,7 @@
           "x": 677,
           "y": 500,
           "name": "Budget amount",
-          "fill": "#A8C89E",
+          "fill": "$accent",
           "content": "+ 8.450 lei",
           "fontFamily": "Fraunces",
           "fontSize": 27,
@@ -1767,7 +1773,7 @@
           "x": 677,
           "y": 553,
           "name": "Budget footnote",
-          "fill": "#B7BFB4",
+          "fill": "$text-2",
           "content": "Dar de echilibru: 520 lei / persoană\nPlătit: 18.200 lei din 62.400 lei",
           "fontFamily": "Inter",
           "fontSize": 11,
@@ -1781,7 +1787,7 @@
           "name": "Payments card",
           "width": 362,
           "height": 153,
-          "fill": "#1E2520",
+          "fill": "$card-bg",
           "cornerRadius": 15,
           "layout": "none"
         },
@@ -1791,7 +1797,7 @@
           "x": 1045,
           "y": 472,
           "name": "Payments label",
-          "fill": "#AAB5A7",
+          "fill": "$text-2",
           "content": "PLĂȚI ÎNREGISTRATE",
           "fontFamily": "Inter",
           "fontSize": 10,
@@ -1804,7 +1810,7 @@
           "x": 1045,
           "y": 500,
           "name": "Payments amount",
-          "fill": "#EDF0EA",
+          "fill": "$text-1",
           "content": "18.200 lei",
           "fontFamily": "Fraunces",
           "fontSize": 27,
@@ -1818,7 +1824,7 @@
           "name": "Payments progress track",
           "width": 315,
           "height": 7,
-          "fill": "#313A33",
+          "fill": "$track",
           "cornerRadius": 4,
           "layout": "none"
         },
@@ -1830,7 +1836,7 @@
           "name": "Payments progress value",
           "width": 92,
           "height": 7,
-          "fill": "#D2A184",
+          "fill": "$warm-solid",
           "cornerRadius": 4,
           "layout": "none"
         },
@@ -1840,7 +1846,7 @@
           "x": 1045,
           "y": 571,
           "name": "Payments footnote",
-          "fill": "#B7BFB4",
+          "fill": "$text-2",
           "content": "Mai aveți de achitat 44.200 lei",
           "fontFamily": "Inter",
           "fontSize": 11,
@@ -1852,7 +1858,7 @@
           "x": 286,
           "y": 640,
           "name": "Next tasks heading",
-          "fill": "#EBEEE8",
+          "fill": "$text-1",
           "content": "Următorii pași",
           "fontFamily": "Fraunces",
           "fontSize": 20,
@@ -1864,7 +1870,7 @@
           "x": 286,
           "y": 672,
           "name": "Next tasks subtitle",
-          "fill": "#B7BFB4",
+          "fill": "$text-2",
           "content": "Lucruri mici, care vă apropie de ziua cea mare.",
           "fontFamily": "Inter",
           "fontSize": 12,
@@ -1878,7 +1884,7 @@
           "name": "Upcoming tasks list",
           "width": 706,
           "height": 304,
-          "fill": "#1E2520",
+          "fill": "$card-bg",
           "cornerRadius": 15,
           "layout": "none"
         },
@@ -1888,7 +1894,7 @@
           "x": 308,
           "y": 728,
           "name": "Task one status",
-          "fill": "#A9C29F",
+          "fill": "$text-3",
           "content": "○",
           "fontFamily": "Inter",
           "fontSize": 18,
@@ -1900,7 +1906,7 @@
           "x": 344,
           "y": 729,
           "name": "Task one title",
-          "fill": "#E7EBE4",
+          "fill": "$text-1",
           "content": "Stabiliți meniul cu locația",
           "fontFamily": "Inter",
           "fontSize": 13,
@@ -1912,7 +1918,7 @@
           "x": 344,
           "y": 753,
           "name": "Task one details",
-          "fill": "#AAB5A7",
+          "fill": "$text-2",
           "content": "Locație și meniu  ·  Amândoi",
           "fontFamily": "Inter",
           "fontSize": 11,
@@ -1924,7 +1930,7 @@
           "x": 796,
           "y": 737,
           "name": "Task one due date",
-          "fill": "#C0CCBE",
+          "fill": "$text-2",
           "content": "Până la 12 oct",
           "textAlign": "right",
           "fontFamily": "Inter",
@@ -1939,7 +1945,7 @@
           "name": "Task one divider",
           "width": 662,
           "height": 1,
-          "fill": "#303831",
+          "fill": "$border-subtle",
           "layout": "none"
         },
         {
@@ -1948,7 +1954,7 @@
           "x": 308,
           "y": 800,
           "name": "Task two status",
-          "fill": "#A9C29F",
+          "fill": "$text-3",
           "content": "○",
           "fontFamily": "Inter",
           "fontSize": 18,
@@ -1960,7 +1966,7 @@
           "x": 344,
           "y": 801,
           "name": "Task two title",
-          "fill": "#E7EBE4",
+          "fill": "$text-1",
           "content": "Alegeți fotograful și videograful",
           "fontFamily": "Inter",
           "fontSize": 13,
@@ -1972,7 +1978,7 @@
           "x": 344,
           "y": 825,
           "name": "Task two details",
-          "fill": "#AAB5A7",
+          "fill": "$text-2",
           "content": "Foto-video  ·  Ana",
           "fontFamily": "Inter",
           "fontSize": 11,
@@ -1984,7 +1990,7 @@
           "x": 796,
           "y": 809,
           "name": "Task two due date",
-          "fill": "#C0CCBE",
+          "fill": "$text-2",
           "content": "Până la 19 oct",
           "textAlign": "right",
           "fontFamily": "Inter",
@@ -1999,7 +2005,7 @@
           "name": "Task two divider",
           "width": 662,
           "height": 1,
-          "fill": "#303831",
+          "fill": "$border-subtle",
           "layout": "none"
         },
         {
@@ -2008,7 +2014,7 @@
           "x": 308,
           "y": 872,
           "name": "Task three status",
-          "fill": "#A9C29F",
+          "fill": "$text-3",
           "content": "○",
           "fontFamily": "Inter",
           "fontSize": 18,
@@ -2020,7 +2026,7 @@
           "x": 344,
           "y": 873,
           "name": "Task three title",
-          "fill": "#E7EBE4",
+          "fill": "$text-1",
           "content": "Confirmați lista pentru degustare",
           "fontFamily": "Inter",
           "fontSize": 13,
@@ -2032,7 +2038,7 @@
           "x": 344,
           "y": 897,
           "name": "Task three details",
-          "fill": "#AAB5A7",
+          "fill": "$text-2",
           "content": "Locație și meniu  ·  Mihai",
           "fontFamily": "Inter",
           "fontSize": 11,
@@ -2044,7 +2050,7 @@
           "x": 796,
           "y": 881,
           "name": "Task three due date",
-          "fill": "#C0CCBE",
+          "fill": "$text-2",
           "content": "Până la 2 nov",
           "textAlign": "right",
           "fontFamily": "Inter",
@@ -2059,7 +2065,7 @@
           "name": "Task three divider",
           "width": 662,
           "height": 1,
-          "fill": "#303831",
+          "fill": "$border-subtle",
           "layout": "none"
         },
         {
@@ -2068,7 +2074,7 @@
           "x": 308,
           "y": 944,
           "name": "Task four status",
-          "fill": "#A9C29F",
+          "fill": "$text-3",
           "content": "○",
           "fontFamily": "Inter",
           "fontSize": 18,
@@ -2080,7 +2086,7 @@
           "x": 344,
           "y": 945,
           "name": "Task four title",
-          "fill": "#E7EBE4",
+          "fill": "$text-1",
           "content": "Cereți ofertele pentru flori",
           "fontFamily": "Inter",
           "fontSize": 13,
@@ -2092,7 +2098,7 @@
           "x": 344,
           "y": 969,
           "name": "Task four details",
-          "fill": "#AAB5A7",
+          "fill": "$text-2",
           "content": "Flori și decor  ·  Ana",
           "fontFamily": "Inter",
           "fontSize": 11,
@@ -2104,7 +2110,7 @@
           "x": 796,
           "y": 953,
           "name": "Task four due date",
-          "fill": "#C0CCBE",
+          "fill": "$text-2",
           "content": "Până la 10 nov",
           "textAlign": "right",
           "fontFamily": "Inter",
@@ -2119,7 +2125,7 @@
           "name": "Current stage card",
           "width": 372,
           "height": 304,
-          "fill": "#2C2522",
+          "fill": "$warm-card",
           "cornerRadius": 15,
           "layout": "none"
         },
@@ -2129,7 +2135,7 @@
           "x": 1037,
           "y": 732,
           "name": "Current stage eyebrow",
-          "fill": "#C3AA9A",
+          "fill": "$warm-text-2",
           "content": "ETAPA CURENTĂ",
           "fontFamily": "Inter",
           "fontSize": 10,
@@ -2142,7 +2148,7 @@
           "x": 1037,
           "y": 759,
           "name": "Current stage title",
-          "fill": "#F0E3D9",
+          "fill": "$warm-text-1",
           "content": "3–6 luni\nînainte",
           "fontFamily": "Fraunces",
           "fontSize": 25,
@@ -2154,7 +2160,7 @@
           "x": 1037,
           "y": 829,
           "name": "Current stage copy",
-          "fill": "#CBB8AB",
+          "fill": "$warm-text-2",
           "content": "E timpul să puneți la punct furnizorii\nși detaliile care dau tonul zilei.",
           "fontFamily": "Inter",
           "fontSize": 12,
@@ -2168,7 +2174,7 @@
           "name": "Stage card divider",
           "width": 322,
           "height": 1,
-          "fill": "#4A3E36",
+          "fill": "$warm-border",
           "layout": "none"
         },
         {
@@ -2177,7 +2183,7 @@
           "x": 1037,
           "y": 905,
           "name": "Stage tasks count",
-          "fill": "#F0DED1",
+          "fill": "$warm-text-1",
           "content": "4 taskuri în etapa aceasta",
           "fontFamily": "Inter",
           "fontSize": 12,
@@ -2189,7 +2195,7 @@
           "x": 1037,
           "y": 959,
           "name": "Stage link",
-          "fill": "#E0B99F",
+          "fill": "$warm",
           "content": "Deschide planul de pregătire  →",
           "fontFamily": "Inter",
           "fontSize": 12,
@@ -2203,7 +2209,7 @@
           "name": "Theme switch · dark panel",
           "width": 168,
           "height": 32,
-          "fill": "#232B26",
+          "fill": "$panel-bg",
           "cornerRadius": 10,
           "layout": "none"
         },
@@ -2215,7 +2221,7 @@
           "name": "Dark theme selected",
           "width": 82,
           "height": 26,
-          "fill": "#445C49",
+          "fill": "$accent-bg",
           "cornerRadius": 8,
           "layout": "none"
         },
@@ -2225,7 +2231,7 @@
           "x": 1023,
           "y": 31,
           "name": "Light theme option",
-          "fill": "#B7C2B5",
+          "fill": "$text-2",
           "content": "Luminos",
           "textAlign": "center",
           "fontFamily": "Inter",
@@ -2238,7 +2244,7 @@
           "x": 1101,
           "y": 31,
           "name": "Dark theme option",
-          "fill": "#F0F2ED",
+          "fill": "$text-1",
           "content": "Întunecat",
           "textAlign": "center",
           "fontFamily": "Inter",
@@ -56429,5 +56435,404 @@
       ]
     }
   ],
+  "themes": {
+    "mode": [
+      "light",
+      "dark"
+    ]
+  },
+  "variables": {
+    "bg": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#F7F5F0",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#121613",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "sidebar-bg": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#F1EEE7",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#1A201C",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "panel-bg": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#E9EDE5",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#1E2621",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "card-bg": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#FFFFFF",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#29322B",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "warm-card": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#EFE7DF",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#2C2522",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "warm-bg": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#EAD9D0",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#40312C",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "accent-bg": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#E1E7DD",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#2A382E",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "accent": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#49604F",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#A9C29F",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "accent-solid": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#49604F",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#56735D",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "on-accent": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#FFFFFF",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#F2F5F0",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "progress-fill": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#718872",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#9BB796",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "warm-solid": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#C59A83",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#D2A184",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "track": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#ECEEE9",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#313A33",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "deco": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#DCE4D8",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#2F3A32",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "border": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#DDDCD3",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#353E37",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "border-subtle": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#F0F0EB",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#363F38",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "warm-border": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#DCCFC4",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#453931",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "text-1": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#252B25",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#EDF1EB",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "text-2": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#596358",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#AAB5A7",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "text-3": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#82917F",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#A9C29F",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "warm-text-1": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#493C34",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#F0E3D9",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "warm-text-2": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#6F6055",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#C3AA9A",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "warm": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#74594B",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#E4C2A9",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    }
+  },
   "fileToken": "dcf403d9-12d2-4a8a-8dc1-2a4be093b92c"
 }
