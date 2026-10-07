@@ -172,7 +172,7 @@ The product is now an **invite-only app for the owner and friends** (2-3 workspa
 | NS-052 | P1 | Members panel in Settings: list, change role, remove, leave; the last owner can't leave | 3 | NS-051 | Rules are enforced in both RLS and the UI | ⬜ |
 | NS-053 | P0 | Generic `broadcast_wedding_change()` trigger on tasks and budget tables → private channel `wedding:<id>`; RLS on `realtime.messages` | 3 | NS-028, NS-029 | An outsider can't join the channel (pgTAP) | ✅ |
 | NS-054 | P0 | Client realtime: subscribe per open wedding, patch the Query cache, refetch on reconnect | 3 | NS-053, NS-042 | An edit in tab A appears in tab B in under 1 s | ✅ |
-| NS-056 | P1 | `activity_log` table + generic audit trigger + `pg_cron` purge after 180 days | 2 | NS-028 | Rows are written for each insert, update and delete | ⬜ |
+| NS-056 | P1 | `activity_log` table + generic audit trigger + `pg_cron` purge after 180 days | 2 | NS-028 | Rows are written for each insert, update and delete | ✅ *Covers tasks, budget and guests; updates store changed fields only, guest names and notes are never logged; any member can read, nobody can write* |
 | NS-057 | P0 | Playwright in CI against the local stack; magic-link helper that reads Mailpit | 3 | NS-013, NS-022 | A sample login E2E is green in CI | ⬜ |
 | NS-058 | P0 | E2E: sign in → create wedding → invite partner → both edit a task live | 3 | NS-054, NS-057 | Green in CI | ⬜ |
 
@@ -203,7 +203,7 @@ The product is now an **invite-only app for the owner and friends** (2-3 workspa
 | ID | P | Task | Est | Deps | Done when | Status |
 |---|---|---|---|---|---|---|
 | NS-070 | P0 | Migration: `households`, `guests` (side, age group, diet, attending enums) + RLS + pgTAP | 3 | NS-026 | Tests are green; a helper can edit | ✅ |
-| NS-071 | P0 | Attach the realtime and audit triggers to the guest tables | 0.5 | NS-053, NS-056, NS-070 | Live updates work for guests | ✅ *Broadcast trigger only; the audit log (NS-056) does not exist yet* |
+| NS-071 | P0 | Attach the realtime and audit triggers to the guest tables | 0.5 | NS-053, NS-056, NS-070 | Live updates work for guests | ✅ *Broadcast and audit triggers (NS-056) are both attached* |
 | NS-075 | P0 | Domain: guest stats (total, adults/kids, by side, by RSVP status, by diet) + unit tests | 2 | – | Vitest is green | ✅ |
 | NS-072 | P0 | Guest list UI on desktop: households with nested guests, inline edit, side and status filters, stats bar | 5 | NS-070, NS-075 | 300 guests render smoothly | ⬜ |
 | NS-073 | P1 | Guest list on mobile: household cards and a guest edit sheet | 2 | NS-072 | Usable at 360px | ⬜ |
