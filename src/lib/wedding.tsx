@@ -1,10 +1,13 @@
-import { useSuspenseQuery } from '@tanstack/react-query';
-import { createContext, type ReactNode, useContext, useMemo } from 'react';
+import { useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
+import { createContext, type ReactNode, useContext, useEffect, useMemo } from 'react';
 import type { Wedding } from '../data/mappers';
 import { weddingQuery } from '../data/queries';
+import { subscribeToWedding } from '../data/realtime';
 import { canEdit, type Module } from '../domain/permissions';
 import { NoAccess } from '../screens/ErrorPages';
+import { isAuthConfigured } from './auth';
 import { isWeddingId } from './paths';
+import { getSupabase } from './supabase';
 import type { Role } from './workspaces';
 
 export interface WeddingContextValue {
@@ -28,6 +31,13 @@ export function WeddingProvider({ weddingId, children }: { weddingId: string; ch
 
 function Loaded({ weddingId, children }: { weddingId: string; children: ReactNode }) {
   const { data: wedding } = useSuspenseQuery(weddingQuery(weddingId));
+  const queryClient = useQueryClient();
+  const isMember = Boolean(wedding);
+  // Live collaboration: listen to the wedding's channel for as long as the wedding is open.
+  useEffect(() => {
+    if (!isMember || !isAuthConfigured()) return;
+    return subscribeToWedding(getSupabase(), queryClient, weddingId);
+  }, [isMember, queryClient, weddingId]);
   const value = useMemo<WeddingContextValue | null>(
     () =>
       wedding && {
