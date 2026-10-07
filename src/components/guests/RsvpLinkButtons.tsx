@@ -16,6 +16,8 @@ export function RsvpLinkButtons({ householdId, householdName }: { householdId: s
   const [busy, setBusy] = useState(false);
 
   const getUrl = async (): Promise<string | null> => {
+    // Tokenul nu se poate recupera: un token nou înlocuiește linkul deja trimis, deci cerem confirmarea.
+    if (!token.current && !window.confirm(t.guests.rsvpConfirmNew)) return null;
     try {
       token.current ??= await generateRsvpToken(householdId);
       return rsvpUrl(token.current);

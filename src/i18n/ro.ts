@@ -524,6 +524,8 @@ export const ro = {
     rsvpWhatsapp: 'Trimiteți pe WhatsApp',
     rsvpCopied: 'Link copiat. Trimiteți-l familiei.',
     rsvpFailed: 'Nu am putut genera linkul. Încercați din nou.',
+    rsvpConfirmNew:
+      'Se va genera un link nou, iar linkul trimis anterior acestei familii nu va mai funcționa. Continuați?',
     rsvpMessage: (name: string, url: string) =>
       `Bună${name.trim() ? ` ${name.trim()}` : ''}! Vă rugăm să confirmați prezența la nunta noastră aici: ${url}`,
   },

@@ -518,6 +518,8 @@ export const en: Messages = {
     rsvpWhatsapp: 'Share on WhatsApp',
     rsvpCopied: 'Link copied. Send it to the household.',
     rsvpFailed: 'Could not generate the link. Try again.',
+    rsvpConfirmNew:
+      'This generates a new link, and any link already sent to this household will stop working. Continue?',
     rsvpMessage: (name: string, url: string) =>
       `Hi${name.trim() ? ` ${name.trim()}` : ''}! Please confirm your attendance at our wedding here: ${url}`,
   },
