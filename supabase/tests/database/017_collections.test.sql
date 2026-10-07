@@ -1,5 +1,5 @@
 begin;
-select plan(22);
+select plan(23);
 
 insert into public.allowed_emails (email) values
   ('a1@example.com'),
@@ -55,6 +55,8 @@ select is((select slug from public.collections where id = '00000000-0000-0000-00
 select is((select slug from public.collections where id = '00000000-0000-0000-0000-0000000000f4'), 'luna-de-miere', 'diacritics and punctuation are normalised');
 update public.collections set name = 'Altceva' where id = '00000000-0000-0000-0000-0000000000f1';
 select is((select slug from public.collections where id = '00000000-0000-0000-0000-0000000000f1'), 'furnizori', 'renaming does not change the slug');
+update public.collections set icon = 'camera', template_key = 'furnizor' where id = '00000000-0000-0000-0000-0000000000f1';
+select is((select icon || '/' || template_key from public.collections where id = '00000000-0000-0000-0000-0000000000f1'), 'camera/furnizor', 'icon and template key are stored');
 select throws_ok(
   $$update public.collections set slug = 'nou' where id = '00000000-0000-0000-0000-0000000000f1'$$,
   '23514', null, 'the slug cannot be changed');

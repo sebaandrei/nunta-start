@@ -7,6 +7,8 @@ create table public.collections (
   wedding_id uuid not null references public.weddings (id) on delete cascade,
   name text not null check (length(btrim(name)) > 0),
   slug text not null default '',
+  icon text,
+  template_key text,
   position numeric not null default 0,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),

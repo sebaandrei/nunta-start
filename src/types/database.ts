@@ -133,13 +133,13 @@ isOneToOne: false
                   ]
                 },"collections": {
                   Row: {
-                    "created_at": string,"id": string,"name": string,"position": number,"slug": string,"updated_at": string,"updated_by": string | null,"wedding_id": string
+                    "created_at": string,"icon": string | null,"id": string,"name": string,"position": number,"slug": string,"template_key": string | null,"updated_at": string,"updated_by": string | null,"wedding_id": string
                   }
                   Insert: {
-                    "created_at"?: string,"id"?: string,"name": string,"position"?: number,"slug"?: string,"updated_at"?: string,"updated_by"?: string | null,"wedding_id": string
+                    "created_at"?: string,"icon"?: string | null,"id"?: string,"name": string,"position"?: number,"slug"?: string,"template_key"?: string | null,"updated_at"?: string,"updated_by"?: string | null,"wedding_id": string
                   }
                   Update: {
-                    "created_at"?: string,"id"?: string,"name"?: string,"position"?: number,"slug"?: string,"updated_at"?: string,"updated_by"?: string | null,"wedding_id"?: string
+                    "created_at"?: string,"icon"?: string | null,"id"?: string,"name"?: string,"position"?: number,"slug"?: string,"template_key"?: string | null,"updated_at"?: string,"updated_by"?: string | null,"wedding_id"?: string
                   }
                   Relationships: [
                     {
