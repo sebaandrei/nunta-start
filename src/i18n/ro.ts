@@ -528,6 +528,9 @@ export const ro = {
       'Se va genera un link nou, iar linkul trimis anterior acestei familii nu va mai funcționa. Continuați?',
     rsvpMessage: (name: string, url: string) =>
       `Bună${name.trim() ? ` ${name.trim()}` : ''}! Vă rugăm să confirmați prezența la nunta noastră aici: ${url}`,
+    editGuest: 'Editează invitatul',
+    newGuest: 'Invitat fără nume',
+    done: 'Gata',
   },
 
   calc: {
