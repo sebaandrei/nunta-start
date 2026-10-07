@@ -6,6 +6,10 @@ describe('redactSecrets', () => {
     expect(redactSecrets('https://x.ro/invite/abc123_-XYZ?preview=1')).toBe('https://x.ro/invite/[redacted]?preview=1');
   });
 
+  it('hides the RSVP token', () => {
+    expect(redactSecrets('https://x.ro/r/0123abcd?x=1')).toBe('https://x.ro/r/[redacted]?x=1');
+  });
+
   it('hides auth params in query and hash', () => {
     expect(redactSecrets('/auth/callback?code=abc&next=/w')).toBe('/auth/callback?code=[redacted]&next=/w');
     expect(redactSecrets('/auth/callback#access_token=a.b.c&refresh_token=r&type=magiclink')).toBe(

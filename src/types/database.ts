@@ -194,6 +194,31 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"household_rsvp_tokens": {
+                  Row: {
+                    "created_at": string,"created_by": string | null,"household_id": string,"token_hash": string,"wedding_id": string
+                  }
+                  Insert: {
+                    "created_at"?: string,"created_by"?: string | null,"household_id": string,"token_hash": string,"wedding_id": string
+                  }
+                  Update: {
+                    "created_at"?: string,"created_by"?: string | null,"household_id"?: string,"token_hash"?: string,"wedding_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "household_rsvp_tokens_household_id_fkey"
+      columns: ["household_id"]
+isOneToOne: true
+      referencedRelation: "households"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "household_rsvp_tokens_wedding_id_fkey"
+      columns: ["wedding_id"]
+isOneToOne: false
+      referencedRelation: "weddings"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"households": {
                   Row: {
                     "created_at": string,"id": string,"name": string,"notes": string,"position": number,"side": string,"updated_at": string,"updated_by": string | null,"wedding_id": string
@@ -319,6 +344,9 @@ isOneToOne: false
                            },
 "decline_invitation":
 { Args: { "p_token": string }; Returns: undefined
+                           },
+"generate_household_rsvp_token":
+{ Args: { "p_household_id": string }; Returns: string
                            },
 "inspect_invitation":
 { Args: { "p_token": string }; Returns: Json
