@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { type Guest, guestStats, type Household } from './guests';
+import { type Guest, groupGuests, guestStats, type Household } from './guests';
 
 const households: Household[] = [
   { id: 'h1', name: 'Popescu', side: 'p1', notes: '' },
@@ -58,5 +58,39 @@ describe('guestStats', () => {
     const stats = guestStats(households, [guest('x', 'missing')]);
     expect(stats.total).toBe(1);
     expect(stats.bySide).toEqual({ p1: 0, p2: 0, both: 0 });
+  });
+});
+
+describe('groupGuests', () => {
+  const guests = [
+    guest('a', 'h1', { attending: 'yes' }),
+    guest('b', 'h1'),
+    guest('c', 'h2', { attending: 'yes' }),
+    guest('d', 'orphan'),
+  ];
+  const shape = (groups: ReturnType<typeof groupGuests>) =>
+    groups.map((g) => [g.household.id, g.guests.map((x) => x.id)]);
+
+  it('groups guests under their household and keeps empty households', () => {
+    expect(shape(groupGuests(households, guests, 'all', 'all'))).toEqual([
+      ['h1', ['a', 'b']],
+      ['h2', ['c']],
+      ['h3', []],
+    ]);
+  });
+
+  it('filters by side', () => {
+    expect(shape(groupGuests(households, guests, 'p2', 'all'))).toEqual([['h2', ['c']]]);
+  });
+
+  it('filters by status, dropping households left without guests', () => {
+    expect(shape(groupGuests(households, guests, 'all', 'yes'))).toEqual([
+      ['h1', ['a']],
+      ['h2', ['c']],
+    ]);
+  });
+
+  it('combines both filters', () => {
+    expect(groupGuests(households, guests, 'p1', 'no')).toEqual([]);
   });
 });

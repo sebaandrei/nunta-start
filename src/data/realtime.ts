@@ -8,6 +8,12 @@ import {
   type BudgetLineRow,
   type BudgetScenarioRow,
   type BudgetSettingsRow,
+  type GuestRow,
+  guestFromRow,
+  type HouseholdRow,
+  householdFromRow,
+  type ServerGuest,
+  type ServerHousehold,
   type ServerTask,
   type TaskRow,
   taskFromRow,
@@ -86,6 +92,22 @@ export function applyChange(
       );
       return;
     }
+    case 'households': {
+      const household = householdFromRow(record as HouseholdRow);
+      patch<ServerHousehold[]>(k.households(), [...k.households(), 'write'], (list) =>
+        patchList(list, op, household, (a, b) => a.position - b.position),
+      );
+      // Cascada din DB șterge și invitații familiei.
+      if (op === 'DELETE') void queryClient.invalidateQueries({ queryKey: k.guests(), exact: true });
+      return;
+    }
+    case 'guests': {
+      const guest = guestFromRow(record as GuestRow);
+      patch<ServerGuest[]>(k.guests(), [...k.guests(), 'write'], (list) =>
+        patchList(list, op, guest, (a, b) => a.position - b.position),
+      );
+      return;
+    }
     case 'budget_lines': {
       const row = record as BudgetLineRow;
       patch<BudgetLineRow[]>(k.budgetLines(), [...k.budget(), 'write'], (rows) =>
@@ -150,6 +172,8 @@ export function subscribeToWedding(
       const k = keys.wedding(weddingId);
       void queryClient.invalidateQueries({ queryKey: k.tasks() });
       void queryClient.invalidateQueries({ queryKey: k.budget() });
+      void queryClient.invalidateQueries({ queryKey: k.households() });
+      void queryClient.invalidateQueries({ queryKey: k.guests() });
     });
   return () => {
     void client.removeChannel(channel);

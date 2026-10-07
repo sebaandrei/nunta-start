@@ -205,7 +205,7 @@ The product is now an **invite-only app for the owner and friends** (2-3 workspa
 | NS-070 | P0 | Migration: `households`, `guests` (side, age group, diet, attending enums) + RLS + pgTAP | 3 | NS-026 | Tests are green; a helper can edit | ✅ |
 | NS-071 | P0 | Attach the realtime and audit triggers to the guest tables | 0.5 | NS-053, NS-056, NS-070 | Live updates work for guests | ✅ *Broadcast and audit triggers (NS-056) are both attached* |
 | NS-075 | P0 | Domain: guest stats (total, adults/kids, by side, by RSVP status, by diet) + unit tests | 2 | – | Vitest is green | ✅ |
-| NS-072 | P0 | Guest list UI on desktop: households with nested guests, inline edit, side and status filters, stats bar | 5 | NS-070, NS-075 | 300 guests render smoothly | ⬜ |
+| NS-072 | P0 | Guest list UI on desktop: households with nested guests, inline edit, side and status filters, stats bar | 5 | NS-070, NS-075 | 300 guests render smoothly | ✅ |
 | NS-073 | P1 | Guest list on mobile: household cards and a guest edit sheet | 2 | NS-072 | Usable at 360px | ⬜ |
 | NS-074 | P1 | CSV import: parse with papaparse, column-mapping step, preview, duplicate-name warning, bulk insert | 5 | NS-070 | A sample WeddingWire export imports correctly | ⬜ |
 

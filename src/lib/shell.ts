@@ -2,7 +2,7 @@ import type { Task } from '../domain/schema';
 import { isRecover } from '../domain/tasks';
 import { routes } from './paths';
 
-export type NavId = 'home' | 'tasks' | 'budget' | 'settings';
+export type NavId = 'home' | 'tasks' | 'guests' | 'budget' | 'settings';
 
 export interface NavItem {
   id: NavId;
@@ -14,11 +14,17 @@ export interface NavItem {
 export const NAV_ITEMS: readonly NavItem[] = [
   { id: 'home', to: routes.home },
   { id: 'tasks', to: routes.tasks },
+  { id: 'guests', to: routes.guests },
   { id: 'budget', to: routes.budget },
   { id: 'settings', to: routes.settings },
 ];
 
-const SECTION_NAV: Record<string, NavId> = { start: 'tasks', calculator: 'budget', settings: 'settings' };
+const SECTION_NAV: Record<string, NavId> = {
+  start: 'tasks',
+  guests: 'guests',
+  calculator: 'budget',
+  settings: 'settings',
+};
 
 /** Ecranul unei adrese `/w/<id>/<ecran>`, pentru titlul din bara de sus de pe telefon. Necunoscut: acasă. */
 export function navIdForPath(pathname: string): NavId {

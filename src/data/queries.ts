@@ -2,6 +2,7 @@
 import { queryOptions } from '@tanstack/react-query';
 import { keys } from '../lib/queryKeys';
 import { getBudgetSettings, listBudgetLines, listBudgetScenarios } from './budget';
+import { listGuests, listHouseholds } from './guests';
 import { listTasks } from './tasks';
 import { getWedding, listMyWeddings } from './weddings';
 
@@ -21,3 +22,9 @@ export const budgetScenariosQuery = (weddingId: string) =>
 
 export const budgetLinesQuery = (weddingId: string) =>
   queryOptions({ queryKey: keys.wedding(weddingId).budgetLines(), queryFn: () => listBudgetLines(weddingId) });
+
+export const householdsQuery = (weddingId: string) =>
+  queryOptions({ queryKey: keys.wedding(weddingId).households(), queryFn: () => listHouseholds(weddingId) });
+
+export const guestsQuery = (weddingId: string) =>
+  queryOptions({ queryKey: keys.wedding(weddingId).guests(), queryFn: () => listGuests(weddingId) });

@@ -12,7 +12,13 @@ import {
   coupleLabel,
   createWeddingArgs,
   godparentsFromJson,
+  guestFromRow,
+  guestPatchToUpdate,
   guestScenarios,
+  guestToInsert,
+  householdFromRow,
+  householdPatchToUpdate,
+  householdToInsert,
   lineFromRow,
   lineRowFromLine,
   lineToInsert,
@@ -400,5 +406,69 @@ describe('budget write helpers', () => {
     const row = lineRowFromLine('w1', line, 30, '2026-02-02T00:00:00Z');
     expect(row).toMatchObject({ id: 'l9', wedding_id: 'w1', position: 30, unit_price: 12.35, qty_kind: 'fixed' });
     expect(lineFromRow(row)).toEqual({ ...line, unitPrice: 12.35 });
+  });
+});
+
+describe('guest mappers', () => {
+  const householdRow = {
+    id: 'h1',
+    wedding_id: 'w1',
+    name: 'Popescu',
+    side: 'p2',
+    notes: 'n',
+    position: 20,
+    created_at: '',
+    updated_at: '',
+    updated_by: null,
+  };
+  const guestRow = {
+    id: 'g1',
+    wedding_id: 'w1',
+    household_id: 'h1',
+    first_name: 'Ana',
+    last_name: 'Popescu',
+    age_group: 'child',
+    diet: 'vegan',
+    attending: 'yes',
+    position: 10,
+    created_at: '',
+    updated_at: '',
+    updated_by: null,
+  };
+
+  it('reads a household row', () => {
+    expect(householdFromRow(householdRow)).toEqual({ id: 'h1', name: 'Popescu', side: 'p2', notes: 'n', position: 20 });
+  });
+
+  it('reads a guest row', () => {
+    expect(guestFromRow(guestRow)).toEqual({
+      id: 'g1',
+      householdId: 'h1',
+      firstName: 'Ana',
+      lastName: 'Popescu',
+      ageGroup: 'child',
+      diet: 'vegan',
+      attending: 'yes',
+      position: 10,
+    });
+  });
+
+  it('falls back to defaults on unknown enum values', () => {
+    expect(householdFromRow({ ...householdRow, side: 'x' }).side).toBe('both');
+    const guest = guestFromRow({ ...guestRow, age_group: 'x', diet: 'x', attending: 'x' });
+    expect([guest.ageGroup, guest.diet, guest.attending]).toEqual(['adult', 'classic', 'unknown']);
+  });
+
+  it('round-trips through the insert shapes', () => {
+    const { created_at, updated_at, updated_by, ...householdInsert } = householdRow;
+    expect(householdToInsert('w1', householdFromRow(householdRow))).toEqual(householdInsert);
+    const { created_at: c, updated_at: u, updated_by: b, ...guestInsert } = guestRow;
+    expect(guestToInsert('w1', guestFromRow(guestRow))).toEqual(guestInsert);
+  });
+
+  it('sends only the patched columns', () => {
+    expect(householdPatchToUpdate({ side: 'p1' })).toEqual({ side: 'p1' });
+    expect(guestPatchToUpdate({ firstName: 'B', attending: 'no' })).toEqual({ first_name: 'B', attending: 'no' });
+    expect(guestPatchToUpdate({})).toEqual({});
   });
 });
