@@ -1,6 +1,6 @@
 import { useNavigate } from '@tanstack/react-router';
 import { Plus, Trash2 } from 'lucide-react';
-import { type ReactNode, useId, useState } from 'react';
+import { type ReactNode, useId, useMemo, useState } from 'react';
 import { MembersPanel } from '../components/MembersPanel';
 import { PageHeader } from '../components/PageHeader';
 import {
@@ -17,10 +17,12 @@ import {
   Segmented,
 } from '../components/ui';
 import { useSettings } from '../data/hooks';
+import { createMembersClient } from '../data/members';
 import { useDeleteWedding, useWeddingMutation } from '../data/weddingMutations';
 import { isValidISODate } from '../domain/dates';
 import { CURRENCIES, type GodparentPair, MAX_GODPARENT_PAIRS } from '../domain/schema';
 import { useT } from '../i18n';
+import { isAuthConfigured } from '../lib/auth';
 import { currencySymbol } from '../lib/format';
 import { useLocale } from '../lib/locale';
 import { paths } from '../lib/paths';
@@ -34,6 +36,7 @@ export function Settings() {
   const updateWedding = useWeddingMutation(weddingId);
   const deleteWedding = useDeleteWedding(weddingId);
   const navigate = useNavigate();
+  const membersClient = useMemo(() => (isAuthConfigured() ? createMembersClient(weddingId) : undefined), [weddingId]);
   const locale = useLocale((s) => s.locale);
   const setLocale = useLocale((s) => s.setLocale);
   const mode = useTheme((s) => s.mode);
@@ -222,7 +225,11 @@ export function Settings() {
         </Card>
       </div>
 
-      <MembersPanel selfName={settings.names[0]} onLeft={() => void navigate({ to: paths.workspaces })} />
+      <MembersPanel
+        selfName={settings.names[0]}
+        client={membersClient}
+        onLeft={() => void navigate({ to: paths.workspaces })}
+      />
 
       {isOwner && (
         <Dialog

@@ -21,7 +21,7 @@ export interface InviteInfo {
 
 /**
  * Clientul invitațiilor, injectat în pagina de acceptare.
- * Implementarea reală (token, expirare după INVITE_LIFETIME_DAYS de zile, rol, aderarea la spațiu) vine cu NS-050/NS-051.
+ * Implementarea reală (RPC-urile din Supabase) e în src/data/invites.ts.
  */
 export interface InvitesClient {
   inspect(token: string): Promise<InviteInfo>;
@@ -34,6 +34,14 @@ export class InvitesNotConfiguredError extends Error {
   constructor() {
     super('Invitations are not configured');
     this.name = 'InvitesNotConfiguredError';
+  }
+}
+
+/** Contul conectat nu e cel pentru care s-a trimis invitația. */
+export class InvitesWrongAccountError extends Error {
+  constructor() {
+    super('Invitation is for another account');
+    this.name = 'InvitesWrongAccountError';
   }
 }
 
@@ -52,10 +60,11 @@ export const notConfiguredInvitesClient: InvitesClient = {
   decline: () => Promise.reject(new InvitesNotConfiguredError()),
 };
 
-export type InviteErrorKind = 'notConfigured' | 'network' | 'generic';
+export type InviteErrorKind = 'notConfigured' | 'network' | 'wrongAccount' | 'generic';
 
 export function inviteErrorKind(error: unknown): InviteErrorKind {
   if (error instanceof InvitesNotConfiguredError) return 'notConfigured';
+  if (error instanceof InvitesWrongAccountError) return 'wrongAccount';
   if (error instanceof InvitesNetworkError || error instanceof TypeError) return 'network';
   return 'generic';
 }

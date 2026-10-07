@@ -5,6 +5,9 @@ describe('safeNext', () => {
   it('keeps paths under /w', () => {
     for (const ok of ['/w', '/w/', '/w/start', '/w/calculator?a=1', '/w#x']) expect(safeNext(ok)).toBe(ok);
   });
+  it('keeps an invitation page so the invitee returns to it after signing in', () => {
+    for (const ok of ['/invite/0f3a9c', '/invite/AbC_-123']) expect(safeNext(ok)).toBe(ok);
+  });
   it('falls back to /w for everything else', () => {
     for (const bad of [
       null,
@@ -19,6 +22,11 @@ describe('safeNext', () => {
       'https://evil.com/w',
       'javascript:alert(1)',
       '/w\n/x',
+      '/invite',
+      '/invite/',
+      '/invite/a/b',
+      '/invite/a?next=//evil.com',
+      '/invite/a b',
     ]) {
       expect(safeNext(bad)).toBe('/w');
     }

@@ -302,8 +302,11 @@ export const en: Messages = {
     errors: {
       notConfigured: "Invitations aren't available yet.",
       network: "We can't connect. Check your internet connection.",
+      wrongAccount: 'The invitation was sent to a different email address. Sign in with the address that received it.',
       generic: 'Something went wrong. Please try again in a moment.',
     },
+    signInHint: (email: string | null) =>
+      email ? `You'll be asked to sign in with ${email}.` : "You'll be asked to sign in.",
   },
 
   storage: {
@@ -602,7 +605,7 @@ export const en: Messages = {
     },
     legendTitle: 'What each role can do',
     pendingTitle: 'Pending invitations',
-    pendingHint: 'The link expires after 7 days.',
+    pendingHint: `The link expires after ${INVITE_LIFETIME_DAYS} days.`,
     pendingCount: (n: number) => `${n} active`,
     pendingEmpty: 'No pending invitations.',
     sentToday: 'Sent today',

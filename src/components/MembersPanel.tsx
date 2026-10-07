@@ -45,7 +45,7 @@ export function MembersPanel({
 }) {
   const t = useT();
   const m = t.members;
-  const client = useMemo(() => clientProp ?? previewClient() ?? notConfiguredMembersClient, [clientProp]);
+  const client = useMemo(() => previewClient() ?? clientProp ?? notConfiguredMembersClient, [clientProp]);
   const [status, setStatus] = useState<PanelStatus>('loading');
   const [pendingRoles, setPendingRoles] = useState<string[]>([]);
   const roleSync = useRef(initialRoleSync);
