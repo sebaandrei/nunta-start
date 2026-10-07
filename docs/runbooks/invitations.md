@@ -10,7 +10,7 @@ Tokenul are 128 de biți, se păstrează doar hash-uit (SHA-256) și nu se cite�
 - Invitatul trebuie să se conecteze cu **adresa pe care a primit invitația** (altfel: „adresă diferită").
 - Înscrierea rămâne pe invitație (allowlist, `docs/runbooks/allowlist.md`): o adresă care nu e în `allowed_emails`
   nu își poate crea cont, deci nu poate accepta. **Adaugă prietenul în allowlist înainte să-l inviți.**
-- Cel mult 20 de invitații în așteptare per nuntă; o invitație expirată se înlocuiește la o nouă invitare.
+- Cel mult 20 de invitații create în 24 de ore per nuntă (anularea nu eliberează cota); o invitație expirată se înlocuiește la o nouă invitare.
 
 ## Deploy (manual, o dată per proiect cloud)
 

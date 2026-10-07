@@ -83,6 +83,7 @@ export function createMembersClient(weddingId: string): MembersClient {
           .eq('wedding_id', weddingId)
           .is('accepted_at', null)
           .is('declined_at', null)
+          .is('cancelled_at', null)
           .gt('expires_at', new Date().toISOString())
           .order('created_at'),
       );
@@ -92,7 +93,7 @@ export function createMembersClient(weddingId: string): MembersClient {
       return invitationFromResponse(await invoke(weddingId, email, role));
     },
     async cancelInvite(id) {
-      requireRows(unwrap(await db().from('invitations').delete().eq('id', id).select('id')));
+      unwrap(await db().rpc('cancel_invitation', { p_id: id }));
     },
     async changeRole(memberId, role) {
       requireRows(unwrap(await db().from('wedding_members').update({ role }).eq('id', memberId).select('id')));

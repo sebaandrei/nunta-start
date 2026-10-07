@@ -310,6 +310,7 @@ export const ro = {
       wrongAccount: 'Invitația a fost trimisă pe altă adresă de email. Conectați-vă cu adresa pe care ați primit-o.',
       generic: 'Ceva n-a mers. Încercați din nou în câteva clipe.',
     },
+    switchAccount: 'Deconectați-vă și continuați',
     signInHint: (email: string | null) =>
       email ? `Veți fi rugat să vă conectați cu adresa ${email}.` : 'Veți fi rugat să vă conectați.',
   },

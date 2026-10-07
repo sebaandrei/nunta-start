@@ -305,6 +305,7 @@ export const en: Messages = {
       wrongAccount: 'The invitation was sent to a different email address. Sign in with the address that received it.',
       generic: 'Something went wrong. Please try again in a moment.',
     },
+    switchAccount: 'Sign out and continue',
     signInHint: (email: string | null) =>
       email ? `You'll be asked to sign in with ${email}.` : "You'll be asked to sign in.",
   },

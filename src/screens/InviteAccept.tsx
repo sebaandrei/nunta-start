@@ -10,10 +10,10 @@ import { isAuthConfigured } from '../lib/auth';
 import { loginHref } from '../lib/authCallback';
 import { formatDate } from '../lib/format';
 import { parsePreview, previewFor } from '../lib/invitePreview';
-import { type InviteState, initialInviteState, inviteReducer, isBusy } from '../lib/inviteState';
+import { emailsDiffer, type InviteState, initialInviteState, inviteReducer, isBusy } from '../lib/inviteState';
 import { type InvitesClient, inviteErrorKind, inviteErrorMessage, notConfiguredInvitesClient } from '../lib/invites';
 import { invitePath, paths } from '../lib/paths';
-import { useSession } from '../lib/session';
+import { signOut, useSession } from '../lib/session';
 import { roleLabel } from '../lib/workspaces';
 
 const EYEBROW = 'text-[11px] font-semibold uppercase tracking-[0.1em] text-muted';
@@ -68,6 +68,7 @@ export function InviteAccept({
   const { status, info, errorKind } = state;
   const busy = isBusy(state);
   const signedOut = useSession((s) => s.status === 'signedOut');
+  const sessionEmail = useSession((s) => s.user?.email ?? null);
   const navigate = useNavigate();
 
   // Fiecare cerere are un număr; rezultatele unei cereri înlocuite sunt ignorate de reducer.
@@ -84,6 +85,14 @@ export function InviteAccept({
       (error: unknown) => dispatch({ type: 'failed', id, kind: inviteErrorKind(error) }),
     );
   }, [client, token, preview, attempt]);
+
+  // Conectat cu alt cont decât cel invitat: acceptarea ar fi refuzată, deci se oferă schimbarea contului.
+  const wrongAccount = errorKind === 'wrongAccount' || emailsDiffer(sessionEmail, info?.email ?? null);
+
+  async function switchAccount() {
+    await signOut();
+    void navigate({ href: loginHref(invitePath(token)) });
+  }
 
   function act(type: 'accept' | 'decline') {
     if (busy || status !== 'valid') return;
@@ -155,6 +164,7 @@ export function InviteAccept({
               </div>
 
               {errorKind && <Banner tone="warn">{inviteErrorMessage(errorKind, t)}</Banner>}
+              {!errorKind && wrongAccount && <Banner tone="warn">{inviteErrorMessage('wrongAccount', t)}</Banner>}
 
               <div className="flex items-center justify-between gap-3 rounded-xl bg-sunken p-4 text-left">
                 <div className="min-w-0">
@@ -200,6 +210,11 @@ export function InviteAccept({
                     i.decline
                   )}
                 </Button>
+                {wrongAccount && (
+                  <Button variant="ghost" className="w-full" disabled={busy} onClick={() => void switchAccount()}>
+                    {i.switchAccount}
+                  </Button>
+                )}
               </div>
               {signedOut && <p className="text-xs text-muted">{i.signInHint(info.email)}</p>}
               {info.email && <p className="text-xs text-muted">{i.sentTo(info.email)}</p>}

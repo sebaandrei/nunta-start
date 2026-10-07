@@ -1,5 +1,5 @@
 import type { InviteInfo, InviteStatus, InvitesClient } from '../lib/invites';
-import { InvitesWrongAccountError } from '../lib/invites';
+import { InvitesStateError, InvitesWrongAccountError } from '../lib/invites';
 import { queryClient } from '../lib/queryClient';
 import { keys } from '../lib/queryKeys';
 import { getSupabase } from '../lib/supabase';
@@ -30,10 +30,20 @@ export function inviteInfoFromJson(json: unknown): InviteInfo {
   };
 }
 
-/** Eroarea RPC-ului de acceptare: contul greșit are propriul mesaj, restul rămân generice. */
-function acceptError(error: unknown): unknown {
-  if (error instanceof DataError && error.code === '42501' && /another email/i.test(error.message)) {
-    return new InvitesWrongAccountError();
+/**
+ * Eroarea unei acțiuni: contul greșit are propriul mesaj. Un refuz al stării invitației (P0001/P0002) înseamnă
+ * că s-a schimbat după verificare, deci se citește din nou și pagina arată starea reală (expirată sau folosită).
+ */
+async function actionError(error: unknown, token: string): Promise<unknown> {
+  if (!(error instanceof DataError)) return error;
+  if (error.code === '42501' && /another email/i.test(error.message)) return new InvitesWrongAccountError();
+  if (error.code === 'P0001' || error.code === 'P0002') {
+    try {
+      const { status } = inviteInfoFromJson(unwrap(await getSupabase().rpc('inspect_invitation', { p_token: token })));
+      if (status !== 'valid') return new InvitesStateError(status);
+    } catch {
+      // Citirea a eșuat: rămâne eroarea inițială.
+    }
   }
   return error;
 }
@@ -47,12 +57,16 @@ export const supabaseInvitesClient: InvitesClient = {
     try {
       unwrap(await getSupabase().rpc('accept_invitation', { p_token: token }));
     } catch (error) {
-      throw acceptError(error);
+      throw await actionError(error, token);
     }
     // Nunta nouă trebuie să apară în alegerea nunților.
     await queryClient.invalidateQueries({ queryKey: keys.list() });
   },
   async decline(token) {
-    unwrap(await getSupabase().rpc('decline_invitation', { p_token: token }));
+    try {
+      unwrap(await getSupabase().rpc('decline_invitation', { p_token: token }));
+    } catch (error) {
+      throw await actionError(error, token);
+    }
   },
 };

@@ -121,7 +121,9 @@ set local role authenticated;
 select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000000a1","role":"authenticated"}', true);
 
 -- Cancelling
-select is(public.test_rows_affected($q$delete from public.invitations where email = 'z@example.com'$q$), 1, 'owner cancels a pending invitation');
+select lives_ok(
+  $$select public.cancel_invitation((select id from public.invitations where email = 'z@example.com' and cancelled_at is null))$$,
+  'owner cancels a pending invitation');
 
 select * from finish();
 rollback;

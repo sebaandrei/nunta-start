@@ -64,6 +64,11 @@ export function inviteReducer(state: InviteState, event: InviteEvent): InviteSta
       if (event.id !== state.requestId) return state;
       if (state.status === 'loading') return { ...state, status: 'error', errorKind: event.kind };
       if (state.status === 'accepting' || state.status === 'declining') {
+        // Invitația s-a schimbat între timp: pagina arată starea ei reală, nu o eroare cu butoane active.
+        if (event.kind === 'expired' || event.kind === 'used') {
+          const info = state.info && { ...state.info, status: event.kind };
+          return { ...state, status: event.kind, info, errorKind: null };
+        }
         return { ...state, status: 'valid', errorKind: event.kind };
       }
       return state;
@@ -72,3 +77,8 @@ export function inviteReducer(state: InviteState, event: InviteEvent): InviteSta
 
 /** Cererea e în curs: butoanele se dezactivează. */
 export const isBusy = (s: InviteState) => s.status === 'accepting' || s.status === 'declining';
+
+/** Contul conectat nu e cel pentru care s-a trimis invitația (adresele se compară fără diferența mari/mici). */
+export function emailsDiffer(signedIn: string | null, invited: string | null): boolean {
+  return Boolean(signedIn && invited && signedIn.trim().toLowerCase() !== invited.trim().toLowerCase());
+}

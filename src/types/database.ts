@@ -83,13 +83,13 @@ isOneToOne: true
                   ]
                 },"invitations": {
                   Row: {
-                    "accepted_at": string | null,"accepted_by": string | null,"created_at": string,"declined_at": string | null,"email": string,"expires_at": string,"id": string,"invited_by": string | null,"role": Database["public"]['Enums']["member_role"],"token_hash": string,"wedding_id": string
+                    "accepted_at": string | null,"accepted_by": string | null,"cancelled_at": string | null,"created_at": string,"declined_at": string | null,"email": string,"expires_at": string,"id": string,"invited_by": string | null,"role": Database["public"]['Enums']["member_role"],"token_hash": string,"wedding_id": string
                   }
                   Insert: {
-                    "accepted_at"?: string | null,"accepted_by"?: string | null,"created_at"?: string,"declined_at"?: string | null,"email": string,"expires_at"?: string,"id"?: string,"invited_by"?: string | null,"role": Database["public"]['Enums']["member_role"],"token_hash": string,"wedding_id": string
+                    "accepted_at"?: string | null,"accepted_by"?: string | null,"cancelled_at"?: string | null,"created_at"?: string,"declined_at"?: string | null,"email": string,"expires_at"?: string,"id"?: string,"invited_by"?: string | null,"role": Database["public"]['Enums']["member_role"],"token_hash": string,"wedding_id": string
                   }
                   Update: {
-                    "accepted_at"?: string | null,"accepted_by"?: string | null,"created_at"?: string,"declined_at"?: string | null,"email"?: string,"expires_at"?: string,"id"?: string,"invited_by"?: string | null,"role"?: Database["public"]['Enums']["member_role"],"token_hash"?: string,"wedding_id"?: string
+                    "accepted_at"?: string | null,"accepted_by"?: string | null,"cancelled_at"?: string | null,"created_at"?: string,"declined_at"?: string | null,"email"?: string,"expires_at"?: string,"id"?: string,"invited_by"?: string | null,"role"?: Database["public"]['Enums']["member_role"],"token_hash"?: string,"wedding_id"?: string
                   }
                   Relationships: [
                     {
@@ -172,6 +172,9 @@ isOneToOne: false
           Functions: {
             "accept_invitation":
 { Args: { "p_token": string }; Returns: string
+                           },
+"cancel_invitation":
+{ Args: { "p_id": string }; Returns: undefined
                            },
 "clear_budget_amounts":
 { Args: { "p_wedding_id": string }; Returns: undefined
