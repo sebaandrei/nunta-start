@@ -514,6 +514,12 @@ export const en: Messages = {
     noMatchHint: 'Change the filters to see the list.',
     clearFilters: 'Clear filters',
     emptyHousehold: 'Nobody yet.',
+    rsvpCopyLink: 'Copy link',
+    rsvpWhatsapp: 'Share on WhatsApp',
+    rsvpCopied: 'Link copied. Send it to the household.',
+    rsvpFailed: 'Could not generate the link. Try again.',
+    rsvpMessage: (name: string, url: string) =>
+      `Hi${name.trim() ? ` ${name.trim()}` : ''}! Please confirm your attendance at our wedding here: ${url}`,
   },
 
   calc: {

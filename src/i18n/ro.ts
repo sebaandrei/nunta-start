@@ -520,6 +520,12 @@ export const ro = {
     noMatchHint: 'Schimbați filtrele ca să vedeți lista.',
     clearFilters: 'Șterge filtrele',
     emptyHousehold: 'Nicio persoană încă.',
+    rsvpCopyLink: 'Copiați linkul',
+    rsvpWhatsapp: 'Trimiteți pe WhatsApp',
+    rsvpCopied: 'Link copiat. Trimiteți-l familiei.',
+    rsvpFailed: 'Nu am putut genera linkul. Încercați din nou.',
+    rsvpMessage: (name: string, url: string) =>
+      `Bună${name.trim() ? ` ${name.trim()}` : ''}! Vă rugăm să confirmați prezența la nunta noastră aici: ${url}`,
   },
 
   calc: {

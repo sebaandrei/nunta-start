@@ -1,5 +1,6 @@
 import { Plus, Trash2, Users } from 'lucide-react';
 import { memo, useMemo, useState } from 'react';
+import { RsvpLinkButtons } from '../components/guests/RsvpLinkButtons';
 import { PageHeader } from '../components/PageHeader';
 import { Banner, Button, Card, CommitInput, cx, EmptyState, IconButton, Segmented, Select } from '../components/ui';
 import { type GuestActions, useGuestActions } from '../data/guestActions';
@@ -208,6 +209,12 @@ const HouseholdCard = memo(
           ))}
         </ul>
         {guests.length === 0 && <p className="mt-3 text-sm text-muted">{t.guests.emptyHousehold}</p>}
+
+        {!readOnly && (
+          <div className="mt-3">
+            <RsvpLinkButtons householdId={household.id} householdName={household.name} />
+          </div>
+        )}
 
         {!readOnly && (
           <Button variant="link" className={cx('mt-3 text-sm')} onClick={() => actions.addGuest(household.id)}>
