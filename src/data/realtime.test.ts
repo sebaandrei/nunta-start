@@ -216,19 +216,20 @@ describe('subscribeToWedding', () => {
     expect(queryClient.getQueryData<ServerTask[]>(k.tasks())).toEqual([]);
   });
 
-  it('refetches only after a connection that was lost came back', () => {
+  it('reads the lists again on every join, the first one included', () => {
     const f = fake();
     const queryClient = clientWith();
     const invalidate = vi.spyOn(queryClient, 'invalidateQueries');
     subscribeToWedding(f.client, queryClient, W, idle);
-    f.status('SUBSCRIBED');
     expect(invalidate).not.toHaveBeenCalled();
-    f.status('CHANNEL_ERROR');
     f.status('SUBSCRIBED');
     expect(invalidate).toHaveBeenCalledWith({ queryKey: k.tasks() });
     expect(invalidate).toHaveBeenCalledWith({ queryKey: k.budget() });
-    f.status('SUBSCRIBED');
     expect(invalidate).toHaveBeenCalledTimes(2);
+    f.status('CHANNEL_ERROR');
+    expect(invalidate).toHaveBeenCalledTimes(2);
+    f.status('SUBSCRIBED');
+    expect(invalidate).toHaveBeenCalledTimes(4);
   });
 
   it('leaves the channel on cleanup', () => {

@@ -129,8 +129,9 @@ export interface RealtimeClientLike {
 }
 
 /**
- * Listens to the wedding's private channel and keeps the cache in step. After the connection was lost and
- * came back, changes may have been missed, so the wedding's lists are read again. Returns the unsubscribe.
+ * Listens to the wedding's private channel and keeps the cache in step. Every join, the first one included,
+ * reads the wedding's lists again: a change committed after the screen's own fetch but before the join (or
+ * while the connection was down) was broadcast to nobody. Returns the unsubscribe.
  */
 export function subscribeToWedding(
   client: RealtimeClientLike,
@@ -139,23 +140,16 @@ export function subscribeToWedding(
   isWriting?: Writing,
 ): () => void {
   const channel = client.channel(`wedding:${weddingId}`, { config: { private: true } });
-  let wasDown = false;
   channel
     .on('broadcast', { event: '*' }, ({ payload }) => {
       const change = parseChange(payload);
       if (change) applyChange(queryClient, weddingId, change, isWriting);
     })
     .subscribe((status) => {
-      if (status === 'SUBSCRIBED') {
-        if (wasDown) {
-          const k = keys.wedding(weddingId);
-          void queryClient.invalidateQueries({ queryKey: k.tasks() });
-          void queryClient.invalidateQueries({ queryKey: k.budget() });
-        }
-        wasDown = false;
-      } else {
-        wasDown = true;
-      }
+      if (status !== 'SUBSCRIBED') return;
+      const k = keys.wedding(weddingId);
+      void queryClient.invalidateQueries({ queryKey: k.tasks() });
+      void queryClient.invalidateQueries({ queryKey: k.budget() });
     });
   return () => {
     void client.removeChannel(channel);
