@@ -13,6 +13,8 @@
  *   tranșe (NS-090) vor înlocui coloana.
  */
 
+import type { AgeGroup, Attending, Diet, Guest, Household } from '../domain/guests';
+import { AGE_GROUPS, ATTENDING, DIETS } from '../domain/guests';
 import { DEFAULT_EUR_RATE, DEFAULT_GUESTS } from '../domain/initial';
 import type { Budget, BudgetLine, Category, Currency, Money, Owner, Settings, Status, Task } from '../domain/schema';
 import { CATEGORY_IDS, CURRENCIES, MAX_GODPARENT_PAIRS, OWNERS, STATUSES } from '../domain/schema';
@@ -23,6 +25,12 @@ type Tables = Database['public']['Tables'];
 export type TaskRow = Tables['tasks']['Row'];
 export type TaskInsert = Tables['tasks']['Insert'];
 export type TaskUpdate = Tables['tasks']['Update'];
+export type HouseholdRow = Tables['households']['Row'];
+export type HouseholdInsert = Tables['households']['Insert'];
+export type HouseholdUpdate = Tables['households']['Update'];
+export type GuestRow = Tables['guests']['Row'];
+export type GuestInsert = Tables['guests']['Insert'];
+export type GuestUpdate = Tables['guests']['Update'];
 export type WeddingRow = Tables['weddings']['Row'];
 export type WeddingUpdate = Tables['weddings']['Update'];
 export type BudgetSettingsRow = Tables['budget_settings']['Row'];
@@ -442,5 +450,73 @@ export function createWeddingArgs(
       details: t.details,
     })),
     budget_template: budget.map((b) => ({ name: b.name, currency: b.currency, per_guest: b.perGuest })),
+  };
+}
+
+// ---------------------------------------------------------------- guests
+
+/** Familia/invitatul din domeniu, cu poziția din server (ca `ServerTask`). */
+export type ServerHousehold = Household & { position: number };
+export type ServerGuest = Guest & { position: number };
+export type HouseholdPatch = Partial<Pick<Household, 'name' | 'side'>>;
+export type GuestPatch = Partial<Pick<Guest, 'firstName' | 'lastName' | 'ageGroup' | 'diet' | 'attending'>>;
+
+export function householdFromRow(row: HouseholdRow): ServerHousehold {
+  return {
+    id: row.id,
+    name: row.name,
+    side: oneOf<Owner>(OWNERS, row.side, 'both'),
+    notes: row.notes,
+    position: row.position,
+  };
+}
+
+export function guestFromRow(row: GuestRow): ServerGuest {
+  return {
+    id: row.id,
+    householdId: row.household_id,
+    firstName: row.first_name,
+    lastName: row.last_name,
+    ageGroup: oneOf<AgeGroup>(AGE_GROUPS, row.age_group, 'adult'),
+    diet: oneOf<Diet>(DIETS, row.diet, 'classic'),
+    attending: oneOf<Attending>(ATTENDING, row.attending, 'unknown'),
+    position: row.position,
+  };
+}
+
+/** `id` vine de la client (UUID), ca update-ul optimist să aibă același id. */
+export function householdToInsert(weddingId: string, h: ServerHousehold): HouseholdInsert {
+  return { id: h.id, wedding_id: weddingId, name: h.name, side: h.side, notes: h.notes, position: h.position };
+}
+
+export function guestToInsert(weddingId: string, g: ServerGuest): GuestInsert {
+  return {
+    id: g.id,
+    wedding_id: weddingId,
+    household_id: g.householdId,
+    first_name: g.firstName,
+    last_name: g.lastName,
+    age_group: g.ageGroup,
+    diet: g.diet,
+    attending: g.attending,
+    position: g.position,
+  };
+}
+
+/** Doar coloanele din `patch` pleacă spre server. */
+export function householdPatchToUpdate(patch: HouseholdPatch): HouseholdUpdate {
+  return {
+    ...(patch.name !== undefined && { name: patch.name }),
+    ...(patch.side !== undefined && { side: patch.side }),
+  };
+}
+
+export function guestPatchToUpdate(patch: GuestPatch): GuestUpdate {
+  return {
+    ...(patch.firstName !== undefined && { first_name: patch.firstName }),
+    ...(patch.lastName !== undefined && { last_name: patch.lastName }),
+    ...(patch.ageGroup !== undefined && { age_group: patch.ageGroup }),
+    ...(patch.diet !== undefined && { diet: patch.diet }),
+    ...(patch.attending !== undefined && { attending: patch.attending }),
   };
 }

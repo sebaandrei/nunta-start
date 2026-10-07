@@ -22,6 +22,7 @@ export const paths = {
 export const routes = {
   home: '/w/$weddingId',
   tasks: '/w/$weddingId/start',
+  guests: '/w/$weddingId/guests',
   budget: '/w/$weddingId/calculator',
   settings: '/w/$weddingId/settings',
 } as const;
@@ -39,6 +40,7 @@ export const invitePath = (token: string) => `/invite/${encodeURIComponent(token
 /** Căile fără id de nuntă (favorite vechi): duc în nunta omului sau la alegere. */
 export const UNSCOPED_PATHS = {
   tasks: '/w/start',
+  guests: '/w/guests',
   budget: '/w/calculator',
   settings: '/w/settings',
 } as const satisfies Record<Exclude<WeddingSection, 'home'>, string>;

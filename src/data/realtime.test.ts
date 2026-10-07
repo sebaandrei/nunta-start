@@ -1,7 +1,7 @@
 import { QueryClient } from '@tanstack/react-query';
 import { describe, expect, it, vi } from 'vitest';
 import { keys } from '../lib/queryKeys';
-import type { BudgetLineRow, BudgetSettingsRow, ServerTask } from './mappers';
+import type { BudgetLineRow, BudgetSettingsRow, ServerGuest, ServerHousehold, ServerTask } from './mappers';
 import {
   applyChange,
   parseChange,
@@ -172,6 +172,64 @@ describe('applyChange on the budget', () => {
   });
 });
 
+describe('applyChange on households and guests', () => {
+  const householdRecord = (id: string, over: Record<string, unknown> = {}) => ({
+    id,
+    wedding_id: W,
+    name: `Familia ${id}`,
+    side: 'p1',
+    notes: '',
+    position: 10,
+    ...over,
+  });
+  const guestRecord = (id: string, over: Record<string, unknown> = {}) => ({
+    id,
+    wedding_id: W,
+    household_id: 'h1',
+    first_name: id,
+    last_name: '',
+    age_group: 'adult',
+    diet: 'classic',
+    attending: 'unknown',
+    position: 10,
+    ...over,
+  });
+
+  it('adds, updates and deletes households', () => {
+    const queryClient = new QueryClient();
+    queryClient.setQueryData(k.households(), []);
+    applyChange(queryClient, W, change('households', 'INSERT', householdRecord('h2', { position: 20 })), idle);
+    applyChange(queryClient, W, change('households', 'INSERT', householdRecord('h1')), idle);
+    expect(queryClient.getQueryData<ServerHousehold[]>(k.households())?.map((h) => h.id)).toEqual(['h1', 'h2']);
+    applyChange(queryClient, W, change('households', 'UPDATE', householdRecord('h1', { name: 'Nou' })), idle);
+    expect(queryClient.getQueryData<ServerHousehold[]>(k.households())?.[0]?.name).toBe('Nou');
+    applyChange(queryClient, W, change('households', 'DELETE', householdRecord('h1')), idle);
+    expect(queryClient.getQueryData<ServerHousehold[]>(k.households())?.map((h) => h.id)).toEqual(['h2']);
+  });
+
+  it('reads the guests again when a household is deleted (DB cascade)', () => {
+    const queryClient = new QueryClient();
+    queryClient.setQueryData(k.households(), [householdRecord('h1')]);
+    const invalidate = vi.spyOn(queryClient, 'invalidateQueries');
+    applyChange(queryClient, W, change('households', 'DELETE', householdRecord('h1')), idle);
+    expect(invalidate).toHaveBeenCalledWith({ queryKey: k.guests(), exact: true });
+  });
+
+  it('patches the guest list and skips it while this client is writing', () => {
+    const queryClient = new QueryClient();
+    queryClient.setQueryData(k.guests(), []);
+    applyChange(queryClient, W, change('guests', 'INSERT', guestRecord('a')), idle);
+    expect(queryClient.getQueryData<ServerGuest[]>(k.guests())).toHaveLength(1);
+    const asked: unknown[] = [];
+    applyChange(queryClient, W, change('guests', 'INSERT', guestRecord('b')), (key) => {
+      asked.push(key);
+      return true;
+    });
+    expect(queryClient.getQueryData<ServerGuest[]>(k.guests())).toHaveLength(1);
+    expect(asked[0]).toEqual([...k.guests(), 'write']);
+  });
+});
+
 describe('subscribeToWedding', () => {
   function fake() {
     let onMessage: (m: { payload?: unknown }) => void = () => {};
@@ -225,11 +283,13 @@ describe('subscribeToWedding', () => {
     f.status('SUBSCRIBED');
     expect(invalidate).toHaveBeenCalledWith({ queryKey: k.tasks() });
     expect(invalidate).toHaveBeenCalledWith({ queryKey: k.budget() });
-    expect(invalidate).toHaveBeenCalledTimes(2);
-    f.status('CHANNEL_ERROR');
-    expect(invalidate).toHaveBeenCalledTimes(2);
-    f.status('SUBSCRIBED');
+    expect(invalidate).toHaveBeenCalledWith({ queryKey: k.households() });
+    expect(invalidate).toHaveBeenCalledWith({ queryKey: k.guests() });
     expect(invalidate).toHaveBeenCalledTimes(4);
+    f.status('CHANNEL_ERROR');
+    expect(invalidate).toHaveBeenCalledTimes(4);
+    f.status('SUBSCRIBED');
+    expect(invalidate).toHaveBeenCalledTimes(8);
   });
 
   it('leaves the channel on cleanup', () => {

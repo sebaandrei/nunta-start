@@ -1,6 +1,15 @@
 import { useQuery } from '@tanstack/react-query';
 import { Link, Outlet, useParams, useRouterState } from '@tanstack/react-router';
-import { ArrowLeftRight, Calculator, House, ListChecks, type LucideIcon, Settings, ShieldCheck } from 'lucide-react';
+import {
+  ArrowLeftRight,
+  Calculator,
+  House,
+  ListChecks,
+  type LucideIcon,
+  Settings,
+  ShieldCheck,
+  Users,
+} from 'lucide-react';
 import { LocaleIconButton, SignOutButton, SignOutIconButton, ThemeIconButton } from './components/ShellControls';
 import { cx } from './components/ui';
 import { useTasks } from './data/hooks';
@@ -16,6 +25,7 @@ import { useWedding, WeddingProvider } from './lib/wedding';
 const NAV_ICONS: Record<NavId, LucideIcon> = {
   home: House,
   tasks: ListChecks,
+  guests: Users,
   budget: Calculator,
   settings: Settings,
 };
@@ -201,7 +211,7 @@ function MobileTabBar() {
       aria-label={t.shell.mainNav}
       className="fixed inset-x-0 bottom-0 z-30 border-t border-line bg-surface pb-[env(safe-area-inset-bottom)] md:hidden"
     >
-      <ul className="grid grid-cols-4">
+      <ul className="grid grid-cols-5">
         {NAV_ITEMS.map(({ id, to }) => {
           const Icon = NAV_ICONS[id];
           return (

@@ -52,3 +52,35 @@ export function guestStats(households: Household[], guests: Guest[]): GuestStats
   }
   return stats;
 }
+
+export type SideFilter = Owner | 'all';
+export type AttendingFilter = Attending | 'all';
+
+export type HouseholdGroup<H extends Household, G extends Guest> = { household: H; guests: G[] };
+
+/**
+ * Familiile cu invitații lor, în ordinea primită. Cu un filtru de status, rămân doar invitații cu acel status
+ * și familiile care mai au măcar unul; fără filtru de status, familiile goale se văd (tocmai au fost create).
+ */
+export function groupGuests<H extends Household, G extends Guest>(
+  households: readonly H[],
+  guests: readonly G[],
+  side: SideFilter,
+  attending: AttendingFilter,
+): HouseholdGroup<H, G>[] {
+  const byHousehold = new Map<string, G[]>();
+  for (const guest of guests) {
+    if (attending !== 'all' && guest.attending !== attending) continue;
+    const list = byHousehold.get(guest.householdId);
+    if (list) list.push(guest);
+    else byHousehold.set(guest.householdId, [guest]);
+  }
+  const groups: HouseholdGroup<H, G>[] = [];
+  for (const household of households) {
+    if (side !== 'all' && household.side !== side) continue;
+    const members = byHousehold.get(household.id) ?? [];
+    if (attending !== 'all' && members.length === 0) continue;
+    groups.push({ household, guests: members });
+  }
+  return groups;
+}

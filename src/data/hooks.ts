@@ -7,11 +7,33 @@ import { useMemo } from 'react';
 import { addDays, startOfDay, toISODate } from '../domain/dates';
 import type { Budget, Settings } from '../domain/schema';
 import { useWedding } from '../lib/wedding';
-import { budgetFromRows, type ServerTask, scenarioIds, settingsFromWedding } from './mappers';
-import { budgetLinesQuery, budgetScenariosQuery, budgetSettingsQuery, tasksQuery } from './queries';
+import {
+  budgetFromRows,
+  type ServerGuest,
+  type ServerHousehold,
+  type ServerTask,
+  scenarioIds,
+  settingsFromWedding,
+} from './mappers';
+import {
+  budgetLinesQuery,
+  budgetScenariosQuery,
+  budgetSettingsQuery,
+  guestsQuery,
+  householdsQuery,
+  tasksQuery,
+} from './queries';
 
 export function useTasks(weddingId: string): ServerTask[] {
   return useSuspenseQuery(tasksQuery(weddingId)).data;
+}
+
+export function useHouseholds(weddingId: string): ServerHousehold[] {
+  return useSuspenseQuery(householdsQuery(weddingId)).data;
+}
+
+export function useGuests(weddingId: string): ServerGuest[] {
+  return useSuspenseQuery(guestsQuery(weddingId)).data;
 }
 
 /** Bugetul nunții din cache, în forma de domeniu, cu id-urile scenariilor (în aceeași ordine ca `budget.scenarios`). */

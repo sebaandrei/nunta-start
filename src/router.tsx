@@ -6,6 +6,8 @@ import {
   budgetLinesQuery,
   budgetScenariosQuery,
   budgetSettingsQuery,
+  guestsQuery,
+  householdsQuery,
   tasksQuery,
   weddingQuery,
   weddingsQuery,
@@ -20,6 +22,7 @@ import { initSession, useSession } from './lib/session';
 import { AuthCallback } from './screens/AuthCallback';
 import { Calculator } from './screens/Calculator';
 import { NotFound, RouteError } from './screens/ErrorPages';
+import { Guests } from './screens/Guests';
 import { Home } from './screens/Home';
 import { InviteRoute } from './screens/InviteAccept';
 import { Landing } from './screens/Landing';
@@ -103,6 +106,8 @@ const weddingRoute = createRoute({
       queryClient.ensureQueryData(budgetSettingsQuery(weddingId)),
       queryClient.ensureQueryData(budgetScenariosQuery(weddingId)),
       queryClient.ensureQueryData(budgetLinesQuery(weddingId)),
+      queryClient.ensureQueryData(householdsQuery(weddingId)),
+      queryClient.ensureQueryData(guestsQuery(weddingId)),
     ]);
   },
 });
@@ -111,6 +116,7 @@ const weddingChildren = [
   createRoute({ getParentRoute: () => weddingRoute, path: '/', component: Home }),
   createRoute({ getParentRoute: () => weddingRoute, path: '/start', component: Start }),
   createRoute({ getParentRoute: () => weddingRoute, path: '/calculator', component: Calculator }),
+  createRoute({ getParentRoute: () => weddingRoute, path: '/guests', component: Guests }),
   createRoute({ getParentRoute: () => weddingRoute, path: '/settings', component: Settings }),
 ];
 

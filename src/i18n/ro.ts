@@ -1,3 +1,4 @@
+import type { AgeGroup, Attending, Diet } from '../domain/guests';
 import type { Countdown } from '../domain/home';
 import { CITY_MAX, GUESTS_MAX, PARTNER_NAME_MAX, WEDDING_NAME_MAX } from '../domain/onboardingSteps';
 import type { Category, Owner, Status } from '../domain/schema';
@@ -20,9 +21,9 @@ export const ro = {
     mainNav: 'Navigare principală',
     section: 'Planificare',
     caption: 'Planul vostru',
-    nav: { home: 'Acasă', tasks: 'Taskuri', budget: 'Calculator buget', settings: 'Setări' },
+    nav: { home: 'Acasă', tasks: 'Taskuri', guests: 'Invitați', budget: 'Calculator buget', settings: 'Setări' },
     /** Etichetele scurte din bara de jos de pe telefon. */
-    tab: { home: 'Acasă', tasks: 'Taskuri', budget: 'Buget', settings: 'Setări' },
+    tab: { home: 'Acasă', tasks: 'Taskuri', guests: 'Invitați', budget: 'Buget', settings: 'Setări' },
     badgeLabel: (n: number) => `${countLabel(n, 'task', 'taskuri')} de recuperat`,
     coupleLabel: 'Spațiul vostru',
     privacyTitle: 'Planul vostru, în siguranță',
@@ -126,6 +127,10 @@ export const ro = {
     tasks: {
       title: 'Planul de pregătire',
       subtitle: 'Un pas pe rând. Vedeți ce e important acum și ce urmează.',
+    },
+    guests: {
+      title: 'Lista de invitați',
+      subtitle: 'Familiile și invitații voștri, la un loc.',
     },
     budget: {
       title: 'Bugetul nunții',
@@ -479,6 +484,42 @@ export const ro = {
       confirmRemove: 'Ștergeți taskul ăsta?',
       close: 'Gata',
     },
+  },
+
+  guests: {
+    readOnly: 'Aveți acces doar pentru citire: lista de invitați nu poate fi modificată.',
+    addHousehold: 'Adaugă familie',
+    addGuest: 'Adaugă invitat',
+    householdName: 'Numele familiei',
+    firstName: 'Prenume',
+    lastName: 'Nume',
+    side: 'Partea',
+    ageGroup: 'Vârsta',
+    diet: 'Meniu',
+    attending: 'Răspuns',
+    ageGroups: { adult: 'Adult', child: 'Copil' } satisfies Record<AgeGroup, string>,
+    diets: { classic: 'Clasic', vegetarian: 'Vegetarian', vegan: 'Vegan' } satisfies Record<Diet, string>,
+    statuses: { unknown: 'Neconfirmat', yes: 'Vine', no: 'Nu vine' } satisfies Record<Attending, string>,
+    all: 'Toți',
+    sideFilter: 'Filtru după parte',
+    statusFilter: 'Filtru după răspuns',
+    statHouseholds: 'Familii',
+    statGuests: 'Invitați',
+    statGuestsHelper: (adults: number, children: number) =>
+      `${countLabel(adults, 'adult', 'adulți')} · ${countLabel(children, 'copil', 'copii')}`,
+    statVegetarian: 'Vegetarieni',
+    statVegan: 'Vegani',
+    removeGuest: 'Șterge invitatul',
+    removeHousehold: 'Șterge familia',
+    confirmRemoveHousehold: (name: string, guests: number) =>
+      `Ștergeți familia${name.trim() ? ` „${name.trim()}"` : ''} și ${countLabel(guests, 'invitat', 'invitați')}?`,
+    guestCount: (n: number) => countLabel(n, 'invitat', 'invitați'),
+    emptyTitle: 'Nu aveți încă invitați',
+    emptyHint: 'Adăugați prima familie și invitații ei.',
+    noMatchTitle: 'Niciun invitat nu se potrivește',
+    noMatchHint: 'Schimbați filtrele ca să vedeți lista.',
+    clearFilters: 'Șterge filtrele',
+    emptyHousehold: 'Nicio persoană încă.',
   },
 
   calc: {

@@ -18,6 +18,7 @@ export const keys = {
       budgetScenarios: () => [...base, 'budget', 'scenarios'] as const,
       budgetLines: () => [...base, 'budget', 'lines'] as const,
       guests: () => [...base, 'guests'] as const,
+      households: () => [...base, 'households'] as const,
       members: () => [...base, 'members'] as const,
     };
   },
