@@ -81,6 +81,50 @@ isOneToOne: true
       referencedColumns: ["id"]
     }
                   ]
+                },"guests": {
+                  Row: {
+                    "age_group": string,"attending": string,"created_at": string,"diet": string,"first_name": string,"household_id": string,"id": string,"last_name": string,"position": number,"updated_at": string,"updated_by": string | null,"wedding_id": string
+                  }
+                  Insert: {
+                    "age_group"?: string,"attending"?: string,"created_at"?: string,"diet"?: string,"first_name"?: string,"household_id": string,"id"?: string,"last_name"?: string,"position"?: number,"updated_at"?: string,"updated_by"?: string | null,"wedding_id": string
+                  }
+                  Update: {
+                    "age_group"?: string,"attending"?: string,"created_at"?: string,"diet"?: string,"first_name"?: string,"household_id"?: string,"id"?: string,"last_name"?: string,"position"?: number,"updated_at"?: string,"updated_by"?: string | null,"wedding_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "guests_household_id_wedding_id_fkey"
+      columns: ["household_id","wedding_id"]
+isOneToOne: false
+      referencedRelation: "households"
+      referencedColumns: ["id","wedding_id"]
+    },{
+      foreignKeyName: "guests_wedding_id_fkey"
+      columns: ["wedding_id"]
+isOneToOne: false
+      referencedRelation: "weddings"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"households": {
+                  Row: {
+                    "created_at": string,"id": string,"name": string,"notes": string,"position": number,"side": string,"updated_at": string,"updated_by": string | null,"wedding_id": string
+                  }
+                  Insert: {
+                    "created_at"?: string,"id"?: string,"name": string,"notes"?: string,"position"?: number,"side"?: string,"updated_at"?: string,"updated_by"?: string | null,"wedding_id": string
+                  }
+                  Update: {
+                    "created_at"?: string,"id"?: string,"name"?: string,"notes"?: string,"position"?: number,"side"?: string,"updated_at"?: string,"updated_by"?: string | null,"wedding_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "households_wedding_id_fkey"
+      columns: ["wedding_id"]
+isOneToOne: false
+      referencedRelation: "weddings"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"invitations": {
                   Row: {
                     "accepted_at": string | null,"accepted_by": string | null,"cancelled_at": string | null,"created_at": string,"declined_at": string | null,"email": string,"expires_at": string,"id": string,"invited_by": string | null,"role": Database["public"]['Enums']["member_role"],"token_hash": string,"wedding_id": string

@@ -1,5 +1,5 @@
 begin;
-select plan(8);
+select plan(9);
 
 insert into public.allowed_emails (email) values ('a1@example.com'), ('a3@example.com');
 insert into auth.users (id, email) values
@@ -30,6 +30,16 @@ select is(
   (select count(*)::int from realtime.messages where topic = 'wedding:00000000-0000-0000-0000-0000000000b2'),
   1, 'budget changes broadcast to their own wedding channel');
 
+delete from realtime.messages;
+insert into public.households (id, wedding_id, name) values
+  ('00000000-0000-0000-0000-0000000000d1', '00000000-0000-0000-0000-0000000000b1', 'Popescu');
+insert into public.guests (wedding_id, household_id, first_name) values
+  ('00000000-0000-0000-0000-0000000000b1', '00000000-0000-0000-0000-0000000000d1', 'Ana');
+select is(
+  (select count(*)::int from realtime.messages where topic = 'wedding:00000000-0000-0000-0000-0000000000b1'),
+  2, 'household and guest changes broadcast on the wedding channel');
+
+delete from realtime.messages;
 insert into public.tasks (wedding_id, title, category) values
   ('00000000-0000-0000-0000-0000000000b1', 'Photographer', 'foto');
 
