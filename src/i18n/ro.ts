@@ -627,7 +627,8 @@ export const ro = {
     dataTitle: 'Datele și spațiul',
     dataHint: 'Datele nunții stau în contul vostru, nu doar în acest browser.',
     downloadTitle: 'Descarcă datele mele',
-    downloadHint: 'Veți primi un fișier cu tot ce ați planificat. Funcția vine în curând.',
+    downloadHint:
+      'Veți primi un fișier JSON cu profilul vostru și tot ce ați planificat în nunțile pe care le dețineți.',
     downloadButton: 'Descarcă datele',
     deleteTitle: 'Ștergeți spațiul',
     deleteHint: 'Spațiul nunții dispare pentru toți membrii. Doar proprietarul poate face asta.',

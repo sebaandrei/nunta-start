@@ -345,6 +345,9 @@ isOneToOne: false
 "decline_invitation":
 { Args: { "p_token": string }; Returns: undefined
                            },
+"export_my_data":
+{ Args: never; Returns: Json
+                           },
 "generate_household_rsvp_token":
 { Args: { "p_household_id": string }; Returns: string
                            },

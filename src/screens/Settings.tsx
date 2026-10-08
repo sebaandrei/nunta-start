@@ -16,6 +16,7 @@ import {
   NumberInput,
   Segmented,
 } from '../components/ui';
+import { useExportMyData } from '../data/exportData';
 import { useSettings } from '../data/hooks';
 import { createMembersClient } from '../data/members';
 import { useDeleteWedding, useWeddingMutation } from '../data/weddingMutations';
@@ -35,6 +36,7 @@ export function Settings() {
   const settings = useSettings();
   const updateWedding = useWeddingMutation(weddingId);
   const deleteWedding = useDeleteWedding(weddingId);
+  const exportData = useExportMyData();
   const navigate = useNavigate();
   const membersClient = useMemo(() => (isAuthConfigured() ? createMembersClient(weddingId) : undefined), [weddingId]);
   const locale = useLocale((s) => s.locale);
@@ -209,7 +211,12 @@ export function Settings() {
             <p id={downloadHintId} className="mt-1 text-xs text-muted">
               {t.settings.downloadHint}
             </p>
-            <Button className="mt-3 w-full" disabled aria-describedby={downloadHintId}>
+            <Button
+              className="mt-3 w-full"
+              disabled={exportData.isPending || !isAuthConfigured()}
+              onClick={() => exportData.mutate()}
+              aria-describedby={downloadHintId}
+            >
               {t.settings.downloadButton}
             </Button>
           </div>

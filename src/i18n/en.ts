@@ -621,7 +621,7 @@ export const en: Messages = {
     dataTitle: 'Data and space',
     dataHint: 'Your wedding data lives in your account, not only in this browser.',
     downloadTitle: 'Download my data',
-    downloadHint: 'You will get a file with everything you planned. This is coming soon.',
+    downloadHint: 'You will get a JSON file with your profile and everything you planned in the weddings you own.',
     downloadButton: 'Download data',
     deleteTitle: 'Delete the space',
     deleteHint: 'The wedding space disappears for all members. Only the owner can do this.',
