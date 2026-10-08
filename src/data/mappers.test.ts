@@ -72,6 +72,7 @@ describe('taskFromRow', () => {
       details: 'd',
       note: 'n',
       position: 20,
+      templateKey: 'k',
     });
   });
 

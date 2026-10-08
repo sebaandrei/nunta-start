@@ -42,7 +42,7 @@ export type BudgetLineInsert = Tables['budget_lines']['Insert'];
 export type BudgetLineUpdate = Tables['budget_lines']['Update'];
 
 /** Taskul din domeniu, cu poziția din server. */
-export type ServerTask = Task & { position: number };
+export type ServerTask = Task & { position: number; templateKey: string | null };
 
 /** Nunta și rolul meu în ea. */
 export interface Wedding {
@@ -87,11 +87,12 @@ export function taskFromRow(row: TaskRow): ServerTask {
     details: row.details,
     note: row.note,
     position: num(row.position) ?? 0,
+    templateKey: row.template_key,
   };
 }
 
 /** Doar coloanele din `patch`; `id` nu se trimite niciodată. */
-export function taskPatchToUpdate(patch: Partial<Omit<ServerTask, 'id'>>): TaskUpdate {
+export function taskPatchToUpdate(patch: Partial<Omit<ServerTask, 'id' | 'templateKey'>>): TaskUpdate {
   const out: TaskUpdate = {};
   if (patch.title !== undefined) out.title = patch.title;
   if (patch.category !== undefined) out.category = patch.category;
@@ -108,9 +109,9 @@ export function taskPatchToUpdate(patch: Partial<Omit<ServerTask, 'id'>>): TaskU
 /** Doar câmpurile din `patch` care diferă de valorile curente; gol = nimic de trimis. */
 export function changedPatch(
   task: ServerTask,
-  patch: Partial<Omit<ServerTask, 'id'>>,
-): Partial<Omit<ServerTask, 'id'>> {
-  const out: Partial<Omit<ServerTask, 'id'>> = {};
+  patch: Partial<Omit<ServerTask, 'id' | 'templateKey'>>,
+): Partial<Omit<ServerTask, 'id' | 'templateKey'>> {
+  const out: Partial<Omit<ServerTask, 'id' | 'templateKey'>> = {};
   for (const key of Object.keys(patch) as (keyof typeof patch)[]) {
     if (patch[key] !== undefined && patch[key] !== task[key]) Object.assign(out, { [key]: patch[key] });
   }
@@ -131,6 +132,7 @@ export function taskToInsert(weddingId: string, task: ServerTask): TaskInsert {
     details: task.details,
     note: task.note,
     position: task.position,
+    template_key: task.templateKey,
   };
 }
 

@@ -4,8 +4,10 @@
  */
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
+import { localizeTemplateText } from '../content';
 import { addDays, startOfDay, toISODate } from '../domain/dates';
 import type { Budget, Settings } from '../domain/schema';
+import { useLocale } from '../lib/locale';
 import { useWedding } from '../lib/wedding';
 import {
   budgetFromRows,
@@ -24,8 +26,19 @@ import {
   tasksQuery,
 } from './queries';
 
+/** Taskurile din cache; cele din șablon, needitate, apar în limba curentă (cache-ul rămâne neatins). */
 export function useTasks(weddingId: string): ServerTask[] {
-  return useSuspenseQuery(tasksQuery(weddingId)).data;
+  const data = useSuspenseQuery(tasksQuery(weddingId)).data;
+  const locale = useLocale((s) => s.locale);
+  return useMemo(
+    () =>
+      data.map((task) => ({
+        ...task,
+        title: localizeTemplateText(task.templateKey, 'title', task.title, locale),
+        details: localizeTemplateText(task.templateKey, 'details', task.details, locale),
+      })),
+    [data, locale],
+  );
 }
 
 export function useHouseholds(weddingId: string): ServerHousehold[] {

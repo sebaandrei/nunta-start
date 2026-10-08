@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { categorySchema, currencySchema } from '../domain/schema';
-import { currentLocale, type Locale } from '../lib/locale';
+import { currentLocale, LOCALES, type Locale } from '../lib/locale';
 import budgetEn from './en/budget.json';
 import tasksEn from './en/tasks.json';
 import budgetRo from './ro/budget.json';
@@ -39,4 +39,21 @@ export function taskTemplate(locale: Locale = currentLocale()): TemplateTask[] {
 
 export function budgetDefaults(locale: Locale = currentLocale()): BudgetDefault[] {
   return BUDGET_DEFAULTS_BY_LOCALE[locale];
+}
+
+/**
+ * Taskurile din șablon se salvează în limba de la creare. La afișare le traducem în limba curentă,
+ * dar doar câmpurile rămase identice cu textul șablonului (în oricare limbă): ce a editat omul rămâne.
+ */
+export function localizeTemplateText(
+  key: string | null,
+  field: 'title' | 'details',
+  value: string,
+  locale: Locale = currentLocale(),
+): string {
+  if (!key) return value;
+  const target = TASK_TEMPLATES[locale].find((t) => t.id === key)?.[field];
+  if (target === undefined || target === value) return value;
+  const isTemplateText = LOCALES.some((l) => TASK_TEMPLATES[l].find((t) => t.id === key)?.[field] === value);
+  return isTemplateText ? target : value;
 }
