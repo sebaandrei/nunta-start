@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { addDays, parseISODate } from '../domain/dates';
 import { STAGE_IDS, stageOf } from '../domain/tasks';
 import { LOCALES } from '../lib/locale';
-import { BUDGET_DEFAULTS_BY_LOCALE, localizeTemplateText, TASK_TEMPLATES } from './index';
+import { BUDGET_DEFAULTS_BY_LOCALE, TASK_TEMPLATES } from './index';
 
 describe.each(LOCALES)('șablonul de taskuri (%s)', (locale) => {
   const template = TASK_TEMPLATES[locale];
@@ -51,21 +51,5 @@ describe('paritatea între limbi', () => {
     const strip = (l: (typeof LOCALES)[number]) =>
       BUDGET_DEFAULTS_BY_LOCALE[l].map((b) => ({ currency: b.currency, perGuest: b.perGuest }));
     expect(strip('en')).toEqual(strip('ro'));
-  });
-});
-
-describe('localizeTemplateText', () => {
-  const ro = TASK_TEMPLATES.ro[0];
-  const en = TASK_TEMPLATES.en[0];
-
-  it('traduce textul needitat în limba cerută', () => {
-    expect(localizeTemplateText(ro.id, 'title', ro.title, 'en')).toBe(en.title);
-    expect(localizeTemplateText(en.id, 'details', en.details, 'ro')).toBe(ro.details);
-  });
-
-  it('lasă în pace textul editat, taskurile proprii și cheile necunoscute', () => {
-    expect(localizeTemplateText(ro.id, 'title', 'Titlul meu', 'en')).toBe('Titlul meu');
-    expect(localizeTemplateText(null, 'title', ro.title, 'en')).toBe(ro.title);
-    expect(localizeTemplateText('nu-exista', 'title', ro.title, 'en')).toBe(ro.title);
   });
 });

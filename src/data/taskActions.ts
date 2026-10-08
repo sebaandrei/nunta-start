@@ -8,7 +8,7 @@ import { changedPatch, nextPosition, type ServerTask, type TaskUpdate, taskPatch
 import { weddingQuery } from './queries';
 import { deleteTask, insertTask, updateTask } from './tasks';
 
-export type TaskPatch = Partial<Omit<ServerTask, 'id' | 'templateKey'>>;
+export type TaskPatch = Partial<Omit<ServerTask, 'id'>>;
 
 export interface TaskActions {
   /** Adaugă un task gol cu termenul etapei curente; întoarce id-ul (UUID de client) ca ecranul să-l poată deschide. */
@@ -100,7 +100,6 @@ export function useTaskActions(weddingId: string): TaskActions {
         const task: ServerTask = {
           ...createTask(toISODate(due), () => crypto.randomUUID()),
           position: nextPosition(cached(queryClient, weddingId)),
-          templateKey: null,
         };
         add(task);
         return task.id;
