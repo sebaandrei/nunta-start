@@ -345,6 +345,12 @@ isOneToOne: false
 "decline_invitation":
 { Args: { "p_token": string }; Returns: undefined
                            },
+"delete_account_data":
+{ Args: { "p_email": string,"p_user_id": string }; Returns: number
+                           },
+"export_my_data":
+{ Args: Record<PropertyKey, never>; Returns: Json
+                           },
 "generate_household_rsvp_token":
 { Args: { "p_household_id": string }; Returns: string
                            },

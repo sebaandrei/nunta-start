@@ -621,11 +621,18 @@ export const en: Messages = {
     dataTitle: 'Data and space',
     dataHint: 'Your wedding data lives in your account, not only in this browser.',
     downloadTitle: 'Download my data',
-    downloadHint: 'You will get a file with everything you planned. This is coming soon.',
+    downloadHint: 'You will get a JSON file with your profile and everything you planned in the weddings you own.',
     downloadButton: 'Download data',
     deleteTitle: 'Delete the space',
     deleteHint: 'The wedding space disappears for all members. Only the owner can do this.',
     deleteButton: 'Delete space',
+    accountDeleteTitle: 'Delete your account',
+    accountDeleteHint:
+      'Your account and personal data are deleted for good. Weddings you are the only owner of are deleted for all members.',
+    accountDeleteButton: 'Delete account',
+    accountDialogTitle: 'Delete your account?',
+    accountDialogBody:
+      'Your account is deleted for good and cannot be recovered. Weddings you are the only owner of disappear for all members and are fully erased after 30 days; in other weddings you are simply removed. If you want a copy, download your data first.',
     dialogTitle: 'Delete the space?',
     dialogBody: (name: string) =>
       `The space "${name}" disappears right away for all members and nobody can open it any more. There is no restore button yet: within 30 days the owner can ask the app administrator to bring it back.`,
