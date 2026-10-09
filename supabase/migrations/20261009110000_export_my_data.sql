@@ -1,5 +1,6 @@
 -- NS-061: "Download my data" (GDPR access/portability).
--- Returns one JSON document with every wedding the caller owns and all of its rows.
+-- Returns one JSON document with every wedding the caller owns and all of its rows. Soft-deleted
+-- weddings are included: they stay stored (and readable) until the 30-day purge, so they are data too.
 -- SECURITY INVOKER: RLS still applies on every table, so the caller can only ever
 -- read what they could already read. Credentials are left out: invitations are
 -- listed by an explicit column allow-list (no token_hash), and the RSVP token
@@ -42,8 +43,7 @@ begin
   ), '[]')
   into v_weddings
   from public.weddings w
-  where w.deleted_at is null
-    and private.member_role(w.id) = 'owner';
+  where private.member_role(w.id) = 'owner';
 
   return jsonb_build_object(
     'exported_at', now(),
