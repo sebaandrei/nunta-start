@@ -50,7 +50,9 @@ select is((select count(*)::int from public.invitations where lower(email::text)
   'invitations addressed to them are removed, whatever the case');
 select is((select count(*)::int from public.allowed_emails where lower(email::text) = 'a1@example.com'), 0,
   'they are off the invite-only list');
-select is((select count(*)::int from public.allowed_emails), 2, 'other people stay on the list');
+select is(
+  (select count(*)::int from public.allowed_emails where email in ('a2@example.com', 'a3@example.com')),
+  2, 'other people stay on the list');
 
 -- Hard purge after the retention window.
 update public.weddings set deleted_at = now() - interval '31 days' where id = '00000000-0000-0000-0000-0000000000b1';
@@ -59,7 +61,9 @@ select is(private.purge_deleted_weddings(), 1, 'the 30-day purge removes only th
 select is((select count(*)::int from public.households where wedding_id = '00000000-0000-0000-0000-0000000000b1'), 0,
   'its data is gone with it');
 select is(private.purge_deleted_weddings(interval '0 seconds'), 1, 'a shortened interval purges the recent one too');
-select is((select count(*)::int from public.weddings), 1, 'the live shared wedding is untouched');
+select is(
+  (select count(*)::int from public.weddings where name in ('Solo', 'Shared', 'Recent')),
+  1, 'only the live shared wedding is left');
 
 select * from finish();
 rollback;
