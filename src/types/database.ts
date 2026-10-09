@@ -349,7 +349,7 @@ isOneToOne: false
 { Args: { "p_email": string,"p_user_id": string }; Returns: number
                            },
 "export_my_data":
-{ Args: never; Returns: Json
+{ Args: Record<PropertyKey, never>; Returns: Json
                            },
 "generate_household_rsvp_token":
 { Args: { "p_household_id": string }; Returns: string
