@@ -16,6 +16,7 @@ import {
   NumberInput,
   Segmented,
 } from '../components/ui';
+import { useDeleteAccount } from '../data/account';
 import { useExportMyData } from '../data/exportData';
 import { useSettings } from '../data/hooks';
 import { createMembersClient } from '../data/members';
@@ -27,6 +28,7 @@ import { isAuthConfigured } from '../lib/auth';
 import { currencySymbol } from '../lib/format';
 import { useLocale } from '../lib/locale';
 import { paths } from '../lib/paths';
+import { signOut } from '../lib/session';
 import { THEME_MODES, useTheme } from '../lib/theme';
 import { useWedding } from '../lib/wedding';
 
@@ -37,6 +39,7 @@ export function Settings() {
   const updateWedding = useWeddingMutation(weddingId);
   const deleteWedding = useDeleteWedding(weddingId);
   const exportData = useExportMyData();
+  const deleteAccount = useDeleteAccount();
   const navigate = useNavigate();
   const membersClient = useMemo(() => (isAuthConfigured() ? createMembersClient(weddingId) : undefined), [weddingId]);
   const locale = useLocale((s) => s.locale);
@@ -44,6 +47,7 @@ export function Settings() {
   const mode = useTheme((s) => s.mode);
   const setMode = useTheme((s) => s.setMode);
   const [confirming, setConfirming] = useState(false);
+  const [confirmingAccount, setConfirmingAccount] = useState(false);
   const [rateEmpty, setRateEmpty] = useState(false);
   const rateHintId = useId();
   const rateErrorId = useId();
@@ -229,6 +233,18 @@ export function Settings() {
               </Button>
             </div>
           )}
+          <div className="mt-4 rounded-xl border border-minus/30 bg-minus/10 p-4">
+            <p className="text-sm font-medium">{t.settings.accountDeleteTitle}</p>
+            <p className="mt-1 text-xs text-muted">{t.settings.accountDeleteHint}</p>
+            <Button
+              variant="danger"
+              className="mt-3 w-full"
+              disabled={!isAuthConfigured()}
+              onClick={() => setConfirmingAccount(true)}
+            >
+              {t.settings.accountDeleteButton}
+            </Button>
+          </div>
         </Card>
       </div>
 
@@ -266,6 +282,33 @@ export function Settings() {
           {t.settings.dialogBody(wedding.name)}
         </Dialog>
       )}
+
+      <Dialog
+        open={confirmingAccount}
+        onClose={() => setConfirmingAccount(false)}
+        title={t.settings.accountDialogTitle}
+        actions={
+          <>
+            <Button variant="ghost" autoFocus onClick={() => setConfirmingAccount(false)}>
+              {t.settings.cancel}
+            </Button>
+            <Button
+              variant="dangerSolid"
+              disabled={deleteAccount.isPending}
+              onClick={() =>
+                deleteAccount.mutate(undefined, {
+                  onSuccess: () => void navigate({ to: paths.landing }).then(() => signOut().catch(() => undefined)),
+                  onSettled: () => setConfirmingAccount(false),
+                })
+              }
+            >
+              {t.settings.accountDeleteButton}
+            </Button>
+          </>
+        }
+      >
+        {t.settings.accountDialogBody}
+      </Dialog>
     </>
   );
 }

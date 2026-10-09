@@ -633,6 +633,13 @@ export const ro = {
     deleteTitle: 'Ștergeți spațiul',
     deleteHint: 'Spațiul nunții dispare pentru toți membrii. Doar proprietarul poate face asta.',
     deleteButton: 'Șterge spațiul',
+    accountDeleteTitle: 'Ștergeți contul',
+    accountDeleteHint:
+      'Contul și datele personale se șterg definitiv. Nunțile pe care le dețineți singuri se șterg pentru toți membrii.',
+    accountDeleteButton: 'Șterge contul',
+    accountDialogTitle: 'Ștergeți contul?',
+    accountDialogBody:
+      'Contul vostru se șterge definitiv și nu poate fi recuperat. Nunțile pe care le dețineți singuri dispar pentru toți membrii și sunt șterse complet după 30 de zile; în celelalte nunți doar sunteți scos din listă. Dacă vreți o copie, descărcați-vă întâi datele.',
     dialogTitle: 'Ștergeți spațiul?',
     dialogBody: (name: string) =>
       `Spațiul „${name}” dispare imediat pentru toți membrii, iar nimeni nu îl mai poate deschide. Nu există încă un buton de recuperare: în 30 de zile, proprietarul poate cere administratorului aplicației să îl readucă.`,

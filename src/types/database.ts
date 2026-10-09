@@ -345,6 +345,9 @@ isOneToOne: false
 "decline_invitation":
 { Args: { "p_token": string }; Returns: undefined
                            },
+"delete_account_data":
+{ Args: { "p_email": string,"p_user_id": string }; Returns: number
+                           },
 "export_my_data":
 { Args: never; Returns: Json
                            },
