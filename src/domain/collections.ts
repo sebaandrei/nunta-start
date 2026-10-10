@@ -68,6 +68,15 @@ export function withoutEmpty(data: RecordData): RecordData {
   return Object.fromEntries(Object.entries(data).filter(([, value]) => !isEmptyValue(value)));
 }
 
+/** O casetă obligatorie bifată pe nimic e „nu": cheia lipsă devine `false`, ca formularul să poată salva ce arată. */
+export function withCheckboxDefaults(fields: readonly CollectionField[], data: RecordData): RecordData {
+  const out = { ...data };
+  for (const field of fields) {
+    if (field.type === 'checkbox' && field.required && out[field.key] === undefined) out[field.key] = false;
+  }
+  return out;
+}
+
 /** Schimbare parțială a unei înregistrări: cheie -> valoare nouă, `null` = golit. */
 export type RecordPatch = Record<string, unknown>;
 

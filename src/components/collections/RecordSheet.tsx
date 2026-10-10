@@ -8,6 +8,7 @@ import {
   type RecordData,
   type RecordPatch,
   validateRecord,
+  withCheckboxDefaults,
   withoutEmpty,
 } from '../../domain/collections';
 import type { Currency } from '../../domain/schema';
@@ -105,7 +106,7 @@ function RecordForm({
   const [errors, setErrors] = useState<Record<string, FieldError>>({});
 
   const save = () => {
-    const data = withoutEmpty(draft);
+    const data = withCheckboxDefaults(fields, withoutEmpty(draft));
     const found = validateRecord(fields, data);
     setErrors(found);
     if (Object.keys(found).length > 0) return;

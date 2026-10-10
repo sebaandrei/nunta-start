@@ -8,6 +8,7 @@ import {
   ofCollection,
   parseOptions,
   validateRecord,
+  withCheckboxDefaults,
   withoutEmpty,
 } from './collections';
 
@@ -153,5 +154,21 @@ describe('diffRecord / applyPatch', () => {
 
   it('applyPatch drops cleared keys', () => {
     expect(applyPatch({ a: 1, b: 2 }, { b: null })).toEqual({ a: 1 });
+  });
+});
+
+describe('withCheckboxDefaults', () => {
+  const box = (key: string, required: boolean) => field({ key, label: key, type: 'checkbox', required });
+
+  it('turns a missing required checkbox into false, so it validates', () => {
+    const fields = [box('confirmat', true)];
+    expect(validateRecord(fields, {})).toEqual({ confirmat: 'required' });
+    expect(validateRecord(fields, withCheckboxDefaults(fields, {}))).toEqual({});
+  });
+
+  it('leaves optional checkboxes and existing values alone', () => {
+    const fields = [box('a', false), box('b', true)];
+    expect(withCheckboxDefaults(fields, { b: true })).toEqual({ b: true });
+    expect(withCheckboxDefaults(fields, {})).toEqual({ b: false });
   });
 });

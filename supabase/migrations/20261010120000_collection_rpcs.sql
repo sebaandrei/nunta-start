@@ -9,6 +9,9 @@
 -- so two people editing different fields of one record no longer overwrite each other. The validator
 -- still checks the merged result.
 --
+-- Field deletion locks the collection row FOR UPDATE and the record validator takes it FOR SHARE, so
+-- a record written while a field is being deleted cannot keep that field's key.
+--
 -- Both are SECURITY INVOKER: RLS and the audit/broadcast triggers apply to the caller as before.
 
 create or replace function private.validate_collection_record()
@@ -26,6 +29,10 @@ begin
   if current_setting('private.collection_cleanup', true) = 'on' then
     return new;
   end if;
+
+  -- A record write waits for a field deletion in progress (which holds this row FOR UPDATE), then
+  -- validates against the committed fields, so no record can slip in a key of a field being deleted.
+  perform 1 from public.collections where id = new.collection_id for share;
 
   if jsonb_typeof(new.data) is distinct from 'object' then
     raise exception 'record data must be a JSON object' using errcode = 'check_violation';
@@ -96,6 +103,9 @@ begin
   if not private.has_role(v_field.wedding_id, array['owner', 'partner', 'planner', 'helper']::public.member_role[]) then
     raise exception 'not allowed to edit this page' using errcode = '42501';
   end if;
+
+  -- Serialize with record writes (see the validator), so the strip below sees every committed record.
+  perform 1 from public.collections where id = v_field.collection_id for update;
 
   perform set_config('private.collection_cleanup', 'on', true);
   update public.collection_records

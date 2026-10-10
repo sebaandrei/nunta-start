@@ -24,13 +24,15 @@ export function RecordCards({
       {records.map((record) => {
         const title = first ? formatFieldValue(first, record.data[first.key], currency) : '';
         return (
-          <li key={record.id}>
+          <li key={record.id} className="relative min-h-11 rounded-2xl border border-line bg-surface">
+            {/* Butonul acoperă cartea; conținutul stă peste el și lasă atingerile să treacă, mai puțin linkurile. */}
             <button
               type="button"
               onClick={() => onOpen(record.id)}
               aria-label={`${t.collections.editRecord}: ${title || t.collections.untitledRecord}`}
-              className="flex min-h-11 w-full items-start gap-2 rounded-2xl border border-line bg-surface p-4 text-left"
-            >
+              className="absolute inset-0 w-full rounded-2xl"
+            />
+            <div className="pointer-events-none relative flex items-start gap-2 p-4 [&_a]:pointer-events-auto">
               <span className="min-w-0 flex-1">
                 <span
                   className={
@@ -53,7 +55,7 @@ export function RecordCards({
                 </dl>
               </span>
               <ChevronRight size={16} className="mt-1.5 shrink-0 text-muted" aria-hidden="true" />
-            </button>
+            </div>
           </li>
         );
       })}
