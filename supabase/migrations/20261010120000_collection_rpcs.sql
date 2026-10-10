@@ -10,7 +10,8 @@
 -- still checks the merged result.
 --
 -- Field deletion locks the collection row FOR UPDATE and the record validator takes it FOR SHARE, so
--- a record written while a field is being deleted cannot keep that field's key.
+-- a record written while a field is being deleted cannot keep that field's key. Every path takes the
+-- collection lock before any record row lock, so they cannot deadlock.
 --
 -- Both are SECURITY INVOKER: RLS and the audit/broadcast triggers apply to the caller as before.
 
@@ -125,17 +126,23 @@ set search_path = ''
 as $$
 declare
   v_wedding uuid;
+  v_collection uuid;
 begin
   if jsonb_typeof(p_patch) is distinct from 'object' then
     raise exception 'patch must be a JSON object' using errcode = 'check_violation';
   end if;
-  select wedding_id into v_wedding from public.collection_records where id = p_record_id;
+  select wedding_id, collection_id into v_wedding, v_collection
+    from public.collection_records where id = p_record_id;
   if not found then
     raise exception 'record not found' using errcode = 'P0002';
   end if;
   if not private.has_role(v_wedding, array['owner', 'partner', 'planner', 'helper']::public.member_role[]) then
     raise exception 'not allowed to edit this page' using errcode = '42501';
   end if;
+
+  -- Same lock order as delete_collection_field (collection first, then the record row), so the two
+  -- cannot deadlock when a field is deleted while an affected record is being edited.
+  perform 1 from public.collections where id = v_collection for share;
 
   update public.collection_records r
     set data = coalesce(
