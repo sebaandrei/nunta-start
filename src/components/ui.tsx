@@ -340,14 +340,14 @@ export function Banner({
       role={tone === 'warn' ? 'alert' : 'status'}
       className={cx(
         'flex items-start gap-3 rounded-2xl border px-4 py-3 text-sm',
-        tone === 'warn' ? 'border-minus/30 bg-minus/10 text-ink' : 'border-line bg-sunken text-ink',
+        tone === 'warn' ? 'border-danger-line bg-danger-bg text-ink' : 'border-line bg-sunken text-ink',
         className,
       )}
     >
       <Icon
         size={18}
         aria-hidden="true"
-        className={cx('mt-0.5 shrink-0', tone === 'warn' ? 'text-minus' : 'text-accent')}
+        className={cx('mt-0.5 shrink-0', tone === 'warn' ? 'text-danger' : 'text-accent')}
       />
       <div className="flex min-w-0 flex-1 flex-wrap items-center justify-between gap-3">{children}</div>
     </div>

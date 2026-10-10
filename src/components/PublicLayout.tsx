@@ -67,7 +67,7 @@ export function PublicLayout({ children, nav = true }: { children: ReactNode; na
           className={cx('flex min-w-0 items-center gap-2.5 rounded-lg', FOCUS_RING)}
         >
           <BrandMark />
-          <span className="block truncate font-serif text-[17px] leading-tight lowercase">{t.appName}</span>
+          <span className="block truncate text-[17px] font-semibold leading-tight lowercase">{t.appName}</span>
         </a>
         <div className="flex items-center gap-1 md:gap-3">
           <LanguageSwitch />
