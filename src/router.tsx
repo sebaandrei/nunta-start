@@ -123,7 +123,13 @@ const weddingRoute = createRoute({
 
 const weddingChildren = [
   createRoute({ getParentRoute: () => weddingRoute, path: '/', component: Home }),
-  createRoute({ getParentRoute: () => weddingRoute, path: '/start', component: Start }),
+  // `?add`: venit din „Adaugă un task" de pe Acasă; ecranul deschide imediat un task nou.
+  createRoute({
+    getParentRoute: () => weddingRoute,
+    path: '/start',
+    component: Start,
+    validateSearch: (search: Record<string, unknown>): { add?: boolean } => (search.add ? { add: true } : {}),
+  }),
   createRoute({ getParentRoute: () => weddingRoute, path: '/calculator', component: Calculator }),
   createRoute({ getParentRoute: () => weddingRoute, path: '/guests', component: Guests }),
   createRoute({ getParentRoute: () => weddingRoute, path: '/pages', component: Pages }),

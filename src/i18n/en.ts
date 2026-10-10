@@ -468,7 +468,7 @@ export const en: Messages = {
     },
     nextDue: 'Next deadline',
     noNextDue: 'No deadline ahead.',
-    privacy: 'Saved privately in your browser.',
+    privacy: 'Saved to your account.',
     edit: {
       title: 'Activity',
       titlePlaceholder: 'What needs to be done?',
@@ -831,7 +831,7 @@ export const en: Messages = {
     unansweredHint: 'Pick an answer.',
     dietLabel: 'Menu',
     noteLabel: 'A message for the couple (optional)',
-    noteHint: (max: number) => `Allergies, room for a stroller, wishes. Up to ${max} characters.`,
+    noteHint: (max: number) => `Room for a stroller, wishes. Up to ${max} characters.`,
     notePlaceholder: 'Write here…',
     // TODO(NS-081): the Turnstile widget goes here; until then the request is sent without a token.
     submit: 'Send answer',

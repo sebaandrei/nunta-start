@@ -20,11 +20,12 @@ export function cx(...classes: (string | false | null | undefined)[]): string {
 }
 
 const BUTTON_VARIANTS = {
-  primary: 'bg-accent text-accent-ink hover:opacity-90',
-  secondary: 'bg-soft text-ink hover:bg-soft/70',
+  primary: 'bg-accent-solid text-on-accent hover:opacity-90',
+  secondary: 'bg-soft font-semibold text-accent hover:bg-soft/70',
+  panel: 'bg-hero text-ink hover:bg-soft',
   ghost: 'border border-line bg-surface text-ink hover:bg-sunken',
-  danger: 'border border-minus/40 bg-surface text-minus hover:bg-minus/10',
-  dangerSolid: 'bg-minus text-accent-ink hover:opacity-90',
+  danger: 'border border-danger-line bg-danger-bg text-danger hover:opacity-90',
+  dangerSolid: 'bg-danger-solid text-on-accent hover:opacity-90',
   link: 'text-accent underline-offset-2 hover:underline',
 };
 
@@ -49,12 +50,12 @@ export function Button({
 }
 
 const inputBase =
-  'border text-sm text-ink placeholder:text-faint focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20';
+  'border text-sm text-ink placeholder:text-placeholder focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20';
 
 export type InputVariant = 'box' | 'inline';
 
 const INPUT_VARIANTS: Record<InputVariant, string> = {
-  box: 'min-h-11 rounded-xl border-line bg-surface px-3 py-1.5 md:min-h-9',
+  box: 'min-h-11 rounded-xl border-line bg-bg px-3 py-1.5 md:min-h-9',
   /** Arată ca text; chenarul apare la hover și la editare. */
   inline: 'rounded-md border-transparent bg-transparent px-2 py-1 hover:border-line focus:bg-surface',
 };
@@ -209,22 +210,27 @@ export function CommitInput({
   );
 }
 
+const LABEL_CAPS = 'mb-1 block text-[11px] font-semibold uppercase tracking-wider text-muted';
+
 /** Etichetă deasupra unui singur câmp. */
 export function Field({
   label,
   hint,
+  caps,
   className,
   children,
 }: {
   label: string;
   hint?: ReactNode;
+  /** Etichetă cu majuscule mici (panourile dense din Calculator). */
+  caps?: boolean;
   className?: string;
   children: ReactNode;
 }) {
   return (
     // biome-ignore lint/a11y/noLabelWithoutControl: the input is passed as children, so the label wraps it.
     <label className={cx('block', className)}>
-      <span className="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-muted">{label}</span>
+      <span className={caps ? LABEL_CAPS : 'mb-1 block text-xs font-medium text-muted'}>{label}</span>
       {children}
       {hint && <span className="mt-1 block text-xs text-muted">{hint}</span>}
     </label>
@@ -235,11 +241,14 @@ export function Field({
 export function FieldGroup({
   label,
   hint,
+  caps,
   className,
   children,
 }: {
   label: string;
   hint?: ReactNode;
+  /** Etichetă cu majuscule mici (panourile dense din Calculator). */
+  caps?: boolean;
   className?: string;
   children: ReactNode;
 }) {
@@ -247,7 +256,7 @@ export function FieldGroup({
   return (
     // biome-ignore lint/a11y/useSemanticElements: valid ARIA group; fieldset styling revisited in NS-140.
     <div role="group" aria-labelledby={id} className={cx('block', className)}>
-      <span id={id} className="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-muted">
+      <span id={id} className={caps ? LABEL_CAPS : 'mb-1 block text-xs font-semibold text-ink'}>
         {label}
       </span>
       {children}
@@ -261,19 +270,26 @@ export function Segmented<T extends string | number>({
   options,
   value,
   onChange,
+  tone = 'surface',
   className,
 }: {
   label: string;
   options: { value: T; label: string }[];
   value: T;
   onChange: (value: T) => void;
+  /** `sunken` pentru rândurile de preferințe din Setări. */
+  tone?: 'surface' | 'sunken';
   className?: string;
 }) {
   return (
     <div
       role="radiogroup"
       aria-label={label}
-      className={cx('inline-flex max-w-full overflow-x-auto rounded-xl bg-sunken p-1', className)}
+      className={cx(
+        'inline-flex max-w-full overflow-x-auto rounded-xl border border-line p-1',
+        tone === 'sunken' ? 'bg-sunken' : 'bg-surface',
+        className,
+      )}
     >
       {options.map((option) => {
         const active = option.value === value;
@@ -287,7 +303,7 @@ export function Segmented<T extends string | number>({
             onClick={() => onChange(option.value)}
             className={cx(
               'min-h-11 whitespace-nowrap rounded-lg px-3 text-xs font-medium transition-colors md:min-h-8',
-              active ? 'bg-surface text-ink shadow-sm' : 'text-muted hover:text-ink',
+              active ? 'bg-soft font-semibold text-ink' : 'text-muted hover:text-ink',
             )}
           >
             {option.label}
@@ -301,7 +317,7 @@ export function Segmented<T extends string | number>({
 const CARD_TONES = {
   default: 'border-line bg-surface',
   hero: 'border-transparent bg-hero',
-  warm: 'border-transparent bg-warm',
+  warm: 'border-warm-line bg-warm-card',
   sunken: 'border-line bg-sunken',
 };
 
@@ -332,14 +348,14 @@ export function Banner({
       role={tone === 'warn' ? 'alert' : 'status'}
       className={cx(
         'flex items-start gap-3 rounded-2xl border px-4 py-3 text-sm',
-        tone === 'warn' ? 'border-minus/30 bg-minus/10 text-ink' : 'border-line bg-sunken text-ink',
+        tone === 'warn' ? 'border-danger-line bg-danger-bg text-ink' : 'border-line bg-sunken text-ink',
         className,
       )}
     >
       <Icon
         size={18}
         aria-hidden="true"
-        className={cx('mt-0.5 shrink-0', tone === 'warn' ? 'text-minus' : 'text-accent')}
+        className={cx('mt-0.5 shrink-0', tone === 'warn' ? 'text-danger' : 'text-accent')}
       />
       <div className="flex min-w-0 flex-1 flex-wrap items-center justify-between gap-3">{children}</div>
     </div>
@@ -370,15 +386,15 @@ export function StatusPill({ status, onClick }: { status: Status; onClick: () =>
 }
 
 const TAG_TONES = {
-  neutral: 'bg-sunken text-muted',
+  neutral: 'bg-line-subtle text-muted',
   soft: 'bg-soft text-ink',
-  warm: 'bg-warm text-ink',
+  warm: 'bg-warm-pill text-warm-text',
   minus: 'bg-minus/10 text-minus',
 };
 
 export function Tag({ children, tone = 'neutral' }: { children: ReactNode; tone?: keyof typeof TAG_TONES }) {
   return (
-    <span className={cx('whitespace-nowrap rounded-md px-1.5 py-0.5 text-[11px] font-medium', TAG_TONES[tone])}>
+    <span className={cx('whitespace-nowrap rounded-full px-2 py-0.5 text-[11px] font-semibold', TAG_TONES[tone])}>
       {children}
     </span>
   );
@@ -412,11 +428,14 @@ export function ProgressBar({
   value,
   max = 100,
   label,
+  tone = 'accent',
   className,
 }: {
   value: number;
   max?: number;
   label: string;
+  /** `onWarm`: pe un card cald (șină în culoarea chenarului cald). */
+  tone?: 'accent' | 'warm' | 'onWarm';
   className?: string;
 }) {
   const clamped = Math.min(Math.max(value, 0), max);
@@ -428,9 +447,12 @@ export function ProgressBar({
       aria-valuemin={0}
       aria-valuemax={max}
       aria-valuenow={clamped}
-      className={cx('h-2 overflow-hidden rounded-full bg-soft', className)}
+      className={cx('h-[7px] overflow-hidden rounded-full', tone === 'onWarm' ? 'bg-warm-line' : 'bg-track', className)}
     >
-      <div className="h-full rounded-full bg-accent transition-[width]" style={{ width: `${percent}%` }} />
+      <div
+        className={cx('h-full rounded-full transition-[width]', tone === 'accent' ? 'bg-progress' : 'bg-warm-solid')}
+        style={{ width: `${percent}%` }}
+      />
     </div>
   );
 }
@@ -501,16 +523,16 @@ export function FilterChip({
       type="button"
       aria-pressed={selected}
       className={cx(
-        'inline-flex min-h-11 items-center gap-1.5 whitespace-nowrap rounded-full border px-3.5 text-xs font-medium transition-colors md:min-h-8',
+        'inline-flex min-h-11 items-center gap-1.5 whitespace-nowrap rounded-xl border px-3.5 text-xs font-semibold transition-colors md:min-h-8',
         selected
-          ? 'border-transparent bg-soft text-ink'
-          : 'border-line bg-surface text-muted hover:bg-sunken hover:text-ink',
+          ? 'border-warm-line bg-warm-pill text-warm-text'
+          : 'border-line bg-surface text-warm-text hover:bg-sunken',
         className,
       )}
       {...props}
     >
       {children}
-      {count !== undefined && <span className="tabular-nums text-muted">{count}</span>}
+      {count !== undefined && <span className="tabular-nums">{count}</span>}
     </button>
   );
 }
@@ -536,7 +558,7 @@ export function EmptyState({
         className,
       )}
     >
-      <span className="inline-flex size-11 items-center justify-center rounded-full bg-soft text-ink">
+      <span className="inline-flex size-16 items-center justify-center rounded-full bg-soft text-ink">
         <Icon size={20} aria-hidden="true" />
       </span>
       <p className="font-serif text-lg">{title}</p>
@@ -580,7 +602,7 @@ export function Dialog({
       aria-labelledby={titleId}
       onClose={onClose}
       onClick={(e) => e.target === e.currentTarget && e.currentTarget.close()}
-      className="m-auto w-[calc(100%-2rem)] max-w-md rounded-2xl border border-line bg-surface p-0 text-ink shadow-xl backdrop:bg-ink/40"
+      className="m-auto w-[calc(100%-2rem)] max-w-md rounded-2xl border border-line bg-surface p-0 text-ink shadow-xl backdrop:bg-[rgb(39_46_40/0.6)]"
     >
       {/* Dialogul însuși nu are padding: orice click direct pe el e un click pe fundal. */}
       <div className="p-6">

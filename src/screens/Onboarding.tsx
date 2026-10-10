@@ -88,14 +88,14 @@ function Stepper({ current, labels, label }: { current: StepId; labels: readonly
                 aria-hidden="true"
                 className={cx(
                   'absolute right-1/2 top-4 -z-0 h-0.5 w-full -translate-y-1/2',
-                  i <= index ? 'bg-accent' : 'bg-line',
+                  i <= index ? 'bg-accent-solid' : 'bg-line',
                 )}
               />
             )}
             <span
               className={cx(
                 'relative z-10 flex size-8 items-center justify-center rounded-full border-2 text-sm font-semibold',
-                done && 'border-accent bg-accent text-accent-ink',
+                done && 'border-accent-solid bg-accent-solid text-on-accent',
                 active && 'border-accent bg-surface text-ink',
                 !done && !active && 'border-line bg-sunken text-muted',
               )}
@@ -192,14 +192,14 @@ export function Onboarding() {
   return (
     <div className="flex min-h-dvh flex-col bg-bg">
       <header className="flex items-center justify-between gap-3 px-4 py-4 sm:px-8">
-        <p className="flex items-center gap-2.5 font-semibold text-ink">
+        <p className="flex items-center gap-2.5 text-[17px] font-semibold text-ink">
           <span
             aria-hidden="true"
-            className="flex size-8 items-center justify-center rounded-lg bg-accent font-serif text-accent-ink"
+            className="flex size-8 items-center justify-center rounded-lg bg-soft font-serif text-accent"
           >
             N
           </span>
-          {t.appName}
+          <span className="lowercase">{t.appName}</span>
         </p>
         <div className="flex items-center gap-2">
           <SignOutIconButton />
@@ -277,30 +277,32 @@ export function Onboarding() {
                       />
                     )}
                   </FormField>
-                  <FormField id="onb-city" label={ob.city} error={err('city')}>
-                    {(p) => (
-                      <TextInput
-                        {...p}
-                        autoComplete="off"
-                        placeholder={ob.cityPlaceholder}
-                        value={values.city}
-                        onChange={(e) => set({ city: e.target.value })}
-                        onBlur={() => checkLength('city')}
-                      />
-                    )}
-                  </FormField>
-                  <FormField id="onb-guests" label={ob.guestsLabel} hint={ob.guestsShort} error={err('guests')}>
-                    {(p) => (
-                      <TextInput
-                        {...p}
-                        inputMode="numeric"
-                        autoComplete="off"
-                        value={values.guests}
-                        onChange={(e) => set({ guests: e.target.value })}
-                        placeholder={ob.guestsPlaceholder}
-                      />
-                    )}
-                  </FormField>
+                  <div className="grid gap-4 sm:grid-cols-[5fr_4fr]">
+                    <FormField id="onb-city" label={ob.city} error={err('city')}>
+                      {(p) => (
+                        <TextInput
+                          {...p}
+                          autoComplete="off"
+                          placeholder={ob.cityPlaceholder}
+                          value={values.city}
+                          onChange={(e) => set({ city: e.target.value })}
+                          onBlur={() => checkLength('city')}
+                        />
+                      )}
+                    </FormField>
+                    <FormField id="onb-guests" label={ob.guestsLabel} hint={ob.guestsShort} error={err('guests')}>
+                      {(p) => (
+                        <TextInput
+                          {...p}
+                          inputMode="numeric"
+                          autoComplete="off"
+                          value={values.guests}
+                          onChange={(e) => set({ guests: e.target.value })}
+                          placeholder={ob.guestsPlaceholder}
+                        />
+                      )}
+                    </FormField>
+                  </div>
                 </>
               )}
 
@@ -318,7 +320,7 @@ export function Onboarding() {
 
             <div className="mt-7 flex items-center justify-between gap-3">
               {index > 0 ? (
-                <Button variant="secondary" onClick={() => go(prevStep(step))}>
+                <Button variant="ghost" onClick={() => go(prevStep(step))}>
                   <ArrowLeft aria-hidden="true" className="size-4" />
                   {ob.back}
                 </Button>

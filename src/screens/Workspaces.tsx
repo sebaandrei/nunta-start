@@ -3,7 +3,7 @@ import { ChevronRight, Heart, Plus } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { LINK_BUTTON_PRIMARY, LINK_FOCUS, PublicShell } from '../components/PublicShell';
 import { SignOutIconButton } from '../components/ShellControls';
-import { Banner, Button, EmptyState, Heading } from '../components/ui';
+import { Banner, Button, cx, EmptyState, Heading } from '../components/ui';
 import { weddingsClient } from '../data/workspacesClient';
 import { useT } from '../i18n';
 import { paths, routes } from '../lib/paths';
@@ -23,7 +23,16 @@ function PulseRow() {
 function RoleBadge({ role }: { role: Workspace['role'] }) {
   const t = useT();
   return (
-    <span className="whitespace-nowrap rounded-full bg-soft px-2.5 py-1 text-xs font-medium text-ink">
+    <span
+      className={cx(
+        'whitespace-nowrap rounded-full px-2.5 py-1 text-xs font-semibold',
+        role === 'owner' || role === 'partner'
+          ? 'bg-soft text-ink'
+          : role === 'viewer'
+            ? 'bg-line-subtle text-muted'
+            : 'bg-warm text-warm-ink',
+      )}
+    >
       <span className="sr-only">{t.workspaces.roleLabel}: </span>
       {roleLabel(role, t)}
     </span>
@@ -43,7 +52,7 @@ function WorkspaceCard({ ws }: { ws: Workspace }) {
     >
       <span
         aria-hidden="true"
-        className="inline-flex size-11 shrink-0 items-center justify-center rounded-full bg-warm text-[13px] font-semibold text-ink"
+        className="inline-flex size-11 shrink-0 items-center justify-center rounded-full bg-warm text-[13px] font-semibold text-warm-ink"
       >
         {workspaceInitials(name) || <Heart size={16} />}
       </span>
@@ -135,7 +144,7 @@ export function Workspaces({ client = weddingsClient }: { client?: WorkspacesCli
               <Link
                 to={paths.newWedding}
                 aria-describedby="workspaces-create-note"
-                className={`mt-3 flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl border border-line bg-surface px-4 text-sm font-semibold text-ink hover:bg-sunken ${LINK_FOCUS}`}
+                className={`mt-3 flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl border border-line bg-surface px-4 text-sm font-semibold text-accent hover:bg-sunken ${LINK_FOCUS}`}
               >
                 <Plus size={16} aria-hidden="true" />
                 {w.createTitle}

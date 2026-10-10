@@ -211,7 +211,7 @@ export function MembersPanel({
           {status === 'loading' ? (
             <p className="border-t border-line px-5 py-4 text-sm text-muted md:px-6">{m.loading}</p>
           ) : (
-            <ul aria-labelledby="members-title" className="divide-y divide-line border-t border-line">
+            <ul aria-labelledby="members-title" className="divide-y divide-line-subtle border-t border-line-subtle">
               {members.map((member) => (
                 <MemberRow
                   key={member.id}

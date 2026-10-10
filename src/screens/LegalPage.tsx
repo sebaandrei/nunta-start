@@ -55,7 +55,7 @@ export function LegalPage({ doc }: { doc: keyof LegalContent }) {
                       FOCUS_RING,
                     )}
                   >
-                    <span className="tabular-nums text-faint">{i + 1}.</span>
+                    <span className="tabular-nums text-muted">{i + 1}.</span>
                     {s.heading}
                   </a>
                 </li>

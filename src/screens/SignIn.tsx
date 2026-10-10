@@ -153,19 +153,16 @@ export function SignIn({
                   {a.form.google}
                 </Button>
                 <div className="flex items-center gap-3" aria-hidden="true">
-                  <span className="h-px flex-1 bg-line" />
+                  <span className="h-px flex-1 bg-line-subtle" />
                   <span className={EYEBROW}>{a.form.divider}</span>
-                  <span className="h-px flex-1 bg-line" />
+                  <span className="h-px flex-1 bg-line-subtle" />
                 </div>
               </>
             )}
 
             <form noValidate onSubmit={onSubmit} className="flex flex-col gap-4">
               <div>
-                <label
-                  htmlFor="signin-email"
-                  className="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-muted"
-                >
+                <label htmlFor="signin-email" className="mb-1 block text-[11px] font-semibold text-ink">
                   {a.form.emailLabel}
                 </label>
                 <TextInput
@@ -301,10 +298,7 @@ function SentView({
       </div>
       <form noValidate onSubmit={onVerify} className="flex flex-col gap-3">
         <div>
-          <label
-            htmlFor="signin-code"
-            className="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-muted"
-          >
+          <label htmlFor="signin-code" className="mb-1 block text-[11px] font-semibold text-ink">
             {s.codeLabel}
           </label>
           <TextInput

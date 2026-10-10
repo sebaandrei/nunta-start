@@ -12,7 +12,7 @@ export function BrandMark() {
   return (
     <span
       aria-hidden="true"
-      className="inline-flex size-9 shrink-0 items-center justify-center rounded-xl bg-accent font-serif text-lg font-semibold text-accent-ink md:size-10"
+      className="inline-flex size-9 shrink-0 items-center justify-center rounded-xl bg-soft font-serif text-lg font-semibold text-accent md:size-10"
     >
       N
     </span>
@@ -41,7 +41,7 @@ export function LanguageSwitch() {
             className={cx(
               'min-h-11 min-w-9 rounded-lg px-1.5 transition-colors',
               FOCUS_RING,
-              locale === value ? 'text-ink' : 'text-faint hover:text-ink',
+              locale === value ? 'text-ink' : 'text-muted hover:text-ink',
             )}
           >
             {value.toUpperCase()}
@@ -67,7 +67,7 @@ export function PublicLayout({ children, nav = true }: { children: ReactNode; na
           className={cx('flex min-w-0 items-center gap-2.5 rounded-lg', FOCUS_RING)}
         >
           <BrandMark />
-          <span className="block truncate font-serif text-[17px] leading-tight lowercase">{t.appName}</span>
+          <span className="block truncate text-[17px] font-semibold leading-tight lowercase">{t.appName}</span>
         </a>
         <div className="flex items-center gap-1 md:gap-3">
           <LanguageSwitch />

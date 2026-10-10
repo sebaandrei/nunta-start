@@ -1,7 +1,8 @@
 import { Link } from '@tanstack/react-router';
-import { ArrowRight, Circle, CircleCheck, CircleDot, Heart, PartyPopper } from 'lucide-react';
+import { ArrowRight, Circle, CircleCheck, CircleDot, Heart, PartyPopper, Plus } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { PageHeader } from '../components/PageHeader';
+import { LINK_BUTTON_PRIMARY } from '../components/PublicShell';
 import { Card, cx, EmptyState, Heading, ProgressBar, StatCard } from '../components/ui';
 import { useBudget, useSettings, useTasks } from '../data/hooks';
 import { type TaskActions, useTaskActions } from '../data/taskActions';
@@ -52,6 +53,14 @@ export function Home() {
       <PageHeader
         title={`${t.greeting[dayPart(now.getHours())]}, ${t.header.couple(...settings.names)}`}
         subtitle={t.pages.home.subtitle}
+        action={
+          canEdit('tasks') ? (
+            <Link className={LINK_BUTTON_PRIMARY} to={routes.tasks} params={{ weddingId }} search={{ add: true }}>
+              <Plus size={16} aria-hidden="true" />
+              {t.tasks.add}
+            </Link>
+          ) : undefined
+        }
       />
       <div className="space-y-6 md:space-y-8">
         <Card tone="hero" className="flex items-center justify-between gap-4 p-5 md:gap-8 md:p-8">
@@ -73,13 +82,15 @@ export function Home() {
           {count.kind !== 'past' && (
             <div
               aria-hidden="true"
-              className="flex size-24 shrink-0 flex-col items-center justify-center rounded-full bg-soft md:size-36"
+              className="flex size-24 shrink-0 flex-col items-center justify-center rounded-full bg-deco md:size-36"
             >
               {count.kind === 'today' ? (
                 <Heart className="size-8 text-accent md:size-12" />
               ) : (
                 <>
-                  <span className="font-serif text-4xl leading-none tabular-nums md:text-5xl">{count.days}</span>
+                  <span className="font-serif text-4xl leading-none tabular-nums text-accent md:text-5xl">
+                    {count.days}
+                  </span>
                   <span className="mt-1 text-[10px] font-semibold uppercase tracking-[0.08em] text-muted">
                     {t.home.countdownUnit(count.days)}
                   </span>
@@ -94,6 +105,10 @@ export function Home() {
             <Heading as="h2" id="home-overview">
               {t.home.overview}
             </Heading>
+            <Link className={cx(LINK, 'text-xs text-accent md:text-xs')} to={routes.tasks} params={{ weddingId }}>
+              {t.home.goStart}
+              <ArrowRight size={14} aria-hidden="true" />
+            </Link>
           </div>
           <div className="grid gap-3 md:gap-4 sm:grid-cols-2 lg:grid-cols-3">
             <StatCard
@@ -108,14 +123,16 @@ export function Home() {
               label={giftMissing ? t.home.cost(guests) : t.home.balance(guests)}
               value={
                 !pricesFilled ? (
-                  <span className="text-faint">—</span>
+                  <span className="text-muted">—</span>
                 ) : giftMissing ? (
                   formatMoney(scenario.total, cur)
                 ) : (
                   formatSignedMoney(scenario.balance, cur)
                 )
               }
-              valueClassName={cx(pricesFilled && !giftMissing && (scenario.balance >= 0 ? 'text-plus' : 'text-minus'))}
+              valueClassName={cx(
+                pricesFilled && !giftMissing && (scenario.balance >= 0 ? 'text-accent' : 'text-minus'),
+              )}
               helper={
                 !pricesFilled ? (
                   <>
@@ -144,6 +161,7 @@ export function Home() {
             >
               <ProgressBar
                 className="mt-3"
+                tone="warm"
                 label={t.home.paymentsProgress}
                 value={paidPercent(payments.paid, payments.total)}
               />
@@ -172,12 +190,6 @@ export function Home() {
                     />
                   ))}
                 </ul>
-                <div className="border-t border-line px-4 py-1 md:py-3">
-                  <Link className={cx(LINK, 'text-accent')} to={routes.tasks} params={{ weddingId }}>
-                    {t.home.goStart}
-                    <ArrowRight size={14} aria-hidden="true" />
-                  </Link>
-                </div>
               </Card>
             ) : (
               <EmptyState icon={PartyPopper} title={t.home.allDoneTitle}>
@@ -187,14 +199,16 @@ export function Home() {
           </section>
 
           <Card tone="warm" className="p-5 md:p-6">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-muted">{t.home.stageEyebrow}</p>
-            <Heading as="h2" className="mt-2 text-balance !text-2xl">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-warm-muted">
+              {t.home.stageEyebrow}
+            </p>
+            <Heading as="h2" className="mt-2 text-balance !text-2xl text-warm-text">
               {t.stages[stage]}
             </Heading>
-            <p className="mt-2 text-sm text-muted">{t.home.stageDescriptions[stage]}</p>
-            <hr className="my-4 border-line" />
-            <p className="text-sm font-semibold">{t.home.stageTasks(currentCount)}</p>
-            <Link className={cx(LINK, 'mt-1')} to={routes.tasks} params={{ weddingId }}>
+            <p className="mt-2 text-sm text-warm-muted">{t.home.stageDescriptions[stage]}</p>
+            <hr className="my-4 border-warm-line" />
+            <p className="text-sm font-semibold text-warm-text">{t.home.stageTasks(currentCount)}</p>
+            <Link className={cx(LINK, 'mt-1 text-warm-ink')} to={routes.tasks} params={{ weddingId }}>
               {t.home.goStage}
               <ArrowRight size={14} aria-hidden="true" />
             </Link>
@@ -236,14 +250,14 @@ function NextTask({
   }
 
   return (
-    <li className="flex items-center gap-1 border-t border-line first:border-t-0 pr-4">
+    <li className="flex items-center gap-1 border-t border-line-subtle first:border-t-0 pr-4">
       <button
         type="button"
         disabled={readOnly}
         onClick={() => actions.cycleStatus(task.id)}
         aria-label={`${task.title || t.tasks.untitled}: ${t.status[task.status]}. ${t.statusHint}`}
         title={t.statusHint}
-        className="inline-flex size-11 shrink-0 items-center justify-center text-accent"
+        className="inline-flex size-11 shrink-0 items-center justify-center text-faint"
       >
         <Icon size={20} aria-hidden="true" />
       </button>

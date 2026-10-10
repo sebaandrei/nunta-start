@@ -475,7 +475,7 @@ export const ro = {
     },
     nextDue: 'Următorul termen',
     noNextDue: 'Niciun termen în față.',
-    privacy: 'Salvat privat în browserul vostru.',
+    privacy: 'Salvat în contul vostru.',
     edit: {
       title: 'Activitate',
       titlePlaceholder: 'Ce trebuie făcut?',
@@ -839,7 +839,7 @@ export const ro = {
     unansweredHint: 'Alegeți un răspuns.',
     dietLabel: 'Meniu',
     noteLabel: 'Un mesaj pentru miri (opțional)',
-    noteHint: (max: number) => `Alergii, un loc pentru cărucior, urări. Cel mult ${max} de caractere.`,
+    noteHint: (max: number) => `Un loc pentru cărucior, urări. Cel mult ${max} de caractere.`,
     notePlaceholder: 'Scrieți aici…',
     // TODO(NS-081): aici apare widgetul Turnstile; până atunci cererea pleacă fără token.
     submit: 'Trimite răspunsul',

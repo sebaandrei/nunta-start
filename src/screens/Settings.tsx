@@ -148,9 +148,10 @@ export function Settings() {
 
         <Card className="p-5 md:p-6 lg:col-span-2">
           <CardHeading title={t.settings.prefsTitle} hint={t.settings.prefsHint} />
-          <div className="mt-2 divide-y divide-line">
+          <div className="mt-2 divide-y divide-line-subtle">
             <PrefRow label={t.settings.language} hint={t.settings.languageHint}>
               <Segmented
+                tone="sunken"
                 label={t.settings.language}
                 value={locale}
                 onChange={setLocale}
@@ -162,6 +163,7 @@ export function Settings() {
             </PrefRow>
             <PrefRow label={t.settings.appearance} hint={t.settings.appearanceHint}>
               <Segmented
+                tone="sunken"
                 label={t.settings.appearance}
                 value={mode}
                 onChange={setMode}
@@ -171,6 +173,7 @@ export function Settings() {
             <PrefRow label={t.settings.displayLabel} hint={t.settings.displayHint}>
               <fieldset disabled={readOnly} className="contents">
                 <Segmented
+                  tone="sunken"
                   label={t.settings.displayLabel}
                   value={settings.displayCurrency}
                   onChange={(c) => updateWedding({ displayCurrency: c })}
@@ -208,9 +211,9 @@ export function Settings() {
           </div>
         </Card>
 
-        <Card className="p-5 md:p-6">
+        <Card className="p-5 md:p-6 lg:row-span-2">
           <CardHeading title={t.settings.dataTitle} hint={t.settings.dataHint} />
-          <div className="mt-4 border-t border-line pt-4">
+          <div className="mt-4 border-t border-line-subtle pt-4">
             <p className="text-sm font-medium">{t.settings.downloadTitle}</p>
             <p id={downloadHintId} className="mt-1 text-xs text-muted">
               {t.settings.downloadHint}
@@ -224,17 +227,8 @@ export function Settings() {
               {t.settings.downloadButton}
             </Button>
           </div>
-          {isOwner && (
-            <div className="mt-4 rounded-xl border border-minus/30 bg-minus/10 p-4">
-              <p className="text-sm font-medium">{t.settings.deleteTitle}</p>
-              <p className="mt-1 text-xs text-muted">{t.settings.deleteHint}</p>
-              <Button variant="danger" className="mt-3 w-full" onClick={() => setConfirming(true)}>
-                {t.settings.deleteButton}
-              </Button>
-            </div>
-          )}
-          <div className="mt-4 rounded-xl border border-minus/30 bg-minus/10 p-4">
-            <p className="text-sm font-medium">{t.settings.accountDeleteTitle}</p>
+          <div className="mt-4 rounded-xl border border-warm-line bg-warm-card p-4">
+            <p className="text-sm font-semibold text-danger">{t.settings.accountDeleteTitle}</p>
             <p className="mt-1 text-xs text-muted">{t.settings.accountDeleteHint}</p>
             <Button
               variant="danger"
@@ -246,6 +240,18 @@ export function Settings() {
             </Button>
           </div>
         </Card>
+
+        {isOwner && (
+          <Card tone="warm" className="flex flex-wrap items-center justify-between gap-4 p-5 md:p-6 lg:col-span-2">
+            <div className="min-w-0">
+              <p className="text-[15px] font-semibold text-danger">{t.settings.deleteTitle}</p>
+              <p className="mt-1 text-xs text-muted">{t.settings.deleteHint}</p>
+            </div>
+            <Button variant="danger" onClick={() => setConfirming(true)}>
+              {t.settings.deleteButton}
+            </Button>
+          </Card>
+        )}
       </div>
 
       <MembersPanel

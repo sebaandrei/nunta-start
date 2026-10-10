@@ -22,7 +22,7 @@ function Trust({ title, hint }: { title: string; hint: string }) {
     <li className="flex items-start gap-3">
       <span
         aria-hidden="true"
-        className="mt-0.5 inline-flex size-[22px] shrink-0 items-center justify-center rounded-full bg-soft text-accent"
+        className="mt-0.5 inline-flex size-[34px] shrink-0 items-center justify-center rounded-full bg-surface text-accent"
       >
         <Check size={13} strokeWidth={3} />
       </span>
@@ -40,18 +40,18 @@ export function AuthLayout({ children }: { children: ReactNode }) {
   const p = t.auth.panel;
   return (
     <div className="grid min-h-dvh grid-cols-1 overflow-x-clip md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
-      <div className="relative isolate overflow-hidden bg-hero md:min-h-dvh">
+      <div className="relative isolate overflow-hidden bg-soft md:min-h-dvh">
         {/* Cercul decorativ: iese din panou pe jos și nu atinge conținutul. */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute -right-16 -bottom-20 -z-10 size-48 rounded-full bg-warm md:-bottom-32 md:right-auto md:-left-24 md:size-[22rem]"
+          className="pointer-events-none absolute -right-16 -bottom-20 -z-10 size-48 rounded-full bg-warm-card md:-bottom-32 md:right-auto md:-left-24 md:size-[22rem]"
         />
         <div className="flex h-full flex-col gap-6 px-4 pt-5 pb-6 md:gap-10 md:px-12 md:py-10 lg:px-16">
           <div className="flex items-center justify-between gap-3">
             <div className="flex items-center gap-3">
               <span
                 aria-hidden="true"
-                className="inline-flex size-10 shrink-0 items-center justify-center rounded-xl bg-accent font-serif text-xl font-semibold text-accent-ink"
+                className="inline-flex size-10 shrink-0 items-center justify-center rounded-xl bg-soft font-serif text-xl font-semibold text-accent"
               >
                 N
               </span>

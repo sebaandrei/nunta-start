@@ -27,7 +27,7 @@ export function Landing() {
         >
           <BrandMark />
           <span className="min-w-0">
-            <span className="block truncate font-serif text-[17px] leading-tight lowercase">{t.appName}</span>
+            <span className="block truncate text-[17px] font-semibold leading-tight lowercase">{t.appName}</span>
             <span className={'hidden text-[9px] font-semibold uppercase tracking-[0.1em] text-muted md:block'}>
               {t.landing.tagline}
             </span>
@@ -51,7 +51,7 @@ export function Landing() {
           <a
             href={ctaPath}
             className={cx(
-              'hidden min-h-11 items-center rounded-xl bg-accent px-5 text-sm font-semibold text-accent-ink hover:opacity-90 md:inline-flex',
+              'hidden min-h-11 items-center rounded-xl bg-accent-solid px-5 text-sm font-semibold text-on-accent hover:opacity-90 md:inline-flex',
               FOCUS_RING,
             )}
           >
@@ -81,14 +81,14 @@ export function Landing() {
               <a
                 href={ctaPath}
                 className={cx(
-                  'mt-7 inline-flex min-h-12 w-full items-center justify-center rounded-xl bg-accent px-6 text-sm font-semibold text-accent-ink hover:opacity-90 sm:w-auto',
+                  'mt-7 inline-flex min-h-12 w-full items-center justify-center rounded-xl bg-accent-solid px-6 text-sm font-semibold text-on-accent hover:opacity-90 sm:w-auto',
                   FOCUS_RING,
                 )}
               >
                 {ctaLabel}
               </a>
               {!hasData && <p className="mt-3 text-xs text-muted">{t.landing.reassurance}</p>}
-              <p className={cx('mt-6 text-faint', LABEL, 'text-[10px]')}>{t.landing.motto}</p>
+              <p className={cx('mt-6 text-muted', LABEL, 'text-[10px]')}>{t.landing.motto}</p>
             </div>
             <PlannerPreview />
           </div>
@@ -160,7 +160,7 @@ function PlannerPreview() {
     <div aria-hidden="true" className="overflow-hidden rounded-2xl border border-line bg-surface shadow-sm">
       <div className="flex items-center justify-between border-b border-line px-5 py-3 text-xs font-semibold">
         <span className="flex items-center gap-2">
-          <span className="inline-flex size-6 items-center justify-center rounded-lg bg-accent font-serif text-xs text-accent-ink">
+          <span className="inline-flex size-6 items-center justify-center rounded-lg bg-soft font-serif text-xs text-accent">
             N
           </span>
           {p.brand}
@@ -176,7 +176,7 @@ function PlannerPreview() {
           <div className="min-w-0">
             <p className="text-[10px] font-bold uppercase tracking-[0.08em] text-muted">{p.countdownEyebrow}</p>
             <div className="mt-3 h-1.5 w-32 max-w-full rounded-full bg-soft">
-              <div className="h-full w-[64%] rounded-full bg-accent" />
+              <div className="h-full w-[64%] rounded-full bg-progress" />
             </div>
           </div>
           <div className="flex size-16 shrink-0 flex-col items-center justify-center rounded-full bg-soft">
@@ -195,7 +195,7 @@ function PlannerPreview() {
                 <span
                   className={cx(
                     'inline-flex size-5 shrink-0 items-center justify-center rounded-full',
-                    task.done ? 'bg-accent text-accent-ink' : 'border border-line text-faint',
+                    task.done ? 'bg-accent-solid text-on-accent' : 'border border-line text-faint',
                   )}
                 >
                   {task.done && <Check size={12} />}
