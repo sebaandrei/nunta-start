@@ -25,21 +25,22 @@ export interface GuestActions {
 }
 
 /** Ordinea strictă a scrierilor pe o nuntă: un update nu poate ajunge la server înaintea insert-ului lui. */
-const scopeFor = (weddingId: string) => ({ id: `guests:${weddingId}` });
+const scopeFor = (weddingId: string, name: string) => ({ id: `${name}:${weddingId}` });
 
 /** Mutație cu update optimist al unei liste din cache; aceeași strategie ca la taskuri (vezi taskActions.ts). */
-function useListMutation<Item extends { id: string }, V>(
+export function useListMutation<Item extends { id: string }, V>(
   weddingId: string,
   key: QueryKey,
   mutationFn: (variables: V) => Promise<unknown>,
   apply: (items: Item[], variables: V) => Item[],
+  scopeName = 'guests',
 ) {
   const queryClient = useQueryClient();
   const mutationKey = [...key, 'write'] as const;
   const inFlight = () => queryClient.isMutating({ mutationKey });
   return useMutation({
     mutationKey,
-    scope: scopeFor(weddingId),
+    scope: scopeFor(weddingId, scopeName),
     mutationFn,
     onMutate: async (variables: V) => {
       await queryClient.cancelQueries({ queryKey: key });

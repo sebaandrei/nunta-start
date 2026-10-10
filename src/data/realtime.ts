@@ -8,10 +8,19 @@ import {
   type BudgetLineRow,
   type BudgetScenarioRow,
   type BudgetSettingsRow,
+  type CollectionFieldRow,
+  type CollectionRecordRow,
+  type CollectionRow,
+  collectionFieldFromRow,
+  collectionFromRow,
+  collectionRecordFromRow,
   type GuestRow,
   guestFromRow,
   type HouseholdRow,
   householdFromRow,
+  type ServerCollection,
+  type ServerCollectionField,
+  type ServerCollectionRecord,
   type ServerGuest,
   type ServerHousehold,
   type ServerTask,
@@ -108,6 +117,32 @@ export function applyChange(
       );
       return;
     }
+    case 'collections': {
+      const collection = collectionFromRow(record as CollectionRow);
+      patch<ServerCollection[]>(k.collections(), [...k.collections(), 'write'], (list) =>
+        patchList(list, op, collection, (a, b) => a.position - b.position),
+      );
+      // Cascada din DB șterge și câmpurile și înregistrările paginii.
+      if (op === 'DELETE') {
+        void queryClient.invalidateQueries({ queryKey: k.collectionFields(), exact: true });
+        void queryClient.invalidateQueries({ queryKey: k.collectionRecords(), exact: true });
+      }
+      return;
+    }
+    case 'collection_fields': {
+      const field = collectionFieldFromRow(record as CollectionFieldRow);
+      patch<ServerCollectionField[]>(k.collectionFields(), [...k.collectionFields(), 'write'], (list) =>
+        patchList(list, op, field, (a, b) => a.position - b.position),
+      );
+      return;
+    }
+    case 'collection_records': {
+      const row = collectionRecordFromRow(record as CollectionRecordRow);
+      patch<ServerCollectionRecord[]>(k.collectionRecords(), [...k.collectionRecords(), 'write'], (list) =>
+        patchList(list, op, row, (a, b) => a.position - b.position),
+      );
+      return;
+    }
     case 'budget_lines': {
       const row = record as BudgetLineRow;
       patch<BudgetLineRow[]>(k.budgetLines(), [...k.budget(), 'write'], (rows) =>
@@ -174,6 +209,9 @@ export function subscribeToWedding(
       void queryClient.invalidateQueries({ queryKey: k.budget() });
       void queryClient.invalidateQueries({ queryKey: k.households() });
       void queryClient.invalidateQueries({ queryKey: k.guests() });
+      void queryClient.invalidateQueries({ queryKey: k.collections() });
+      void queryClient.invalidateQueries({ queryKey: k.collectionFields() });
+      void queryClient.invalidateQueries({ queryKey: k.collectionRecords() });
     });
   return () => {
     void client.removeChannel(channel);

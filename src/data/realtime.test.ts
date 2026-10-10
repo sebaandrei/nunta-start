@@ -1,7 +1,16 @@
 import { QueryClient } from '@tanstack/react-query';
 import { describe, expect, it, vi } from 'vitest';
 import { keys } from '../lib/queryKeys';
-import type { BudgetLineRow, BudgetSettingsRow, ServerGuest, ServerHousehold, ServerTask } from './mappers';
+import type {
+  BudgetLineRow,
+  BudgetSettingsRow,
+  ServerCollection,
+  ServerCollectionField,
+  ServerCollectionRecord,
+  ServerGuest,
+  ServerHousehold,
+  ServerTask,
+} from './mappers';
 import {
   applyChange,
   parseChange,
@@ -230,6 +239,70 @@ describe('applyChange on households and guests', () => {
   });
 });
 
+describe('applyChange on custom pages', () => {
+  const collectionRecord = (id: string, over: Record<string, unknown> = {}) => ({
+    id,
+    wedding_id: W,
+    name: `Pagina ${id}`,
+    slug: id,
+    position: 10,
+    ...over,
+  });
+  const recordRow = (id: string, over: Record<string, unknown> = {}) => ({
+    id,
+    wedding_id: W,
+    collection_id: 'c1',
+    data: { nume: id },
+    position: 10,
+    ...over,
+  });
+
+  it('adds, updates and deletes pages, and reads fields and records again on a delete (DB cascade)', () => {
+    const queryClient = new QueryClient();
+    queryClient.setQueryData(k.collections(), []);
+    const invalidate = vi.spyOn(queryClient, 'invalidateQueries');
+    applyChange(queryClient, W, change('collections', 'INSERT', collectionRecord('c1')), idle);
+    applyChange(queryClient, W, change('collections', 'UPDATE', collectionRecord('c1', { name: 'Nou' })), idle);
+    expect(queryClient.getQueryData<ServerCollection[]>(k.collections())?.map((c) => [c.name, c.slug])).toEqual([
+      ['Nou', 'c1'],
+    ]);
+    expect(invalidate).not.toHaveBeenCalled();
+    applyChange(queryClient, W, change('collections', 'DELETE', collectionRecord('c1')), idle);
+    expect(queryClient.getQueryData<ServerCollection[]>(k.collections())).toEqual([]);
+    expect(invalidate).toHaveBeenCalledWith({ queryKey: k.collectionFields(), exact: true });
+    expect(invalidate).toHaveBeenCalledWith({ queryKey: k.collectionRecords(), exact: true });
+  });
+
+  it('patches fields and records, and skips them while this client is writing', () => {
+    const queryClient = new QueryClient();
+    queryClient.setQueryData(k.collectionRecords(), []);
+    applyChange(queryClient, W, change('collection_records', 'INSERT', recordRow('a')), idle);
+    expect(queryClient.getQueryData<ServerCollectionRecord[]>(k.collectionRecords())?.[0]?.data).toEqual({ nume: 'a' });
+    const asked: unknown[] = [];
+    applyChange(queryClient, W, change('collection_records', 'INSERT', recordRow('b')), (key) => {
+      asked.push(key);
+      return true;
+    });
+    expect(queryClient.getQueryData<ServerCollectionRecord[]>(k.collectionRecords())).toHaveLength(1);
+    expect(asked[0]).toEqual([...k.collectionRecords(), 'write']);
+
+    queryClient.setQueryData(k.collectionFields(), []);
+    const field = {
+      id: 'f1',
+      wedding_id: W,
+      collection_id: 'c1',
+      key: 'nume',
+      label: 'Nume',
+      type: 'text',
+      required: true,
+      options: [],
+      position: 10,
+    };
+    applyChange(queryClient, W, change('collection_fields', 'INSERT', field), idle);
+    expect(queryClient.getQueryData<ServerCollectionField[]>(k.collectionFields())?.[0]?.required).toBe(true);
+  });
+});
+
 describe('subscribeToWedding', () => {
   function fake() {
     let onMessage: (m: { payload?: unknown }) => void = () => {};
@@ -285,11 +358,14 @@ describe('subscribeToWedding', () => {
     expect(invalidate).toHaveBeenCalledWith({ queryKey: k.budget() });
     expect(invalidate).toHaveBeenCalledWith({ queryKey: k.households() });
     expect(invalidate).toHaveBeenCalledWith({ queryKey: k.guests() });
-    expect(invalidate).toHaveBeenCalledTimes(4);
+    expect(invalidate).toHaveBeenCalledWith({ queryKey: k.collections() });
+    expect(invalidate).toHaveBeenCalledWith({ queryKey: k.collectionFields() });
+    expect(invalidate).toHaveBeenCalledWith({ queryKey: k.collectionRecords() });
+    expect(invalidate).toHaveBeenCalledTimes(7);
     f.status('CHANNEL_ERROR');
-    expect(invalidate).toHaveBeenCalledTimes(4);
+    expect(invalidate).toHaveBeenCalledTimes(7);
     f.status('SUBSCRIBED');
-    expect(invalidate).toHaveBeenCalledTimes(8);
+    expect(invalidate).toHaveBeenCalledTimes(14);
   });
 
   it('leaves the channel on cleanup', () => {

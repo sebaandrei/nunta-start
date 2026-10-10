@@ -3,6 +3,7 @@ import { Link, Outlet, useParams, useRouterState } from '@tanstack/react-router'
 import {
   ArrowLeftRight,
   Calculator,
+  FileText,
   House,
   ListChecks,
   type LucideIcon,
@@ -10,14 +11,15 @@ import {
   ShieldCheck,
   Users,
 } from 'lucide-react';
+import { Fragment } from 'react';
 import { LocaleIconButton, SignOutButton, SignOutIconButton, ThemeIconButton } from './components/ShellControls';
 import { cx } from './components/ui';
-import { useTasks } from './data/hooks';
+import { useCollections, useTasks } from './data/hooks';
 import { weddingsQuery } from './data/queries';
 import { parseISODate } from './domain/dates';
 import { useT } from './i18n';
 import { formatDate } from './lib/format';
-import { paths } from './lib/paths';
+import { pageRoute, paths } from './lib/paths';
 import { coupleInitials, NAV_ITEMS, type NavId, navIdForPath, recoverBadgeCount } from './lib/shell';
 import { useToday } from './lib/useToday';
 import { useWedding, WeddingProvider } from './lib/wedding';
@@ -27,6 +29,7 @@ const NAV_ICONS: Record<NavId, LucideIcon> = {
   tasks: ListChecks,
   guests: Users,
   budget: Calculator,
+  pages: FileText,
   settings: Settings,
 };
 
@@ -85,6 +88,7 @@ function Sidebar() {
   const t = useT();
   const { id, wedding: row } = useWedding();
   const tasks = useTasks(id);
+  const collections = useCollections(id);
   const today = useToday();
   const wedding = row.date ? parseISODate(row.date) : null;
   const names: [string, string] = [row.partner1, row.partner2];
@@ -105,29 +109,45 @@ function Sidebar() {
         {NAV_ITEMS.map(({ id: navId, to }) => {
           const Icon = NAV_ICONS[navId];
           return (
-            <Link
-              key={navId}
-              to={to}
-              params={{ weddingId: id }}
-              activeOptions={{ exact: true }}
-              className={cx(
-                'flex min-h-10 items-center gap-3 rounded-lg px-3 text-sm text-muted transition-colors hover:bg-soft/60 hover:text-ink',
-                FOCUS_RING,
-              )}
-              activeProps={{ className: 'bg-soft font-semibold text-ink', 'aria-current': 'page' }}
-            >
-              <Icon size={18} aria-hidden="true" />
-              <span className="flex-1">{t.shell.nav[navId]}</span>
-              {navId === 'tasks' && badge > 0 && (
-                <span
-                  role="img"
-                  aria-label={t.shell.badgeLabel(badge)}
-                  className="min-w-5 rounded-full bg-accent px-1.5 text-center text-[11px] font-semibold leading-5 text-accent-ink"
-                >
-                  {badge}
-                </span>
-              )}
-            </Link>
+            <Fragment key={navId}>
+              <Link
+                to={to}
+                params={{ weddingId: id }}
+                activeOptions={{ exact: true }}
+                className={cx(
+                  'flex min-h-10 items-center gap-3 rounded-lg px-3 text-sm text-muted transition-colors hover:bg-soft/60 hover:text-ink',
+                  FOCUS_RING,
+                )}
+                activeProps={{ className: 'bg-soft font-semibold text-ink', 'aria-current': 'page' }}
+              >
+                <Icon size={18} aria-hidden="true" />
+                <span className="flex-1">{t.shell.nav[navId]}</span>
+                {navId === 'tasks' && badge > 0 && (
+                  <span
+                    role="img"
+                    aria-label={t.shell.badgeLabel(badge)}
+                    className="min-w-5 rounded-full bg-accent px-1.5 text-center text-[11px] font-semibold leading-5 text-accent-ink"
+                  >
+                    {badge}
+                  </span>
+                )}
+              </Link>
+              {navId === 'pages' &&
+                collections.map((collection) => (
+                  <Link
+                    key={collection.id}
+                    to={pageRoute}
+                    params={{ weddingId: id, slug: collection.slug }}
+                    className={cx(
+                      'flex min-h-9 items-center truncate rounded-lg pr-3 pl-10 text-[13px] text-muted transition-colors hover:bg-soft/60 hover:text-ink',
+                      FOCUS_RING,
+                    )}
+                    activeProps={{ className: 'bg-soft font-semibold text-ink', 'aria-current': 'page' }}
+                  >
+                    <span className="truncate">{collection.name}</span>
+                  </Link>
+                ))}
+            </Fragment>
           );
         })}
       </nav>
@@ -211,7 +231,7 @@ function MobileTabBar() {
       aria-label={t.shell.mainNav}
       className="fixed inset-x-0 bottom-0 z-30 border-t border-line bg-surface pb-[env(safe-area-inset-bottom)] md:hidden"
     >
-      <ul className="grid grid-cols-5">
+      <ul className="grid grid-cols-6">
         {NAV_ITEMS.map(({ id, to }) => {
           const Icon = NAV_ICONS[id];
           return (
