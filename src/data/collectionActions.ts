@@ -134,10 +134,10 @@ export function useCollectionActions(weddingId: string): CollectionActions {
 
   const { mutateAsync: addCollection } = addC;
   const { mutate: renameCollectionM } = renameC;
-  const { mutate: removeCollectionM } = removeC;
+  const { mutateAsync: removeCollectionM } = removeC;
   const { mutate: addField } = addF;
   const { mutate: updateFieldM } = updateF;
-  const { mutate: removeFieldM } = removeF;
+  const { mutateAsync: removeFieldM } = removeF;
   const { mutate: addRecord } = addR;
   const { mutate: updateRecordM } = updateR;
   const { mutate: removeRecordM } = removeR;
@@ -164,12 +164,13 @@ export function useCollectionActions(weddingId: string): CollectionActions {
           cachedRecords().filter((r) => r.collectionId !== id),
         );
         // La eșec, lista paginilor revine singură; câmpurile și înregistrările se reîncarcă de la server.
-        removeCollectionM(id, {
-          onSettled: () => {
+        // Promisa mutației se încheie și după ce pagina s-a demontat (callback-urile din `mutate` nu rulează atunci).
+        void removeCollectionM(id)
+          .catch(() => undefined)
+          .finally(() => {
             void queryClient.invalidateQueries({ queryKey: fieldsKey });
             void queryClient.invalidateQueries({ queryKey: recordsKey });
-          },
-        });
+          });
       },
       addField: (collectionId, field) => {
         const siblings = ofCollection(cachedFields(), collectionId);
@@ -212,7 +213,9 @@ export function useCollectionActions(weddingId: string): CollectionActions {
               : r,
           ),
         );
-        removeFieldM({ id }, { onSettled: () => void queryClient.invalidateQueries({ queryKey: recordsKey }) });
+        void removeFieldM({ id })
+          .catch(() => undefined)
+          .finally(() => void queryClient.invalidateQueries({ queryKey: recordsKey }));
       },
       addRecord: (collectionId, data) =>
         addRecord({
