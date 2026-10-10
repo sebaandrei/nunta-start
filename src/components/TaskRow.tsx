@@ -40,7 +40,7 @@ export function TaskRow({
   const done = task.status === 'done';
 
   return (
-    <li id={`task-${task.id}`} className="border-t border-line first:border-t-0">
+    <li id={`task-${task.id}`} className="border-t border-line-subtle first:border-t-0">
       <div className="flex items-start gap-1 px-2 py-1 transition-colors hover:bg-sunken/40 md:gap-2 md:px-5 md:py-3.5">
         <StatusCheck
           status={task.status}
@@ -68,7 +68,7 @@ export function TaskRow({
             {t.categories[task.category]} · {t.owner(task.owner, names)}
           </span>
           {task.status === 'doing' && (
-            <span className="mt-1 rounded-full bg-warm px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-ink">
+            <span className="mt-1 rounded-full bg-warm-pill px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-warm-text">
               {t.status.doing}
             </span>
           )}
@@ -124,13 +124,13 @@ function StatusCheck({
       <span
         className={cx(
           'inline-flex size-6 items-center justify-center rounded-full border-2 transition-colors',
-          status === 'todo' && 'border-faint group-hover:border-accent',
-          status === 'doing' && 'border-accent bg-soft',
+          status === 'todo' && 'border-line bg-surface group-hover:border-accent',
+          status === 'doing' && 'border-warm-line bg-warm-pill',
           status === 'done' && 'border-accent-solid bg-accent-solid text-on-accent',
         )}
       >
         {status === 'done' && <Check size={14} strokeWidth={3} aria-hidden="true" />}
-        {status === 'doing' && <span className="size-2 rounded-full bg-accent-solid" aria-hidden="true" />}
+        {status === 'doing' && <span className="size-2 rounded-full bg-warm-solid" aria-hidden="true" />}
       </span>
     </button>
   );

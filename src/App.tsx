@@ -95,7 +95,7 @@ function Sidebar() {
       <div className="flex items-center gap-3 px-2">
         <BrandMark className="size-10 text-xl" />
         <div className="min-w-0">
-          <p className="font-serif text-[17px] leading-tight lowercase">{t.appName}</p>
+          <p className="text-[17px] font-semibold leading-tight lowercase">{t.appName}</p>
           <p className="text-[10px] font-semibold uppercase tracking-[0.1em] text-muted">{t.shell.caption}</p>
         </div>
       </div>

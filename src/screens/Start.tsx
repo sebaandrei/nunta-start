@@ -240,22 +240,23 @@ function StageTimeline({ wedding, today }: { wedding: Date; today: Date }) {
           </div>
           <p className="text-xs font-medium text-muted">{t.tasks.stageOf(current, total)}</p>
         </div>
-        <ol aria-label={t.tasks.timelineLabel} className="mt-4 flex gap-1.5">
+        <ol aria-label={t.tasks.timelineLabel} className="mt-4 flex">
           {stages.map(({ stage, state }) => (
             <li key={stage} aria-current={state === 'current' ? 'step' : undefined} className="min-w-0 flex-1">
-              <div className={cx('h-1.5 rounded-full', state === 'upcoming' ? 'bg-soft' : 'bg-accent-solid')} />
+              <div className={cx('h-1.5', state === 'upcoming' ? 'bg-track' : 'bg-progress')} />
               <div className="mt-2 flex items-center gap-1.5">
                 <span
                   aria-hidden="true"
                   className={cx(
-                    'size-2.5 shrink-0 rounded-full border-2',
-                    state === 'upcoming' ? 'border-faint bg-surface' : 'border-accent-solid bg-accent-solid',
-                    state === 'current' && 'ring-2 ring-accent/30 ring-offset-1 ring-offset-surface',
+                    'size-[9px] shrink-0 rounded-full',
+                    state === 'passed' && 'bg-accent-muted',
+                    state === 'current' && 'bg-accent-solid',
+                    state === 'upcoming' && 'bg-track',
                   )}
                 />
                 <span
                   className={cx(
-                    'truncate text-[11px]',
+                    'truncate text-[10px]',
                     state === 'current' ? 'font-semibold text-ink' : 'font-medium text-muted',
                   )}
                 >
@@ -310,11 +311,17 @@ function Rail({
   return (
     <aside className="space-y-4">
       <Card tone="warm" className="p-5">
-        <h2 className={EYEBROW}>{t.tasks.rhythm}</h2>
-        <p className="mt-2 font-serif text-xl leading-snug">{tone.title}</p>
-        <p className="mt-1 text-sm text-muted">{tone.text}</p>
-        <ProgressBar value={current} max={total} label={t.tasks.rhythmStages(current, total)} className="mt-4" />
-        <p className="mt-2 text-xs font-semibold">{t.tasks.rhythmStages(current, total)}</p>
+        <h2 className={cx(EYEBROW, 'text-warm-muted')}>{t.tasks.rhythm}</h2>
+        <p className="mt-2 font-serif text-xl leading-snug text-warm-text">{tone.title}</p>
+        <p className="mt-1 text-sm text-warm-muted">{tone.text}</p>
+        <ProgressBar
+          value={current}
+          max={total}
+          tone="onWarm"
+          label={t.tasks.rhythmStages(current, total)}
+          className="mt-4"
+        />
+        <p className="mt-2 text-xs font-semibold text-warm-text">{t.tasks.rhythmStages(current, total)}</p>
       </Card>
 
       <Card className="p-5">
@@ -330,9 +337,9 @@ function Rail({
         ) : (
           <p className="mt-2 text-sm text-muted">{t.tasks.noNextDue}</p>
         )}
-        <div className="mt-4 flex items-center justify-between gap-2 border-t border-line pt-4">
+        <div className="mt-4 flex items-center justify-between gap-2 border-t border-line-subtle pt-4">
           <span className="text-sm font-semibold">{t.tasks.recover}</span>
-          <span className="rounded-full bg-warm px-2.5 py-1 text-[11px] font-semibold">
+          <span className="rounded-full bg-warm-pill px-2.5 py-1 text-[11px] font-semibold text-warm-text">
             {t.tasks.count(recoverCount)}
           </span>
         </div>
@@ -436,7 +443,7 @@ function StageList({
   );
 }
 
-const GROUP_TONES = { hero: 'bg-hero', warm: 'bg-warm', plain: 'bg-sunken/60' };
+const GROUP_TONES = { hero: 'bg-hero', warm: 'bg-warm-card', plain: 'bg-sunken/60' };
 
 /** Grup de taskuri. Cu `onToggle` devine pliabil (buton cu aria-expanded); altfel e mereu deschis. */
 function Group({
@@ -493,11 +500,18 @@ function Group({
             </h3>
           </div>
           {badge && (
-            <span className="shrink-0 rounded-full bg-surface/70 px-2.5 py-1 text-[11px] font-semibold">{badge}</span>
+            <span
+              className={cx(
+                'shrink-0 rounded-full px-2.5 py-1 text-[11px] font-semibold',
+                tone === 'warm' ? 'bg-warm-pill text-warm-text' : 'bg-deco',
+              )}
+            >
+              {badge}
+            </span>
           )}
         </div>
       )}
-      <ul id={listId} hidden={!open} className="border-t border-line">
+      <ul id={listId} hidden={!open} className="border-t border-line-subtle">
         {children}
       </ul>
     </section>

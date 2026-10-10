@@ -160,7 +160,7 @@ function PlannerPreview() {
     <div aria-hidden="true" className="overflow-hidden rounded-2xl border border-line bg-surface shadow-sm">
       <div className="flex items-center justify-between border-b border-line px-5 py-3 text-xs font-semibold">
         <span className="flex items-center gap-2">
-          <span className="inline-flex size-6 items-center justify-center rounded-lg bg-accent-solid font-serif text-xs text-on-accent">
+          <span className="inline-flex size-6 items-center justify-center rounded-lg bg-soft font-serif text-xs text-accent">
             N
           </span>
           {p.brand}

@@ -28,14 +28,14 @@ export function PendingInvites({
       {invitations.length === 0 ? (
         <p className="border-t border-line px-5 py-4 text-sm text-muted md:px-6">{m.pendingEmpty}</p>
       ) : (
-        <ul className="divide-y divide-line border-t border-line">
+        <ul className="divide-y divide-line-subtle border-t border-line-subtle">
           {invitations.map((inv) => {
             const { sentDays, expiresDays } = invitationAge(inv, now);
             return (
               <li key={inv.id} className="flex flex-wrap items-center gap-x-3 gap-y-2 px-5 py-3 md:px-6">
                 <span
                   aria-hidden="true"
-                  className="inline-flex size-10 shrink-0 items-center justify-center rounded-full border border-dashed border-line text-muted"
+                  className="inline-flex size-10 shrink-0 items-center justify-center rounded-full bg-line-subtle text-muted"
                 >
                   <Mail size={18} />
                 </span>

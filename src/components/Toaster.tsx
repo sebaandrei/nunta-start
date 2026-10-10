@@ -24,13 +24,13 @@ function ToastItem({ toast }: { toast: Toast }) {
       onMouseLeave={() => setPaused(false)}
       onFocus={() => setPaused(true)}
       onBlur={() => setPaused(false)}
-      className="pointer-events-auto flex items-center justify-between gap-3 rounded-xl border border-minus/30 bg-surface px-4 py-3 text-sm text-ink shadow-lg"
+      className="pointer-events-auto flex items-center justify-between gap-3 rounded-xl border border-warm-line bg-warm-card px-4 py-3 text-sm font-semibold text-danger shadow-lg"
     >
       <span>{toast.message}</span>
       <button
         type="button"
         onClick={() => dismiss(toast.id)}
-        className="rounded-lg px-2 py-1 text-muted hover:text-ink"
+        className="rounded-lg px-2 py-1 text-danger hover:opacity-80"
         aria-label={t.toast.dismiss}
       >
         ×

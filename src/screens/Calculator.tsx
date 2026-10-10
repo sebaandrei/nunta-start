@@ -324,13 +324,15 @@ function ScenarioCard({
       className={cx(
         'rounded-2xl border px-4 py-4 text-left transition-colors hover:border-accent/60 md:px-5',
         // Pe telefon cardul ales e „hero"; acolo cifra rămâne în culoarea textului (plus/minus nu au contrast pe hero).
-        selected ? 'border-accent bg-hero ring-1 ring-accent md:bg-surface' : 'hidden border-line bg-surface md:block',
+        selected
+          ? 'border-line border-t-[3px] border-t-accent-solid bg-hero md:bg-surface'
+          : 'hidden border-line bg-surface md:block',
       )}
     >
       <p className="flex items-center justify-between gap-2 text-[11px] font-semibold uppercase tracking-[0.08em] text-muted">
         <span>{t.calc.scenario(summary.guests)}</span>
         {selected && (
-          <span className="rounded-md bg-soft px-1.5 py-0.5 text-[10px] tracking-wider text-ink">
+          <span className="rounded-full bg-soft px-2 py-0.5 text-[10px] tracking-wider text-ink">
             {t.calc.selected}
           </span>
         )}
@@ -341,14 +343,14 @@ function ScenarioCard({
         <p
           className={cx(
             'mt-2 font-serif text-[1.75rem] leading-tight tabular-nums text-ink',
-            summary.balance >= 0 ? 'md:text-plus' : 'md:text-minus',
+            summary.balance >= 0 ? 'md:text-accent' : 'md:text-minus',
           )}
         >
           {formatSignedMoney(summary.balance, currency)}
         </p>
       )}
       <p className="mt-0.5 text-xs text-muted">{giftMissing ? t.calc.costTotal : t.calc.estimatedBalance}</p>
-      <div className="mt-3 space-y-1 border-t border-line pt-3 text-xs text-muted">
+      <div className="mt-3 space-y-1 border-t border-line-subtle pt-3 text-xs text-muted">
         {!giftMissing && (
           <p className="flex justify-between gap-2">
             <span className="font-semibold uppercase tracking-wider">{t.calc.costTotal}</span>
@@ -548,7 +550,7 @@ function LinesTable({ lines, guests, rates, totals, onAddLine }: LinesProps) {
       <div className="relative overflow-x-auto">
         <table className="w-full min-w-[900px] text-sm">
           <caption className="sr-only">{t.calc.expensesTitle}</caption>
-          <thead className="bg-sunken/60 text-left">
+          <thead className="bg-subtle text-left">
             <tr>
               <th scope="col" className={cx(th, 'min-w-[9.5rem] px-3')}>
                 {t.calc.colLine}
@@ -575,7 +577,10 @@ function LinesTable({ lines, guests, rates, totals, onAddLine }: LinesProps) {
           </thead>
           <tbody>
             {lines.map((line) => (
-              <tr key={line.id} className="group border-t border-line align-top hover:bg-sunken/30">
+              <tr
+                key={line.id}
+                className="group border-t border-line-subtle align-top even:bg-stripe hover:bg-sunken/30"
+              >
                 <th scope="row" className="px-1 py-1.5 text-left font-normal">
                   <NameInputs line={line} variant="inline" />
                 </th>
@@ -602,7 +607,7 @@ function LinesTable({ lines, guests, rates, totals, onAddLine }: LinesProps) {
             ))}
           </tbody>
           <tfoot>
-            <tr className="border-t border-line bg-sunken/60 font-semibold tabular-nums">
+            <tr className="border-t border-line-subtle bg-subtle font-semibold tabular-nums">
               <th
                 scope="row"
                 colSpan={3}
@@ -618,8 +623,8 @@ function LinesTable({ lines, guests, rates, totals, onAddLine }: LinesProps) {
           </tfoot>
         </table>
       </div>
-      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-line px-3 py-3">
-        <Button variant="ghost" onClick={onAddLine}>
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-line-subtle bg-subtle px-3 py-3">
+        <Button variant="panel" onClick={onAddLine}>
           {t.calc.addLine}
         </Button>
         <p className="text-xs text-muted">{t.calc.emptyNote}</p>

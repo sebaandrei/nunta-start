@@ -21,10 +21,11 @@ export function cx(...classes: (string | false | null | undefined)[]): string {
 
 const BUTTON_VARIANTS = {
   primary: 'bg-accent-solid text-on-accent hover:opacity-90',
-  secondary: 'bg-soft text-ink hover:bg-soft/70',
+  secondary: 'bg-soft font-semibold text-accent hover:bg-soft/70',
+  panel: 'bg-hero text-ink hover:bg-soft',
   ghost: 'border border-line bg-surface text-ink hover:bg-sunken',
-  danger: 'border border-minus/40 bg-surface text-minus hover:bg-minus/10',
-  dangerSolid: 'bg-minus text-on-accent hover:opacity-90',
+  danger: 'border border-danger-line bg-danger-bg text-danger hover:opacity-90',
+  dangerSolid: 'bg-danger-solid text-on-accent hover:opacity-90',
   link: 'text-accent underline-offset-2 hover:underline',
 };
 
@@ -54,7 +55,7 @@ const inputBase =
 export type InputVariant = 'box' | 'inline';
 
 const INPUT_VARIANTS: Record<InputVariant, string> = {
-  box: 'min-h-11 rounded-xl border-line bg-surface px-3 py-1.5 md:min-h-9',
+  box: 'min-h-11 rounded-xl border-line bg-bg px-3 py-1.5 md:min-h-9',
   /** Arată ca text; chenarul apare la hover și la editare. */
   inline: 'rounded-md border-transparent bg-transparent px-2 py-1 hover:border-line focus:bg-surface',
 };
@@ -261,19 +262,26 @@ export function Segmented<T extends string | number>({
   options,
   value,
   onChange,
+  tone = 'surface',
   className,
 }: {
   label: string;
   options: { value: T; label: string }[];
   value: T;
   onChange: (value: T) => void;
+  /** `sunken` pentru rândurile de preferințe din Setări. */
+  tone?: 'surface' | 'sunken';
   className?: string;
 }) {
   return (
     <div
       role="radiogroup"
       aria-label={label}
-      className={cx('inline-flex max-w-full overflow-x-auto rounded-xl bg-sunken p-1', className)}
+      className={cx(
+        'inline-flex max-w-full overflow-x-auto rounded-xl border border-line p-1',
+        tone === 'sunken' ? 'bg-sunken' : 'bg-surface',
+        className,
+      )}
     >
       {options.map((option) => {
         const active = option.value === value;
@@ -287,7 +295,7 @@ export function Segmented<T extends string | number>({
             onClick={() => onChange(option.value)}
             className={cx(
               'min-h-11 whitespace-nowrap rounded-lg px-3 text-xs font-medium transition-colors md:min-h-8',
-              active ? 'bg-surface text-ink shadow-sm' : 'text-muted hover:text-ink',
+              active ? 'bg-soft font-semibold text-ink' : 'text-muted hover:text-ink',
             )}
           >
             {option.label}
@@ -370,15 +378,15 @@ export function StatusPill({ status, onClick }: { status: Status; onClick: () =>
 }
 
 const TAG_TONES = {
-  neutral: 'bg-sunken text-muted',
+  neutral: 'bg-line-subtle text-muted',
   soft: 'bg-soft text-ink',
-  warm: 'bg-warm text-ink',
+  warm: 'bg-warm-pill text-warm-text',
   minus: 'bg-minus/10 text-minus',
 };
 
 export function Tag({ children, tone = 'neutral' }: { children: ReactNode; tone?: keyof typeof TAG_TONES }) {
   return (
-    <span className={cx('whitespace-nowrap rounded-md px-1.5 py-0.5 text-[11px] font-medium', TAG_TONES[tone])}>
+    <span className={cx('whitespace-nowrap rounded-full px-2 py-0.5 text-[11px] font-semibold', TAG_TONES[tone])}>
       {children}
     </span>
   );
@@ -418,7 +426,8 @@ export function ProgressBar({
   value: number;
   max?: number;
   label: string;
-  tone?: 'accent' | 'warm';
+  /** `onWarm`: pe un card cald (șină în culoarea chenarului cald). */
+  tone?: 'accent' | 'warm' | 'onWarm';
   className?: string;
 }) {
   const clamped = Math.min(Math.max(value, 0), max);
@@ -430,10 +439,10 @@ export function ProgressBar({
       aria-valuemin={0}
       aria-valuemax={max}
       aria-valuenow={clamped}
-      className={cx('h-[7px] overflow-hidden rounded-full bg-track', className)}
+      className={cx('h-[7px] overflow-hidden rounded-full', tone === 'onWarm' ? 'bg-warm-line' : 'bg-track', className)}
     >
       <div
-        className={cx('h-full rounded-full transition-[width]', tone === 'warm' ? 'bg-warm-solid' : 'bg-progress')}
+        className={cx('h-full rounded-full transition-[width]', tone === 'accent' ? 'bg-progress' : 'bg-warm-solid')}
         style={{ width: `${percent}%` }}
       />
     </div>
@@ -506,16 +515,16 @@ export function FilterChip({
       type="button"
       aria-pressed={selected}
       className={cx(
-        'inline-flex min-h-11 items-center gap-1.5 whitespace-nowrap rounded-full border px-3.5 text-xs font-medium transition-colors md:min-h-8',
+        'inline-flex min-h-11 items-center gap-1.5 whitespace-nowrap rounded-xl border px-3.5 text-xs font-semibold transition-colors md:min-h-8',
         selected
-          ? 'border-transparent bg-soft text-ink'
-          : 'border-line bg-surface text-muted hover:bg-sunken hover:text-ink',
+          ? 'border-warm-line bg-warm-pill text-warm-text'
+          : 'border-line bg-surface text-warm-text hover:bg-sunken',
         className,
       )}
       {...props}
     >
       {children}
-      {count !== undefined && <span className="tabular-nums text-muted">{count}</span>}
+      {count !== undefined && <span className="tabular-nums">{count}</span>}
     </button>
   );
 }
@@ -541,7 +550,7 @@ export function EmptyState({
         className,
       )}
     >
-      <span className="inline-flex size-11 items-center justify-center rounded-full bg-soft text-ink">
+      <span className="inline-flex size-16 items-center justify-center rounded-full bg-soft text-ink">
         <Icon size={20} aria-hidden="true" />
       </span>
       <p className="font-serif text-lg">{title}</p>
@@ -585,7 +594,7 @@ export function Dialog({
       aria-labelledby={titleId}
       onClose={onClose}
       onClick={(e) => e.target === e.currentTarget && e.currentTarget.close()}
-      className="m-auto w-[calc(100%-2rem)] max-w-md rounded-2xl border border-line bg-surface p-0 text-ink shadow-xl backdrop:bg-ink/40"
+      className="m-auto w-[calc(100%-2rem)] max-w-md rounded-2xl border border-line bg-surface p-0 text-ink shadow-xl backdrop:bg-[rgb(39_46_40/0.6)]"
     >
       {/* Dialogul însuși nu are padding: orice click direct pe el e un click pe fundal. */}
       <div className="p-6">

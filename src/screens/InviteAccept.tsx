@@ -150,7 +150,7 @@ export function InviteAccept({
               <div className="flex justify-center">
                 <span
                   aria-hidden="true"
-                  className="inline-flex size-12 items-center justify-center rounded-full bg-warm font-serif text-lg font-semibold text-ink"
+                  className="inline-flex size-12 items-center justify-center rounded-full bg-warm font-serif text-lg font-semibold text-warm-ink"
                 >
                   {info.inviterName.slice(0, 1).toUpperCase() || <UserRound size={20} />}
                 </span>

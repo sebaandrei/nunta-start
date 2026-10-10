@@ -192,10 +192,10 @@ export function Onboarding() {
   return (
     <div className="flex min-h-dvh flex-col bg-bg">
       <header className="flex items-center justify-between gap-3 px-4 py-4 sm:px-8">
-        <p className="flex items-center gap-2.5 font-semibold text-ink">
+        <p className="flex items-center gap-2.5 text-[17px] font-semibold lowercase text-ink">
           <span
             aria-hidden="true"
-            className="flex size-8 items-center justify-center rounded-lg bg-accent-solid font-serif text-on-accent"
+            className="flex size-8 items-center justify-center rounded-lg bg-soft font-serif text-accent"
           >
             N
           </span>
@@ -277,30 +277,32 @@ export function Onboarding() {
                       />
                     )}
                   </FormField>
-                  <FormField id="onb-city" label={ob.city} error={err('city')}>
-                    {(p) => (
-                      <TextInput
-                        {...p}
-                        autoComplete="off"
-                        placeholder={ob.cityPlaceholder}
-                        value={values.city}
-                        onChange={(e) => set({ city: e.target.value })}
-                        onBlur={() => checkLength('city')}
-                      />
-                    )}
-                  </FormField>
-                  <FormField id="onb-guests" label={ob.guestsLabel} hint={ob.guestsShort} error={err('guests')}>
-                    {(p) => (
-                      <TextInput
-                        {...p}
-                        inputMode="numeric"
-                        autoComplete="off"
-                        value={values.guests}
-                        onChange={(e) => set({ guests: e.target.value })}
-                        placeholder={ob.guestsPlaceholder}
-                      />
-                    )}
-                  </FormField>
+                  <div className="grid gap-4 sm:grid-cols-[5fr_4fr]">
+                    <FormField id="onb-city" label={ob.city} error={err('city')}>
+                      {(p) => (
+                        <TextInput
+                          {...p}
+                          autoComplete="off"
+                          placeholder={ob.cityPlaceholder}
+                          value={values.city}
+                          onChange={(e) => set({ city: e.target.value })}
+                          onBlur={() => checkLength('city')}
+                        />
+                      )}
+                    </FormField>
+                    <FormField id="onb-guests" label={ob.guestsLabel} hint={ob.guestsShort} error={err('guests')}>
+                      {(p) => (
+                        <TextInput
+                          {...p}
+                          inputMode="numeric"
+                          autoComplete="off"
+                          value={values.guests}
+                          onChange={(e) => set({ guests: e.target.value })}
+                          placeholder={ob.guestsPlaceholder}
+                        />
+                      )}
+                    </FormField>
+                  </div>
                 </>
               )}
 
@@ -318,7 +320,7 @@ export function Onboarding() {
 
             <div className="mt-7 flex items-center justify-between gap-3">
               {index > 0 ? (
-                <Button variant="secondary" onClick={() => go(prevStep(step))}>
+                <Button variant="ghost" onClick={() => go(prevStep(step))}>
                   <ArrowLeft aria-hidden="true" className="size-4" />
                   {ob.back}
                 </Button>

@@ -19,7 +19,7 @@ export function PublicShell({ headerAction, children }: { headerAction?: ReactNo
         <Link to="/" className={`flex min-h-11 items-center gap-3 rounded-lg ${LINK_FOCUS}`}>
           <span
             aria-hidden="true"
-            className="inline-flex size-9 shrink-0 items-center justify-center rounded-xl bg-accent-solid font-serif text-lg font-semibold text-on-accent"
+            className="inline-flex size-9 shrink-0 items-center justify-center rounded-xl bg-soft font-serif text-lg font-semibold text-accent"
           >
             N
           </span>

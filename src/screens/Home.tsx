@@ -96,6 +96,10 @@ export function Home() {
             <Heading as="h2" id="home-overview">
               {t.home.overview}
             </Heading>
+            <Link className={cx(LINK, 'text-xs text-accent md:text-xs')} to={routes.tasks} params={{ weddingId }}>
+              {t.home.goStart}
+              <ArrowRight size={14} aria-hidden="true" />
+            </Link>
           </div>
           <div className="grid gap-3 md:gap-4 sm:grid-cols-2 lg:grid-cols-3">
             <StatCard
@@ -177,12 +181,6 @@ export function Home() {
                     />
                   ))}
                 </ul>
-                <div className="border-t border-line px-4 py-1 md:py-3">
-                  <Link className={cx(LINK, 'text-accent')} to={routes.tasks} params={{ weddingId }}>
-                    {t.home.goStart}
-                    <ArrowRight size={14} aria-hidden="true" />
-                  </Link>
-                </div>
               </Card>
             ) : (
               <EmptyState icon={PartyPopper} title={t.home.allDoneTitle}>

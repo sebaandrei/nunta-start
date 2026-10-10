@@ -30,7 +30,7 @@ export function MemberRow({
     <li className="flex flex-wrap items-center gap-x-3 gap-y-2 px-5 py-3 md:px-6">
       <span
         aria-hidden="true"
-        className="inline-flex size-10 shrink-0 items-center justify-center rounded-full bg-soft text-sm font-semibold text-ink"
+        className="inline-flex size-10 shrink-0 items-center justify-center rounded-full bg-warm text-sm font-semibold text-warm-ink"
       >
         {initials(member.name)}
       </span>
@@ -64,7 +64,7 @@ export function MemberRow({
           </>
         ) : (
           <>
-            <Tag tone="neutral">{m.roles[member.role]}</Tag>
+            <Tag tone="soft">{m.roles[member.role]}</Tag>
             {leavable && (
               <Button variant="ghost" onClick={onLeave}>
                 <LogOut size={16} aria-hidden="true" />
