@@ -124,13 +124,13 @@ function StatusCheck({
       <span
         className={cx(
           'inline-flex size-6 items-center justify-center rounded-full border-2 transition-colors',
-          status === 'todo' && 'border-line bg-surface group-hover:border-accent',
-          status === 'doing' && 'border-warm-line bg-warm-pill',
+          status === 'todo' && 'border-line-input bg-surface group-hover:border-accent',
+          status === 'doing' && 'border-accent bg-warm-pill',
           status === 'done' && 'border-accent-solid bg-accent-solid text-on-accent',
         )}
       >
         {status === 'done' && <Check size={14} strokeWidth={3} aria-hidden="true" />}
-        {status === 'doing' && <span className="size-2 rounded-full bg-warm-solid" aria-hidden="true" />}
+        {status === 'doing' && <span className="size-2 rounded-full bg-accent-solid" aria-hidden="true" />}
       </span>
     </button>
   );

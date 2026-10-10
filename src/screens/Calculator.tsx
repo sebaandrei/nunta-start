@@ -433,7 +433,7 @@ function NameInputs({ line, variant }: LineFieldProps) {
           ref={noteRef}
           aria-label={t.calc.notePlaceholder}
           placeholder={t.calc.notePlaceholder}
-          className="w-full rounded-md border border-transparent bg-transparent px-2 py-0.5 text-xs text-muted placeholder:text-faint hover:border-line focus:border-accent focus:bg-surface focus:text-ink focus:outline-none focus:ring-2 focus:ring-accent/20"
+          className="w-full rounded-md border border-transparent bg-transparent px-2 py-0.5 text-xs text-muted placeholder:text-placeholder hover:border-line focus:border-accent focus:bg-surface focus:text-ink focus:outline-none focus:ring-2 focus:ring-accent/20"
           value={line.note}
           onCommit={(note) => update(line, { note })}
           onBlur={() => setNoteOpen(false)}
