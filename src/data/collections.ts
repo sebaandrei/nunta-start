@@ -1,4 +1,4 @@
-import type { RecordData } from '../domain/collections';
+import type { RecordPatch } from '../domain/collections';
 import { getSupabase } from '../lib/supabase';
 import type { Json } from '../types/database';
 import { DataError, unwrap, unwrapOne } from './errors';
@@ -68,16 +68,9 @@ export async function updateCollectionField(id: string, update: CollectionFieldU
   requireRows(unwrap(await getSupabase().from('collection_fields').update(update).eq('id', id).select('id')), 'Field');
 }
 
-/**
- * Înregistrările care au cheia câmpului (`strip`, deja fără ea) se scriu întâi: triggerul de validare
- * respinge o cheie necunoscută la orice scriere următoare a înregistrării.
- */
-export async function deleteCollectionField(
-  id: string,
-  strip: readonly { id: string; data: RecordData }[],
-): Promise<void> {
-  await Promise.all(strip.map((record) => updateCollectionRecord(record.id, record.data)));
-  requireRows(unwrap(await getSupabase().from('collection_fields').delete().eq('id', id).select('id')), 'Field');
+/** Șterge câmpul și cheia lui din înregistrările paginii, într-o singură tranzacție pe server. */
+export async function deleteCollectionField(id: string): Promise<void> {
+  unwrap(await getSupabase().rpc('delete_collection_field', { p_field_id: id }));
 }
 
 export async function insertCollectionRecord(weddingId: string, record: ServerCollectionRecord): Promise<void> {
@@ -89,17 +82,9 @@ export async function insertCollectionRecord(weddingId: string, record: ServerCo
   );
 }
 
-export async function updateCollectionRecord(id: string, data: RecordData): Promise<void> {
-  requireRows(
-    unwrap(
-      await getSupabase()
-        .from('collection_records')
-        .update({ data: data as NonNullable<Json> })
-        .eq('id', id)
-        .select('id'),
-    ),
-    'Record',
-  );
+/** Îmbină doar cheile din `patch` în înregistrare (`null` = golit), deci două editări simultane ale unor câmpuri diferite se păstrează. */
+export async function patchCollectionRecord(id: string, patch: RecordPatch): Promise<void> {
+  unwrap(await getSupabase().rpc('patch_collection_record', { p_record_id: id, p_patch: patch as NonNullable<Json> }));
 }
 
 export async function deleteCollectionRecord(id: string): Promise<void> {

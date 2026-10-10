@@ -1,6 +1,13 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useMemo } from 'react';
-import { type CollectionField, fieldKeyFor, ofCollection, type RecordData } from '../domain/collections';
+import {
+  applyPatch,
+  type CollectionField,
+  fieldKeyFor,
+  ofCollection,
+  type RecordData,
+  type RecordPatch,
+} from '../domain/collections';
 import { keys } from '../lib/queryKeys';
 import {
   deleteCollection,
@@ -9,9 +16,9 @@ import {
   insertCollection,
   insertCollectionField,
   insertCollectionRecord,
+  patchCollectionRecord,
   renameCollection,
   updateCollectionField,
-  updateCollectionRecord,
 } from './collections';
 import { useListMutation } from './guestActions';
 import {
@@ -38,7 +45,8 @@ export interface CollectionActions {
   moveField(id: string, direction: -1 | 1): void;
   removeField(id: string): void;
   addRecord(collectionId: string, data: RecordData): void;
-  updateRecord(id: string, data: RecordData): void;
+  /** Îmbină doar cheile din `patch` (`null` = golit): editările simultane ale altor câmpuri se păstrează. */
+  patchRecord(id: string, patch: RecordPatch): void;
   removeRecord(id: string): void;
 }
 
@@ -95,10 +103,10 @@ export function useCollectionActions(weddingId: string): CollectionActions {
     (list, { id, patch }) => list.map((f) => (f.id === id ? { ...f, ...patch } : f)),
     SCOPE,
   );
-  const removeF = useListMutation<ServerCollectionField, { id: string; strip: ServerCollectionRecord[] }>(
+  const removeF = useListMutation<ServerCollectionField, { id: string }>(
     weddingId,
     fieldsKey,
-    ({ id, strip }) => deleteCollectionField(id, strip),
+    ({ id }) => deleteCollectionField(id),
     (list, { id }) => list.filter((f) => f.id !== id),
     SCOPE,
   );
@@ -109,11 +117,11 @@ export function useCollectionActions(weddingId: string): CollectionActions {
     (list, r) => [...list, r],
     SCOPE,
   );
-  const updateR = useListMutation<ServerCollectionRecord, { id: string; data: RecordData }>(
+  const updateR = useListMutation<ServerCollectionRecord, { id: string; patch: RecordPatch }>(
     weddingId,
     recordsKey,
-    ({ id, data }) => updateCollectionRecord(id, data),
-    (list, { id, data }) => list.map((r) => (r.id === id ? { ...r, data } : r)),
+    ({ id, patch }) => patchCollectionRecord(id, patch),
+    (list, { id, patch }) => list.map((r) => (r.id === id ? { ...r, data: applyPatch(r.data, patch) } : r)),
     SCOPE,
   );
   const removeR = useListMutation<ServerCollectionRecord, string>(
@@ -155,7 +163,13 @@ export function useCollectionActions(weddingId: string): CollectionActions {
           recordsKey,
           cachedRecords().filter((r) => r.collectionId !== id),
         );
-        removeCollectionM(id);
+        // La eșec, lista paginilor revine singură; câmpurile și înregistrările se reîncarcă de la server.
+        removeCollectionM(id, {
+          onSettled: () => {
+            void queryClient.invalidateQueries({ queryKey: fieldsKey });
+            void queryClient.invalidateQueries({ queryKey: recordsKey });
+          },
+        });
       },
       addField: (collectionId, field) => {
         const siblings = ofCollection(cachedFields(), collectionId);
@@ -189,16 +203,16 @@ export function useCollectionActions(weddingId: string): CollectionActions {
       removeField: (id) => {
         const field = cachedFields().find((f) => f.id === id);
         if (!field) return;
-        const stripKey = ({ [field.key]: _gone, ...rest }: Record<string, unknown>) => rest;
-        const strip = cachedRecords()
-          .filter((r) => r.collectionId === field.collectionId && field.key in r.data)
-          .map((r) => ({ ...r, data: stripKey(r.data) }));
-        const stripped = new Map(strip.map((r) => [r.id, r]));
+        // Serverul scoate cheia din înregistrările paginii; în cache o scoatem imediat, iar la final reîncărcăm.
         queryClient.setQueryData<ServerCollectionRecord[]>(
           recordsKey,
-          cachedRecords().map((r) => stripped.get(r.id) ?? r),
+          cachedRecords().map((r) =>
+            r.collectionId === field.collectionId && field.key in r.data
+              ? { ...r, data: applyPatch(r.data, { [field.key]: null }) }
+              : r,
+          ),
         );
-        removeFieldM({ id, strip }, { onSettled: () => void queryClient.invalidateQueries({ queryKey: recordsKey }) });
+        removeFieldM({ id }, { onSettled: () => void queryClient.invalidateQueries({ queryKey: recordsKey }) });
       },
       addRecord: (collectionId, data) =>
         addRecord({
@@ -207,9 +221,11 @@ export function useCollectionActions(weddingId: string): CollectionActions {
           data,
           position: nextPosition(ofCollection(cachedRecords(), collectionId)),
         }),
-      updateRecord: (id, data) => {
+      patchRecord: (id, patch) => {
         const current = cachedRecords().find((r) => r.id === id);
-        if (current && JSON.stringify(current.data) !== JSON.stringify(data)) updateRecordM({ id, data });
+        if (current && JSON.stringify(applyPatch(current.data, patch)) !== JSON.stringify(current.data)) {
+          updateRecordM({ id, patch });
+        }
       },
       removeRecord: (id) => removeRecordM(id),
     };

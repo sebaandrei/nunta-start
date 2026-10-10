@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import {
+  applyPatch,
   type CollectionField,
+  diffRecord,
   fieldKeyFor,
   formatFieldValue,
   ofCollection,
@@ -127,5 +129,29 @@ describe('formatFieldValue', () => {
     expect(formatFieldValue(field({}), null, 'RON')).toBe('');
     expect(formatFieldValue(field({ type: 'checkbox' }), true, 'RON')).toBe('');
     expect(formatFieldValue(field({ type: 'number' }), 'abc', 'RON')).toBe('');
+  });
+});
+
+describe('diffRecord / applyPatch', () => {
+  it('lists only the keys that changed, with null for cleared ones', () => {
+    const base = { nume: 'Foto', tel: '0722', nota: 'avans' };
+    expect(diffRecord(base, { nume: 'Foto', tel: '0733' })).toEqual({ tel: '0733', nota: null });
+  });
+
+  it('treats empty values as missing', () => {
+    expect(diffRecord({ nota: '' }, {})).toEqual({});
+    expect(diffRecord({}, { nota: '' })).toEqual({});
+  });
+
+  it("keeps another person's edit when the draft only changed a different key", () => {
+    const opened = { nume: 'Foto', tel: '0722' };
+    const draft = { nume: 'Foto Studio', tel: '0722' };
+    const patch = diffRecord(opened, draft);
+    // someone else changed `tel` while the sheet was open
+    expect(applyPatch({ nume: 'Foto', tel: '0799' }, patch)).toEqual({ nume: 'Foto Studio', tel: '0799' });
+  });
+
+  it('applyPatch drops cleared keys', () => {
+    expect(applyPatch({ a: 1, b: 2 }, { b: null })).toEqual({ a: 1 });
   });
 });

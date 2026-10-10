@@ -68,6 +68,24 @@ export function withoutEmpty(data: RecordData): RecordData {
   return Object.fromEntries(Object.entries(data).filter(([, value]) => !isEmptyValue(value)));
 }
 
+/** Schimbare parțială a unei înregistrări: cheie -> valoare nouă, `null` = golit. */
+export type RecordPatch = Record<string, unknown>;
+
+/** Cheile care diferă între `base` și `next` (golurile se compară ca lipsa), cu `null` pentru cele golite. */
+export function diffRecord(base: RecordData, next: RecordData): RecordPatch {
+  const [from, to] = [withoutEmpty(base), withoutEmpty(next)];
+  const patch: RecordPatch = {};
+  for (const key of new Set([...Object.keys(from), ...Object.keys(to)])) {
+    if (JSON.stringify(from[key]) !== JSON.stringify(to[key])) patch[key] = to[key] ?? null;
+  }
+  return patch;
+}
+
+/** Rezultatul aplicării lui `patch` peste `data`, ca îl calculează serverul (golurile dispar). */
+export function applyPatch(data: RecordData, patch: RecordPatch): RecordData {
+  return withoutEmpty({ ...data, ...patch });
+}
+
 /** Cheia unui câmp nou, din etichetă: litere mici ASCII, cifre și `_`, unică între `taken` (regula din DB: `^[a-z][a-z0-9_]*$`). */
 export function fieldKeyFor(label: string, taken: readonly string[]): string {
   let base = label

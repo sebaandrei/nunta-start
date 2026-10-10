@@ -1,4 +1,4 @@
-import { Trash2 } from 'lucide-react';
+import { Pencil, Trash2 } from 'lucide-react';
 import type { ServerCollectionField, ServerCollectionRecord } from '../../data/mappers';
 import type { CollectionField } from '../../domain/collections';
 import type { Currency } from '../../domain/schema';
@@ -85,6 +85,7 @@ export function RecordTable({
   currency,
   readOnly,
   onCommit,
+  onOpen,
   onRemove,
 }: {
   fields: ServerCollectionField[];
@@ -92,6 +93,8 @@ export function RecordTable({
   currency: Currency;
   readOnly: boolean;
   onCommit: (record: ServerCollectionRecord, field: CollectionField, value: unknown) => void;
+  /** Deschide înregistrarea întreagă într-o foaie: singura cale de a o corecta când mai multe câmpuri sunt invalide. */
+  onOpen: (id: string) => void;
   onRemove: (id: string) => void;
 }) {
   const t = useT();
@@ -111,8 +114,8 @@ export function RecordTable({
               </th>
             ))}
             {!readOnly && (
-              <th scope="col" className="w-12">
-                <span className="sr-only">{t.collections.removeRecord}</span>
+              <th scope="col" className="w-24">
+                <span className="sr-only">{t.collections.editRecord}</span>
               </th>
             )}
           </tr>
@@ -137,7 +140,10 @@ export function RecordTable({
                 </td>
               ))}
               {!readOnly && (
-                <td className="px-1.5 py-1.5 text-right">
+                <td className="whitespace-nowrap px-1.5 py-1.5 text-right">
+                  <IconButton label={t.collections.editRecord} onClick={() => onOpen(record.id)}>
+                    <Pencil size={16} aria-hidden="true" />
+                  </IconButton>
                   <IconButton label={t.collections.removeRecord} onClick={() => onRemove(record.id)}>
                     <Trash2 size={16} aria-hidden="true" />
                   </IconButton>

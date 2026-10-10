@@ -3,8 +3,10 @@ import { useState } from 'react';
 import type { ServerCollectionField, ServerCollectionRecord } from '../../data/mappers';
 import {
   type CollectionField,
+  diffRecord,
   type FieldError,
   type RecordData,
+  type RecordPatch,
   validateRecord,
   withoutEmpty,
 } from '../../domain/collections';
@@ -92,12 +94,14 @@ function RecordForm({
   record: ServerCollectionRecord | null;
   currency: Currency;
   readOnly: boolean;
-  onSave: (data: RecordData) => void;
+  onSave: (data: RecordData, patch: RecordPatch) => void;
   onRemove: () => void;
   onClose: () => void;
 }) {
   const t = useT();
-  const [draft, setDraft] = useState<RecordData>(record?.data ?? {});
+  // Starea de la deschidere: se trimit doar cheile schimbate față de ea, ca să nu calce editările altora.
+  const [base] = useState<RecordData>(record?.data ?? {});
+  const [draft, setDraft] = useState<RecordData>(base);
   const [errors, setErrors] = useState<Record<string, FieldError>>({});
 
   const save = () => {
@@ -105,7 +109,7 @@ function RecordForm({
     const found = validateRecord(fields, data);
     setErrors(found);
     if (Object.keys(found).length > 0) return;
-    onSave(data);
+    onSave(data, diffRecord(base, data));
     onClose();
   };
 
@@ -177,7 +181,7 @@ export function RecordSheet({
   record: ServerCollectionRecord | null;
   currency: Currency;
   readOnly: boolean;
-  onSave: (data: RecordData) => void;
+  onSave: (data: RecordData, patch: RecordPatch) => void;
   onRemove: () => void;
   onClose: () => void;
 }) {

@@ -11,7 +11,7 @@ import { Banner, Button, EmptyState } from '../components/ui';
 import { useCollectionActions } from '../data/collectionActions';
 import { useCollectionFields, useCollectionRecords, useCollections, useSettings } from '../data/hooks';
 import type { ServerCollection } from '../data/mappers';
-import { type CollectionField, ofCollection, validateRecord, withoutEmpty } from '../domain/collections';
+import { applyPatch, type CollectionField, isEmptyValue, ofCollection, validateRecord } from '../domain/collections';
 import { useT } from '../i18n';
 import { routes } from '../lib/paths';
 import { showToast } from '../lib/toast';
@@ -63,13 +63,13 @@ function CollectionView({ collection }: { collection: ServerCollection }) {
   const commitCell = (recordId: string, field: CollectionField, value: unknown) => {
     const record = records.find((r) => r.id === recordId);
     if (!record) return;
-    const data = withoutEmpty({ ...record.data, [field.key]: value });
-    const [key, error] = Object.entries(validateRecord(fields, data))[0] ?? [];
+    const patch = { [field.key]: isEmptyValue(value) ? null : value };
+    const [key, error] = Object.entries(validateRecord(fields, applyPatch(record.data, patch)))[0] ?? [];
     if (key && error) {
       showToast(`${fields.find((f) => f.key === key)?.label}: ${t.collections.errors[error]}`);
       return;
     }
-    actions.updateRecord(recordId, data);
+    actions.patchRecord(recordId, patch);
   };
 
   return (
@@ -151,6 +151,7 @@ function CollectionView({ collection }: { collection: ServerCollection }) {
           currency={displayCurrency}
           readOnly={readOnly}
           onCommit={(record, field, value) => commitCell(record.id, field, value)}
+          onOpen={setSheet}
           onRemove={actions.removeRecord}
         />
       )}
@@ -161,8 +162,8 @@ function CollectionView({ collection }: { collection: ServerCollection }) {
         record={sheetRecord}
         currency={displayCurrency}
         readOnly={readOnly}
-        onSave={(data) =>
-          sheetRecord ? actions.updateRecord(sheetRecord.id, data) : actions.addRecord(collection.id, data)
+        onSave={(data, patch) =>
+          sheetRecord ? actions.patchRecord(sheetRecord.id, patch) : actions.addRecord(collection.id, data)
         }
         onRemove={() => sheetRecord && actions.removeRecord(sheetRecord.id)}
         onClose={() => setSheet(null)}
