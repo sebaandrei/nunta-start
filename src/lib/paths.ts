@@ -29,8 +29,12 @@ export const routes = {
   tasks: '/w/$weddingId/start',
   guests: '/w/$weddingId/guests',
   budget: '/w/$weddingId/calculator',
+  pages: '/w/$weddingId/pages',
   settings: '/w/$weddingId/settings',
 } as const;
+
+/** Tiparul unei pagini proprii; slug-ul nu se schimbă la redenumire. */
+export const pageRoute = '/w/$weddingId/pages/$slug';
 
 export type WeddingSection = keyof typeof routes;
 
@@ -47,6 +51,7 @@ export const UNSCOPED_PATHS = {
   tasks: '/w/start',
   guests: '/w/guests',
   budget: '/w/calculator',
+  pages: '/w/pages',
   settings: '/w/settings',
 } as const satisfies Record<Exclude<WeddingSection, 'home'>, string>;
 

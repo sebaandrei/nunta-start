@@ -1,5 +1,5 @@
 begin;
-select plan(10);
+select plan(11);
 
 insert into public.allowed_emails (email) values ('a1@example.com'), ('a3@example.com');
 insert into auth.users (id, email) values
@@ -49,6 +49,13 @@ insert into public.collection_records (wedding_id, collection_id, data) values
 select is(
   (select count(*)::int from realtime.messages where topic = 'wedding:00000000-0000-0000-0000-0000000000b1'),
   3, 'collection, field and record changes broadcast on the wedding channel');
+
+delete from realtime.messages;
+insert into public.timeline_events (wedding_id, title, start_time) values
+  ('00000000-0000-0000-0000-0000000000b1', 'Ceremonie', '16:00');
+select is(
+  (select count(*)::int from realtime.messages where topic = 'wedding:00000000-0000-0000-0000-0000000000b1' and payload ->> 'table' = 'timeline_events'),
+  1, 'timeline event changes broadcast on the wedding channel');
 
 delete from realtime.messages;
 insert into public.tasks (wedding_id, title, category) values

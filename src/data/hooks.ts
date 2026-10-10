@@ -9,6 +9,9 @@ import type { Budget, Settings } from '../domain/schema';
 import { useWedding } from '../lib/wedding';
 import {
   budgetFromRows,
+  type ServerCollection,
+  type ServerCollectionField,
+  type ServerCollectionRecord,
   type ServerGuest,
   type ServerHousehold,
   type ServerTask,
@@ -19,6 +22,9 @@ import {
   budgetLinesQuery,
   budgetScenariosQuery,
   budgetSettingsQuery,
+  collectionFieldsQuery,
+  collectionRecordsQuery,
+  collectionsQuery,
   guestsQuery,
   householdsQuery,
   tasksQuery,
@@ -34,6 +40,18 @@ export function useHouseholds(weddingId: string): ServerHousehold[] {
 
 export function useGuests(weddingId: string): ServerGuest[] {
   return useSuspenseQuery(guestsQuery(weddingId)).data;
+}
+
+export function useCollections(weddingId: string): ServerCollection[] {
+  return useSuspenseQuery(collectionsQuery(weddingId)).data;
+}
+
+export function useCollectionFields(weddingId: string): ServerCollectionField[] {
+  return useSuspenseQuery(collectionFieldsQuery(weddingId)).data;
+}
+
+export function useCollectionRecords(weddingId: string): ServerCollectionRecord[] {
+  return useSuspenseQuery(collectionRecordsQuery(weddingId)).data;
 }
 
 /** Bugetul nunții din cache, în forma de domeniu, cu id-urile scenariilor (în aceeași ordine ca `budget.scenarios`). */

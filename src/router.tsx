@@ -6,6 +6,9 @@ import {
   budgetLinesQuery,
   budgetScenariosQuery,
   budgetSettingsQuery,
+  collectionFieldsQuery,
+  collectionRecordsQuery,
+  collectionsQuery,
   guestsQuery,
   householdsQuery,
   tasksQuery,
@@ -21,6 +24,7 @@ import { queryClient } from './lib/queryClient';
 import { initSession, useSession } from './lib/session';
 import { AuthCallback } from './screens/AuthCallback';
 import { Calculator } from './screens/Calculator';
+import { CollectionPage } from './screens/CollectionPage';
 import { NotFound, RouteError } from './screens/ErrorPages';
 import { Guests } from './screens/Guests';
 import { Home } from './screens/Home';
@@ -28,6 +32,7 @@ import { InviteRoute } from './screens/InviteAccept';
 import { Landing } from './screens/Landing';
 import { LegalPage } from './screens/LegalPage';
 import { Onboarding } from './screens/Onboarding';
+import { Pages } from './screens/Pages';
 import { RsvpRoute } from './screens/Rsvp';
 import { Settings } from './screens/Settings';
 import { SignIn } from './screens/SignIn';
@@ -109,6 +114,9 @@ const weddingRoute = createRoute({
       queryClient.ensureQueryData(budgetLinesQuery(weddingId)),
       queryClient.ensureQueryData(householdsQuery(weddingId)),
       queryClient.ensureQueryData(guestsQuery(weddingId)),
+      queryClient.ensureQueryData(collectionsQuery(weddingId)),
+      queryClient.ensureQueryData(collectionFieldsQuery(weddingId)),
+      queryClient.ensureQueryData(collectionRecordsQuery(weddingId)),
     ]);
   },
 });
@@ -124,6 +132,8 @@ const weddingChildren = [
   }),
   createRoute({ getParentRoute: () => weddingRoute, path: '/calculator', component: Calculator }),
   createRoute({ getParentRoute: () => weddingRoute, path: '/guests', component: Guests }),
+  createRoute({ getParentRoute: () => weddingRoute, path: '/pages', component: Pages }),
+  createRoute({ getParentRoute: () => weddingRoute, path: '/pages/$slug', component: CollectionPage }),
   createRoute({ getParentRoute: () => weddingRoute, path: '/settings', component: Settings }),
 ];
 

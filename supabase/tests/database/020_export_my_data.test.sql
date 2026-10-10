@@ -1,5 +1,5 @@
 begin;
-select plan(11);
+select plan(12);
 
 insert into public.allowed_emails (email) values ('a1@example.com'), ('a2@example.com'), ('a3@example.com');
 insert into auth.users (id, email) values
@@ -19,6 +19,8 @@ insert into public.households (id, wedding_id, name) values
   ('00000000-0000-0000-0000-0000000000d1', '00000000-0000-0000-0000-0000000000b1', 'Popescu');
 insert into public.guests (wedding_id, household_id, first_name, last_name) values
   ('00000000-0000-0000-0000-0000000000b1', '00000000-0000-0000-0000-0000000000d1', 'Ion', 'Popescu');
+insert into public.timeline_events (wedding_id, title, start_time) values
+  ('00000000-0000-0000-0000-0000000000b1', 'Ceremonia', '16:00');
 insert into public.invitations (wedding_id, email, role, token_hash) values
   ('00000000-0000-0000-0000-0000000000b1', 'friend@example.com', 'helper', '\x0102'::bytea);
 
@@ -30,6 +32,7 @@ select is(jsonb_array_length(public.export_my_data() -> 'weddings'), 2, 'owner e
 select is(public.export_my_data() -> 'weddings' -> 0 ->> 'name', 'Mine', 'it is their wedding');
 select is(public.export_my_data() -> 'weddings' -> 1 ->> 'name', 'Deleted', 'a soft-deleted wedding they own is included');
 select is(jsonb_array_length(public.export_my_data() -> 'weddings' -> 0 -> 'guests'), 1, 'guests are included');
+select is(jsonb_array_length(public.export_my_data() -> 'weddings' -> 0 -> 'timeline_events'), 1, 'timeline events are included');
 select is(jsonb_array_length(public.export_my_data() -> 'weddings' -> 0 -> 'members'), 2, 'members are included');
 select is(jsonb_array_length(public.export_my_data() -> 'weddings' -> 0 -> 'invitations'), 1, 'invitations are included');
 select ok(not (public.export_my_data() -> 'weddings' -> 0 -> 'invitations' -> 0) ? 'token_hash', 'invitation token hashes are not exported');

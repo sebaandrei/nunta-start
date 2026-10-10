@@ -13,6 +13,8 @@
  *   tranșe (NS-090) vor înlocui coloana.
  */
 
+import type { Collection, CollectionField, CollectionRecord, FieldType } from '../domain/collections';
+import { FIELD_TYPES } from '../domain/collections';
 import type { AgeGroup, Attending, Diet, Guest, Household } from '../domain/guests';
 import { AGE_GROUPS, ATTENDING, DIETS } from '../domain/guests';
 import { DEFAULT_EUR_RATE, DEFAULT_GUESTS } from '../domain/initial';
@@ -518,5 +520,84 @@ export function guestPatchToUpdate(patch: GuestPatch): GuestUpdate {
     ...(patch.ageGroup !== undefined && { age_group: patch.ageGroup }),
     ...(patch.diet !== undefined && { diet: patch.diet }),
     ...(patch.attending !== undefined && { attending: patch.attending }),
+  };
+}
+
+// ----------------------------------------------------------- collections
+
+export type CollectionRow = Tables['collections']['Row'];
+export type CollectionUpdate = Tables['collections']['Update'];
+export type CollectionFieldRow = Tables['collection_fields']['Row'];
+export type CollectionFieldInsert = Tables['collection_fields']['Insert'];
+export type CollectionFieldUpdate = Tables['collection_fields']['Update'];
+export type CollectionRecordRow = Tables['collection_records']['Row'];
+export type CollectionRecordInsert = Tables['collection_records']['Insert'];
+
+/** Paginile proprii, câmpurile și înregistrările lor, cu poziția din server (ca `ServerGuest`). */
+export type ServerCollection = Collection & { position: number };
+export type ServerCollectionField = CollectionField & { position: number };
+export type ServerCollectionRecord = CollectionRecord & { position: number };
+export type CollectionFieldPatch = Partial<Pick<CollectionField, 'label' | 'required' | 'options'>> & {
+  position?: number;
+};
+
+export function collectionFromRow(row: CollectionRow): ServerCollection {
+  return { id: row.id, name: row.name, slug: row.slug, position: row.position };
+}
+
+export function collectionFieldFromRow(row: CollectionFieldRow): ServerCollectionField {
+  return {
+    id: row.id,
+    collectionId: row.collection_id,
+    key: row.key,
+    label: row.label,
+    type: oneOf<FieldType>(FIELD_TYPES, row.type, 'text'),
+    required: row.required,
+    options: Array.isArray(row.options) ? row.options.filter((o): o is string => typeof o === 'string') : [],
+    position: row.position,
+  };
+}
+
+export function collectionRecordFromRow(row: CollectionRecordRow): ServerCollectionRecord {
+  const { data } = row;
+  return {
+    id: row.id,
+    collectionId: row.collection_id,
+    data: typeof data === 'object' && data !== null && !Array.isArray(data) ? data : {},
+    position: row.position,
+  };
+}
+
+/** `id` vine de la client (UUID), ca update-ul optimist să aibă același id. */
+export function collectionFieldToInsert(weddingId: string, f: ServerCollectionField): CollectionFieldInsert {
+  return {
+    id: f.id,
+    wedding_id: weddingId,
+    collection_id: f.collectionId,
+    key: f.key,
+    label: f.label,
+    type: f.type,
+    required: f.required,
+    options: f.options,
+    position: f.position,
+  };
+}
+
+export function collectionRecordToInsert(weddingId: string, r: ServerCollectionRecord): CollectionRecordInsert {
+  return {
+    id: r.id,
+    wedding_id: weddingId,
+    collection_id: r.collectionId,
+    data: r.data as NonNullable<Json>,
+    position: r.position,
+  };
+}
+
+export function collectionFieldPatchToUpdate(patch: CollectionFieldPatch): CollectionFieldUpdate {
+  return {
+    ...(patch.label !== undefined && { label: patch.label }),
+    ...(patch.required !== undefined && { required: patch.required }),
+    ...(patch.options !== undefined && { options: patch.options }),
+    ...(patch.position !== undefined && { position: patch.position }),
   };
 }
