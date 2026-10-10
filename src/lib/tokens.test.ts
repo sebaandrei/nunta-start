@@ -40,7 +40,8 @@ describe.each(Object.entries(themes))('contrastul în tema %s', (name, t) => {
       'muted',
       'faint',
       'accent',
-      'accent-ink',
+      'accent-solid',
+      'on-accent',
       'plus',
       'minus',
       'hero',
@@ -62,7 +63,7 @@ describe.each(Object.entries(themes))('contrastul în tema %s', (name, t) => {
         expect(contrast(t[fg], t[bg]), `${fg} pe ${bg}`).toBeGreaterThanOrEqual(4.5);
       }
     }
-    expect(contrast(t['accent-ink'], t.accent), 'accent-ink pe accent').toBeGreaterThanOrEqual(4.5);
+    expect(contrast(t['on-accent'], t['accent-solid']), 'on-accent pe accent-solid').toBeGreaterThanOrEqual(4.5);
   });
 
   it('raportează contrastul tuturor perechilor', () => {
@@ -72,7 +73,7 @@ describe.each(Object.entries(themes))('contrastul în tema %s', (name, t) => {
         rows.push(`${fg}/${bg}=${contrast(t[fg], t[bg]).toFixed(2)}`);
       }
     }
-    rows.push(`accent-ink/accent=${contrast(t['accent-ink'], t.accent).toFixed(2)}`);
+    rows.push(`on-accent/accent-solid=${contrast(t['on-accent'], t['accent-solid']).toFixed(2)}`);
     console.log(`${name}: ${rows.join(' ')}`);
     expect(rows.length).toBeGreaterThan(0);
   });

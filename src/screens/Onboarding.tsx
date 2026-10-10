@@ -88,14 +88,14 @@ function Stepper({ current, labels, label }: { current: StepId; labels: readonly
                 aria-hidden="true"
                 className={cx(
                   'absolute right-1/2 top-4 -z-0 h-0.5 w-full -translate-y-1/2',
-                  i <= index ? 'bg-accent' : 'bg-line',
+                  i <= index ? 'bg-accent-solid' : 'bg-line',
                 )}
               />
             )}
             <span
               className={cx(
                 'relative z-10 flex size-8 items-center justify-center rounded-full border-2 text-sm font-semibold',
-                done && 'border-accent bg-accent text-accent-ink',
+                done && 'border-accent-solid bg-accent-solid text-on-accent',
                 active && 'border-accent bg-surface text-ink',
                 !done && !active && 'border-line bg-sunken text-muted',
               )}
@@ -195,7 +195,7 @@ export function Onboarding() {
         <p className="flex items-center gap-2.5 font-semibold text-ink">
           <span
             aria-hidden="true"
-            className="flex size-8 items-center justify-center rounded-lg bg-accent font-serif text-accent-ink"
+            className="flex size-8 items-center justify-center rounded-lg bg-accent-solid font-serif text-on-accent"
           >
             N
           </span>

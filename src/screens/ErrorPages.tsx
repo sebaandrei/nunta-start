@@ -59,7 +59,7 @@ export function NotFound() {
   useDocumentTitle(pageTitle(t.errors.notFound.title, t.appName));
   return (
     <StatePage eyebrow={t.errors.notFound.code} title={t.errors.notFound.title} body={t.errors.notFound.body}>
-      <Link to="/" className={cx(LINK_BUTTON, 'bg-accent text-accent-ink hover:opacity-90')}>
+      <Link to="/" className={cx(LINK_BUTTON, 'bg-accent-solid text-on-accent hover:opacity-90')}>
         {t.errors.notFound.home}
       </Link>
     </StatePage>
@@ -72,7 +72,7 @@ export function NoAccess() {
   useDocumentTitle(pageTitle(t.errors.noAccess.title, t.appName));
   return (
     <StatePage eyebrow={t.errors.noAccess.code} title={t.errors.noAccess.title} body={t.errors.noAccess.body}>
-      <Link to={paths.workspaces} className={cx(LINK_BUTTON, 'bg-accent text-accent-ink hover:opacity-90')}>
+      <Link to={paths.workspaces} className={cx(LINK_BUTTON, 'bg-accent-solid text-on-accent hover:opacity-90')}>
         {t.errors.noAccess.picker}
       </Link>
     </StatePage>

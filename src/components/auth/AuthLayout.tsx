@@ -51,7 +51,7 @@ export function AuthLayout({ children }: { children: ReactNode }) {
             <div className="flex items-center gap-3">
               <span
                 aria-hidden="true"
-                className="inline-flex size-10 shrink-0 items-center justify-center rounded-xl bg-accent font-serif text-xl font-semibold text-accent-ink"
+                className="inline-flex size-10 shrink-0 items-center justify-center rounded-xl bg-accent-solid font-serif text-xl font-semibold text-on-accent"
               >
                 N
               </span>

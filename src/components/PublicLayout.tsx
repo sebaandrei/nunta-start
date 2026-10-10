@@ -12,7 +12,7 @@ export function BrandMark() {
   return (
     <span
       aria-hidden="true"
-      className="inline-flex size-9 shrink-0 items-center justify-center rounded-xl bg-accent font-serif text-lg font-semibold text-accent-ink md:size-10"
+      className="inline-flex size-9 shrink-0 items-center justify-center rounded-xl bg-accent-solid font-serif text-lg font-semibold text-on-accent md:size-10"
     >
       N
     </span>

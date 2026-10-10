@@ -467,7 +467,7 @@ export const ro = {
     },
     nextDue: 'Următorul termen',
     noNextDue: 'Niciun termen în față.',
-    privacy: 'Salvat privat în browserul vostru.',
+    privacy: 'Salvat în contul vostru.',
     edit: {
       title: 'Activitate',
       titlePlaceholder: 'Ce trebuie făcut?',

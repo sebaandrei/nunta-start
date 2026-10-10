@@ -49,7 +49,7 @@ function Shell() {
     <div className="min-h-dvh md:pl-[244px]">
       <a
         href="#main"
-        className="sr-only z-50 rounded-lg bg-accent px-4 py-2 text-sm font-medium text-accent-ink focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
+        className="sr-only z-50 rounded-lg bg-accent-solid px-4 py-2 text-sm font-medium text-on-accent focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
       >
         {t.shell.skip}
       </a>
@@ -72,7 +72,7 @@ function BrandMark({ className }: { className?: string }) {
     <span
       aria-hidden="true"
       className={cx(
-        'inline-flex shrink-0 items-center justify-center rounded-xl bg-accent font-serif font-semibold text-accent-ink',
+        'inline-flex shrink-0 items-center justify-center rounded-xl bg-soft font-serif font-semibold text-accent',
         className,
       )}
     >
@@ -122,7 +122,7 @@ function Sidebar() {
                 <span
                   role="img"
                   aria-label={t.shell.badgeLabel(badge)}
-                  className="min-w-5 rounded-full bg-accent px-1.5 text-center text-[11px] font-semibold leading-5 text-accent-ink"
+                  className="min-w-5 text-center text-[11px] font-semibold leading-5 text-muted"
                 >
                   {badge}
                 </span>
@@ -139,7 +139,7 @@ function Sidebar() {
         <div className="flex items-center gap-3">
           <span
             aria-hidden="true"
-            className="inline-flex size-9 shrink-0 items-center justify-center rounded-full bg-soft text-[11px] font-semibold"
+            className="inline-flex size-9 shrink-0 items-center justify-center rounded-full bg-warm text-[11px] font-semibold text-warm-ink"
           >
             {coupleInitials(names)}
           </span>

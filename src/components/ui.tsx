@@ -20,11 +20,11 @@ export function cx(...classes: (string | false | null | undefined)[]): string {
 }
 
 const BUTTON_VARIANTS = {
-  primary: 'bg-accent text-accent-ink hover:opacity-90',
+  primary: 'bg-accent-solid text-on-accent hover:opacity-90',
   secondary: 'bg-soft text-ink hover:bg-soft/70',
   ghost: 'border border-line bg-surface text-ink hover:bg-sunken',
   danger: 'border border-minus/40 bg-surface text-minus hover:bg-minus/10',
-  dangerSolid: 'bg-minus text-accent-ink hover:opacity-90',
+  dangerSolid: 'bg-minus text-on-accent hover:opacity-90',
   link: 'text-accent underline-offset-2 hover:underline',
 };
 
@@ -49,7 +49,7 @@ export function Button({
 }
 
 const inputBase =
-  'border text-sm text-ink placeholder:text-faint focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20';
+  'border text-sm text-ink placeholder:text-placeholder focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20';
 
 export type InputVariant = 'box' | 'inline';
 
@@ -301,7 +301,7 @@ export function Segmented<T extends string | number>({
 const CARD_TONES = {
   default: 'border-line bg-surface',
   hero: 'border-transparent bg-hero',
-  warm: 'border-transparent bg-warm',
+  warm: 'border-warm-line bg-warm-card',
   sunken: 'border-line bg-sunken',
 };
 
@@ -412,11 +412,13 @@ export function ProgressBar({
   value,
   max = 100,
   label,
+  tone = 'accent',
   className,
 }: {
   value: number;
   max?: number;
   label: string;
+  tone?: 'accent' | 'warm';
   className?: string;
 }) {
   const clamped = Math.min(Math.max(value, 0), max);
@@ -428,9 +430,12 @@ export function ProgressBar({
       aria-valuemin={0}
       aria-valuemax={max}
       aria-valuenow={clamped}
-      className={cx('h-2 overflow-hidden rounded-full bg-soft', className)}
+      className={cx('h-[7px] overflow-hidden rounded-full bg-track', className)}
     >
-      <div className="h-full rounded-full bg-accent transition-[width]" style={{ width: `${percent}%` }} />
+      <div
+        className={cx('h-full rounded-full transition-[width]', tone === 'warm' ? 'bg-warm-solid' : 'bg-progress')}
+        style={{ width: `${percent}%` }}
+      />
     </div>
   );
 }

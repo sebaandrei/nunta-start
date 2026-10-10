@@ -66,7 +66,7 @@ export function AuthCallback() {
             <p className="text-base leading-relaxed text-muted">{c.errorBody}</p>
             <Link
               to={paths.login}
-              className="inline-flex min-h-11 items-center rounded-xl bg-accent px-5 text-sm font-semibold text-accent-ink"
+              className="inline-flex min-h-11 items-center rounded-xl bg-accent-solid px-5 text-sm font-semibold text-on-accent"
             >
               {c.back}
             </Link>

@@ -220,7 +220,7 @@ function OwnerSelect({
 
 const CHIP_STATES: Record<StageState, string> = {
   passed: 'bg-soft text-ink',
-  current: 'bg-accent text-accent-ink',
+  current: 'bg-accent-solid text-on-accent',
   upcoming: 'border border-line bg-surface text-muted',
 };
 
@@ -243,13 +243,13 @@ function StageTimeline({ wedding, today }: { wedding: Date; today: Date }) {
         <ol aria-label={t.tasks.timelineLabel} className="mt-4 flex gap-1.5">
           {stages.map(({ stage, state }) => (
             <li key={stage} aria-current={state === 'current' ? 'step' : undefined} className="min-w-0 flex-1">
-              <div className={cx('h-1.5 rounded-full', state === 'upcoming' ? 'bg-soft' : 'bg-accent')} />
+              <div className={cx('h-1.5 rounded-full', state === 'upcoming' ? 'bg-soft' : 'bg-accent-solid')} />
               <div className="mt-2 flex items-center gap-1.5">
                 <span
                   aria-hidden="true"
                   className={cx(
                     'size-2.5 shrink-0 rounded-full border-2',
-                    state === 'upcoming' ? 'border-faint bg-surface' : 'border-accent bg-accent',
+                    state === 'upcoming' ? 'border-faint bg-surface' : 'border-accent-solid bg-accent-solid',
                     state === 'current' && 'ring-2 ring-accent/30 ring-offset-1 ring-offset-surface',
                   )}
                 />

@@ -126,11 +126,11 @@ function StatusCheck({
           'inline-flex size-6 items-center justify-center rounded-full border-2 transition-colors',
           status === 'todo' && 'border-faint group-hover:border-accent',
           status === 'doing' && 'border-accent bg-soft',
-          status === 'done' && 'border-accent bg-accent text-accent-ink',
+          status === 'done' && 'border-accent-solid bg-accent-solid text-on-accent',
         )}
       >
         {status === 'done' && <Check size={14} strokeWidth={3} aria-hidden="true" />}
-        {status === 'doing' && <span className="size-2 rounded-full bg-accent" aria-hidden="true" />}
+        {status === 'doing' && <span className="size-2 rounded-full bg-accent-solid" aria-hidden="true" />}
       </span>
     </button>
   );

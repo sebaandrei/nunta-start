@@ -73,13 +73,15 @@ export function Home() {
           {count.kind !== 'past' && (
             <div
               aria-hidden="true"
-              className="flex size-24 shrink-0 flex-col items-center justify-center rounded-full bg-soft md:size-36"
+              className="flex size-24 shrink-0 flex-col items-center justify-center rounded-full bg-deco md:size-36"
             >
               {count.kind === 'today' ? (
                 <Heart className="size-8 text-accent md:size-12" />
               ) : (
                 <>
-                  <span className="font-serif text-4xl leading-none tabular-nums md:text-5xl">{count.days}</span>
+                  <span className="font-serif text-4xl leading-none tabular-nums text-accent md:text-5xl">
+                    {count.days}
+                  </span>
                   <span className="mt-1 text-[10px] font-semibold uppercase tracking-[0.08em] text-muted">
                     {t.home.countdownUnit(count.days)}
                   </span>
@@ -115,7 +117,9 @@ export function Home() {
                   formatSignedMoney(scenario.balance, cur)
                 )
               }
-              valueClassName={cx(pricesFilled && !giftMissing && (scenario.balance >= 0 ? 'text-plus' : 'text-minus'))}
+              valueClassName={cx(
+                pricesFilled && !giftMissing && (scenario.balance >= 0 ? 'text-accent' : 'text-minus'),
+              )}
               helper={
                 !pricesFilled ? (
                   <>
@@ -144,6 +148,7 @@ export function Home() {
             >
               <ProgressBar
                 className="mt-3"
+                tone="warm"
                 label={t.home.paymentsProgress}
                 value={paidPercent(payments.paid, payments.total)}
               />
@@ -187,14 +192,16 @@ export function Home() {
           </section>
 
           <Card tone="warm" className="p-5 md:p-6">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-muted">{t.home.stageEyebrow}</p>
-            <Heading as="h2" className="mt-2 text-balance !text-2xl">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-warm-muted">
+              {t.home.stageEyebrow}
+            </p>
+            <Heading as="h2" className="mt-2 text-balance !text-2xl text-warm-text">
               {t.stages[stage]}
             </Heading>
-            <p className="mt-2 text-sm text-muted">{t.home.stageDescriptions[stage]}</p>
-            <hr className="my-4 border-line" />
-            <p className="text-sm font-semibold">{t.home.stageTasks(currentCount)}</p>
-            <Link className={cx(LINK, 'mt-1')} to={routes.tasks} params={{ weddingId }}>
+            <p className="mt-2 text-sm text-warm-muted">{t.home.stageDescriptions[stage]}</p>
+            <hr className="my-4 border-warm-line" />
+            <p className="text-sm font-semibold text-warm-text">{t.home.stageTasks(currentCount)}</p>
+            <Link className={cx(LINK, 'mt-1 text-warm-ink')} to={routes.tasks} params={{ weddingId }}>
               {t.home.goStage}
               <ArrowRight size={14} aria-hidden="true" />
             </Link>
@@ -236,14 +243,14 @@ function NextTask({
   }
 
   return (
-    <li className="flex items-center gap-1 border-t border-line first:border-t-0 pr-4">
+    <li className="flex items-center gap-1 border-t border-line-subtle first:border-t-0 pr-4">
       <button
         type="button"
         disabled={readOnly}
         onClick={() => actions.cycleStatus(task.id)}
         aria-label={`${task.title || t.tasks.untitled}: ${t.status[task.status]}. ${t.statusHint}`}
         title={t.statusHint}
-        className="inline-flex size-11 shrink-0 items-center justify-center text-accent"
+        className="inline-flex size-11 shrink-0 items-center justify-center text-faint"
       >
         <Icon size={20} aria-hidden="true" />
       </button>

@@ -461,7 +461,7 @@ export const en: Messages = {
     },
     nextDue: 'Next deadline',
     noNextDue: 'No deadline ahead.',
-    privacy: 'Saved privately in your browser.',
+    privacy: 'Saved to your account.',
     edit: {
       title: 'Activity',
       titlePlaceholder: 'What needs to be done?',

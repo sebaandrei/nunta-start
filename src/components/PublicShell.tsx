@@ -7,7 +7,7 @@ export const LINK_FOCUS = 'focus-visible:outline-2 focus-visible:outline-offset-
 
 /** Clase pentru un <Link> care arată ca un buton (aceleași măsuri ca Button din ui.tsx). */
 export const LINK_BUTTON = `inline-flex min-h-11 items-center justify-center gap-1.5 rounded-xl px-4 py-1.5 text-sm font-medium transition-colors md:min-h-9 md:px-3.5 ${LINK_FOCUS}`;
-export const LINK_BUTTON_PRIMARY = `${LINK_BUTTON} bg-accent text-accent-ink hover:opacity-90`;
+export const LINK_BUTTON_PRIMARY = `${LINK_BUTTON} bg-accent-solid text-on-accent hover:opacity-90`;
 export const LINK_BUTTON_GHOST = `${LINK_BUTTON} border border-line bg-surface text-ink hover:bg-sunken`;
 
 /** Pagină publică fără meniul aplicației: antet cu marca, limba și tema, apoi conținutul centrat. */
@@ -19,7 +19,7 @@ export function PublicShell({ headerAction, children }: { headerAction?: ReactNo
         <Link to="/" className={`flex min-h-11 items-center gap-3 rounded-lg ${LINK_FOCUS}`}>
           <span
             aria-hidden="true"
-            className="inline-flex size-9 shrink-0 items-center justify-center rounded-xl bg-accent font-serif text-lg font-semibold text-accent-ink"
+            className="inline-flex size-9 shrink-0 items-center justify-center rounded-xl bg-accent-solid font-serif text-lg font-semibold text-on-accent"
           >
             N
           </span>
