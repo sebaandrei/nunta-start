@@ -386,6 +386,9 @@ isOneToOne: false
 "delete_account_data":
 { Args: { "p_email": string,"p_user_id": string }; Returns: number
                            },
+"delete_collection_field":
+{ Args: { "p_field_id": string }; Returns: undefined
+                           },
 "export_my_data":
 { Args: Record<PropertyKey, never>; Returns: Json
                            },
@@ -402,6 +405,9 @@ isOneToOne: false
 { Args: { "p_wedding_id": string }; Returns: {
               "email": string,"id": string,"is_self": boolean,"name": string,"role": Database["public"]['Enums']["member_role"]
             }[]
+                           },
+"patch_collection_record":
+{ Args: { "p_patch": Json,"p_record_id": string }; Returns: undefined
                            }
           }
           Enums: {

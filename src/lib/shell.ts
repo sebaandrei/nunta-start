@@ -2,7 +2,7 @@ import type { Task } from '../domain/schema';
 import { isRecover } from '../domain/tasks';
 import { routes } from './paths';
 
-export type NavId = 'home' | 'tasks' | 'guests' | 'budget' | 'settings';
+export type NavId = 'home' | 'tasks' | 'guests' | 'budget' | 'pages' | 'settings';
 
 export interface NavItem {
   id: NavId;
@@ -16,6 +16,7 @@ export const NAV_ITEMS: readonly NavItem[] = [
   { id: 'tasks', to: routes.tasks },
   { id: 'guests', to: routes.guests },
   { id: 'budget', to: routes.budget },
+  { id: 'pages', to: routes.pages },
   { id: 'settings', to: routes.settings },
 ];
 
@@ -23,6 +24,7 @@ const SECTION_NAV: Record<string, NavId> = {
   start: 'tasks',
   guests: 'guests',
   calculator: 'budget',
+  pages: 'pages',
   settings: 'settings',
 };
 
