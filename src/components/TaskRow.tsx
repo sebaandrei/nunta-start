@@ -58,7 +58,7 @@ export function TaskRow({
           <span
             className={cx(
               'text-sm font-semibold leading-snug',
-              done && 'text-faint line-through',
+              done && 'text-muted line-through',
               !task.title && 'italic text-muted',
             )}
           >

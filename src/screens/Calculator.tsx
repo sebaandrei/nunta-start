@@ -87,7 +87,7 @@ export function Calculator() {
         <fieldset disabled={readOnly} className="m-0 min-w-0 border-0 p-0">
           <div className="space-y-6 md:space-y-8">
             <Card className="grid gap-4 p-4 sm:grid-cols-2 md:p-5 lg:grid-cols-[1.3fr_1.3fr_1fr_auto]">
-              <FieldGroup label={t.calc.scenarios} className="sm:col-span-2 lg:col-span-4">
+              <FieldGroup caps label={t.calc.scenarios} className="sm:col-span-2 lg:col-span-4">
                 <div className="flex flex-wrap items-center gap-1.5">
                   {budget.scenarios.map((g, i) => (
                     <div key={scenarioIds[i]} className="flex items-center">
@@ -137,7 +137,7 @@ export function Calculator() {
                 value={budget.familyGift}
                 onChange={(m) => actions.updateSettings({ familyGift: m })}
               />
-              <FieldGroup label={t.calc.rate}>
+              <FieldGroup caps label={t.calc.rate}>
                 <div className="flex items-center gap-1.5 text-sm text-muted">
                   <span className="whitespace-nowrap">{t.calc.ratePrefix}</span>
                   <NumberInput
@@ -152,7 +152,7 @@ export function Calculator() {
                   <span>{currencySymbol('RON')}</span>
                 </div>
               </FieldGroup>
-              <FieldGroup label={t.calc.display}>
+              <FieldGroup caps label={t.calc.display}>
                 <Segmented
                   label={t.calc.display}
                   value={settings.displayCurrency}
@@ -272,7 +272,7 @@ function MoneyField({ label, value, onChange }: { label: string; value: Money; o
     onChange(latest.current);
   };
   return (
-    <FieldGroup label={label}>
+    <FieldGroup caps label={label}>
       <div className="flex items-center gap-1.5">
         <NumberInput
           deferred
@@ -657,13 +657,13 @@ function LinesCards({ lines, guests, rates, totals, onAddLine }: LinesProps) {
               </p>
               <div className="grid grid-cols-2 gap-2">
                 {/* FieldGroup, nu Field: un <label> în jurul switcherului ar apăsa „Fix" la click pe etichetă. */}
-                <FieldGroup label={t.calc.colType} className="col-span-2">
+                <FieldGroup caps label={t.calc.colType} className="col-span-2">
                   <TypeInputs line={line} variant="box" />
                 </FieldGroup>
-                <Field label={t.calc.colPrice} className="col-span-2">
+                <Field caps label={t.calc.colPrice} className="col-span-2">
                   <PriceInputs line={line} variant="box" />
                 </Field>
-                <Field label={t.calc.colPaid} className="col-span-2">
+                <Field caps label={t.calc.colPaid} className="col-span-2">
                   <PaidInput line={line} variant="box" />
                 </Field>
               </div>

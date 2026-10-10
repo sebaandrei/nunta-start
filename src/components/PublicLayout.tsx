@@ -41,7 +41,7 @@ export function LanguageSwitch() {
             className={cx(
               'min-h-11 min-w-9 rounded-lg px-1.5 transition-colors',
               FOCUS_RING,
-              locale === value ? 'text-ink' : 'text-faint hover:text-ink',
+              locale === value ? 'text-ink' : 'text-muted hover:text-ink',
             )}
           >
             {value.toUpperCase()}

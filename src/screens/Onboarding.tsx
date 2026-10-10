@@ -192,14 +192,14 @@ export function Onboarding() {
   return (
     <div className="flex min-h-dvh flex-col bg-bg">
       <header className="flex items-center justify-between gap-3 px-4 py-4 sm:px-8">
-        <p className="flex items-center gap-2.5 text-[17px] font-semibold lowercase text-ink">
+        <p className="flex items-center gap-2.5 text-[17px] font-semibold text-ink">
           <span
             aria-hidden="true"
             className="flex size-8 items-center justify-center rounded-lg bg-soft font-serif text-accent"
           >
             N
           </span>
-          {t.appName}
+          <span className="lowercase">{t.appName}</span>
         </p>
         <div className="flex items-center gap-2">
           <SignOutIconButton />

@@ -758,7 +758,7 @@ export const en: Messages = {
     unansweredHint: 'Pick an answer.',
     dietLabel: 'Menu',
     noteLabel: 'A message for the couple (optional)',
-    noteHint: (max: number) => `Allergies, room for a stroller, wishes. Up to ${max} characters.`,
+    noteHint: (max: number) => `Room for a stroller, wishes. Up to ${max} characters.`,
     notePlaceholder: 'Write here…',
     // TODO(NS-081): the Turnstile widget goes here; until then the request is sent without a token.
     submit: 'Send answer',

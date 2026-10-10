@@ -1,5 +1,6 @@
+import { useNavigate, useSearch } from '@tanstack/react-router';
 import { ChevronDown, ListChecks, Plus } from 'lucide-react';
-import { type ReactNode, useState } from 'react';
+import { type ReactNode, useEffect, useRef, useState } from 'react';
 import { PageHeader } from '../components/PageHeader';
 import { TaskRow } from '../components/TaskRow';
 import { Banner, Button, Card, cx, EmptyState, FilterChip, ProgressBar, Segmented } from '../components/ui';
@@ -23,6 +24,7 @@ import {
 } from '../domain/tasks';
 import { useT } from '../i18n';
 import { formatDayMonth } from '../lib/format';
+import { routes } from '../lib/paths';
 import { useToday } from '../lib/useToday';
 import { useWedding } from '../lib/wedding';
 
@@ -84,6 +86,17 @@ export function Start() {
   };
 
   const toggleGroup = (id: string, current: boolean) => setGroupOpen((s) => ({ ...s, [id]: !current }));
+
+  const { add } = useSearch({ strict: false }) as { add?: boolean };
+  const navigate = useNavigate();
+  const addedFromLink = useRef(false);
+  // biome-ignore lint/correctness/useExhaustiveDependencies: runs once per `?add` visit; the ref guards StrictMode's double effect.
+  useEffect(() => {
+    if (!add || readOnly || addedFromLink.current) return;
+    addedFromLink.current = true;
+    onAdd();
+    void navigate({ to: routes.tasks, params: { weddingId }, search: {}, replace: true });
+  }, [add, readOnly]);
 
   return (
     <>

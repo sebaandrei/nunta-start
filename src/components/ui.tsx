@@ -210,22 +210,27 @@ export function CommitInput({
   );
 }
 
+const LABEL_CAPS = 'mb-1 block text-[11px] font-semibold uppercase tracking-wider text-muted';
+
 /** Etichetă deasupra unui singur câmp. */
 export function Field({
   label,
   hint,
+  caps,
   className,
   children,
 }: {
   label: string;
   hint?: ReactNode;
+  /** Etichetă cu majuscule mici (panourile dense din Calculator). */
+  caps?: boolean;
   className?: string;
   children: ReactNode;
 }) {
   return (
     // biome-ignore lint/a11y/noLabelWithoutControl: the input is passed as children, so the label wraps it.
     <label className={cx('block', className)}>
-      <span className="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-muted">{label}</span>
+      <span className={caps ? LABEL_CAPS : 'mb-1 block text-xs font-medium text-muted'}>{label}</span>
       {children}
       {hint && <span className="mt-1 block text-xs text-muted">{hint}</span>}
     </label>
@@ -236,11 +241,14 @@ export function Field({
 export function FieldGroup({
   label,
   hint,
+  caps,
   className,
   children,
 }: {
   label: string;
   hint?: ReactNode;
+  /** Etichetă cu majuscule mici (panourile dense din Calculator). */
+  caps?: boolean;
   className?: string;
   children: ReactNode;
 }) {
@@ -248,7 +256,7 @@ export function FieldGroup({
   return (
     // biome-ignore lint/a11y/useSemanticElements: valid ARIA group; fieldset styling revisited in NS-140.
     <div role="group" aria-labelledby={id} className={cx('block', className)}>
-      <span id={id} className="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-muted">
+      <span id={id} className={caps ? LABEL_CAPS : 'mb-1 block text-xs font-semibold text-ink'}>
         {label}
       </span>
       {children}

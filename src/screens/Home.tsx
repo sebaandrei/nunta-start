@@ -1,7 +1,8 @@
 import { Link } from '@tanstack/react-router';
-import { ArrowRight, Circle, CircleCheck, CircleDot, Heart, PartyPopper } from 'lucide-react';
+import { ArrowRight, Circle, CircleCheck, CircleDot, Heart, PartyPopper, Plus } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { PageHeader } from '../components/PageHeader';
+import { LINK_BUTTON_PRIMARY } from '../components/PublicShell';
 import { Card, cx, EmptyState, Heading, ProgressBar, StatCard } from '../components/ui';
 import { useBudget, useSettings, useTasks } from '../data/hooks';
 import { type TaskActions, useTaskActions } from '../data/taskActions';
@@ -52,6 +53,14 @@ export function Home() {
       <PageHeader
         title={`${t.greeting[dayPart(now.getHours())]}, ${t.header.couple(...settings.names)}`}
         subtitle={t.pages.home.subtitle}
+        action={
+          canEdit('tasks') ? (
+            <Link className={LINK_BUTTON_PRIMARY} to={routes.tasks} params={{ weddingId }} search={{ add: true }}>
+              <Plus size={16} aria-hidden="true" />
+              {t.tasks.add}
+            </Link>
+          ) : undefined
+        }
       />
       <div className="space-y-6 md:space-y-8">
         <Card tone="hero" className="flex items-center justify-between gap-4 p-5 md:gap-8 md:p-8">
@@ -114,7 +123,7 @@ export function Home() {
               label={giftMissing ? t.home.cost(guests) : t.home.balance(guests)}
               value={
                 !pricesFilled ? (
-                  <span className="text-faint">—</span>
+                  <span className="text-muted">—</span>
                 ) : giftMissing ? (
                   formatMoney(scenario.total, cur)
                 ) : (

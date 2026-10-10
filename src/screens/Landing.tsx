@@ -27,7 +27,7 @@ export function Landing() {
         >
           <BrandMark />
           <span className="min-w-0">
-            <span className="block truncate font-serif text-[17px] leading-tight lowercase">{t.appName}</span>
+            <span className="block truncate text-[17px] font-semibold leading-tight lowercase">{t.appName}</span>
             <span className={'hidden text-[9px] font-semibold uppercase tracking-[0.1em] text-muted md:block'}>
               {t.landing.tagline}
             </span>
@@ -88,7 +88,7 @@ export function Landing() {
                 {ctaLabel}
               </a>
               {!hasData && <p className="mt-3 text-xs text-muted">{t.landing.reassurance}</p>}
-              <p className={cx('mt-6 text-faint', LABEL, 'text-[10px]')}>{t.landing.motto}</p>
+              <p className={cx('mt-6 text-muted', LABEL, 'text-[10px]')}>{t.landing.motto}</p>
             </div>
             <PlannerPreview />
           </div>
