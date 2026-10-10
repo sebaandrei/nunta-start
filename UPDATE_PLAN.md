@@ -265,7 +265,7 @@ The product is now an **invite-only app for the owner and friends** (2-3 workspa
 | NS-110 | P0 | Lazy-loaded `@react-pdf/renderer`: alphabetical OPIS PDF | 4 | NS-104 | The PDF opens; the main bundle doesn't grow | ➡️ |
 | NS-111 | P0 | PDFs for special menus per table and kids per table | 3 | NS-110 | The counts match the seating board | ➡️ |
 | NS-112 | P2 | Per-table cards PDF | 2 | NS-110 | Prints on A4 | ➡️ |
-| NS-120 | P0 | Migration: `timeline_events` + per-wedding share token + RLS + pgTAP | 2 | NS-026 | Tests are green | ⬜ |
+| NS-120 | P0 | Migration: `timeline_events` + per-wedding share token + RLS + pgTAP | 2 | NS-026 | Tests are green | ✅ |
 | NS-121 | P0 | Timeline UI: CRUD and reorder (the vendor link returns with the vendors module) | 4 | NS-120 | Works on mobile | ⬜ |
 | NS-122 | P1 | Public `/t/:token` read-only page + print CSS | 3 | NS-121 | A vendor opens the link without an account; it prints cleanly | ⬜ |
 | NS-123 | P1 | E2E: timeline happy path (the seating E2E returns with seating) | 2 | NS-121 | Green in CI | ⬜ |

@@ -289,6 +289,44 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"timeline_events": {
+                  Row: {
+                    "created_at": string,"duration_minutes": number | null,"id": string,"location": string,"notes": string,"position": number,"start_time": string,"title": string,"updated_at": string,"updated_by": string | null,"wedding_id": string
+                  }
+                  Insert: {
+                    "created_at"?: string,"duration_minutes"?: number | null,"id"?: string,"location"?: string,"notes"?: string,"position"?: number,"start_time": string,"title": string,"updated_at"?: string,"updated_by"?: string | null,"wedding_id": string
+                  }
+                  Update: {
+                    "created_at"?: string,"duration_minutes"?: number | null,"id"?: string,"location"?: string,"notes"?: string,"position"?: number,"start_time"?: string,"title"?: string,"updated_at"?: string,"updated_by"?: string | null,"wedding_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "timeline_events_wedding_id_fkey"
+      columns: ["wedding_id"]
+isOneToOne: false
+      referencedRelation: "weddings"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"timeline_share_tokens": {
+                  Row: {
+                    "created_at": string,"created_by": string | null,"token_hash": string,"wedding_id": string
+                  }
+                  Insert: {
+                    "created_at"?: string,"created_by"?: string | null,"token_hash": string,"wedding_id": string
+                  }
+                  Update: {
+                    "created_at"?: string,"created_by"?: string | null,"token_hash"?: string,"wedding_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "timeline_share_tokens_wedding_id_fkey"
+      columns: ["wedding_id"]
+isOneToOne: true
+      referencedRelation: "weddings"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"wedding_members": {
                   Row: {
                     "created_at": string,"id": string,"role": Database["public"]['Enums']["member_role"],"updated_at": string,"updated_by": string | null,"user_id": string,"wedding_id": string
@@ -353,6 +391,9 @@ isOneToOne: false
                            },
 "generate_household_rsvp_token":
 { Args: { "p_household_id": string }; Returns: string
+                           },
+"generate_timeline_share_token":
+{ Args: { "p_wedding_id": string }; Returns: string
                            },
 "inspect_invitation":
 { Args: { "p_token": string }; Returns: Json
